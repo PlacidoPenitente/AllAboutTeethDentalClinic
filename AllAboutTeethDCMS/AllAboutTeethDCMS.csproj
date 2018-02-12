@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Desktop\DocNanzDCMS\DocNanzDCMS\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -53,6 +57,87 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AllAboutTeeth.cs" />
+    <Compile Include="Appointments\Appointment.cs" />
+    <Compile Include="Appointments\AppointmentView.xaml.cs">
+      <DependentUpon>AppointmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Appointments\AppointmentViewModel.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="DentalCharts\DentalChart.cs" />
+    <Compile Include="DentalCharts\DentalChartView.xaml.cs">
+      <DependentUpon>DentalChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DentalCharts\DentalChartViewModel.cs" />
+    <Compile Include="Dentists\Dentist.cs" />
+    <Compile Include="Dentists\DentistView.xaml.cs">
+      <DependentUpon>DentistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dentists\DentistViewModel.cs" />
+    <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\InventoryView.xaml.cs">
+      <DependentUpon>InventoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\InventoryViewModel.cs" />
+    <Compile Include="Login\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginViewModel.cs" />
+    <Compile Include="Maintenance\MaintenanceView.xaml.cs">
+      <DependentUpon>MaintenanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Maintenance\MaintenanceViewModel.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Menu\MenuView.xaml.cs">
+      <DependentUpon>MenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Menu\MenuViewModel.cs" />
+    <Compile Include="Patients\Patient.cs" />
+    <Compile Include="Patients\PatientView.xaml.cs">
+      <DependentUpon>PatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patients\PatientViewModel.cs" />
+    <Compile Include="Transactions\Transaction.cs" />
+    <Compile Include="Transactions\TransactionView.xaml.cs">
+      <DependentUpon>TransactionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Transactions\TransactionViewModel.cs" />
+    <Compile Include="Treatments\Treatment.cs" />
+    <Compile Include="Treatments\TreatmentView.xaml.cs">
+      <DependentUpon>TreatmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Treatments\TreatmentViewModel.cs" />
+    <Compile Include="Users\User.cs" />
+    <Compile Include="Users\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UserViewModel.cs" />
+    <Compile Include="PageViewModel.cs" />
+    <Compile Include="ViewModelBase.cs" />
+    <Page Include="Appointments\AppointmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DentalCharts\DentalChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dentists\DentistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Inventory\InventoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Maintenance\MaintenanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,6 +150,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Menu\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patients\PatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Transactions\TransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Treatments\TreatmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -91,6 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Reports\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

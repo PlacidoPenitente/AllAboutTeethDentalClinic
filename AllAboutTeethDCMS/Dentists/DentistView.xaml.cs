@@ -1,5 +1,4 @@
-﻿using AllAboutTeethDCMS.Menu;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS
+namespace AllAboutTeethDCMS.Dentists
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DentistView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DentistView : UserControl
     {
-        public MainWindow()
+        public DentistView()
         {
             InitializeComponent();
-            ((MenuViewModel)menuView.DataContext).MainWindowViewModel = (MainWindowViewModel)DataContext;
         }
     }
 }

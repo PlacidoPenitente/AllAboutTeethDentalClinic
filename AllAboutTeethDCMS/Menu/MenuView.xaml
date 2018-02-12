@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.Menu.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.Menu"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <local:MenuViewModel/>
+    </UserControl.DataContext>
+    <Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+            <StackPanel>
+                <RadioButton x:Name="appointments" Click="appointments_Click" Content="Appointments" IsChecked="True"/>
+                <RadioButton x:Name="patients" Click="patients_Click" Content="Patients"/>
+                <RadioButton x:Name="services" Click="services_Click" Content="Services"/>
+                <RadioButton x:Name="dentists" Click="dentists_Click" Content="Dentists"/>
+                <RadioButton x:Name="supplies" Click="supplies_Click" Content="Supplies"/>
+                <RadioButton x:Name="transactions" Click="transactions_Click" Content="Transactions"/>
+                <RadioButton x:Name="reports" Click="reports_Click" Content="Reports"/>
+                <RadioButton x:Name="accounts" Click="accounts_Click" Content="Accounts"/>
+                <RadioButton x:Name="maintenance" Click="maintenance_Click" Content="Maintenance"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+</UserControl>
