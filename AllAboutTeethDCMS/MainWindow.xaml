@@ -17,15 +17,23 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
+        <Grid Background="{StaticResource MidnightBlue}">
+            
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <menu:MenuView x:Name="menuView"/>
-            <ScrollViewer Grid.Column="1">
-                <ContentControl Content="{Binding ActivePage, UpdateSourceTrigger=PropertyChanged}"/>
-            </ScrollViewer>
+            <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource WetAsphalt}"/>
+            <menu:MenuView x:Name="menuView" Background="{StaticResource WetAsphalt}"/>
+
+            <ContentControl Grid.Column="1" Content="{Binding ActivePage, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--<ScrollViewer  VerticalScrollBarVisibility="Auto">
+            </ScrollViewer>-->
+        </Grid>
+        <Grid Background="{StaticResource MidnightBlue}" Grid.Row="2">
+
         </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AllAboutTeethDCMS.Dictionaries"
+                    xmlns:root="clr-namespace:AllAboutTeethDCMS">
+    <root:ContentToVisibility x:Key="ContentToVisibility"/>
+    <root:UserToStringConverter x:Key="UserToStringConverter"/>
+    <root:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
+    <root:DateToLongConverter x:Key="DateToLongConverter"/>
+    <root:DateToShortConverter x:Key="DateToShortConverter"/>
+</ResourceDictionary>

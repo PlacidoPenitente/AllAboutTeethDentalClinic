@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -69,7 +57,8 @@ namespace AllAboutTeethDCMS.Menu
         private void accounts_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoUsers();
+            menuViewModel.ActiveUser.No = 0;
+            menuViewModel.gotoUsers(menuViewModel.ActiveUser);
         }
 
         private void maintenance_Click(object sender, RoutedEventArgs e)

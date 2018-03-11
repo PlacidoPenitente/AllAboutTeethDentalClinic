@@ -10,7 +10,7 @@
         <local:MenuViewModel/>
     </UserControl.DataContext>
     <Border>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <RadioButton x:Name="appointments" Click="appointments_Click" Content="Appointments" IsChecked="True"/>
                 <RadioButton x:Name="patients" Click="patients_Click" Content="Patients"/>
