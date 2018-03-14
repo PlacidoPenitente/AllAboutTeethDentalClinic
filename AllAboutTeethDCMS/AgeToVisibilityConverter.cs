@@ -8,32 +8,31 @@ using System.Windows.Data;
 
 namespace AllAboutTeethDCMS
 {
-    public class ObjectToVisibilityConverter : IValueConverter
+    public class AgeToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
+            int age = 0;
+            DateTime date = (DateTime)value;
+            age = DateTime.Now.Year - date.Year;
+            if (DateTime.Now.Month < date.Month)
             {
-                if (((string)value).Trim().Equals(""))
-                {
-                    return "Collapsed";
-                }
+                age--;
+            }
+            else if (DateTime.Now.Month == date.Month && DateTime.Now.Day < date.Day)
+            {
+                age--;
+            }
+            if(age<18)
+            {
                 return "Visible";
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                if (value == null)
-                {
-                    return "Collapsed";
-                }
-                return "Visible";
-            }
+            return "Collapsed";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return null;
+            return DateTime.Now;
         }
     }
 }

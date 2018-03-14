@@ -7,4 +7,11 @@
     <root:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter"/>
     <root:DateToLongConverter x:Key="DateToLongConverter"/>
     <root:DateToShortConverter x:Key="DateToShortConverter"/>
+    <root:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <root:GenderToVisibilityConverter x:Key="GenderToVisibilityConverter"/>
+    <root:DateToAgeConverter x:Key="DateToAgeConverter"/>
+    <root:ContentToBooleanConverter x:Key="ContentToBooleanConverter"/>
+    <root:AgeToVisibilityConverter x:Key="AgeToVisibilityConverter"/>
+    <root:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+    <root:AgeToVisibilityInvertedConverter x:Key="AgeToVisibilityInvertedConverter"/>
 </ResourceDictionary>

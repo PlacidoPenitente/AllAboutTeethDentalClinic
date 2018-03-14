@@ -1,0 +1,313 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.Patients.EditPatientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.Patients"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="2500" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:EditPatientViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource Alizarin}" Visibility="{Binding Error, Converter={StaticResource ContentToVisibility}, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
+            <Label Content="{Binding Error, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="Century Gothic" FontSize="12"/>
+        </StackPanel>
+        <Grid Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Label FontSize="18" Content="Edit Patient" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
+        </Grid>
+        <StackPanel Grid.Row="2" Background="White"/>
+        <ScrollViewer Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.25*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,10,0,0" Grid.Column="1">
+                    <StackPanel>
+                        <Label Content="Patient Information" FontFamily="Century Gothic" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="First Name:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Middle Name:" Grid.Column="1" Margin="5"/>
+                        <TextBox Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Last Name:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DatePickerStyle}" Margin="5"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Age:" Grid.Column="1" Margin="5"/>
+                        <ComboBox root:AttachedProperties.Label="Gender:" ItemsSource="{Binding Genders}" SelectedItem="{Binding Sex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Style="{StaticResource ComboBox}" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Religion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Religion:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding Nationality, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Nationality:" Grid.Column="1" Margin="5"/>
+                        <TextBox Text="{Binding Nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Nickname:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.ColumnSpan="2" Text="{Binding HomeAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Home Address:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding HomeNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Home No.:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Occupation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Occupation:" Grid.Column="0" Margin="5"/>
+                        <TextBox Visibility="{Binding Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding OfficeNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office No.:" Grid.Column="1" Margin="5"/>
+                        <TextBox Visibility="{Binding Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding FaxNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Fax No.:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding Birthdate, Converter={StaticResource AgeToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.ColumnSpan="2" Text="{Binding ParentGuardianName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Parent/Guardian Name:" Grid.Column="0" Margin="5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding DentalInsurance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Dental Insurance:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding EffectiveDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Effective Date:" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding CellNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Cel./Mobile No.:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Referral, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Whom we may thank for referring you?" Grid.Column="0" Margin="5"/>
+                        <TextBox Grid.ColumnSpan="2" Text="{Binding Reason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="What is your reason for dental consultation?" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <StackPanel>
+                        <Label Content="Dental History" FontFamily="Century Gothic" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding PreviousDentist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Previous Dentist:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding LastDentalVisit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Last Dental Visit:" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <StackPanel>
+                        <Label Content="Medical History" FontFamily="Century Gothic" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding PhysicianName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Name of Physician:" Margin="5"/>
+                        <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysycianSpecialty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Specialty if applicable:" Grid.Column="1" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysicianOfficeAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office Address:" Grid.ColumnSpan="2" Margin="5"/>
+                        <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysicianOfficeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office Number:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Content="Are you in good health?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsInGoodHealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="treatment" Click="treatment_Click" Content="Are you under medical treatment right now?" Style="{StaticResource CheckBox}" IsChecked="{Binding ConditionBeingTreated, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=treatment, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding ConditionBeingTreated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, what is the condition being treated?" Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="operation" Click="operation_Click" Content="Have you ever had serious illness or surgical operation?" Style="{StaticResource CheckBox}" IsChecked="{Binding IllnessOrOperation, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=operation, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding IllnessOrOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, what illness or operation?" Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="hospitalized" Click="hospitalized_Click" Content="Have you ever been hospitalized?" Style="{StaticResource CheckBox}" IsChecked="{Binding Hospitalization, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=hospitalized, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Hospitalization, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, when and why?" Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="medication" Click="medication_Click" Content="Are you taking any prescription/non-prescription medication?" Style="{StaticResource CheckBox}" IsChecked="{Binding MedicationTaken, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=medication, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding MedicationTaken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, please specify." Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Content="Do you use tobacco products?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsTobaccoUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox Content="Do you use alcohol, cocaine, or other dangerous drugs?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsAlcoholCocaineDangerousDrugUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="allergy" Click="allergy_Click" Content="Are you allergic to any medicine?" Style="{StaticResource CheckBox}" IsChecked="{Binding Allergies, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=allergy, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Allergies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, please specify." Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding BleedingTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Bleeding Time" Margin="5"/>
+                        <TextBox Text="{Binding BloodType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Blood Type" Grid.Column="1" Margin="5"/>
+                        <TextBox Text="{Binding BloodPressure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Blood Pressure" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <StackPanel Visibility="{Binding Sex, Converter={StaticResource GenderToVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Are you pregnant?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsPregnant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Are you nursing?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsNursing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Content="Are you taking birth control pills?" Style="{StaticResource CheckBox}" IsChecked="{Binding IsTakingBirthControlPills, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                        </Grid>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <CheckBox x:Name="disease" Click="disease_Click" Content="Do you have or have you had any disease?" Style="{StaticResource CheckBox}" IsChecked="{Binding Diseases, Converter={StaticResource ContentToBooleanConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,5,5"/>
+                    </Grid>
+                    <Grid Visibility="{Binding ElementName=disease, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Diseases, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="If so, please specify." Grid.ColumnSpan="2" Margin="5"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
+        <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="addpatient" Grid.Column="0" Click="addpatient_Click" Style="{StaticResource PrimaryButton}" Content="Save Patient" Height="48"/>
+            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -49,8 +49,9 @@ namespace AllAboutTeethDCMS
             Connection.Close();
         }
 
-        protected void deleteFromDatabase(T model, string prefix, string tableName)
+        protected void deleteFromDatabase(T model, string tableName)
         {
+            string prefix = new T().GetType().Name;
             createConnection();
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "DELETE FROM " + tableName + " WHERE "+prefix+"_No=@key";
@@ -59,8 +60,9 @@ namespace AllAboutTeethDCMS
             Connection.Close();
         }
 
-        protected void updateDatabase(T model, string prefix, string tableName)
+        protected void updateDatabase(T model, string tableName)
         {
+            string prefix = new T().GetType().Name;
             createConnection();
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "UPDATE " + tableName + " SET ";
@@ -101,6 +103,7 @@ namespace AllAboutTeethDCMS
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
             command.Parameters.AddWithValue("@no", key);
+            Console.WriteLine(tableName);
             MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
@@ -120,7 +123,7 @@ namespace AllAboutTeethDCMS
                     }
                     else
                     {
-                        info.SetValue(model, loadInfo(info, prefix, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
+                        info.SetValue(model, loadInfo(info, info.PropertyType.Name, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
                     }
                 }
                 reader.Close();
@@ -132,8 +135,9 @@ namespace AllAboutTeethDCMS
             return null;
         }
 
-        protected T loadItem(string prefix, string tableName, int key=0)
+        protected T loadItem(string tableName, int key=0)
         {
+            string prefix = new T().GetType().Name;
             createConnection();
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM " + tableName+" WHERE "+prefix+"_No=@no";
@@ -157,9 +161,13 @@ namespace AllAboutTeethDCMS
                     {
                         info.SetValue(model, reader.GetDateTime(prefix + "_" + info.Name));
                     }
+                    else if (info.PropertyType.ToString().Equals("System.Boolean"))
+                    {
+                        info.SetValue(model, reader.GetBoolean(prefix + "_" + info.Name));
+                    }
                     else
                     {
-                        info.SetValue(model, loadInfo(info, prefix, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
+                        info.SetValue(model, loadInfo(info, info.PropertyType.Name, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
                     }
                 }
                 reader.Close();
@@ -171,8 +179,9 @@ namespace AllAboutTeethDCMS
             return default(T);
         }
 
-        protected List<T> loadFromDatabase(string prefix, string tableName, string filter)
+        protected List<T> loadFromDatabase(string tableName, string filter)
         {
+            string prefix = new T().GetType().Name;
             List<T> list = new List<T>();
             List<int> primaryKeys = new List<int>();
             createConnection();
@@ -201,7 +210,7 @@ namespace AllAboutTeethDCMS
             foreach(int primaryKey in primaryKeys)
             {
                 T model = new T();
-                list.Add(loadItem(prefix, tableName, primaryKey));
+                list.Add(loadItem(tableName, primaryKey));
             }
             return list;
         }

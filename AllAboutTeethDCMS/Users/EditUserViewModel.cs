@@ -23,7 +23,7 @@ namespace AllAboutTeethDCMS.Users
         public void saveUser()
         {
             User.AddedBy = ActiveUser;
-            updateDatabase(User, "account", "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            updateDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         public void resetForm()

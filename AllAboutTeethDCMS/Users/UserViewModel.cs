@@ -18,12 +18,12 @@ namespace AllAboutTeethDCMS.Users
 
         public void loadUsers()
         {
-            Users = loadFromDatabase("account", "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+            Users = loadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
         public void deleteUser()
         {
-            deleteFromDatabase(User, "account", "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            deleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             loadUsers();
         }
     }

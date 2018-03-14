@@ -24,5 +24,25 @@ namespace AllAboutTeethDCMS.Patients
         {
             InitializeComponent();
         }
+
+        private void delete_patient_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).deleteUser();
+        }
+
+        private void edit_patient_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).MenuViewModel.gotoEditPatientView(((PatientViewModel)DataContext).ActiveUser, (Patient)((PatientViewModel)DataContext).Patient.Clone());
+        }
+
+        private void add_patient_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).MenuViewModel.gotoAddPatientView(((PatientViewModel)DataContext).ActiveUser);
+        }
+
+        private void search_patient_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).loadPatients();
+        }
     }
 }

@@ -22,7 +22,8 @@ namespace AllAboutTeethDCMS.Menu
         private void patients_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoPatients();
+            menuViewModel.ActiveUser.No = 0;
+            menuViewModel.gotoPatients(menuViewModel.ActiveUser);
         }
 
         private void services_Click(object sender, RoutedEventArgs e)

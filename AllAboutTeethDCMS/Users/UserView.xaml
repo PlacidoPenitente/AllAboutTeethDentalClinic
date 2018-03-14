@@ -23,7 +23,7 @@
 		</Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
             <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
-            <Label FontSize="18" Content="Accounts" VerticalAlignment="Center" Foreground="White"/>
+            <Label FontSize="18" Content="Users" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -59,11 +59,6 @@
                         <DataGridTextColumn Header="Middle Name" Binding="{Binding MiddleName}"/>
                         <DataGridTextColumn Header="Username" Binding="{Binding Username}"/>
                         <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
-                        <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
-                        <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate, Converter={StaticResource DateToShortConverter}}"/>
-                        <DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
-                        <DataGridTextColumn Header="Contact No." Binding="{Binding ContactNo}"/>
-                        <DataGridTextColumn Header="Email Address" Binding="{Binding EmailAddress}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
                         <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>

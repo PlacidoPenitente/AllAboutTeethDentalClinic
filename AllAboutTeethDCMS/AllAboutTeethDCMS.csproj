@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AgeToVisibilityConverter.cs" />
+    <Compile Include="AgeToVisibilityInvertedConverter.cs" />
     <Compile Include="AllAboutTeeth.cs" />
     <Compile Include="Appointments\Appointment.cs" />
     <Compile Include="Appointments\AppointmentView.xaml.cs">
@@ -65,10 +67,14 @@
     </Compile>
     <Compile Include="Appointments\AppointmentViewModel.cs" />
     <Compile Include="AttachedProperties.cs" />
+    <Compile Include="BooleanToStringConverter.cs" />
+    <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="ContentToBooleanConverter.cs" />
     <Compile Include="ContentToVisibility.cs" />
     <Compile Include="ConverterBase.cs" />
     <Compile Include="CRUDPage.cs" />
     <Compile Include="Database.cs" />
+    <Compile Include="DateToAgeConverter.cs" />
     <Compile Include="DateToLongConverter.cs" />
     <Compile Include="DateToShortConverter.cs" />
     <Compile Include="DentalCharts\DentalChart.cs" />
@@ -81,6 +87,7 @@
       <DependentUpon>DentistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dentists\DentistViewModel.cs" />
+    <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Inventory\InventoryView.xaml.cs">
       <DependentUpon>InventoryView.xaml</DependentUpon>
@@ -100,6 +107,14 @@
     </Compile>
     <Compile Include="Menu\MenuViewModel.cs" />
     <Compile Include="ObjectToVisibilityConverter.cs" />
+    <Compile Include="Patients\AddPatientView.xaml.cs">
+      <DependentUpon>AddPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patients\AddPatientViewModel.cs" />
+    <Compile Include="Patients\EditPatientView.xaml.cs">
+      <DependentUpon>EditPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patients\EditPatientViewModel.cs" />
     <Compile Include="Patients\Patient.cs" />
     <Compile Include="Patients\PatientView.xaml.cs">
       <DependentUpon>PatientView.xaml</DependentUpon>
@@ -184,6 +199,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Menu\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patients\AddPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patients\EditPatientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
