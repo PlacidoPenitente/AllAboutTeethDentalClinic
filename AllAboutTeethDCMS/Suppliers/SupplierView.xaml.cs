@@ -13,36 +13,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Treatments
+namespace AllAboutTeethDCMS.Suppliers
 {
     /// <summary>
-    /// Interaction logic for TreatmentView.xaml
+    /// Interaction logic for SupplierView.xaml
     /// </summary>
-    public partial class TreatmentView : UserControl
+    public partial class SupplierView : UserControl
     {
-        public TreatmentView()
+        public SupplierView()
         {
             InitializeComponent();
         }
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).loadPatients();
+            ((SupplierViewModel)DataContext).loadPatients();
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).MenuViewModel.gotoAddTreatmentView(((TreatmentViewModel)DataContext).ActiveUser);
+            ((SupplierViewModel)DataContext).MenuViewModel.gotoAddSupplierView(((SupplierViewModel)DataContext).ActiveUser);
         }
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).MenuViewModel.gotoEditTreatmentView(((TreatmentViewModel)DataContext).ActiveUser, (Treatment)((TreatmentViewModel)DataContext).Treatment.Clone());
+            ((SupplierViewModel)DataContext).MenuViewModel.gotoEditSupplierView(((SupplierViewModel)DataContext).ActiveUser, ((SupplierViewModel)DataContext).Supplier);
         }
 
         private void delete_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).deleteTreatment();
+            ((SupplierViewModel)DataContext).deleteTreatment();
         }
     }
 }

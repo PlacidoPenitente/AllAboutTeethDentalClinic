@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Patients
 {
-    public class Patient : ICloneable
+    public class Patient : ModelBase
     {
         private int no = -1;
 
@@ -107,16 +107,5 @@ namespace AllAboutTeethDCMS.Patients
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
         public User AddedBy { get => addedBy; set => addedBy = value; }
-
-        public object Clone()
-        {
-            var clone = Activator.CreateInstance(GetType());
-            PropertyInfo[] propertyInfos = clone.GetType().GetProperties();
-            for (int i = 0; i < GetType().GetProperties().Count(); i++)
-            {
-                propertyInfos[i].SetValue(clone, GetType().GetProperties().ElementAt(i).GetValue(this));
-            }
-            return clone;
-        }
     }
 }

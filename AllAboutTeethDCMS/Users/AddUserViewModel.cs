@@ -14,18 +14,19 @@ namespace AllAboutTeethDCMS.Users
         private List<string> genders = new List<string>() { "Male", "Female" };
         private List<string> accountTypes = new List<string>() { "Administrator", "Staff" };
         private string error = "";
+        private User copyUser;
 
         public AddUserViewModel()
         {
             user = new User();
         }
 
-        public void resetForm()
+        public virtual void resetForm()
         {
             User = new User();
         }
 
-        public void saveUser()
+        public virtual void saveUser()
         {
             User.AddedBy = ActiveUser;
             saveToDatabase(User, "allaboutteeth_"+ GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
@@ -63,5 +64,7 @@ namespace AllAboutTeethDCMS.Users
         public List<string> Genders { get => genders; set => genders = value; }
         public List<string> AccountTypes { get => accountTypes; set => accountTypes = value; }
         public string Error { get => error; set { error = value; OnPropertyChanged(); } }
+
+        public User CopyUser { get => copyUser; set { copyUser = value; OnPropertyChanged(); } }
     }
 }

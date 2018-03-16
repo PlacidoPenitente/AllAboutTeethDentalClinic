@@ -106,6 +106,7 @@
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\MenuViewModel.cs" />
+    <Compile Include="ModelBase.cs" />
     <Compile Include="ObjectToVisibilityConverter.cs" />
     <Compile Include="Patients\AddPatientView.xaml.cs">
       <DependentUpon>AddPatientView.xaml</DependentUpon>
@@ -120,11 +121,32 @@
       <DependentUpon>PatientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patients\PatientViewModel.cs" />
+    <Compile Include="Suppliers\AddSupplierView.xaml.cs">
+      <DependentUpon>AddSupplierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Suppliers\AddSupplierViewModel.cs" />
+    <Compile Include="Suppliers\EditSupplierView.xaml.cs">
+      <DependentUpon>EditSupplierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Suppliers\EditSupplierViewModel.cs" />
+    <Compile Include="Suppliers\Supplier.cs" />
+    <Compile Include="Suppliers\SupplierView.xaml.cs">
+      <DependentUpon>SupplierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Suppliers\SupplierViewModel.cs" />
     <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="Transactions\TransactionView.xaml.cs">
       <DependentUpon>TransactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Transactions\TransactionViewModel.cs" />
+    <Compile Include="Treatments\AddTreatmentView.xaml.cs">
+      <DependentUpon>AddTreatmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Treatments\AddTreatmentViewModel.cs" />
+    <Compile Include="Treatments\EditTreatmentView.xaml.cs">
+      <DependentUpon>EditTreatmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Treatments\EditTreatmentViewModel.cs" />
     <Compile Include="Treatments\Treatment.cs" />
     <Compile Include="Treatments\TreatmentView.xaml.cs">
       <DependentUpon>TreatmentView.xaml</DependentUpon>
@@ -214,7 +236,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Suppliers\AddSupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Suppliers\EditSupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Suppliers\SupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Transactions\TransactionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Treatments\AddTreatmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Treatments\EditTreatmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

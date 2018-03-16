@@ -17,6 +17,7 @@
                 <RadioButton x:Name="services" Click="services_Click" Content="Services"/>
                 <RadioButton x:Name="dentists" Click="dentists_Click" Content="Dentists"/>
                 <RadioButton x:Name="supplies" Click="supplies_Click" Content="Supplies"/>
+                <RadioButton x:Name="suppliers" Click="suppliers_Click" Content="Suppliers"/>
                 <RadioButton x:Name="transactions" Click="transactions_Click" Content="Transactions"/>
                 <RadioButton x:Name="reports" Click="reports_Click" Content="Reports"/>
                 <RadioButton x:Name="accounts" Click="accounts_Click" Content="Accounts"/>

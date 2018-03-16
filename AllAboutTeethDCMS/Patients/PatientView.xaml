@@ -41,7 +41,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Account: "/>
+                <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient: "/>
                 <Button Margin="0,0,0,21" x:Name="search_patient" Click="search_patient_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,0,0,21" x:Name="add_patient" Click="add_patient_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,0,0,21" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_patient" Click="edit_patient_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>

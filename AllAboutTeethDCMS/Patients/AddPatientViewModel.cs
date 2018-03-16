@@ -10,6 +10,7 @@ namespace AllAboutTeethDCMS.Patients
     public class AddPatientViewModel : CRUDPage<Patient>
     {
         private Patient patient;
+        private Patient copyPatient;
         private List<string> genders = new List<string>() { "Male", "Female" };
 
         public AddPatientViewModel()
@@ -17,7 +18,7 @@ namespace AllAboutTeethDCMS.Patients
             patient = new Patient();
         }
 
-        public void savePatient()
+        public virtual void savePatient()
         {
             Patient.AddedBy = ActiveUser;
             saveToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
@@ -90,8 +91,9 @@ namespace AllAboutTeethDCMS.Patients
         public string Image { get => Patient.Image; set { Patient.Image = value; OnPropertyChanged(); } }
 
         public List<string> Genders { get => genders; set => genders = value; }
+        public Patient CopyPatient { get => copyPatient; set { copyPatient = value; OnPropertyChanged(); } }
 
-        public void resetForm()
+        public virtual void resetForm()
         {
             Patient = new Patient();
         }
