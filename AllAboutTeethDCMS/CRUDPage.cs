@@ -6,12 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS
 {
-    public class CRUDPage<T> : PageViewModel where T : new()
+    public abstract class CRUDPage<T> : PageViewModel where T : new()
     {
+        private Thread loadThread;
+        private Thread addThread;
+        
         protected void saveToDatabase(T model, string tableName)
         {
             createConnection();
@@ -189,8 +193,53 @@ namespace AllAboutTeethDCMS
             return default(T);
         }
 
+        private string tableName = "";
+        private string filter = "";
+        private T model;
+
+        protected void startSaveToDatabase(T model, string tableName)
+        {
+            if (addThread == null || !addThread.IsAlive)
+            {
+                this.tableName = tableName;
+                this.model = model;
+                addThread = new Thread(executeSaveToDatabase);
+                addThread.IsBackground = true;
+                addThread.Start();
+            }
+        }
+
+        private void executeSaveToDatabase()
+        {
+            saveToDatabase(model, tableName);
+        }
+
+        protected void startLoadFromDatabase(string tableName, string filter)
+        {
+            if(loadThread==null||!loadThread.IsAlive)
+            {
+                this.tableName = tableName;
+                this.filter = filter;
+                loadThread = new Thread(executeLoadFromDatabase);
+                loadThread.IsBackground = true;
+                loadThread.Start();
+            }
+        }
+
+        private void executeLoadFromDatabase()
+        {
+            List<T> list = loadFromDatabase(tableName, filter);
+            setLoaded(list);
+        }
+
+        protected abstract void setLoaded(List<T> list);
+
+        private double progress = 0;
+        public double Progress { get => progress; set { progress = value; OnPropertyChanged(); } }
+
         protected List<T> loadFromDatabase(string tableName, string filter)
         {
+            Progress = 0;
             string prefix = new T().GetType().Name;
             List<T> list = new List<T>();
             List<int> primaryKeys = new List<int>();
@@ -220,8 +269,76 @@ namespace AllAboutTeethDCMS
             foreach(int primaryKey in primaryKeys)
             {
                 list.Add(loadItem(tableName, primaryKey));
+                Progress = ((double)list.Count / primaryKeys.Count)*100;
             }
             return list;
+        }
+
+        protected string validate(string value)
+        {
+            if(String.IsNullOrEmpty(value.Trim()))
+            {
+                return "This field is required.";
+            }
+            return "";
+        }
+
+        protected string validateContact(string value)
+        {
+            if (String.IsNullOrEmpty(value.Trim()))
+            {
+                return "This field is required.";
+            }
+
+            foreach (char c in value.ToCharArray())
+            {
+                if(!Char.IsDigit(c))
+                {
+                    return "Illegal characters found.";
+                }
+            }
+            return "";
+        }
+
+        protected string validatePassword(string value)
+        {
+            if (String.IsNullOrEmpty(value.Trim()))
+            {
+                return "This field is required.";
+            }
+
+            if(value.Trim().Length<5)
+            {
+                return "Must be atleast 5 characters.";
+            }
+            return "";
+        }
+
+        protected string validateUsername(string value)
+        {
+            if (String.IsNullOrEmpty(value.Trim()))
+            {
+                return "This field is required.";
+            }
+
+            if (value.Trim().Length < 5)
+            {
+                return "Must be atleast 5 characters.";
+            }
+            createConnection();
+            MySqlCommand command = Connection.CreateCommand();
+            command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
+            command.Parameters.AddWithValue("@user", value);
+            MySqlDataReader reader = command.ExecuteReader();
+            if(reader.Read())
+            {
+                reader.Close();
+                Connection.Close();
+                return "Username is already taken.";
+            }
+            reader.Close();
+            Connection.Close();
+            return "";
         }
     }
 }

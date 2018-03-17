@@ -29,6 +29,11 @@ namespace AllAboutTeethDCMS.Treatments
             saveToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
+        protected override void setLoaded(List<Treatment> list)
+        {
+            throw new NotImplementedException();
+        }
+
         public string Name { get => Treatment.Name; set => Treatment.Name = value; }
         public string Description { get => Treatment.Description; set => Treatment.Description = value; }
 

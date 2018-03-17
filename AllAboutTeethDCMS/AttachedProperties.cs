@@ -9,6 +9,18 @@ namespace AllAboutTeethDCMS
 {
     public class AttachedProperties : DependencyObject
     {
+        public static readonly DependencyProperty ErrorProperty = DependencyProperty.RegisterAttached("Error", typeof(String), typeof(AttachedProperties), new FrameworkPropertyMetadata(""));
+
+        public static void SetError(DependencyObject element, String value)
+        {
+            element.SetValue(ErrorProperty, value);
+        }
+
+        public static String GetError(DependencyObject element)
+        {
+            return (String)element.GetValue(ErrorProperty);
+        }
+
         public static readonly DependencyProperty LabelProperty = DependencyProperty.RegisterAttached("Label", typeof(String), typeof(AttachedProperties), new FrameworkPropertyMetadata(""));
 
         public static void SetLabel(DependencyObject element, String value)

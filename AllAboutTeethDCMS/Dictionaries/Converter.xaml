@@ -15,4 +15,5 @@
     <root:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
     <root:AgeToVisibilityInvertedConverter x:Key="AgeToVisibilityInvertedConverter"/>
     <root:SupplierToStringConverter x:Key="SupplierToStringConverter"/>
+    <root:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter"/>
 </ResourceDictionary>

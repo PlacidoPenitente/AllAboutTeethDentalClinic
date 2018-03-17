@@ -29,6 +29,11 @@ namespace AllAboutTeethDCMS.Suppliers
             saveToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
+        protected override void setLoaded(List<Supplier> list)
+        {
+            throw new NotImplementedException();
+        }
+
         public Supplier Supplier
         {
             get => supplier;

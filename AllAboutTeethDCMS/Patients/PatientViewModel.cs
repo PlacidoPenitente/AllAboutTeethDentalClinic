@@ -26,5 +26,10 @@ namespace AllAboutTeethDCMS.Patients
             deleteFromDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             loadPatients();
         }
+
+        protected override void setLoaded(List<Patient> list)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

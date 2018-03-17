@@ -133,6 +133,7 @@
       <DependentUpon>PatientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patients\PatientViewModel.cs" />
+    <Compile Include="ProgressToVisibilityConverter.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>

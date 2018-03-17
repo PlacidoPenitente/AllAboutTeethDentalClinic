@@ -44,11 +44,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <StackPanel SnapsToDevicePixels="True">
+                        <Border>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                        </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -76,11 +79,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">
                     <StackPanel SnapsToDevicePixels="True">
+                        <Border>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                        </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -118,6 +124,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <StackPanel>
+                        <Border>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{StaticResource Turquoise}"/>
+                        </Border>
                         <Border Background="{TemplateBinding Background}" Margin="5,5,5,0" CornerRadius="3" SnapsToDevicePixels="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -160,7 +169,7 @@
                             </Grid>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{StaticResource Turquoise}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -181,6 +190,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DatePicker}">
                     <StackPanel>
+                        <Border>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                        </Border>
                         <Border BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3" SnapsToDevicePixels="True" BorderThickness="2" Background="Transparent" Margin="5,5,5,0">
                             <Grid x:Name="PART_Root">
                                 <Grid.ColumnDefinitions>
@@ -234,7 +246,7 @@
                             </Grid>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
                         </Border>
                     </StackPanel>
                     <ControlTemplate.Triggers>

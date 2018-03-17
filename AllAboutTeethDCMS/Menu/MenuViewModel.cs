@@ -150,6 +150,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoAddUserView(User activeUser)
         {
+            AddUserView = new AddUserView();
             MainWindowViewModel.ActivePage = AddUserView;
             ((AddUserViewModel)AddUserView.DataContext).ActiveUser = activeUser;
             ((AddUserViewModel)AddUserView.DataContext).MenuViewModel = this;
@@ -157,6 +158,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoEditUserView(User activeUser, User selectedUser)
         {
+            EditUserView = new EditUserView();
             MainWindowViewModel.ActivePage = EditUserView;
             ((EditUserViewModel)EditUserView.DataContext).ActiveUser = activeUser;
             ((EditUserViewModel)EditUserView.DataContext).User = selectedUser;

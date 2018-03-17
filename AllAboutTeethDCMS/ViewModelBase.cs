@@ -14,7 +14,6 @@ namespace AllAboutTeethDCMS
         public void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Console.WriteLine("Changed "+propertyName+".");
         }
     }
 }

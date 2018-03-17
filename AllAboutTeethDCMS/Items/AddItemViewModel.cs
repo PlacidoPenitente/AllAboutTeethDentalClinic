@@ -38,6 +38,11 @@ namespace AllAboutTeethDCMS.Items
             }
         }
 
+        protected override void setLoaded(List<Item> list)
+        {
+            throw new NotImplementedException();
+        }
+
         public Item Item
         {
             get => item;

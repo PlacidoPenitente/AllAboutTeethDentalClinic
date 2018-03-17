@@ -97,5 +97,10 @@ namespace AllAboutTeethDCMS.Patients
         {
             Patient = new Patient();
         }
+
+        protected override void setLoaded(List<Patient> list)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -430,8 +430,8 @@
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3" Orientation="Horizontal">
-            <Label Content="Found Users: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
-            <Label Content="{Binding Users.Count, UpdateSourceTrigger=PropertyChanged}" FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Patients: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
     </Grid>
 </UserControl>
