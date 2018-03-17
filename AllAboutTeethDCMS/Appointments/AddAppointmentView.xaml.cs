@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Inventory
+namespace AllAboutTeethDCMS.Appointments
 {
     /// <summary>
-    /// Interaction logic for InventoryView.xaml
+    /// Interaction logic for AddAppointmentView.xaml
     /// </summary>
-    public partial class InventoryView : UserControl
+    public partial class AddAppointmentView : UserControl
     {
-        public InventoryView()
+        public AddAppointmentView()
         {
             InitializeComponent();
         }

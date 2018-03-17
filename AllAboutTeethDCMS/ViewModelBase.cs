@@ -11,10 +11,10 @@ namespace AllAboutTeethDCMS
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] String propertyName = null)
+        public void OnPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            Console.WriteLine(propertyName);
+            Console.WriteLine("Changed "+propertyName+".");
         }
     }
 }

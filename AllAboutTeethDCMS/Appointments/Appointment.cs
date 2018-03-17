@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Appointments
 {
-    class Appointment
+    public class Appointment : ModelBase
     {
     }
 }

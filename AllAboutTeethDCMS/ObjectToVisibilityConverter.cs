@@ -12,21 +12,23 @@ namespace AllAboutTeethDCMS
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            try
+            if (value == null)
             {
-                if (((string)value).Trim().Equals(""))
-                {
-                    return "Collapsed";
-                }
-                return "Visible";
+                return "Collapsed";
             }
-            catch (Exception ex)
+            else if ((value.GetType().ToString().Equals("System.String")))
             {
-                Console.WriteLine(ex.Message);
-                if (value == null)
+                if(((string)value).Trim().Equals(""))
                 {
                     return "Collapsed";
                 }
+                else
+                {
+                    return "Visible";
+                }
+            }
+            else
+            {
                 return "Visible";
             }
         }

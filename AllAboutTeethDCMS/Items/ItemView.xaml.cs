@@ -13,33 +13,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Appointments
+namespace AllAboutTeethDCMS.Items
 {
     /// <summary>
-    /// Interaction logic for AppointmentView.xaml
+    /// Interaction logic for ItemView.xaml
     /// </summary>
-    public partial class AppointmentView : UserControl
+    public partial class ItemView : UserControl
     {
-        public AppointmentView()
+        public ItemView()
         {
             InitializeComponent();
         }
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
+            ((ItemViewModel)DataContext).loadPatients();
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
         {
-            
+            ((ItemViewModel)DataContext).MenuViewModel.gotoAddItemView(((ItemViewModel)DataContext).ActiveUser);
         }
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)
         {
+            ((ItemViewModel)DataContext).MenuViewModel.gotoEditItemView(((ItemViewModel)DataContext).ActiveUser, ((ItemViewModel)DataContext).Item);
         }
 
         private void delete_treatment_Click(object sender, RoutedEventArgs e)
         {
+            ((ItemViewModel)DataContext).deleteTreatment();
         }
     }
 }

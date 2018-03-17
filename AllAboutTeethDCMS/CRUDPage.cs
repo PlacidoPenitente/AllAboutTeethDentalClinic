@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Users;
+﻿using AllAboutTeethDCMS.Suppliers;
+using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,11 @@ namespace AllAboutTeethDCMS
                 {
                     User activeUser = (User)info.GetValue(model);
                     command.Parameters.AddWithValue("@" + info.Name, activeUser.No);
+                }
+                else if (info.Name.Equals("Supplier"))
+                {
+                    Supplier supplier = (Supplier)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, supplier.No);
                 }
                 else if(!info.Name.Equals("No") && !info.Name.Equals("DateAdded") && !info.Name.Equals("DateModified"))
                 {
@@ -87,6 +93,11 @@ namespace AllAboutTeethDCMS
                     User activeUser = (User)info.GetValue(model);
                     command.Parameters.AddWithValue("@" + info.Name, activeUser.No);
                 }
+                else if (info.Name.Equals("Supplier"))
+                {
+                    Supplier supplier = (Supplier)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, supplier.No);
+                }
                 else if (!info.Name.Equals("No") && !info.Name.Equals("DateAdded") && !info.Name.Equals("DateModified"))
                 {
                     command.Parameters.AddWithValue("@" + info.Name, info.GetValue(model));
@@ -98,12 +109,11 @@ namespace AllAboutTeethDCMS
 
         protected object loadInfo(PropertyInfo propertyInfo, string prefix, string tableName, int key=0)
         {
-            object model = Activator.CreateInstance(propertyInfo.DeclaringType);
+            object model = Activator.CreateInstance(propertyInfo.PropertyType);
             createConnection();
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
             command.Parameters.AddWithValue("@no", key);
-            Console.WriteLine(tableName);
             MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
@@ -209,7 +219,6 @@ namespace AllAboutTeethDCMS
             Connection.Close();
             foreach(int primaryKey in primaryKeys)
             {
-                T model = new T();
                 list.Add(loadItem(tableName, primaryKey));
             }
             return list;

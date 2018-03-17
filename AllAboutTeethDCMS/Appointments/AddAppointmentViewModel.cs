@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllAboutTeethDCMS.Inventory
+namespace AllAboutTeethDCMS.Appointments
 {
-    public class InventoryViewModel
+    public class AddAppointmentViewModel : CRUDPage<Appointment>
     {
     }
 }

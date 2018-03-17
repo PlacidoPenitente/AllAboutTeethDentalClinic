@@ -1,6 +1,6 @@
 ﻿using AllAboutTeethDCMS.Appointments;
 using AllAboutTeethDCMS.Dentists;
-using AllAboutTeethDCMS.Inventory;
+using AllAboutTeethDCMS.Items;
 using AllAboutTeethDCMS.Maintenance;
 using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Suppliers;
@@ -23,7 +23,6 @@ namespace AllAboutTeethDCMS.Menu
 
         private AppointmentView appointmentView;
         private DentistView dentistView;
-        private InventoryView inventoryView;
         private TransactionView transactionView;
 
         private UserView userView;
@@ -41,6 +40,11 @@ namespace AllAboutTeethDCMS.Menu
         private SupplierView supplierView;
         private AddSupplierView addSupplierView;
         private EditSupplierView editSupplierView;
+        
+        private ItemView itemView;
+        private AddItemView addItemView;
+        private EditItemView editItemView;
+        
 
         private MaintenanceView maintenanceView;
 
@@ -50,7 +54,6 @@ namespace AllAboutTeethDCMS.Menu
             PatientView = new PatientView();
             TreatmentView = new TreatmentView();
             DentistView = new DentistView();
-            InventoryView = new InventoryView();
             TransactionView = new TransactionView();
             UserView = new UserView();
             AddUserView = new AddUserView();
@@ -63,6 +66,9 @@ namespace AllAboutTeethDCMS.Menu
             SupplierView = new SupplierView();
             AddSupplierView = new AddSupplierView();
             EditSupplierView = new EditSupplierView();
+            ItemView = new ItemView();
+            AddItemView = new AddItemView();
+            EditItemView = new EditItemView();
         }
 
         public void gotoEditTreatmentView(User activeUser, Treatment treatment)
@@ -87,7 +93,6 @@ namespace AllAboutTeethDCMS.Menu
         public PatientView PatientView { get => patientView; set => patientView = value; }
         public TreatmentView TreatmentView { get => TreatmentView1; set => TreatmentView1 = value; }
         public DentistView DentistView { get => dentistView; set => dentistView = value; }
-        public InventoryView InventoryView { get => inventoryView; set => inventoryView = value; }
         public TransactionView TransactionView { get => transactionView; set => transactionView = value; }
         public UserView UserView { get => userView; set => userView = value; }
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
@@ -103,6 +108,9 @@ namespace AllAboutTeethDCMS.Menu
         public SupplierView SupplierView { get => supplierView; set => supplierView = value; }
         public AddSupplierView AddSupplierView { get => addSupplierView; set => addSupplierView = value; }
         public EditSupplierView EditSupplierView { get => editSupplierView; set => editSupplierView = value; }
+        public ItemView ItemView { get => itemView; set => itemView = value; }
+        public AddItemView AddItemView { get => addItemView; set => addItemView = value; }
+        public EditItemView EditItemView { get => editItemView; set => editItemView = value; }
 
         public void gotoAppointments()
         {
@@ -126,11 +134,6 @@ namespace AllAboutTeethDCMS.Menu
         public void gotoDentists()
         {
             MainWindowViewModel.ActivePage = DentistView;
-        }
-
-        public void gotoInventory()
-        {
-            MainWindowViewModel.ActivePage = InventoryView;
         }
 
         public void gotoTransactions()
@@ -199,6 +202,30 @@ namespace AllAboutTeethDCMS.Menu
             ((EditPatientViewModel)EditPatientView.DataContext).CopyPatient = (Patient)selectedPatient.Clone();
             ((EditPatientViewModel)EditPatientView.DataContext).MenuViewModel = this;
         }
+
+        public void gotoItems(User activeUser)
+        {
+            MainWindowViewModel.ActivePage = ItemView;
+            ((ItemViewModel)ItemView.DataContext).ActiveUser = activeUser;
+            ((ItemViewModel)ItemView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoAddItemView(User activeUser)
+        {
+            MainWindowViewModel.ActivePage = AddItemView;
+            ((AddItemViewModel)AddItemView.DataContext).ActiveUser = activeUser;
+            ((AddItemViewModel)AddItemView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoEditItemView(User activeUser, Item selectedItem)
+        {
+            MainWindowViewModel.ActivePage = EditItemView;
+            ((EditItemViewModel)EditItemView.DataContext).ActiveUser = activeUser;
+            ((EditItemViewModel)EditItemView.DataContext).Item = selectedItem;
+            ((EditItemViewModel)EditItemView.DataContext).CopyItem = (Item)selectedItem.Clone();
+            ((EditItemViewModel)EditItemView.DataContext).MenuViewModel = this;
+        }
+
 
         public void gotoMaintenance()
         {
