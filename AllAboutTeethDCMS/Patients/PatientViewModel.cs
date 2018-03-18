@@ -14,22 +14,21 @@ namespace AllAboutTeethDCMS.Patients
 
         public Patient Patient { get => patient; set { patient = value; OnPropertyChanged(); } }
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; OnPropertyChanged(); } }
+        public string Filter { get => filter; set { filter = value; OnPropertyChanged(); loadPatients(); } }
 
         public void loadPatients()
         {
-            Patients = loadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
         public void deleteUser()
         {
-            deleteFromDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-            loadPatients();
+            startDeleteFromDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         protected override void setLoaded(List<Patient> list)
         {
-            throw new NotImplementedException();
+            Patients = list;
         }
     }
 }

@@ -3,4 +3,8 @@
                     xmlns:local="clr-namespace:AllAboutTeethDCMS">
     <ImageSource x:Key="account_icon">/Resources/icons8_User_32px.png</ImageSource>
     <ImageSource x:Key="add_account_icon">/Resources/icons8_Add_User_Male_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Registration_32px.png">/Resources/icons8_Registration_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Property_Script_32px_2.png">/Resources/icons8_Property_Script_32px_2.png</ImageSource>
+    <ImageSource x:Key="icons8_Add_Property_32px.png">/Resources/icons8_Add_Property_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Edit_Property_32px_2.png">/Resources/icons8_Edit_Property_32px_2.png</ImageSource>
 </ResourceDictionary>

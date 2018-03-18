@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
             <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
-            <Label FontSize="18" Content="Users" VerticalAlignment="Center" Foreground="White"/>
+            <Label FontSize="18" Content="Treatments" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -64,8 +64,8 @@
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
-            <Label Content="Found Users: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
-            <Label Content="{Binding Users.Count, UpdateSourceTrigger=PropertyChanged}" FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Treatments: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
     </Grid>
 </UserControl>

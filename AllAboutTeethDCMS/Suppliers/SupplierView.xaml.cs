@@ -27,7 +27,7 @@ namespace AllAboutTeethDCMS.Suppliers
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
-            ((SupplierViewModel)DataContext).loadPatients();
+            ((SupplierViewModel)DataContext).loadSuppliers();
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)

@@ -13,13 +13,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource Alizarin}" Visibility="{Binding Error, Converter={StaticResource ContentToVisibility}, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
-            <Label Content="{Binding Error, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="Century Gothic" FontSize="12"/>
-        </StackPanel>
         <Grid Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -27,12 +23,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Image Source="{StaticResource icons8_Add_Property_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="18" Content="Add New Supplier" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
-        <StackPanel Grid.Row="2" Background="White"/>
-        <ScrollViewer Grid.Row="2">
+        <StackPanel Grid.Row="1" Background="White"/>
+        <ScrollViewer Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.25*"/>
@@ -49,8 +45,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Name:" Grid.Column="0" Margin="5"/>
-                        <TextBox Text="{Binding Products, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Products:" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
+                        <TextBox root:AttachedProperties.Error="{Binding NameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Name:" Grid.Column="0" Margin="5"/>
+                        <TextBox Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="1" Margin="5"/>
+                        <TextBox Text="{Binding Products, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Products:" Grid.Column="2" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -58,14 +55,14 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Address:" Grid.Column="0" Margin="5" Grid.ColumnSpan="2"/>
+                        <TextBox root:AttachedProperties.Error="{Binding AddressError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.Column="0" Margin="5" Grid.ColumnSpan="2"/>
+                        <TextBox Text="{Binding Schedule, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Days Open:" Grid.Column="2" Margin="5"/>
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </ScrollViewer>
-        <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
-        <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Background="{StaticResource Asbestos}"/>
+        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

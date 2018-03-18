@@ -19,7 +19,7 @@ namespace AllAboutTeethDCMS.Items
         public AddItemViewModel()
         {
             SupplierViewModel supplierViewModel = new SupplierViewModel();
-            supplierViewModel.loadPatients();
+            supplierViewModel.loadSuppliers();
             Suppliers = supplierViewModel.Suppliers;
             item = new Item();
         }

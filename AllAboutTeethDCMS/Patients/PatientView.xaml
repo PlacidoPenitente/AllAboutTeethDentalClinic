@@ -29,7 +29,7 @@
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="3"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid>
@@ -42,10 +42,10 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient: "/>
-                <Button Margin="0,0,0,21" x:Name="search_patient" Click="search_patient_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" x:Name="add_patient" Click="add_patient_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_patient" Click="edit_patient_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_patient" Click="delete_patient_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="search_patient" Click="search_patient_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="add_patient" Click="add_patient_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_patient" Click="edit_patient_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_patient" Click="delete_patient_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -68,7 +68,7 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="10">
                                 <StackPanel>
-                                    <Label Margin="5" HorizontalAlignment="Center" Content="••••••• Patient Information •••••••" Foreground="{StaticResource WetAsphalt}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="5" HorizontalAlignment="Center" Content=" Patient Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
 
@@ -242,7 +242,7 @@
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Reason, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <StackPanel>
-                                    <Label Margin="10" HorizontalAlignment="Center" Content="••••••• Dental History •••••••" Foreground="{StaticResource WetAsphalt}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="10" HorizontalAlignment="Center" Content=" Dental History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
@@ -261,7 +261,7 @@
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastDentalVisit, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <StackPanel>
-                                    <Label Margin="10" HorizontalAlignment="Center" Content="••••••• Medical History •••••••" Foreground="{StaticResource WetAsphalt}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="10" HorizontalAlignment="Center" Content=" Medical History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>

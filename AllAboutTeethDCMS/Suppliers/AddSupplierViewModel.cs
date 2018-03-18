@@ -11,11 +11,11 @@ namespace AllAboutTeethDCMS.Suppliers
     {
         private Supplier supplier;
         private Supplier copySupplier;
-        private string error = "";
 
         public AddSupplierViewModel()
         {
             supplier = new Supplier();
+            copySupplier = (Supplier)supplier.Clone();
         }
 
         public virtual void resetForm()
@@ -25,8 +25,27 @@ namespace AllAboutTeethDCMS.Suppliers
 
         public virtual void saveSupplier()
         {
-            Supplier.AddedBy = ActiveUser;
-            saveToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                info.SetValue(this, info.GetValue(this));
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                Supplier.AddedBy = ActiveUser;
+                startSaveToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
         }
 
         protected override void setLoaded(List<Supplier> list)
@@ -47,10 +66,18 @@ namespace AllAboutTeethDCMS.Suppliers
                 }
             }
         }
-        public string Name { get => Supplier.Name; set { Supplier.Name = value; OnPropertyChanged(); } }
-        public string Address { get => Supplier.Address; set { Supplier.Address = value; OnPropertyChanged(); } }
+
+        public string Name { get => Supplier.Name; set { Supplier.Name = value; NameError = ""; NameError = validateUniqueName(value, CopySupplier.Name); OnPropertyChanged(); } }
+        public string Address { get => Supplier.Address; set { Supplier.Address = value; AddressError = ""; AddressError = validate(value); OnPropertyChanged(); } }
         public string Products { get => Supplier.Products; set { Supplier.Products = value; OnPropertyChanged(); } }
         public Supplier CopySupplier { get => copySupplier; set { copySupplier = value; OnPropertyChanged(); } }
-        public string Error { get => error; set { error = value; OnPropertyChanged(); } }
+        public string ContactNo { get => Supplier.ContactNo; set { Supplier.ContactNo = value; OnPropertyChanged(); } }
+        public string Schedule { get => Supplier.Schedule; set { Supplier.Schedule = value; OnPropertyChanged(); } }
+
+        public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
+        public string AddressError { get => addressError; set { addressError = value; OnPropertyChanged(); } }
+
+        private string nameError = "";
+        private string addressError = "";
     }
 }

@@ -68,6 +68,9 @@
                     <Border SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource MidnightBlue}">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="10">
+                                <StackPanel>
+                                    <Label Margin="5" HorizontalAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
+                                </StackPanel>
                                 <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
                                     
                                 </Border>

@@ -20,8 +20,27 @@ namespace AllAboutTeethDCMS.Patients
 
         public virtual void savePatient()
         {
-            Patient.AddedBy = ActiveUser;
-            saveToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                info.SetValue(this, info.GetValue(this));
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                Patient.AddedBy = ActiveUser;
+                startSaveToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
         }
 
         public Patient Patient { get => patient; set { patient = value;
@@ -31,8 +50,8 @@ namespace AllAboutTeethDCMS.Patients
                     OnPropertyChanged(info.Name);
                 }
             } }
-        public string LastName { get => Patient.LastName; set { Patient.LastName = value; OnPropertyChanged(); } }
-        public string FirstName { get => Patient.FirstName; set { Patient.FirstName = value; OnPropertyChanged(); } }
+        public string LastName { get => Patient.LastName; set { Patient.LastName = value; LastNameError = ""; LastNameError = validate(value); OnPropertyChanged(); } }
+        public string FirstName { get => Patient.FirstName; set { Patient.FirstName = value; FirstNameError = ""; FirstNameError = validate(value); OnPropertyChanged(); } }
         public string MiddleName { get => Patient.MiddleName; set { Patient.MiddleName = value; OnPropertyChanged(); } }
         public DateTime Birthdate { get => Patient.Birthdate; set { Patient.Birthdate = value;
                 Occupation = "";
@@ -43,7 +62,7 @@ namespace AllAboutTeethDCMS.Patients
         public string Religion { get => Patient.Religion; set { Patient.Religion = value; OnPropertyChanged(); } }
         public string Nationality { get => Patient.Nationality; set { Patient.Nationality = value; OnPropertyChanged(); } }
         public string Nickname { get => Patient.Nickname; set { Patient.Nickname = value; OnPropertyChanged(); } }
-        public string HomeAddress { get => Patient.HomeAddress; set { Patient.HomeAddress = value; OnPropertyChanged(); } }
+        public string HomeAddress { get => Patient.HomeAddress; set { Patient.HomeAddress = value; HomeAddressError = ""; HomeAddressError = validate(value); OnPropertyChanged(); } }
         public string HomeNo { get => Patient.HomeNo; set { Patient.HomeNo = value; OnPropertyChanged(); } }
         public string Occupation { get => Patient.Occupation; set { Patient.Occupation = value;
                 if (value.Trim().Equals("")) {
@@ -56,7 +75,7 @@ namespace AllAboutTeethDCMS.Patients
         public string EffectiveDate { get => Patient.EffectiveDate; set { Patient.EffectiveDate = value; OnPropertyChanged(); } }
         public string FaxNo { get => Patient.FaxNo; set { Patient.FaxNo = value; OnPropertyChanged(); } }
         public string ParentGuardianName { get => Patient.ParentGuardianName; set => Patient.ParentGuardianName = value; }
-        public string CellNo { get => Patient.CellNo; set { Patient.CellNo = value; OnPropertyChanged(); } }
+        public string CellNo { get => Patient.CellNo; set { Patient.CellNo = value; CellNoError = ""; CellNoError = validateContact(value); OnPropertyChanged(); } }
         public string EmailAddress { get => Patient.EmailAddress; set { Patient.EmailAddress = value; OnPropertyChanged(); } }
         public string Referral { get => Patient.Referral; set { Patient.Referral = value; OnPropertyChanged(); } }
         public string Reason { get => Patient.Reason; set { Patient.Reason = value; OnPropertyChanged(); } }
@@ -93,6 +112,11 @@ namespace AllAboutTeethDCMS.Patients
         public List<string> Genders { get => genders; set => genders = value; }
         public Patient CopyPatient { get => copyPatient; set { copyPatient = value; OnPropertyChanged(); } }
 
+        public string FirstNameError { get => firstNameError; set { firstNameError = value; OnPropertyChanged(); } }
+        public string LastNameError { get => lastNameError; set { lastNameError = value; OnPropertyChanged(); } }
+        public string CellNoError { get => cellNoError; set { cellNoError = value; OnPropertyChanged(); } }
+        public string HomeAddressError { get => homeAddressError; set { homeAddressError = value; OnPropertyChanged(); } }
+
         public virtual void resetForm()
         {
             Patient = new Patient();
@@ -102,5 +126,10 @@ namespace AllAboutTeethDCMS.Patients
         {
             throw new NotImplementedException();
         }
+
+        private string firstNameError = "";
+        private string lastNameError = "";
+        private string cellNoError = "";
+        private string homeAddressError = "";
     }
 }

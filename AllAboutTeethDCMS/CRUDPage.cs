@@ -382,5 +382,30 @@ namespace AllAboutTeethDCMS
             }
             return "";
         }
+
+        protected string validateUniqueName(string value, string original)
+        {
+            if (!value.Trim().Equals(original))
+            {
+                if (String.IsNullOrEmpty(value.Trim()))
+                {
+                    return "This field is required.";
+                }
+                createConnection();
+                MySqlCommand command = Connection.CreateCommand();
+                command.CommandText = "SELECT * FROM allaboutteeth_suppliers WHERE supplier_name=@name";
+                command.Parameters.AddWithValue("@name", value);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    reader.Close();
+                    Connection.Close();
+                    return "Name is already taken.";
+                }
+                reader.Close();
+                Connection.Close();
+            }
+            return "";
+        }
     }
 }

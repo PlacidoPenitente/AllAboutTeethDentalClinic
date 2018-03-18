@@ -11,8 +11,27 @@ namespace AllAboutTeethDCMS.Patients
     {
         public override void savePatient()
         {
-            Patient.AddedBy = ActiveUser;
-            updateDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                info.SetValue(this, info.GetValue(this));
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                Patient.AddedBy = ActiveUser;
+                startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
         }
 
         public override void resetForm()

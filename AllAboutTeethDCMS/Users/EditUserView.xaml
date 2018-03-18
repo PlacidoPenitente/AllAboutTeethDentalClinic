@@ -13,7 +13,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -24,12 +23,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Image Source="{StaticResource icons8_Registration_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="18" Content="Update User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
-        <StackPanel Grid.ColumnSpan="3" Grid.Row="2" Background="White" Grid.RowSpan="2"/>
-        <ScrollViewer Grid.Row="2">
+        <StackPanel Grid.Row="1" Background="White" Grid.RowSpan="2"/>
+        <ScrollViewer Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.25*"/>
@@ -107,7 +106,6 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </ScrollViewer>
         <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
         <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">

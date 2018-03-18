@@ -14,9 +14,9 @@ namespace AllAboutTeethDCMS.Suppliers
 
         public Supplier Supplier { get => supplier; set { supplier = value; OnPropertyChanged(); } }
         public List<Supplier> Suppliers { get => suppliers; set { suppliers = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; OnPropertyChanged(); } }
+        public string Filter { get => filter; set { filter = value; OnPropertyChanged(); loadSuppliers(); } }
 
-        public void loadPatients()
+        public void loadSuppliers()
         {
             Suppliers = loadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
@@ -28,7 +28,7 @@ namespace AllAboutTeethDCMS.Suppliers
 
         protected override void setLoaded(List<Supplier> list)
         {
-            throw new NotImplementedException();
+            Suppliers = list;
         }
     }
 }

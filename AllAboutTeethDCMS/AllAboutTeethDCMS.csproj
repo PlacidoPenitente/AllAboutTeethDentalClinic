@@ -338,5 +338,29 @@
   <ItemGroup>
     <Resource Include="Resources\icons8_Add_User_Male_32px.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Registration_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Truck_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Add_Property_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Edit_Property_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Property_Script_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Plus_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Edit_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Minus_32px.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
