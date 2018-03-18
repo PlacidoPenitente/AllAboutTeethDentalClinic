@@ -249,12 +249,7 @@ namespace AllAboutTeethDCMS
         private void executeDeleteFromDatabase()
         {
             deleteFromDatabase(model, tableName);
-            afterDelete();
-        }
-
-        protected virtual void afterDelete()
-        {
-
+            startLoadFromDatabase(tableName, filter);
         }
 
         protected void startLoadFromDatabase(string tableName, string filter)

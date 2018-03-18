@@ -26,11 +26,6 @@ namespace AllAboutTeethDCMS.Users
             startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        protected override void afterDelete()
-        {
-            loadUsers();
-        }
-
         protected override void setLoaded(List<User> list)
         {
             Users = list;

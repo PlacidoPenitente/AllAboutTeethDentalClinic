@@ -28,7 +28,7 @@
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 			<Grid>
@@ -41,10 +41,10 @@
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 				<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Account: "/>
-				<Button Margin="0,0,0,21" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" x:Name="add_account" Click="add_account_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_account" Click="edit_account_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_account" Click="delete_account_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="add_account" Click="add_account_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_account" Click="edit_account_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_account" Click="delete_account_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
