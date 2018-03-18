@@ -23,8 +23,7 @@ namespace AllAboutTeethDCMS.Suppliers
 
         public void deleteTreatment()
         {
-            deleteFromDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-            loadPatients();
+            startDeleteFromDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         protected override void setLoaded(List<Supplier> list)

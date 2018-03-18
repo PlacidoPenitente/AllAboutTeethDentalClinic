@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AllAboutTeethDCMS
 {
@@ -15,6 +16,8 @@ namespace AllAboutTeethDCMS
     {
         private Thread loadThread;
         private Thread addThread;
+        private Thread saveThread;
+        private Thread deleteThread;
         
         protected void saveToDatabase(T model, string tableName)
         {
@@ -214,6 +217,46 @@ namespace AllAboutTeethDCMS
             saveToDatabase(model, tableName);
         }
 
+        protected void startUpdateToDatabase(T model, string tableName)
+        {
+            if (saveThread == null || !saveThread.IsAlive)
+            {
+                this.tableName = tableName;
+                this.model = model;
+                saveThread = new Thread(executeUpdateToDatabase);
+                saveThread.IsBackground = true;
+                saveThread.Start();
+            }
+        }
+
+        private void executeUpdateToDatabase()
+        {
+            updateDatabase(model, tableName);
+        }
+
+        protected void startDeleteFromDatabase(T model, string tableName)
+        {
+            if (deleteThread == null || !deleteThread.IsAlive)
+            {
+                this.tableName = tableName;
+                this.model = model;
+                deleteThread = new Thread(executeDeleteFromDatabase);
+                deleteThread.IsBackground = true;
+                deleteThread.Start();
+            }
+        }
+
+        private void executeDeleteFromDatabase()
+        {
+            deleteFromDatabase(model, tableName);
+            afterDelete();
+        }
+
+        protected virtual void afterDelete()
+        {
+
+        }
+
         protected void startLoadFromDatabase(string tableName, string filter)
         {
             if(loadThread==null||!loadThread.IsAlive)
@@ -314,30 +357,34 @@ namespace AllAboutTeethDCMS
             return "";
         }
 
-        protected string validateUsername(string value)
+        protected string validateUsername(string value, string original)
         {
-            if (String.IsNullOrEmpty(value.Trim()))
+            if(!value.Trim().Equals(original))
             {
-                return "This field is required.";
-            }
+                if (String.IsNullOrEmpty(value.Trim()))
+                {
+                    return "This field is required.";
+                }
 
-            if (value.Trim().Length < 5)
-            {
-                return "Must be atleast 5 characters.";
-            }
-            createConnection();
-            MySqlCommand command = Connection.CreateCommand();
-            command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
-            command.Parameters.AddWithValue("@user", value);
-            MySqlDataReader reader = command.ExecuteReader();
-            if(reader.Read())
-            {
+                if (value.Trim().Length < 5)
+                {
+                    return "Must be atleast 5 characters.";
+                }
+
+                createConnection();
+                MySqlCommand command = Connection.CreateCommand();
+                command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
+                command.Parameters.AddWithValue("@user", value);
+                MySqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    reader.Close();
+                    Connection.Close();
+                    return "Username is already taken.";
+                }
                 reader.Close();
                 Connection.Close();
-                return "Username is already taken.";
             }
-            reader.Close();
-            Connection.Close();
             return "";
         }
     }

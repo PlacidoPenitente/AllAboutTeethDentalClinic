@@ -17,9 +17,6 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="50"/>
 		</Grid.RowDefinitions>
-		<StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource Alizarin}" Visibility="{Binding Error, Converter={StaticResource ContentToVisibility}, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
-			<Label Content="{Binding Error, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="Century Gothic" FontSize="12"/>
-		</StackPanel>
 		<Grid Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"/>

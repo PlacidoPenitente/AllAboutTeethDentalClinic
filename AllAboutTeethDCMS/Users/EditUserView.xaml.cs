@@ -42,7 +42,7 @@ namespace AllAboutTeethDCMS.Users
 
         private void passwordCopy_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
+            ((EditUserViewModel)DataContext).PasswordCopy = passwordCopy.Password;
         }
 
         private void editUser_Click(object sender, RoutedEventArgs e)

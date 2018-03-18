@@ -8,6 +8,7 @@ namespace AllAboutTeethDCMS.Appointments
 {
     public class AddAppointmentViewModel : CRUDPage<Appointment>
     {
+
         protected override void setLoaded(List<Appointment> list)
         {
             throw new NotImplementedException();

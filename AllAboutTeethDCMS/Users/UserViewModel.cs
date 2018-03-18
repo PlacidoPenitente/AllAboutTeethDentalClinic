@@ -23,7 +23,11 @@ namespace AllAboutTeethDCMS.Users
 
         public void deleteUser()
         {
-            deleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        protected override void afterDelete()
+        {
             loadUsers();
         }
 

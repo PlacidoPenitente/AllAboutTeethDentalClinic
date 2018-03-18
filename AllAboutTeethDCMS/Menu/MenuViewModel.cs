@@ -146,6 +146,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = UserView;
             ((UserViewModel)UserView.DataContext).ActiveUser = activeUser;
             ((UserViewModel)UserView.DataContext).MenuViewModel = this;
+            ((UserViewModel)UserView.DataContext).loadUsers();
         }
 
         public void gotoAddUserView(User activeUser)

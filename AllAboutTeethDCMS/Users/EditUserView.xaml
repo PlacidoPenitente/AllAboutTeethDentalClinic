@@ -17,9 +17,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource Alizarin}" Visibility="{Binding Error, Converter={StaticResource ContentToVisibility}, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
-            <Label Content="{Binding Error, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="Century Gothic" FontSize="12"/>
-        </StackPanel>
         <Grid Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -49,21 +46,23 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="First Name:" Grid.Column="0" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding FirstNameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="First Name:" Grid.Column="0" Margin="5"/>
                         <TextBox Text="{Binding MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Middle Name:" Grid.Column="1" Margin="5"/>
-                        <TextBox Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Last Name:" Grid.Column="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding LastNameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Last Name:" Grid.Column="2" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox root:AttachedProperties.Label="Gender:" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
-                        <DatePicker root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource DatePickerStyle}" Margin="5"/>
-                        <TextBox Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="2" Margin="5"/>
-                        <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="3" Margin="5"/>
+                        <DatePicker x:Name="birthdate" root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource DatePickerStyle}" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding ContactNoError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="3" Margin="5"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Age:" Grid.Column="2" Margin="5"/>
+                        <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="4" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -71,7 +70,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.ColumnSpan="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding AddressError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.ColumnSpan="2" Margin="5"/>
                     </Grid>
                     <StackPanel>
                         <Label Content="Account Information" FontFamily="Century Gothic" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
@@ -83,9 +82,9 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Grid.Column="0" Margin="5"/>
-                        <PasswordBox x:Name="passwordMain" PasswordChanged="passwordMain_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Password:" Grid.Column="1" Margin="5"/>
-                        <PasswordBox x:Name="passwordCopy" PasswordChanged="passwordCopy_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Confirm Password:" Grid.Column="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Grid.Column="0" Margin="5"/>
+                        <PasswordBox x:Name="passwordMain" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="passwordMain_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Password:" Grid.Column="1" Margin="5"/>
+                        <PasswordBox x:Name="passwordCopy" root:AttachedProperties.Error="{Binding PasswordCopyError, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="passwordCopy_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Confirm Password:" Grid.Column="2" Margin="5"/>
                         <ComboBox root:AttachedProperties.Label="Account Type:" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding AccountType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Style="{StaticResource ComboBox}" Margin="5"/>
                     </Grid>
                     <Grid>
@@ -94,8 +93,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Question1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 1:" Grid.ColumnSpan="2" Margin="5"/>
-                        <TextBox Text="{Binding Answer1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding Question1Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 1:" Grid.ColumnSpan="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding Answer1Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -103,11 +102,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
-                        <TextBox Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding Question2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding Answer2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
                 </StackPanel>
             </Grid>
+
         </ScrollViewer>
         <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
         <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">

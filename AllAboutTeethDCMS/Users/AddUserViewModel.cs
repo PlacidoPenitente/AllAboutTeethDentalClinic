@@ -18,6 +18,7 @@ namespace AllAboutTeethDCMS.Users
         public AddUserViewModel()
         {
             user = new User();
+            copyUser = (User)user.Clone();
         }
 
         public virtual void resetForm()
@@ -75,7 +76,7 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string Username { get => User.Username; set { User.Username = value; UsernameError = ""; UsernameError = validateUsername(value); OnPropertyChanged(); } }
+        public string Username { get => User.Username; set { User.Username = value; UsernameError = ""; UsernameError = validateUsername(value, CopyUser.Username); OnPropertyChanged(); } }
         public string Password { get => User.Password; set { User.Password = value; PasswordError = ""; PasswordError = validatePassword(value); PasswordCopy = PasswordCopy; OnPropertyChanged(); } }
         public string AccountType { get => User.Type; set { User.Type = value;  OnPropertyChanged(); } }
         public string FirstName { get => User.FirstName; set { User.FirstName = value; FirstNameError = ""; FirstNameError = validate(value); OnPropertyChanged(); } }
