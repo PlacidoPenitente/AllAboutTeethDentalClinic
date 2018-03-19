@@ -15,9 +15,9 @@
                 <RadioButton x:Name="appointments" Click="appointments_Click" Content="Appointments" IsChecked="True"/>
                 <RadioButton x:Name="patients" Click="patients_Click" Content="Patients"/>
                 <RadioButton x:Name="services" Click="services_Click" Content="Services"/>
-                <RadioButton x:Name="dentists" Click="dentists_Click" Content="Dentists"/>
                 <RadioButton x:Name="supplies" Click="supplies_Click" Content="Supplies"/>
                 <RadioButton x:Name="suppliers" Click="suppliers_Click" Content="Suppliers"/>
+                <RadioButton x:Name="providers" Click="providers_Click" Content="Health Providers"/>
                 <RadioButton x:Name="transactions" Click="transactions_Click" Content="Transactions"/>
                 <RadioButton x:Name="reports" Click="reports_Click" Content="Reports"/>
                 <RadioButton x:Name="accounts" Click="accounts_Click" Content="Accounts"/>

@@ -16,7 +16,7 @@ namespace AllAboutTeethDCMS
             if (value != null)
             {
                 Supplier supplier = (Supplier)value;
-                return "(" + supplier.No + ") " + supplier.Name;
+                return supplier.Name;
             }
             return "Unknown Supplier";
         }

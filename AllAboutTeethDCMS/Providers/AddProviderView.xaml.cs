@@ -13,31 +13,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Items
+namespace AllAboutTeethDCMS.Providers
 {
     /// <summary>
-    /// Interaction logic for EditItemView.xaml
+    /// Interaction logic for AddProviderView.xaml
     /// </summary>
-    public partial class EditItemView : UserControl
+    public partial class AddProviderView : UserControl
     {
-        public EditItemView()
+        public AddProviderView()
         {
             InitializeComponent();
         }
 
-        private void editSupplier_Click(object sender, RoutedEventArgs e)
+        private void addTreatment_Click(object sender, RoutedEventArgs e)
         {
-            ((EditItemViewModel)DataContext).saveSupplier();
+            ((AddProviderViewModel)DataContext).saveProvider();
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            ((EditItemViewModel)DataContext).resetForm();
+            ((AddProviderViewModel)DataContext).resetForm();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((EditItemViewModel)DataContext).MenuViewModel.gotoItems(((EditItemViewModel)DataContext).ActiveUser);
+            ((AddProviderViewModel)DataContext).MenuViewModel.gotoProviders(((AddProviderViewModel)DataContext).ActiveUser);
         }
     }
 }

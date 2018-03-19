@@ -32,16 +32,10 @@ namespace AllAboutTeethDCMS.Menu
             menuViewModel.gotoTreatments(menuViewModel.ActiveUser);
         }
 
-        private void dentists_Click(object sender, RoutedEventArgs e)
-        {
-            MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoDentists();
-        }
-
         private void supplies_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoItems(menuViewModel.ActiveUser);
+            menuViewModel.gotoMedicines(menuViewModel.ActiveUser);
         }
 
         private void transactions_Click(object sender, RoutedEventArgs e)
@@ -73,6 +67,13 @@ namespace AllAboutTeethDCMS.Menu
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
             menuViewModel.ActiveUser.No = 0;
             menuViewModel.gotoSuppliers(menuViewModel.ActiveUser);
+        }
+
+        private void providers_Click(object sender, RoutedEventArgs e)
+        {
+            MenuViewModel menuViewModel = (MenuViewModel)DataContext;
+            menuViewModel.ActiveUser.No = 0;
+            menuViewModel.gotoProviders(menuViewModel.ActiveUser);
         }
     }
 }

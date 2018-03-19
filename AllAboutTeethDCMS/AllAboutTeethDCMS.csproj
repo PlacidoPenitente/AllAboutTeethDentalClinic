@@ -86,25 +86,20 @@
       <DependentUpon>DentalChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DentalCharts\DentalChartViewModel.cs" />
-    <Compile Include="Dentists\Dentist.cs" />
-    <Compile Include="Dentists\DentistView.xaml.cs">
-      <DependentUpon>DentistView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dentists\DentistViewModel.cs" />
     <Compile Include="GenderToVisibilityConverter.cs" />
-    <Compile Include="Items\AddItemView.xaml.cs">
-      <DependentUpon>AddItemView.xaml</DependentUpon>
+    <Compile Include="Medicines\AddMedicineView.xaml.cs">
+      <DependentUpon>AddMedicineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Items\AddItemViewModel.cs" />
-    <Compile Include="Items\EditItemView.xaml.cs">
-      <DependentUpon>EditItemView.xaml</DependentUpon>
+    <Compile Include="Medicines\AddMedicineViewModel.cs" />
+    <Compile Include="Medicines\EditMedicineView.xaml.cs">
+      <DependentUpon>EditMedicineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Items\EditItemViewModel.cs" />
-    <Compile Include="Items\Item.cs" />
-    <Compile Include="Items\ItemView.xaml.cs">
-      <DependentUpon>ItemView.xaml</DependentUpon>
+    <Compile Include="Medicines\EditMedicineViewModel.cs" />
+    <Compile Include="Medicines\Medicine.cs" />
+    <Compile Include="Medicines\MedicineView.xaml.cs">
+      <DependentUpon>MedicineView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Items\ItemViewModel.cs" />
+    <Compile Include="Medicines\MedicineViewModel.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +129,19 @@
     </Compile>
     <Compile Include="Patients\PatientViewModel.cs" />
     <Compile Include="ProgressToVisibilityConverter.cs" />
+    <Compile Include="Providers\AddProviderView.xaml.cs">
+      <DependentUpon>AddProviderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\AddProviderViewModel.cs" />
+    <Compile Include="Providers\EditProviderView.xaml.cs">
+      <DependentUpon>EditProviderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\EditProviderViewModel.cs" />
+    <Compile Include="Providers\Provider.cs" />
+    <Compile Include="Providers\ProviderView.xaml.cs">
+      <DependentUpon>ProviderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\ProviderViewModel.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
@@ -194,10 +202,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dentists\DentistView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dictionaries\Color.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,15 +218,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Items\AddItemView.xaml">
+    <Page Include="Medicines\AddMedicineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Items\EditItemView.xaml">
+    <Page Include="Medicines\EditMedicineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Items\ItemView.xaml">
+    <Page Include="Medicines\MedicineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -259,6 +263,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Patients\PatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Providers\AddProviderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Providers\EditProviderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Providers\ProviderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,25 +5,25 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllAboutTeethDCMS.Treatments
+namespace AllAboutTeethDCMS.Providers
 {
-    public class AddTreatmentViewModel : CRUDPage<Treatment>
+    public class AddProviderViewModel : CRUDPage<Provider>
     {
-        private Treatment treatment;
-        private Treatment copyTreatment;
+        private Provider provider;
+        private Provider copyProvider;
 
-        public AddTreatmentViewModel()
+        public AddProviderViewModel()
         {
-            treatment = new Treatment();
-            copyTreatment = (Treatment)treatment.Clone();
+            provider = new Provider();
+            copyProvider = (Provider)provider.Clone();
         }
 
         public virtual void resetForm()
         {
-            Treatment = new Treatment();
+            Provider = new Provider();
         }
 
-        public virtual void saveTreatment()
+        public virtual void saveProvider()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
             {
@@ -43,25 +43,26 @@ namespace AllAboutTeethDCMS.Treatments
             }
             if (!hasError)
             {
-                Treatment.AddedBy = ActiveUser;
-                startSaveToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                Provider.AddedBy = ActiveUser;
+                startSaveToDatabase(Provider, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
-        protected override void setLoaded(List<Treatment> list)
+        protected override void setLoaded(List<Provider> list)
         {
             throw new NotImplementedException();
         }
 
-        public string Name { get => Treatment.Name; set { Treatment.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
-        public string Description { get => Treatment.Description; set { Treatment.Description = value; OnPropertyChanged(); } }
+        public string Name { get => Provider.Name; set { Provider.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyProvider.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
+        public string ContactNo { get => Provider.ContactNo; set { Provider.ContactNo = value; OnPropertyChanged(); } }
+        public string Address { get => Provider.Address; set { Provider.Address = value; OnPropertyChanged(); } }
 
-        public Treatment Treatment
+        public Provider Provider
         {
-            get => treatment;
+            get => provider;
             set
             {
-                treatment = value;
+                provider = value;
                 OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
@@ -69,8 +70,8 @@ namespace AllAboutTeethDCMS.Treatments
                 }
             }
         }
-        
-        public Treatment CopyTreatment { get => copyTreatment; set { copyTreatment = value; } }
+
+        public Provider CopyProvider { get => copyProvider; set { copyProvider = value; } }
 
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
 

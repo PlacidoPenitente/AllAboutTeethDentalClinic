@@ -67,7 +67,7 @@ namespace AllAboutTeethDCMS.Suppliers
             }
         }
 
-        public string Name { get => Supplier.Name; set { Supplier.Name = value; NameError = ""; NameError = validateUniqueName(value, CopySupplier.Name); OnPropertyChanged(); } }
+        public string Name { get => Supplier.Name; set { Supplier.Name = value; NameError = ""; NameError = validateUniqueName(value, CopySupplier.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
         public string Address { get => Supplier.Address; set { Supplier.Address = value; AddressError = ""; AddressError = validate(value); OnPropertyChanged(); } }
         public string Products { get => Supplier.Products; set { Supplier.Products = value; OnPropertyChanged(); } }
         public Supplier CopySupplier { get => copySupplier; set { copySupplier = value; OnPropertyChanged(); } }

@@ -13,36 +13,36 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Items
+namespace AllAboutTeethDCMS.Providers
 {
     /// <summary>
-    /// Interaction logic for ItemView.xaml
+    /// Interaction logic for ProviderView.xaml
     /// </summary>
-    public partial class ItemView : UserControl
+    public partial class ProviderView : UserControl
     {
-        public ItemView()
+        public ProviderView()
         {
             InitializeComponent();
         }
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
-            ((ItemViewModel)DataContext).loadPatients();
+            ((ProviderViewModel)DataContext).loadProviders();
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((ItemViewModel)DataContext).MenuViewModel.gotoAddItemView(((ItemViewModel)DataContext).ActiveUser);
+            ((ProviderViewModel)DataContext).MenuViewModel.gotoAddProviderView(((ProviderViewModel)DataContext).ActiveUser);
         }
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((ItemViewModel)DataContext).MenuViewModel.gotoEditItemView(((ItemViewModel)DataContext).ActiveUser, ((ItemViewModel)DataContext).Item);
+            ((ProviderViewModel)DataContext).MenuViewModel.gotoEditProviderView(((ProviderViewModel)DataContext).ActiveUser, (Provider)((ProviderViewModel)DataContext).Provider.Clone());
         }
 
         private void delete_treatment_Click(object sender, RoutedEventArgs e)
         {
-            ((ItemViewModel)DataContext).deleteTreatment();
+            ((ProviderViewModel)DataContext).deleteProvider();
         }
     }
 }

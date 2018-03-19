@@ -13,13 +13,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource Alizarin}" Visibility="{Binding Error, Converter={StaticResource ContentToVisibility}, UpdateSourceTrigger=PropertyChanged}" Orientation="Horizontal">
-            <Label Content="{Binding Error, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="Century Gothic" FontSize="12"/>
-        </StackPanel>
         <Grid Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -31,8 +27,8 @@
             <Label FontSize="18" Content="Edit Treatment" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
-        <StackPanel Grid.Row="2" Background="White"/>
-        <ScrollViewer Grid.Row="2">
+        <StackPanel Grid.Row="1" Background="White"/>
+        <ScrollViewer Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.25*"/>
@@ -49,15 +45,14 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Name:" Grid.Column="0" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding NameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Name:" Grid.Column="0" Margin="5"/>
                         <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Description:" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </ScrollViewer>
-        <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
-        <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Background="{StaticResource Asbestos}"/>
+        <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

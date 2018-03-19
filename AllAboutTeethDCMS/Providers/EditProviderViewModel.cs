@@ -4,14 +4,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AllAboutTeethDCMS.Providers;
 
-namespace AllAboutTeethDCMS.Treatments
+namespace AllAboutTeethDCMS.Providers
 {
-    public class EditTreatmentViewModel : AddTreatmentViewModel
+    public class EditProviderViewModel : AddProviderViewModel
     {
-
-        public override void saveTreatment()
+        public override void saveProvider()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
             {
@@ -31,14 +29,14 @@ namespace AllAboutTeethDCMS.Treatments
             }
             if (!hasError)
             {
-                Treatment.AddedBy = ActiveUser;
-                updateDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                Provider.AddedBy = ActiveUser;
+                updateDatabase(Provider, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
         public override void resetForm()
         {
-            Treatment = (Treatment)CopyTreatment.Clone();
+            Provider = (Provider)CopyProvider.Clone();
         }
     }
 }

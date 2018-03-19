@@ -383,17 +383,17 @@ namespace AllAboutTeethDCMS
             return "";
         }
 
-        protected string validateUniqueName(string value, string original)
+        protected string validateUniqueName(string value, string original, string tableName)
         {
+            if (String.IsNullOrEmpty(value.Trim()))
+            {
+                return "This field is required.";
+            }
             if (!value.Trim().Equals(original))
             {
-                if (String.IsNullOrEmpty(value.Trim()))
-                {
-                    return "This field is required.";
-                }
                 createConnection();
                 MySqlCommand command = Connection.CreateCommand();
-                command.CommandText = "SELECT * FROM allaboutteeth_suppliers WHERE supplier_name=@name";
+                command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
                 command.Parameters.AddWithValue("@name", value);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
