@@ -18,7 +18,7 @@ namespace AllAboutTeethDCMS.Suppliers
 
         public void loadSuppliers()
         {
-            Suppliers = loadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
         public void deleteTreatment()

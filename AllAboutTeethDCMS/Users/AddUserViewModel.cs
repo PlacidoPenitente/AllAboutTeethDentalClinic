@@ -12,7 +12,7 @@ namespace AllAboutTeethDCMS.Users
     {
         private User user;
         private List<string> genders = new List<string>() { "Male", "Female" };
-        private List<string> accountTypes = new List<string>() { "Administrator", "Staff" };
+        private List<string> accountTypes = new List<string>() { "Administrator", "Dentist", "Staff" };
         private User copyUser;
 
         public AddUserViewModel()

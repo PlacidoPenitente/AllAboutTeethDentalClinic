@@ -86,6 +86,11 @@
       <DependentUpon>DentalChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DentalCharts\DentalChartViewModel.cs" />
+    <Compile Include="DentalCharts\Tooth.cs" />
+    <Compile Include="DentalCharts\ToothView.xaml.cs">
+      <DependentUpon>ToothView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DentalCharts\ToothViewModel.cs" />
     <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="Medicines\AddMedicineView.xaml.cs">
       <DependentUpon>AddMedicineView.xaml</DependentUpon>
@@ -199,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DentalCharts\DentalChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DentalCharts\ToothView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -377,6 +386,79 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icons8_Minus_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Credit_Card_32px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Maintenance_32px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Planner_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Planner_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Open_Box_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Syringe_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Physical_Therapy_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Bill_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Truck_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Combo_Chart_32px_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Generic_Book_File_Type_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Home_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Doctor_Male_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\11.png" />
+    <Resource Include="Resources\12.png" />
+    <Resource Include="Resources\13.png" />
+    <Resource Include="Resources\14.png" />
+    <Resource Include="Resources\15.png" />
+    <Resource Include="Resources\16.png" />
+    <Resource Include="Resources\17.png" />
+    <Resource Include="Resources\18.png" />
+    <Resource Include="Resources\21.png" />
+    <Resource Include="Resources\22.png" />
+    <Resource Include="Resources\23.png" />
+    <Resource Include="Resources\24.png" />
+    <Resource Include="Resources\25.png" />
+    <Resource Include="Resources\26.png" />
+    <Resource Include="Resources\27.png" />
+    <Resource Include="Resources\28.png" />
+    <Resource Include="Resources\31.png" />
+    <Resource Include="Resources\32.png" />
+    <Resource Include="Resources\33.png" />
+    <Resource Include="Resources\34.png" />
+    <Resource Include="Resources\35.png" />
+    <Resource Include="Resources\36.png" />
+    <Resource Include="Resources\37.png" />
+    <Resource Include="Resources\38.png" />
+    <Resource Include="Resources\41.png" />
+    <Resource Include="Resources\42.png" />
+    <Resource Include="Resources\43.png" />
+    <Resource Include="Resources\44.png" />
+    <Resource Include="Resources\45.png" />
+    <Resource Include="Resources\46.png" />
+    <Resource Include="Resources\47.png" />
+    <Resource Include="Resources\48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

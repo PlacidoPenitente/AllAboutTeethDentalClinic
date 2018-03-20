@@ -32,12 +32,12 @@ namespace AllAboutTeethDCMS.Medicines
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
         {
-            //((MedicineViewModel)DataContext).MenuViewModel.gotoAddTreatmentView(((MedicineViewModel)DataContext).ActiveUser);
+            ((MedicineViewModel)DataContext).MenuViewModel.gotoAddMedicineView(((MedicineViewModel)DataContext).ActiveUser);
         }
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)
         {
-            //((MedicineViewModel)DataContext).MenuViewModel.gotoEditTreatmentView(((MedicineViewModel)DataContext).ActiveUser, (Medicine)((MedicineViewModel)DataContext).Treatment.Clone());
+            ((MedicineViewModel)DataContext).MenuViewModel.gotoEditMedicineView(((MedicineViewModel)DataContext).ActiveUser, (Medicine)((MedicineViewModel)DataContext).Medicine.Clone());
         }
 
         private void delete_treatment_Click(object sender, RoutedEventArgs e)

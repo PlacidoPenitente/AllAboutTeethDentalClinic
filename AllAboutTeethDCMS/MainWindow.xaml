@@ -11,7 +11,7 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
@@ -26,9 +26,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource WetAsphalt}"/>
-            <menu:MenuView x:Name="menuView" Background="{StaticResource WetAsphalt}"/>
+            <menu:MenuView x:Name="menuView" Width="200"/>
 
-            <ContentControl Grid.Column="1" Content="{Binding ActivePage, UpdateSourceTrigger=PropertyChanged}"/>
+            <Border SnapsToDevicePixels="True" Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource Turquoise}">
+                <ContentControl Content="{Binding ActivePage, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
             <!--<ScrollViewer  VerticalScrollBarVisibility="Auto">
             </ScrollViewer>-->
         </Grid>

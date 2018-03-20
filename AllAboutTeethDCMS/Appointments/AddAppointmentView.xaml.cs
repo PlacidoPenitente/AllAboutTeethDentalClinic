@@ -24,5 +24,20 @@ namespace AllAboutTeethDCMS.Appointments
         {
             InitializeComponent();
         }
+
+        private void addTreatment_Click(object sender, RoutedEventArgs e)
+        {
+            //((AddAppointmentViewModel)DataContext).saveTreatment();
+        }
+
+        private void resetForm_Click(object sender, RoutedEventArgs e)
+        {
+            //((AddAppointmentViewModel)DataContext).resetForm();
+        }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            ((AddAppointmentViewModel)DataContext).MenuViewModel.gotoAppointments(((AddAppointmentViewModel)DataContext).ActiveUser);
+        }
     }
 }

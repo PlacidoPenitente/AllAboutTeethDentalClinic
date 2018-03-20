@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:AddTreatmentViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -47,6 +47,13 @@
                         </Grid.ColumnDefinitions>
                         <TextBox root:AttachedProperties.Error="{Binding NameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Name:" Grid.Column="0" Margin="5"/>
                         <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Description:" Grid.Column="1" Margin="5" Grid.ColumnSpan="2"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                     </Grid>
                 </StackPanel>
             </Grid>

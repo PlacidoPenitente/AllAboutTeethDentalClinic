@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:PatientViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -68,7 +68,7 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="10">
                                 <StackPanel>
-                                    <Label Margin="5" HorizontalAlignment="Center" Content=" Patient Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="5" HorizontalContentAlignment="Center" Content=" Patient Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
 
@@ -242,7 +242,7 @@
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Reason, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <StackPanel>
-                                    <Label Margin="10" HorizontalAlignment="Center" Content=" Dental History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="10" HorizontalContentAlignment="Center" Content=" Dental History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
@@ -261,7 +261,7 @@
                                     <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastDentalVisit, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <StackPanel>
-                                    <Label Margin="10" HorizontalAlignment="Center" Content=" Medical History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="10" HorizontalContentAlignment="Center" Content=" Medical History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
                                 </StackPanel>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
@@ -293,7 +293,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Label HorizontalAlignment="Left" Width="100" Content="Office No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianSpecialty, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianOfficeNumber, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>

@@ -4,24 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Menu"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="300">
     <UserControl.DataContext>
         <local:MenuViewModel/>
     </UserControl.DataContext>
     <Border>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <RadioButton x:Name="appointments" Click="appointments_Click" Content="Appointments" IsChecked="True"/>
-                <RadioButton x:Name="patients" Click="patients_Click" Content="Patients"/>
-                <RadioButton x:Name="services" Click="services_Click" Content="Services"/>
-                <RadioButton x:Name="supplies" Click="supplies_Click" Content="Supplies"/>
-                <RadioButton x:Name="suppliers" Click="suppliers_Click" Content="Suppliers"/>
-                <RadioButton x:Name="providers" Click="providers_Click" Content="Health Providers"/>
-                <RadioButton x:Name="transactions" Click="transactions_Click" Content="Transactions"/>
-                <RadioButton x:Name="reports" Click="reports_Click" Content="Reports"/>
-                <RadioButton x:Name="accounts" Click="accounts_Click" Content="Accounts"/>
-                <RadioButton x:Name="maintenance" Click="maintenance_Click" Content="Maintenance"/>
+                <RadioButton IsChecked="True" root:AttachedProperties.Icon="{StaticResource icons8_Home_32px.png}" x:Name="dashboard" Click="dashboard_Click" Content="Dashboard" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Planner_32px.png}" x:Name="appointments" Click="appointments_Click" Content="Appointments" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Label="{Binding PatientTotal}" root:AttachedProperties.Icon="{StaticResource account_icon}" x:Name="patients" Click="patients_Click" Content="Patients" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" x:Name="services" Click="services_Click" Content="Services" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Open_Box_32px.png}" x:Name="supplies" Click="supplies_Click" Content="Inventory" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Truck_32px.png}" x:Name="suppliers" Click="suppliers_Click" Content="Suppliers" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Credit_Card_32px_1.png}" x:Name="providers" Click="providers_Click" Content="Health Providers" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Bill_32px.png}" x:Name="transactions" Click="transactions_Click" Content="Transactions" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Combo_Chart_32px_3.png}" x:Name="reports" Click="reports_Click" Content="Reports" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Doctor_Male_32px.png}" x:Name="accounts" Click="accounts_Click" Content="Users" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Generic_Book_File_Type_32px.png}" x:Name="activityLog" Click="activityLog_Click" Content="Activity Log" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Maintenance_32px_1.png}" x:Name="maintenance" Click="maintenance_Click" Content="Maintenance" Style="{StaticResource menuitem}"/>
             </StackPanel>
         </ScrollViewer>
     </Border>

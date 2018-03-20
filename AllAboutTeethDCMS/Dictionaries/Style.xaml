@@ -114,6 +114,30 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ItemContainerStyle2" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
+        <Setter Property="Background" Value="{StaticResource Clouds}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border Background="{TemplateBinding Background}" Padding="5" SnapsToDevicePixels="True">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Silver}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ListBox" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle2}"/>
+    </Style>
+
     <Style x:Key="ComboBox" TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
         <Setter Property="FontFamily" Value="Century Gothic"/>
@@ -415,6 +439,111 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="no"/>
                             <Setter Property="Visibility" Value="Visible" TargetName="right"/>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="left"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="menuitem" TargetType="{x:Type RadioButton}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Stretch="Uniform" Margin="10,0,10,0"/>
+                            <ContentPresenter Margin="0,0,10,0" Grid.Column="1" VerticalAlignment="Center"/>
+                            <Border x:Name="count" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
+                                <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontFamily="Arial" FontSize="11" Foreground="{StaticResource Clouds}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="count"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value> 
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="toothbox" TargetType="{x:Type CheckBox}">
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="tooth" BorderBrush="{StaticResource Nephritis}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Width="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
+                            </Border>
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                            </Border>
+                            <Border Grid.Row="2" Background="{StaticResource Turquoise}" Margin="0,0,0,0">
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="14" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="toothbox_rotated" TargetType="{x:Type CheckBox}">
+        <Setter Property="FontFamily" Value="Consolas"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="tooth" BorderBrush="{StaticResource Nephritis}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Width="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="2" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
+                            </Border>
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                            </Border>
+                            <Border Grid.Row="0" Background="{StaticResource Turquoise}" Margin="0,0,0,0">
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="14" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

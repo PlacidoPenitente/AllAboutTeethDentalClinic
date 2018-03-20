@@ -27,11 +27,12 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
+            
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
         {
-            
+            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddAppointmentView(((AppointmentViewModel)DataContext).ActiveUser);
         }
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)

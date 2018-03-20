@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Medicines
@@ -14,13 +15,34 @@ namespace AllAboutTeethDCMS.Medicines
         private Medicine copyMedicine;
         private List<Supplier> suppliers;
 
+        private SupplierViewModel supplierViewModel = new SupplierViewModel();
+
+        private Thread loadThread;
+
+        public void startLoadThread()
+        {
+            if (loadThread == null || !loadThread.IsAlive)
+            {
+                loadThread = new Thread(setItemsSources);
+                loadThread.IsBackground = true;
+                loadThread.Start();
+            }
+        }
+
+        public void setItemsSources()
+        {
+            while (Suppliers == null)
+            {
+                Suppliers = supplierViewModel.Suppliers;
+            }
+        }
+
         public AddMedicineViewModel()
         {
             medicine = new Medicine();
             copyMedicine = (Medicine)medicine.Clone();
-            SupplierViewModel supplierViewModel = new SupplierViewModel();
+            startLoadThread();
             supplierViewModel.loadSuppliers();
-            Suppliers = supplierViewModel.Suppliers;
         }
 
         public virtual void resetForm()

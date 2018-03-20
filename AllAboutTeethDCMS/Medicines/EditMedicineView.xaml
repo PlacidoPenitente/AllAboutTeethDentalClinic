@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:EditMedicineViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-            <Label FontSize="18" Content="Add New Item" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Label FontSize="18" Content="Edit Item" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
         <StackPanel Grid.Row="1" Background="White"/>
@@ -69,7 +69,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Add Item" Height="48"/>
+            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Edit Item" Height="48"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
         </Grid>
     </Grid>

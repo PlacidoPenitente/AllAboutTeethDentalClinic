@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:ProviderViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>

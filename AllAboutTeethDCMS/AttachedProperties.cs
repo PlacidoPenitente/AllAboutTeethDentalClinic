@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace AllAboutTeethDCMS
 {
@@ -14,6 +15,18 @@ namespace AllAboutTeethDCMS
         public static void SetError(DependencyObject element, String value)
         {
             element.SetValue(ErrorProperty, value);
+        }
+
+        public static readonly DependencyProperty IconProperty = DependencyProperty.RegisterAttached("Icon", typeof(ImageSource), typeof(AttachedProperties), new FrameworkPropertyMetadata(new ImageBrush().ImageSource));
+
+        public static void SetIcon(DependencyObject element, ImageSource value)
+        {
+            element.SetValue(IconProperty, value);
+        }
+
+        public static ImageSource GetIcon(DependencyObject element)
+        {
+            return (ImageSource)element.GetValue(IconProperty);
         }
 
         public static String GetError(DependencyObject element)
@@ -33,16 +46,28 @@ namespace AllAboutTeethDCMS
             return (String)element.GetValue(LabelProperty);
         }
 
-        public static readonly DependencyProperty LabelVisibilityProperty = DependencyProperty.RegisterAttached("LabelVisibility", typeof(Visibility), typeof(AttachedProperties), new FrameworkPropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty ConditionProperty = DependencyProperty.RegisterAttached("Condition", typeof(String), typeof(AttachedProperties), new FrameworkPropertyMetadata(""));
 
-        public static void SetLabelVisibility(DependencyObject element, Visibility value)
+        public static void SetCondition(DependencyObject element, String value)
         {
-            element.SetValue(LabelVisibilityProperty, value);
+            element.SetValue(ConditionProperty, value);
         }
 
-        public static Visibility GetLabelVisibility(DependencyObject element)
+        public static String GetCondition(DependencyObject element)
         {
-            return (Visibility)element.GetValue(LabelVisibilityProperty);
+            return (String)element.GetValue(ConditionProperty);
+        }
+
+        public static readonly DependencyProperty ToothNoProperty = DependencyProperty.RegisterAttached("ToothNo", typeof(String), typeof(AttachedProperties), new FrameworkPropertyMetadata(""));
+
+        public static void SetToothNo(DependencyObject element, String value)
+        {
+            element.SetValue(ToothNoProperty, value);
+        }
+
+        public static String GetToothNo(DependencyObject element)
+        {
+            return (String)element.GetValue(ToothNoProperty);
         }
     }
 }

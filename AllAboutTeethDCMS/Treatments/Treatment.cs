@@ -22,5 +22,10 @@ namespace AllAboutTeethDCMS.Treatments
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
         public User AddedBy { get => addedBy; set => addedBy = value; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

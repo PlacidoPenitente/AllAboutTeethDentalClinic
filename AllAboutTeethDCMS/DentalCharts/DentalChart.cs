@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllAboutTeethDCMS.DentalChart
+namespace AllAboutTeethDCMS.DentalCharts
 {
-    public class DentalChart
+    public class DentalChart : ModelBase
     {
+
     }
 }

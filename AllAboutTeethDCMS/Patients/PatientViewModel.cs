@@ -16,6 +16,11 @@ namespace AllAboutTeethDCMS.Patients
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
         public string Filter { get => filter; set { filter = value; OnPropertyChanged(); loadPatients(); } }
 
+        public void setPatients(List<Patient> patients)
+        {
+            patients = this.patients;
+        }
+
         public void loadPatients()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
