@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="AllAboutTeethDCMS.Treatments.TreatmentView"
+﻿<UserControl x:Class="AllAboutTeethDCMS.Operations.OperationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AllAboutTeethDCMS.Treatments"
-             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.Operations"
+                          xmlns:root="clr-namespace:AllAboutTeethDCMS"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.DataContext>
-        <local:TreatmentViewModel/>
+        <local:OperationViewModel/>
     </UserControl.DataContext>
     <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
             <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
-            <Label FontSize="18" Content="Services" VerticalAlignment="Center" Foreground="White"/>
+            <Label FontSize="18" Content="Treatments" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Service: "/>
+                <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Treatment: "/>
                 <Button Margin="0,20,0,0" Height="45" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,20,0,0" Height="45" x:Name="add_treatment" Click="add_treatment_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Treatment, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_treatment" Click="edit_treatment_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
@@ -51,11 +51,16 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Treatments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Treatment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
+                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Operations, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Operation, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="No." Binding="{Binding No}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                        <DataGridTextColumn Header="Tooth No./s" Binding="{Binding Teeth, Converter={StaticResource TeethToStringConverter}}"/>
+                        <DataGridTextColumn Header="Procedure" Binding="{Binding Treatment}"/>
+                        <DataGridTextColumn Header="Amount Charged" Binding="{Binding AmountCharged}"/>
+                        <DataGridTextColumn Header="Amount Paid" Binding="{Binding AmountPaid}"/>
+                        <DataGridTextColumn Header="Balance" Binding="{Binding Balance}"/>
+                        <DataGridTextColumn Header="Patient" Binding="{Binding Patient}"/>
+                        <DataGridTextColumn Header="Dentist" Binding="{Binding Dentist}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
                         <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
@@ -64,7 +69,7 @@
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
-            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Services: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Treatments: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
     </Grid>

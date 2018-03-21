@@ -19,4 +19,5 @@
     <root:ToothNoToImageConverter x:Key="ToothNoToImageConverter"/>
     <root:PatientToStringConverter x:Key="PatientToStringConverter"/>
     <root:TreatmentToStringConverter x:Key="TreatmentToStringConverter"/>
+    <root:TeethToStringConverter x:Key="TeethToStringConverter"/>
 </ResourceDictionary>

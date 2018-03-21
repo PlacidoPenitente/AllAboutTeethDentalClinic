@@ -120,6 +120,11 @@
     <Compile Include="Menu\MenuViewModel.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="ObjectToVisibilityConverter.cs" />
+    <Compile Include="Operations\Operation.cs" />
+    <Compile Include="Operations\OperationView.xaml.cs">
+      <DependentUpon>OperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\OperationViewModel.cs" />
     <Compile Include="Patients\AddPatientView.xaml.cs">
       <DependentUpon>AddPatientView.xaml</DependentUpon>
     </Compile>
@@ -162,6 +167,7 @@
     </Compile>
     <Compile Include="Suppliers\SupplierViewModel.cs" />
     <Compile Include="SupplierToStringConverter.cs" />
+    <Compile Include="TeethToStringConverter.cs" />
     <Compile Include="ToothNoToImageConverter.cs" />
     <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="Transactions\TransactionView.xaml.cs">
@@ -267,6 +273,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Menu\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\OperationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
