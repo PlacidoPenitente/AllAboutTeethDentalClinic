@@ -10,7 +10,7 @@
     <UserControl.DataContext>
         <local:AppointmentViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -28,8 +28,9 @@
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="75"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -41,32 +42,36 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Treatment: "/>
-                <Button Margin="0,0,0,21" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" x:Name="add_treatment" Click="add_treatment_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_treatment" Click="edit_treatment_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
-                <Button Margin="0,0,0,21" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_treatment" Click="delete_treatment_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" x:Name="add_treatment" Click="add_treatment_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_treatment" Click="edit_treatment_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_treatment" Click="delete_treatment_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Suppliers, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Supplier, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
+                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Appointments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Appointment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="No." Binding="{Binding No}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Products" Binding="{Binding Products}"/>
-                        <DataGridTextColumn Header="Address" Binding="{Binding Address}"/>
+                        <DataGridTextColumn Header="Patient" Binding="{Binding Patient, Converter={StaticResource PatientToStringConverter}}"/>
+                        <DataGridTextColumn Header="Treatment" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+                        <DataGridTextColumn Header="Dentist" Binding="{Binding Dentist, Converter={StaticResource UserToStringConverter}}"/>
+                        <DataGridTextColumn Header="Note" Binding="{Binding Notes}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
                         <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
+            <StackPanel Grid.Row="2" Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}}">
+                <Button Margin="0,10,0,0" Height="45" x:Name="start_treatment" Click="start_treatment_Click" Content="Proceed to Treatment" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Center"/>
+            </StackPanel>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
-            <Label Content="Found Users: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
-            <Label Content="{Binding Users.Count, UpdateSourceTrigger=PropertyChanged}" FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Appointments: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
     </Grid>
 </UserControl>

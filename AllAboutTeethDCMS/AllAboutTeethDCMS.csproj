@@ -133,6 +133,7 @@
       <DependentUpon>PatientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patients\PatientViewModel.cs" />
+    <Compile Include="PatientToStringConverter.cs" />
     <Compile Include="ProgressToVisibilityConverter.cs" />
     <Compile Include="Providers\AddProviderView.xaml.cs">
       <DependentUpon>AddProviderView.xaml</DependentUpon>
@@ -161,6 +162,7 @@
     </Compile>
     <Compile Include="Suppliers\SupplierViewModel.cs" />
     <Compile Include="SupplierToStringConverter.cs" />
+    <Compile Include="ToothNoToImageConverter.cs" />
     <Compile Include="Transactions\Transaction.cs" />
     <Compile Include="Transactions\TransactionView.xaml.cs">
       <DependentUpon>TransactionView.xaml</DependentUpon>
@@ -179,6 +181,7 @@
       <DependentUpon>TreatmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Treatments\TreatmentViewModel.cs" />
+    <Compile Include="TreatmentToStringConverter.cs" />
     <Compile Include="Users\AddUserView.xaml.cs">
       <DependentUpon>AddUserView.xaml</DependentUpon>
     </Compile>
@@ -216,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dictionaries\Converter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionaries\Fonts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,6 +357,17 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Roboto-BlackItalic.ttf" />
+    <Resource Include="Resources\Roboto-Bold.ttf" />
+    <Resource Include="Resources\Roboto-BoldItalic.ttf" />
+    <Resource Include="Resources\Roboto-Italic.ttf" />
+    <Resource Include="Resources\Roboto-Light.ttf" />
+    <Resource Include="Resources\Roboto-LightItalic.ttf" />
+    <Resource Include="Resources\Roboto-Medium.ttf" />
+    <Resource Include="Resources\Roboto-MediumItalic.ttf" />
+    <Resource Include="Resources\Roboto-Regular.ttf" />
+    <Resource Include="Resources\Roboto-Thin.ttf" />
+    <Resource Include="Resources\Roboto-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

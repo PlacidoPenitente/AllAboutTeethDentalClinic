@@ -27,12 +27,12 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void addTreatment_Click(object sender, RoutedEventArgs e)
         {
-            //((AddAppointmentViewModel)DataContext).saveTreatment();
+            ((AddAppointmentViewModel)DataContext).saveAppointment();
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            //((AddAppointmentViewModel)DataContext).resetForm();
+            ((AddAppointmentViewModel)DataContext).resetForm();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)

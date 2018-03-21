@@ -27,7 +27,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void search_account_Click(object sender, RoutedEventArgs e)
         {
-            
+            ((AppointmentViewModel)DataContext).loadAppointments();
         }
 
         private void add_treatment_Click(object sender, RoutedEventArgs e)
@@ -37,10 +37,17 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void edit_treatment_Click(object sender, RoutedEventArgs e)
         {
+            //((AppointmentViewModel)DataContext).MenuViewModel.gotoAppointments(((AppointmentViewModel)DataContext).ActiveUser, (Appointment)((AppointmentViewModel)DataContext).Appointment.Clone());
         }
 
         private void delete_treatment_Click(object sender, RoutedEventArgs e)
         {
+            ((AppointmentViewModel)DataContext).deleteAppointment();
+        }
+
+        private void start_treatment_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

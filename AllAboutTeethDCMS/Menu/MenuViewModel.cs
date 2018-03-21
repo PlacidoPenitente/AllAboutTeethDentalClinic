@@ -115,7 +115,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AppointmentView;
             ((AppointmentViewModel)AppointmentView.DataContext).ActiveUser = activeUser;
             ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
-            //((AppointmentViewModel)PatientView.DataContext).loadPatients();
+            ((AppointmentViewModel)AppointmentView.DataContext).loadAppointments();
         }
 
         public void gotoPatients(User activeUser)

@@ -69,7 +69,7 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <StackPanel Margin="10">
                                 <StackPanel>
-                                    <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
+                                    <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
                                 </StackPanel>
                                 <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
                                     
@@ -79,70 +79,70 @@
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Gender:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Gender:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Address:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Address, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Address, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Contact No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.ContactNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Contact No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.ContactNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <Grid Margin="3">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Email Address:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Left" Width="100" Content="Email Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                                 </Grid>
                                 <StackPanel Margin="0,20,0,0">
                                     <Border HorizontalAlignment="Center" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2" SnapsToDevicePixels="True">
-                                        <Label HorizontalAlignment="Center" Content="{Binding User.Username}" Padding="0" FontFamily="Century Gothic" FontSize="15" Margin="3" Foreground="{StaticResource WetAsphalt}"/>
+                                        <Label HorizontalAlignment="Center" Content="{Binding User.Username}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Margin="3" Foreground="{StaticResource WetAsphalt}"/>
                                     </Border>
-                                    <Label HorizontalAlignment="Center" Content="{Binding User.Type, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
+                                    <Label HorizontalAlignment="Center" Content="{Binding User.Type, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
@@ -151,7 +151,7 @@
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
-            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Users: " FontFamily="Century Gothic" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+            <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Users: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
     </Grid>

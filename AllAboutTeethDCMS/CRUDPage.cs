@@ -1,4 +1,6 @@
-﻿using AllAboutTeethDCMS.Suppliers;
+﻿using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Suppliers;
+using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
@@ -43,7 +45,7 @@ namespace AllAboutTeethDCMS
 
             foreach (PropertyInfo info in model.GetType().GetProperties())
             {
-                if(info.Name.Equals("AddedBy"))
+                if(info.Name.Equals("AddedBy")|| info.Name.Equals("Dentist"))
                 {
                     User activeUser = (User)info.GetValue(model);
                     command.Parameters.AddWithValue("@" + info.Name, activeUser.No);
@@ -52,6 +54,16 @@ namespace AllAboutTeethDCMS
                 {
                     Supplier supplier = (Supplier)info.GetValue(model);
                     command.Parameters.AddWithValue("@" + info.Name, supplier.No);
+                }
+                else if (info.Name.Equals("Patient"))
+                {
+                    Patient patient = (Patient)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, patient.No);
+                }
+                else if (info.Name.Equals("Treatment"))
+                {
+                    Treatment treatment = (Treatment)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, treatment.No);
                 }
                 else if(!info.Name.Equals("No") && !info.Name.Equals("DateAdded") && !info.Name.Equals("DateModified"))
                 {
@@ -137,6 +149,10 @@ namespace AllAboutTeethDCMS
                     else if (info.PropertyType.ToString().Equals("System.DateTime"))
                     {
                         info.SetValue(model, reader.GetDateTime(prefix + "_" + info.Name));
+                    }
+                    else if (info.PropertyType.ToString().Equals("System.Boolean"))
+                    {
+                        info.SetValue(model, reader.GetBoolean(prefix + "_" + info.Name));
                     }
                     else
                     {

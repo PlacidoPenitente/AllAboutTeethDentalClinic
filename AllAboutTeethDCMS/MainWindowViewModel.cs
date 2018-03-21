@@ -14,6 +14,11 @@ namespace AllAboutTeethDCMS
         public MainWindowViewModel()
         {
             AllAboutTeeth = new AllAboutTeeth();
+
+            for(int i=21; i<29; i++)
+            {
+                Console.WriteLine("<CheckBox Style=\"{ StaticResource toothbox}\" root:AttachedProperties.ToothNo=\"{ Binding Tooth" + i + ".ToothNo}\" root:AttachedProperties.Icon=\"{ Binding Tooth" + i + ".ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}\" root:AttachedProperties.Condition=\"{ Binding Tooth" + i+".Condition}\"/>");
+            }
         }
 
         public AllAboutTeeth AllAboutTeeth { get => allAboutTeeth; set => allAboutTeeth = value; }

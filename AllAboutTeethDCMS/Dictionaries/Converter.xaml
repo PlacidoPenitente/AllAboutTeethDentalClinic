@@ -16,4 +16,7 @@
     <root:AgeToVisibilityInvertedConverter x:Key="AgeToVisibilityInvertedConverter"/>
     <root:SupplierToStringConverter x:Key="SupplierToStringConverter"/>
     <root:ProgressToVisibilityConverter x:Key="ProgressToVisibilityConverter"/>
+    <root:ToothNoToImageConverter x:Key="ToothNoToImageConverter"/>
+    <root:PatientToStringConverter x:Key="PatientToStringConverter"/>
+    <root:TreatmentToStringConverter x:Key="TreatmentToStringConverter"/>
 </ResourceDictionary>

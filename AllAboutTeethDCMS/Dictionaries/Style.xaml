@@ -3,7 +3,7 @@
                     xmlns:root="clr-namespace:AllAboutTeethDCMS"
                     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     <Style x:Key="PrimaryButton" TargetType="{x:Type Button}">
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
@@ -33,7 +33,7 @@
     </Style>
 
     <Style x:Key="TextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
@@ -68,7 +68,7 @@
     </Style>
 
     <Style x:Key="PasswordBox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
         <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
@@ -114,7 +114,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ItemContainerStyle2" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="LisBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
         <Setter Property="Background" Value="{StaticResource Clouds}"/>
         <Setter Property="FontSize" Value="14"/>
@@ -135,12 +135,12 @@
     </Style>
 
     <Style x:Key="ListBox" TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle2}"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource LisBoxItemContainerStyle}"/>
     </Style>
 
     <Style x:Key="ComboBox" TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle}"/>
@@ -207,7 +207,7 @@
         <Setter Property="SelectedDateFormat" Value="Short"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
         <Setter Property="Template">
@@ -335,7 +335,7 @@
     </ControlTemplate>
 
     <Style x:Key="Row" TargetType="{x:Type DataGridRow}">
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="Foreground" Value="{StaticResource MidnightBlue}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Background" Value="White"/>
@@ -373,7 +373,7 @@
 
     <Style x:Key="Header" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
         <Setter Property="SeparatorBrush" Value="{StaticResource MidnightBlue}"/>
@@ -406,7 +406,7 @@
     </Style>
 
     <Style x:Key="CheckBox" TargetType="{x:Type CheckBox}">
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
@@ -448,7 +448,7 @@
     <Style x:Key="menuitem" TargetType="{x:Type RadioButton}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="Century Gothic"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
@@ -489,21 +489,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border x:Name="tooth" BorderBrush="{StaticResource Nephritis}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="tooth" BorderBrush="{StaticResource Turquoise}" Background="{StaticResource WetAsphalt}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="0" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
                                 <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
                             </Border>
-                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
                                 <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
                             </Border>
-                            <Border Grid.Row="2" Background="{StaticResource Turquoise}" Margin="0,0,0,0">
-                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="14" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                            <Border Grid.Row="2" Margin="0,0,0,0">
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
                             </Border>
                         </Grid>
                     </Border>
@@ -523,21 +523,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border x:Name="tooth" BorderBrush="{StaticResource Nephritis}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="tooth" Background="{StaticResource WetAsphalt}" BorderBrush="{StaticResource Turquoise}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="2" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="2" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,0">
                                 <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
                             </Border>
-                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Nephritis}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
                                 <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
                             </Border>
-                            <Border Grid.Row="0" Background="{StaticResource Turquoise}" Margin="0,0,0,0">
-                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="14" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                            <Border Grid.Row="0" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
                             </Border>
                         </Grid>
                     </Border>

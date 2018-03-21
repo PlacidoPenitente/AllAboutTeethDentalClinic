@@ -7,7 +7,7 @@
              xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="2000" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:AddAppointmentViewModel/>
     </UserControl.DataContext>
@@ -37,12 +37,9 @@
                     <ColumnDefinition Width="0.05*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
-                    <StackPanel>
-                        <Label Content="Appointment Information" FontFamily="Century Gothic" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
-                    </StackPanel>
-                    <Grid Height="400">
+                    <Grid Height="395">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
@@ -68,25 +65,26 @@
                                             </Border>
                                             <Border Margin="2" Grid.Column="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource WetAsphalt}">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding LastName}" FontFamily="Century Gothic" FontSize="14"/>
-                                                    <Label Foreground="{StaticResource WetAsphalt}" Content=", " FontFamily="Century Gothic" FontSize="14"/>
-                                                    <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding FirstName}" FontFamily="Century Gothic" FontSize="14"/>
-                                                    <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding MiddleName}" FontFamily="Century Gothic" FontSize="14"/>
+                                                    <Label Padding="0" Foreground="{StaticResource WetAsphalt}" Content="{Binding LastName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                    <Label Padding="0" Foreground="{StaticResource WetAsphalt}" Content=", " FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                    <Label Padding="0" Foreground="{StaticResource WetAsphalt}" Content="{Binding FirstName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                    <Label Padding="0" Foreground="{StaticResource WetAsphalt}" Content=" " FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                    <Label Padding="0" Foreground="{StaticResource WetAsphalt}" Content="{Binding MiddleName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
                                                 </StackPanel>
                                             </Border>
                                             <Border Grid.Column="1" Grid.Row="1">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Border Background="{StaticResource BelizeHole}" CornerRadius="3" Margin="2">
-                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding Sex}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding Sex}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                     </Border>
                                                     <Border Background="{StaticResource Wisteria}" CornerRadius="3" Margin="2">
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Label Foreground="{StaticResource Clouds}" Content="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
-                                                            <Label Foreground="{StaticResource Clouds}" Content=" year/s old." Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                            <Label Foreground="{StaticResource Clouds}" Content="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                                                            <Label Foreground="{StaticResource Clouds}" Content=" year/s old." Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                         </StackPanel>
                                                     </Border>
                                                     <Border Background="{StaticResource Sunflower}" CornerRadius="3" Margin="2">
-                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding CellNo}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding CellNo}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                     </Border>
                                                 </StackPanel>
                                             </Border>
@@ -95,370 +93,379 @@
                                 </ListBox.ItemTemplate>
                             </ListView>
                         </Grid>
-                        <Grid Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" Grid.Column="1" Margin="10,95,10,0">
-                            <Border SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource MidnightBlue}">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                    <StackPanel Margin="10">
-                                        <StackPanel>
-                                            <Label Margin="5" HorizontalContentAlignment="Center" Content=" Patient Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
-                                        </StackPanel>
-                                        <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
+                        <TabControl Grid.Column="1" Margin="10,0,10,0" BorderBrush="{StaticResource WetAsphalt}" SnapsToDevicePixels="True" Padding="0">
+                            <TabItem FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="13" Header="Patient Information" BorderBrush="{StaticResource WetAsphalt}">
+                                <Grid Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                    <Border SnapsToDevicePixels="True">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <StackPanel Margin="10">
+                                                <StackPanel>
+                                                    <Label Margin="5" HorizontalContentAlignment="Center" Content=" Patient Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                </StackPanel>
+                                                <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
 
-                                        </Border>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Age:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Sex:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Sex, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Religion:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Religion, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Nationality:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Nationality, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Nickname:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Nickname, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Home Address:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.HomeAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Home No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.HomeNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Occupation:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Occupation, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Office No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.OfficeNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Fax No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.FaxNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="175"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="175" Content="Parent/Guardian Name:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.ParentGuardianName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Dental Insurance:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.DentalInsurance, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.DentalInsurance, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Effective Date:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.EffectiveDate, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Cel./Mobile No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.CellNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Email Address:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Referred By:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Referral, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Consulation Reason:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Reason, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <StackPanel>
-                                            <Label Margin="10" HorizontalContentAlignment="Center" Content=" Dental History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
-                                        </StackPanel>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Previous Dentist:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PreviousDentist, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Last Dental Visit:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastDentalVisit, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <StackPanel>
-                                            <Label Margin="10" HorizontalContentAlignment="Center" Content=" Medical History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="Century Gothic" FontSize="15"/>
-                                        </StackPanel>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Physician:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Physician Specialty:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianSpecialty, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Office Address:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianOfficeAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Office No.:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianOfficeNumber, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Is in good condition?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsInGoodHealth, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Condition Being Treated:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.ConditionBeingTreated, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Previous Illness or Surgical Operation:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IllnessOrOperation, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Reason of Hospitalization:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Hospitalization, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Medication Taken:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.MedicationTaken, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Reason of Hospitalization:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Hospitalization, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="175"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="175" Content="Uses tobacco products?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsTobaccoUser, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="300"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="300" Content="Uses alcohol/cocaine/dangerous drugs?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsAlcoholCocaineDangerousDrugUser, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Medicines Allergic With:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Allergies, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Bleeding Time:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BleedingTime, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Is pregnant?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsPregnant, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="100" Content="Is nursing?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsNursing, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="200" Content="Is taking birth control pills?" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsTakingBirthControlPills, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Blood Pressure:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BloodPressure, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="150"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Label HorizontalAlignment="Left" Width="150" Content="Blood Type:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BloodType, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                        <Grid Margin="3">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label HorizontalAlignment="Left" Content="Diseases:" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource Turquoise}"/>
-                                            <TextBlock Grid.Row="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Diseases, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="Century Gothic" FontSize="14" Foreground="{StaticResource WetAsphalt}"/>
-                                        </Grid>
-                                    </StackPanel>
+                                                </Border>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Age:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Sex:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Sex, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Religion:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Religion, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Nationality:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Nationality, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Nickname:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Nickname, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Home Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.HomeAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Home No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.HomeNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Occupation:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Occupation, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Office No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.OfficeNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Occupation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Fax No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.FaxNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="175"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="175" Content="Parent/Guardian Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.ParentGuardianName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Birthdate, Converter={StaticResource AgeToVisibilityInvertedConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Dental Insurance:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.DentalInsurance, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.DentalInsurance, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Effective Date:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.EffectiveDate, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Cel./Mobile No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.CellNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Email Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Referred By:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Referral, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Consulation Reason:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Reason, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <StackPanel>
+                                                    <Label Margin="10" HorizontalContentAlignment="Center" Content=" Dental History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                </StackPanel>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Previous Dentist:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PreviousDentist, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Last Dental Visit:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.LastDentalVisit, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <StackPanel>
+                                                    <Label Margin="10" HorizontalContentAlignment="Center" Content=" Medical History " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                </StackPanel>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Physician:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Physician Specialty:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianSpecialty, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Office Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianOfficeAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Office No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.PhysicianOfficeNumber, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Is in good condition?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsInGoodHealth, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Condition Being Treated:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.ConditionBeingTreated, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="275"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Previous Illness or Surgical Operation:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IllnessOrOperation, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Reason of Hospitalization:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Hospitalization, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Medication Taken:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.MedicationTaken, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Reason of Hospitalization:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Hospitalization, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="200" Content="Uses tobacco products?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsTobaccoUser, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="300"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="300" Content="Uses alcohol/cocaine/dangerous drugs?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsAlcoholCocaineDangerousDrugUser, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Medicines Allergic With:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Allergies, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Bleeding Time:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BleedingTime, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Is pregnant?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsPregnant, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="100"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Is nursing?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsNursing, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3" Visibility="{Binding Patient.Sex, Converter={StaticResource GenderToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="200"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="200" Content="Is taking birth control pills?" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.IsTakingBirthControlPills, Converter={StaticResource BooleanToStringConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="150" Content="Blood Pressure:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BloodPressure, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Width="100" Content="Blood Type:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.BloodType, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                                <Grid Margin="3">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="150"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label HorizontalAlignment="Left" Content="Diseases:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Patient.Diseases, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </TabItem>
+                            <TabItem FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="13" Header="Dental Chart" BorderBrush="{StaticResource WetAsphalt}">
+                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                    <chart:DentalChartView/>
                                 </ScrollViewer>
-                            </Border>
-                        </Grid>
+                            </TabItem>
+                        </TabControl>
                         <!--<ListView SnapsToDevicePixels="True" Style="{StaticResource ListBox}" BorderBrush="{StaticResource WetAsphalt}" Grid.Column="1" ItemsSource="{Binding Dentists}" SelectedItem="{Binding Dentist}" Margin="10">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
@@ -476,24 +483,24 @@
                                         </Border>
                                         <Border Margin="2" Grid.Column="1" BorderThickness="0,0,0,2" BorderBrush="{StaticResource WetAsphalt}">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding LastName}" FontFamily="Century Gothic" FontSize="14"/>
-                                                <Label Foreground="{StaticResource WetAsphalt}" Content=", " FontFamily="Century Gothic" FontSize="14"/>
-                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding FirstName}" FontFamily="Century Gothic" FontSize="14"/>
-                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding MiddleName}" FontFamily="Century Gothic" FontSize="14"/>
+                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding LastName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                <Label Foreground="{StaticResource WetAsphalt}" Content=", " FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding FirstName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                                <Label Foreground="{StaticResource WetAsphalt}" Content="{Binding MiddleName}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
                                             </StackPanel>
                                         </Border>
                                         <Border Grid.Column="1" Grid.Row="1">
                                             <StackPanel Orientation="Horizontal">
                                                 <Border Background="{StaticResource BelizeHole}" CornerRadius="3" Margin="2">
-                                                    <Label Foreground="{StaticResource Clouds}" Content="{Binding Gender}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                    <Label Foreground="{StaticResource Clouds}" Content="{Binding Gender}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                 </Border>
                                                 <Border Background="{StaticResource Wisteria}" CornerRadius="3" Margin="2">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding Username}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                        <Label Foreground="{StaticResource Clouds}" Content="{Binding Username}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                     </StackPanel>
                                                 </Border>
                                                 <Border Background="{StaticResource Sunflower}" CornerRadius="3" Margin="2">
-                                                    <Label Foreground="{StaticResource Clouds}" Content="{Binding Type}" Padding="2" FontFamily="Century Gothic" FontSize="12"/>
+                                                    <Label Foreground="{StaticResource Clouds}" Content="{Binding Type}" Padding="2" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                                                 </Border>
                                             </StackPanel>
                                         </Border>

@@ -4,6 +4,7 @@ using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace AllAboutTeethDCMS.Appointments
         private Thread loadThread;
         private string filter = "";
 
-        PatientViewModel patientViewModel = new PatientViewModel();
-        TreatmentViewModel treatmentViewModel = new TreatmentViewModel();
-        UserViewModel userViewModel = new UserViewModel();
+        private PatientViewModel patientViewModel;
+        private TreatmentViewModel treatmentViewModel;
+        private UserViewModel userViewModel;
 
         public void startLoadThread()
         {
@@ -50,6 +51,10 @@ namespace AllAboutTeethDCMS.Appointments
 
         public AddAppointmentViewModel()
         {
+            patientViewModel = new PatientViewModel();
+            treatmentViewModel = new TreatmentViewModel();
+            userViewModel = new UserViewModel();
+
             Appointment = new Appointment();
             startLoadThread();
 
@@ -68,7 +73,12 @@ namespace AllAboutTeethDCMS.Appointments
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
         public string Notes { get => Appointment.Notes; set { Appointment.Notes = value; OnPropertyChanged(); } }
-        public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged(); } }
+        public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    OnPropertyChanged(info.Name);
+                }
+            } }
 
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
         public List<Treatment> Treatments { get => treatments; set { treatments = value; OnPropertyChanged(); } }
@@ -79,6 +89,39 @@ namespace AllAboutTeethDCMS.Appointments
         protected override void setLoaded(List<Appointment> list)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual void resetForm()
+        {
+            Appointment = new Appointment();
+        }
+
+        public virtual void saveAppointment()
+        {
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if(!info.Name.Equals("Filter"))
+                {
+                    info.SetValue(this, info.GetValue(this));
+                }
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                Appointment.AddedBy = ActiveUser;
+                startSaveToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
         }
     }
 }
