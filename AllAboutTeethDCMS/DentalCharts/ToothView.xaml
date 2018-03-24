@@ -5,22 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.DentalCharts"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ToothViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Border>
-            <Label/>
-        </Border>
-        <Border Grid.Row="1">
-            <Image/>
-        </Border>
+        <CheckBox Click="CheckBox_Click" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding ToothNo, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Icon="{ Binding ToothNo,Converter ={ StaticResource ToothNoToImageConverter}, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Condition="{ Binding Condition, Converter={StaticResource ConditionToSymbolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

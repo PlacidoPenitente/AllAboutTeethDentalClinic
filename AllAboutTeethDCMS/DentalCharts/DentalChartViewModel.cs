@@ -1,150 +1,222 @@
 ﻿using AllAboutTeethDCMS.DentalCharts;
 using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.DentalChart
 {
-    public class DentalChartViewModel : CRUDPage<Tooth>
+    public class DentalChartViewModel : ViewModelBase
     {
         private Patient patient;
+        private User user;
+        private List<ToothViewModel> teethView;
+        private Thread loadTeethThread;
+        private Thread updateTeethThread;
 
-        private Tooth tooth18;
-        private Tooth tooth17;
-        private Tooth tooth16;
-        private Tooth tooth15;
-        private Tooth tooth14;
-        private Tooth tooth13;
-        private Tooth tooth12;
-        private Tooth tooth11;
-        private Tooth tooth21;
-        private Tooth tooth22;
-        private Tooth tooth23;
-        private Tooth tooth24;
-        private Tooth tooth25;
-        private Tooth tooth26;
-        private Tooth tooth27;
-        private Tooth tooth28;
+        private ToothViewModel toothView18;
+        private ToothViewModel toothView17;
+        private ToothViewModel toothView16;
+        private ToothViewModel toothView15;
+        private ToothViewModel toothView14;
+        private ToothViewModel toothView13;
+        private ToothViewModel toothView12;
+        private ToothViewModel toothView11;
+        private ToothViewModel toothView21;
+        private ToothViewModel toothView22;
+        private ToothViewModel toothView23;
+        private ToothViewModel toothView24;
+        private ToothViewModel toothView25;
+        private ToothViewModel toothView26;
+        private ToothViewModel toothView27;
+        private ToothViewModel toothView28;
 
-        private Tooth tooth48;
-        private Tooth tooth47;
-        private Tooth tooth46;
-        private Tooth tooth45;
-        private Tooth tooth44;
-        private Tooth tooth43;
-        private Tooth tooth42;
-        private Tooth tooth41;
-        private Tooth tooth31;
-        private Tooth tooth32;
-        private Tooth tooth33;
-        private Tooth tooth34;
-        private Tooth tooth35;
-        private Tooth tooth36;
-        private Tooth tooth37;
-        private Tooth tooth38;
+        private ToothViewModel toothView48;
+        private ToothViewModel toothView47;
+        private ToothViewModel toothView46;
+        private ToothViewModel toothView45;
+        private ToothViewModel toothView44;
+        private ToothViewModel toothView43;
+        private ToothViewModel toothView42;
+        private ToothViewModel toothView41;
+        private ToothViewModel toothView31;
+        private ToothViewModel toothView32;
+        private ToothViewModel toothView33;
+        private ToothViewModel toothView34;
+        private ToothViewModel toothView35;
+        private ToothViewModel toothView36;
+        private ToothViewModel toothView37;
+        private ToothViewModel toothView38;
 
-        private Tooth tooth55;
-        private Tooth tooth54;
-        private Tooth tooth53;
-        private Tooth tooth52;
-        private Tooth tooth51;
-        private Tooth tooth61;
-        private Tooth tooth62;
-        private Tooth tooth63;
-        private Tooth tooth64;
-        private Tooth tooth65;
-        
-        private Tooth tooth85;
-        private Tooth tooth84;
-        private Tooth tooth83;
-        private Tooth tooth82;
-        private Tooth tooth81;
-        private Tooth tooth71;
-        private Tooth tooth72;
-        private Tooth tooth73;
-        private Tooth tooth74;
-        private Tooth tooth75;
+        private ToothViewModel toothView55;
+        private ToothViewModel toothView54;
+        private ToothViewModel toothView53;
+        private ToothViewModel toothView52;
+        private ToothViewModel toothView51;
+        private ToothViewModel toothView61;
+        private ToothViewModel toothView62;
+        private ToothViewModel toothView63;
+        private ToothViewModel toothView64;
+        private ToothViewModel toothView65;
+
+        private ToothViewModel toothView85;
+        private ToothViewModel toothView84;
+        private ToothViewModel toothView83;
+        private ToothViewModel toothView82;
+        private ToothViewModel toothView81;
+        private ToothViewModel toothView71;
+        private ToothViewModel toothView72;
+        private ToothViewModel toothView73;
+        private ToothViewModel toothView74;
+        private ToothViewModel toothView75;
+
+        public ToothViewModel ToothView18 { get => toothView18; set { toothView18 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView17 { get => toothView17; set { toothView17 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView16 { get => toothView16; set { toothView16 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView15 { get => toothView15; set { toothView15 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView14 { get => toothView14; set { toothView14 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView13 { get => toothView13; set { toothView13 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView12 { get => toothView12; set { toothView12 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView11 { get => toothView11; set { toothView11 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView21 { get => toothView21; set { toothView21 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView22 { get => toothView22; set { toothView22 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView23 { get => toothView23; set { toothView23 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView24 { get => toothView24; set { toothView24 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView25 { get => toothView25; set { toothView25 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView26 { get => toothView26; set { toothView26 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView27 { get => toothView27; set { toothView27 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView28 { get => toothView28; set { toothView28 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView48 { get => toothView48; set { toothView48 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView47 { get => toothView47; set { toothView47 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView46 { get => toothView46; set { toothView46 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView45 { get => toothView45; set { toothView45 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView44 { get => toothView44; set { toothView44 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView43 { get => toothView43; set { toothView43 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView42 { get => toothView42; set { toothView42 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView41 { get => toothView41; set { toothView41 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView31 { get => toothView31; set { toothView31 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView32 { get => toothView32; set { toothView32 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView33 { get => toothView33; set { toothView33 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView34 { get => toothView34; set { toothView34 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView35 { get => toothView35; set { toothView35 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView36 { get => toothView36; set { toothView36 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView37 { get => toothView37; set { toothView37 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView38 { get => toothView38; set { toothView38 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView55 { get => toothView55; set { toothView55 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView54 { get => toothView54; set { toothView54 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView53 { get => toothView53; set { toothView53 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView52 { get => toothView52; set { toothView52 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView51 { get => toothView51; set { toothView51 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView61 { get => toothView61; set { toothView61 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView62 { get => toothView62; set { toothView62 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView63 { get => toothView63; set { toothView63 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView64 { get => toothView64; set { toothView64 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView65 { get => toothView65; set { toothView65 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView85 { get => toothView85; set { toothView85 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView84 { get => toothView84; set { toothView84 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView83 { get => toothView83; set { toothView83 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView82 { get => toothView82; set { toothView82 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView81 { get => toothView81; set { toothView81 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView71 { get => toothView71; set { toothView71 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView72 { get => toothView72; set { toothView72 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView73 { get => toothView73; set { toothView73 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView74 { get => toothView74; set { toothView74 = value; OnPropertyChanged(); } }
+        public ToothViewModel ToothView75 { get => toothView75; set { toothView75 = value; OnPropertyChanged(); } }
+
+        public Patient Patient { get => patient;
+            set
+            {
+                patient = value;
+                OnPropertyChanged();
+                if(value!=null)
+                {
+                    TeethView = new List<ToothViewModel>();
+                    foreach (PropertyInfo info in GetType().GetProperties())
+                    {
+                        if (info.Name.StartsWith("ToothView"))
+                        {
+                            ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
+                            toothView.Teeth = TeethView;
+                            toothView.Owner = value;
+                            toothView.ActiveUser = User;
+                        }
+                        OnPropertyChanged(info.Name);
+                    }
+                    startLoadingTeeth();
+                }
+            }
+        }
+
+        public void startLoadingTeeth()
+        {
+            if(loadTeethThread==null||!loadTeethThread.IsAlive)
+            {
+                loadTeethThread = new Thread(loadTeeth);
+                loadTeethThread.IsBackground = true;
+                loadTeethThread.Start();
+            }
+        }
+
+        public void loadTeeth()
+        {
+            if(Patient!=null)
+            {
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.StartsWith("ToothView"))
+                    {
+                        ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
+                        toothView.Teeth = TeethView;
+                        toothView.Owner = Patient;
+                        toothView.ActiveUser = User;
+                        toothView.loadTooth();
+                    }
+                    OnPropertyChanged(info.Name);
+                }
+            }
+        }
+
+        public void startUpdatingTeeth()
+        {
+            if (updateTeethThread == null || !updateTeethThread.IsAlive)
+            {
+                updateTeethThread = new Thread(updateTeeth);
+                updateTeethThread.IsBackground = true;
+                updateTeethThread.Start();
+            }
+        }
+
+        private void updateTeeth()
+        {
+            foreach(ToothViewModel toothView in TeethView)
+            {
+                toothView.ActiveUser = User;
+                toothView.saveTooth();
+            }
+        }
+
+        public User User { get => user; set => user = value; }
+        public List<ToothViewModel> TeethView { get => teethView; set => teethView = value; }
+        public Thread LoadTeethThread { get => loadTeethThread; set { loadTeethThread = value; } }
 
         public DentalChartViewModel()
         {
             foreach(PropertyInfo info in GetType().GetProperties())
             {
-                if(info.PropertyType.Name.Equals("Tooth"))
+                if(info.Name.StartsWith("ToothView"))
                 {
-                    info.SetValue(this, new Tooth()
-                    {
-                        ToothNo = info.Name.Replace("Tooth", "")
+                    info.SetValue(this, new ToothViewModel() {
+                        Condition = "Present Teeth",
+                        ToothNo = info.Name.Replace("ToothView","")
                     });
                 }
             }
-        }
-        
-        private List<Tooth> teeth;
-
-        public List<Tooth> Teeth { get => teeth; set { teeth = value; OnPropertyChanged(); } }
-
-        public Tooth Tooth18 { get => tooth18; set { tooth18 = value; OnPropertyChanged(); } }
-        public Tooth Tooth17 { get => tooth17; set { tooth17 = value; OnPropertyChanged(); } }
-        public Tooth Tooth16 { get => tooth16; set { tooth16 = value; OnPropertyChanged(); } }
-        public Tooth Tooth15 { get => tooth15; set { tooth15 = value; OnPropertyChanged(); } }
-        public Tooth Tooth14 { get => tooth14; set { tooth14 = value; OnPropertyChanged(); } }
-        public Tooth Tooth13 { get => tooth13; set { tooth13 = value; OnPropertyChanged(); } }
-        public Tooth Tooth12 { get => tooth12; set { tooth12 = value; OnPropertyChanged(); } }
-        public Tooth Tooth11 { get => tooth11; set { tooth11 = value; OnPropertyChanged(); } }
-        public Tooth Tooth21 { get => tooth21; set { tooth21 = value; OnPropertyChanged(); } }
-        public Tooth Tooth22 { get => tooth22; set { tooth22 = value; OnPropertyChanged(); } }
-        public Tooth Tooth23 { get => tooth23; set { tooth23 = value; OnPropertyChanged(); } }
-        public Tooth Tooth24 { get => tooth24; set { tooth24 = value; OnPropertyChanged(); } }
-        public Tooth Tooth25 { get => tooth25; set { tooth25 = value; OnPropertyChanged(); } }
-        public Tooth Tooth26 { get => tooth26; set { tooth26 = value; OnPropertyChanged(); } }
-        public Tooth Tooth27 { get => tooth27; set { tooth27 = value; OnPropertyChanged(); } }
-        public Tooth Tooth28 { get => tooth28; set { tooth28 = value; OnPropertyChanged(); } }
-        public Tooth Tooth48 { get => tooth48; set { tooth48 = value; OnPropertyChanged(); } }
-        public Tooth Tooth47 { get => tooth47; set { tooth47 = value; OnPropertyChanged(); } }
-        public Tooth Tooth46 { get => tooth46; set { tooth46 = value; OnPropertyChanged(); } }
-        public Tooth Tooth45 { get => tooth45; set { tooth45 = value; OnPropertyChanged(); } }
-        public Tooth Tooth44 { get => tooth44; set { tooth44 = value; OnPropertyChanged(); } }
-        public Tooth Tooth43 { get => tooth43; set { tooth43 = value; OnPropertyChanged(); } }
-        public Tooth Tooth42 { get => tooth42; set { tooth42 = value; OnPropertyChanged(); } }
-        public Tooth Tooth41 { get => tooth41; set { tooth41 = value; OnPropertyChanged(); } }
-        public Tooth Tooth31 { get => tooth31; set { tooth31 = value; OnPropertyChanged(); } }
-        public Tooth Tooth32 { get => tooth32; set { tooth32 = value; OnPropertyChanged(); } }
-        public Tooth Tooth33 { get => tooth33; set { tooth33 = value; OnPropertyChanged(); } }
-        public Tooth Tooth34 { get => tooth34; set { tooth34 = value; OnPropertyChanged(); } }
-        public Tooth Tooth35 { get => tooth35; set { tooth35 = value; OnPropertyChanged(); } }
-        public Tooth Tooth36 { get => tooth36; set { tooth36 = value; OnPropertyChanged(); } }
-        public Tooth Tooth37 { get => tooth37; set { tooth37 = value; OnPropertyChanged(); } }
-        public Tooth Tooth38 { get => tooth38; set { tooth38 = value; OnPropertyChanged(); } }
-        public Tooth Tooth55 { get => tooth55; set { tooth55 = value; OnPropertyChanged(); } }
-        public Tooth Tooth54 { get => tooth54; set { tooth54 = value; OnPropertyChanged(); } }
-        public Tooth Tooth53 { get => tooth53; set { tooth53 = value; OnPropertyChanged(); } }
-        public Tooth Tooth52 { get => tooth52; set { tooth52 = value; OnPropertyChanged(); } }
-        public Tooth Tooth51 { get => tooth51; set { tooth51 = value; OnPropertyChanged(); } }
-        public Tooth Tooth61 { get => tooth61; set { tooth61 = value; OnPropertyChanged(); } }
-        public Tooth Tooth62 { get => tooth62; set { tooth62 = value; OnPropertyChanged(); } }
-        public Tooth Tooth63 { get => tooth63; set { tooth63 = value; OnPropertyChanged(); } }
-        public Tooth Tooth64 { get => tooth64; set { tooth64 = value; OnPropertyChanged(); } }
-        public Tooth Tooth65 { get => tooth65; set { tooth65 = value; OnPropertyChanged(); } }
-        public Tooth Tooth85 { get => tooth85; set { tooth85 = value; OnPropertyChanged(); } }
-        public Tooth Tooth84 { get => tooth84; set { tooth84 = value; OnPropertyChanged(); } }
-        public Tooth Tooth83 { get => tooth83; set { tooth83 = value; OnPropertyChanged(); } }
-        public Tooth Tooth82 { get => tooth82; set { tooth82 = value; OnPropertyChanged(); } }
-        public Tooth Tooth81 { get => tooth81; set { tooth81 = value; OnPropertyChanged(); } }
-        public Tooth Tooth71 { get => tooth71; set { tooth71 = value; OnPropertyChanged(); } }
-        public Tooth Tooth72 { get => tooth72; set { tooth72 = value; OnPropertyChanged(); } }
-        public Tooth Tooth73 { get => tooth73; set { tooth73 = value; OnPropertyChanged(); } }
-        public Tooth Tooth74 { get => tooth74; set { tooth74 = value; OnPropertyChanged(); } }
-        public Tooth Tooth75 { get => tooth75; set { tooth75 = value; OnPropertyChanged(); } }
-
-        public Patient Patient { get => patient; set { patient = value; OnPropertyChanged(); } }
-
-        protected override void setLoaded(List<Tooth> list)
-        {
-
+            teethView = new List<ToothViewModel>();
         }
     }
 }

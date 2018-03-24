@@ -4,90 +4,99 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.DentalChart"
+             xmlns:tooth="clr-namespace:AllAboutTeethDCMS.DentalCharts"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
-             mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900">
+             HorizontalAlignment="Center"
+             mc:Ignorable="d">
     <UserControl.DataContext>
         <local:DentalChartViewModel/>
     </UserControl.DataContext>
     <Border>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Background="{StaticResource BelizeHole}">
-                <Label Content="Permanent Teeth" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" HorizontalAlignment="Center"/>
+            <Border Background="{StaticResource MidnightBlue}" BorderThickness="2,2,2,1" BorderBrush="{StaticResource GreenSea}">
+                <Label Content="Permanent Teeth" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center"/>
             </Border>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <CheckBox Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth18.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth18.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth18.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth17.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth17.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth17.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth16.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth16.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth16.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth15.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth15.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth15.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth14.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth14.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth14.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth13.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth13.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth13.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth12.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth12.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth12.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth11.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth11.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth11.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth21.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth21.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth21.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth22.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth22.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth22.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth23.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth23.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth23.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth24.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth24.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth24.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth25.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth25.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth25.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth26.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth26.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth26.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth27.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth27.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth27.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth28.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth28.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth28.Condition}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,-1,0,0">
-                <CheckBox Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth48.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth48.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth48.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth47.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth47.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth47.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth46.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth46.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth46.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth45.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth45.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth45.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth44.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth44.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth44.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth43.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth43.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth43.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth42.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth42.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth42.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth41.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth41.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth41.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth31.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth31.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth31.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth32.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth32.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth32.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth33.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth33.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth33.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth34.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth34.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth34.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth35.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth35.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth35.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth36.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth36.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth36.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth37.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth37.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth37.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth38.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth38.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth38.Condition}"/>
-            </StackPanel>
+            <Border Grid.Row="1" BorderBrush="{StaticResource GreenSea}" BorderThickness="2,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView18, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView17, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView16, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView15, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView14, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView13, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView12, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView11, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView21, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView22, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView23, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView24, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView25, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView26, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView27, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,-1,0" DataContext="{Binding ToothView28, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" BorderThickness="2,0,2,2" BorderBrush="{StaticResource GreenSea}">
+                <StackPanel Orientation="Horizontal">
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView48, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView47, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView46, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView45, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView44, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView43, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView42, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView41, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView31, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView32, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView33, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView34, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView35, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView36, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView37, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,-1,-1" DataContext="{Binding ToothView38, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </Border>
 
-            <Border Margin="5,0,0,0" Background="{StaticResource Wisteria}" Grid.Column="1" Grid.Row="0">
-                <Label Content="Temporary Teeth" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" HorizontalAlignment="Center"/>
+            <Border Margin="10,0,0,0" Grid.Column="1" Background="{StaticResource MidnightBlue}" BorderThickness="2,2,2,1" BorderBrush="{StaticResource GreenSea}">
+                <Label Content="Temporary Teeth" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center"/>
             </Border>
-            <StackPanel Margin="5,0,0,0" Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                <CheckBox Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth55.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth15.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth55.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth54.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth14.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth54.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth53.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth13.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth53.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth52.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth12.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth52.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth51.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth11.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth51.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth61.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth21.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth61.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth62.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth22.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth62.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth63.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth23.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth63.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth64.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth24.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth64.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding Tooth65.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth25.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth65.Condition}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="5,-1,0,0">
-                <CheckBox Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth85.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth45.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth85.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth84.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth44.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth84.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth83.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth43.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth83.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth82.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth42.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth82.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth71.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth41.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth81.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth71.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth31.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth71.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth72.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth32.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth72.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth73.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth33.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth73.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth74.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth34.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth74.Condition}"/>
-                <CheckBox Margin="-1,0,0,0" Style="{ StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding Tooth75.ToothNo}" root:AttachedProperties.Icon="{ Binding Tooth35.ToothNo,Converter ={ StaticResource ToothNoToImageConverter}}" root:AttachedProperties.Condition="{ Binding Tooth75.Condition}"/>
-            </StackPanel>
+            <Border Margin="10,0,0,0" Grid.Column="1" Grid.Row="1" BorderBrush="{StaticResource GreenSea}" BorderThickness="2,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView55, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView54, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView53, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView52, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView51, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView61, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView62, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView63, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,0,0" DataContext="{Binding ToothView64, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothView Margin="-1,-1,-1,0" DataContext="{Binding ToothView65, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </Border>
+            <Border Margin="10,0,0,0" Grid.Column="1" Grid.Row="2" BorderThickness="2,0,2,2" BorderBrush="{StaticResource GreenSea}">
+                <StackPanel Orientation="Horizontal">
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView85, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView84, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView83, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView82, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView81, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView71, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView72, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView73, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,0,-1" DataContext="{Binding ToothView74, UpdateSourceTrigger=PropertyChanged}"/>
+                    <tooth:ToothViewRotated Margin="-1,-1,-1,-1" DataContext="{Binding ToothView75, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </UserControl>

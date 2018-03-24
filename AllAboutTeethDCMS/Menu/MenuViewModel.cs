@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.Operations;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -21,10 +22,11 @@ namespace AllAboutTeethDCMS.Menu
 
         private User activeUser = new User();
 
+        private OperationView operationView;
+        private AddOperationView addOperationView;
+
         private AppointmentView appointmentView;
         private AddAppointmentView addAppointmentView;
-
-        private TransactionView transactionView;
 
         private UserView userView;
         private AddUserView addUserView;
@@ -59,7 +61,6 @@ namespace AllAboutTeethDCMS.Menu
             AppointmentView = new AppointmentView();
             PatientView = new PatientView();
             TreatmentView = new TreatmentView();
-            TransactionView = new TransactionView();
             UserView = new UserView();
             AddUserView = new AddUserView();
             MaintenanceView = new MaintenanceView();
@@ -76,6 +77,7 @@ namespace AllAboutTeethDCMS.Menu
             EditProviderView = new EditProviderView();
             MedicineView = new MedicineView();
             AddAppointmentView = new AddAppointmentView();
+            OperationView = new OperationView();
         }
         
         public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
@@ -83,7 +85,6 @@ namespace AllAboutTeethDCMS.Menu
         public AppointmentView AppointmentView { get => appointmentView; set => appointmentView = value; }
         public PatientView PatientView { get => patientView; set { patientView = value; OnPropertyChanged(); } }
         public TreatmentView TreatmentView { get => TreatmentView1; set => TreatmentView1 = value; }
-        public TransactionView TransactionView { get => transactionView; set => transactionView = value; }
         public UserView UserView { get => userView; set => userView = value; }
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
         public AddUserView AddUserView { get => addUserView; set => addUserView = value; }
@@ -105,9 +106,32 @@ namespace AllAboutTeethDCMS.Menu
         public MedicineView ItemView { get => itemView; set => itemView = value; }
         public AddMedicineView AddMedicineView { get => addMedicineView; set => addMedicineView = value; }
         public EditMedicineView EditMedicineView { get => editMedicineView; set => editMedicineView = value; }
-        public string PatientTotal { get => patientTotal; set { patientTotal = value; OnPropertyChanged(); } }
 
         public AddAppointmentView AddAppointmentView { get => addAppointmentView; set => addAppointmentView = value; }
+        public OperationView OperationView { get => operationView; set => operationView = value; }
+
+
+        public string PatientTotal { get => patientTotal; set { patientTotal = value; OnPropertyChanged(); } }
+
+        public AddOperationView AddOperationView { get => addOperationView; set => addOperationView = value; }
+
+        public void gotoOperations(User activeUser)
+        {
+            OperationView = new OperationView();
+            MainWindowViewModel.ActivePage = OperationView;
+            ((OperationViewModel)OperationView.DataContext).ActiveUser = activeUser;
+            ((OperationViewModel)OperationView.DataContext).MenuViewModel = this;
+            ((OperationViewModel)OperationView.DataContext).loadOperations();
+        }
+
+        public void gotoAddOperationView(User activeUser, Appointment appointment)
+        {
+            AddOperationView = new AddOperationView();
+            MainWindowViewModel.ActivePage = AddOperationView;
+            ((AddOperationViewModel)AddOperationView.DataContext).ActiveUser = activeUser;
+            ((AddOperationViewModel)AddOperationView.DataContext).Appointment = appointment;
+            ((AddOperationViewModel)AddOperationView.DataContext).MenuViewModel = this;
+        }
 
         public void gotoAppointments(User activeUser)
         {
@@ -179,11 +203,6 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AddProviderView;
             ((AddProviderViewModel)AddProviderView.DataContext).ActiveUser = activeUser;
             ((AddProviderViewModel)AddProviderView.DataContext).MenuViewModel = this;
-        }
-
-        public void gotoTransactions()
-        {
-            MainWindowViewModel.ActivePage = TransactionView;
         }
 
         public void gotoUsers(User activeUser)

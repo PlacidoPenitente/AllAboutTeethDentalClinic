@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllAboutTeethDCMS.DentalCharts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,30 @@ namespace AllAboutTeethDCMS.Patients
         private void search_patient_Click(object sender, RoutedEventArgs e)
         {
             ((PatientViewModel)DataContext).loadPatients();
+        }
+
+        private void show_dentalchart_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).Visibility = "Visible";
+        }
+
+        private void updateChart_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(ToothViewModel toothView in ((PatientViewModel)DataContext).DentalChartViewModel.TeethView)
+            {
+                toothView.Condition = ((PatientViewModel)DataContext).Condition;
+            }
+            ((PatientViewModel)DataContext).DentalChartViewModel.startUpdatingTeeth();
+        }
+
+        private void reload_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
+        }
+
+        private void close_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).Visibility = "Collapsed";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Operations;
+﻿using AllAboutTeethDCMS.DentalCharts;
+using AllAboutTeethDCMS.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,6 @@ namespace AllAboutTeethDCMS.Operations
 
         public void loadOperations()
         {
-            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
         public void deleteOperation()

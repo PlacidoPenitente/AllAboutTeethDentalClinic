@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Patients"
+             xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="2000" d:DesignWidth="800">
+			 d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:PatientViewModel/>
     </UserControl.DataContext>
@@ -40,12 +41,14 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient: "/>
                 <Button Margin="0,20,0,0" Height="45" x:Name="search_patient" Click="search_patient_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,20,0,0" Height="45" x:Name="add_patient" Click="add_patient_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
                 <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_patient" Click="edit_patient_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
                 <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_patient" Click="delete_patient_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="show_dentalchart" Click="show_dentalchart_Click" Content="Dental Chart" Grid.Column="6" Style="{StaticResource PrimaryButton}"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -433,5 +436,59 @@
             <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Patients: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
+        <Grid Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2">
+            <Grid.Background>
+                <SolidColorBrush Color="black" Opacity="0.75"/>
+            </Grid.Background>
+            <StackPanel VerticalAlignment="Center" Margin="10">
+                <Grid MaxWidth="{Binding ElementName=chart, Path=Width}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Width="300" ItemsSource="{Binding Conditions}" SelectedItem="{Binding Condition, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" Style="{StaticResource ComboBox}"/>
+                        <Button Margin="0,5,0,0" Grid.Column="2" Height="45" x:Name="update" Click="updateChart_Click"  Content="Update" Width="100" Style="{StaticResource PrimaryButton}"/>
+                    </StackPanel>
+                    <Button Margin="0,5,0,0" Grid.Column="2" Height="45" x:Name="reload" Click="reload_Click" Content="Reload" Width="100" Style="{StaticResource InfoButton}"/>
+                    <Button Margin="0,5,0,0" Grid.Column="3" Height="45" x:Name="close" Click="close_Click" Content="Close" Width="100" Style="{StaticResource DangerButton}"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                        <Border Margin="0,0,0,10">
+                            <chart:DentalChartView x:Name="chart" DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Border>
+                    </ScrollViewer>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Margin="10,0,0,0" Background="{StaticResource BelizeHole}"  BorderThickness="2,2,2,0" BorderBrush="{StaticResource WetAsphalt}">
+                            <Label Content="Treatment History" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center"/>
+                        </Border>
+                        <DataGrid Grid.Row="1" BorderThickness="2,1,2,2" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding TreatmentRecords, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="10,0,0,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="No." Binding="{Binding No}"/>
+                                <DataGridTextColumn Header="Appointment" Binding="{Binding Appointemnt, Converter={StaticResource AppointmentToStringConverter}}"/>
+                                <DataGridTextColumn Header="Treatment" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+                                <DataGridTextColumn Header="Note" Binding="{Binding Notes}"/>
+                                <DataGridTextColumn Header="Date Performed" Binding="{Binding DateAdded}"/>
+                                <DataGridTextColumn Header="Performed By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+                <StackPanel>
+                    <Label Content="{Binding SelectedTooth, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

@@ -13,41 +13,37 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Appointments
+namespace AllAboutTeethDCMS.Operations
 {
     /// <summary>
-    /// Interaction logic for AddAppointmentView.xaml
+    /// Interaction logic for AddOperationView.xaml
     /// </summary>
-    public partial class AddAppointmentView : UserControl
+    public partial class AddOperationView : UserControl
     {
-        public AddAppointmentView()
+        public AddOperationView()
         {
             InitializeComponent();
         }
 
         private void addTreatment_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).saveAppointment();
+            ((AddOperationViewModel)DataContext).updateList();
+            //((AddOperationViewModel)DataContext).saveOperation();
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).resetForm();
+            ((AddOperationViewModel)DataContext).resetForm();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).MenuViewModel.gotoAppointments(((AddAppointmentViewModel)DataContext).ActiveUser);
+            ((AddOperationViewModel)DataContext).MenuViewModel.gotoOperations(((AddOperationViewModel)DataContext).ActiveUser);
         }
 
-        private void reload_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
-        }
-
-        private void search_Click(object sender, RoutedEventArgs e)
-        {
-
+            ((AddOperationViewModel)DataContext).updateList();
         }
     }
 }

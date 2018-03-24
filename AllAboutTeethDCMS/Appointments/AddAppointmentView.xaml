@@ -7,7 +7,7 @@
              xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             d:DesignHeight="2000" d:DesignWidth="800">
+             d:DesignHeight="2000" d:DesignWidth="1024">
     <UserControl.DataContext>
         <local:AddAppointmentViewModel/>
     </UserControl.DataContext>
@@ -37,7 +37,17 @@
                     <ColumnDefinition Width="0.05*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
-                    <Grid Height="395">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox root:AttachedProperties.Label="Treatment:" ItemsSource="{Binding Treatments}" SelectedIndex="0" SelectedItem="{Binding Treatment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
+                        <ComboBox root:AttachedProperties.Label="Dentist:" ItemsSource="{Binding Dentists}" SelectedIndex="0" SelectedItem="{Binding Dentist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource ComboBox}" Margin="5"/>
+                        <TextBox Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Note:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid Height="408" Margin="0,20,0,20">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="*"/>
@@ -47,7 +57,15 @@
                                 <RowDefinition Height="85"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient:" Grid.Column="2" Margin="5"/>
+                            <Grid Grid.Column="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient:" Margin="5"/>
+                                <Button Grid.Column="2" Visibility="{Binding ElementName=dentalchart, Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" x:Name="reload" Click="reload_Click" Height="45" Margin="0,21,0,0" Content="Reload Chart" Style="{StaticResource PrimaryButton}"/>
+                            </Grid>
                             <ListView Grid.Row="1" SnapsToDevicePixels="True" Style="{StaticResource ListBox}" BorderBrush="{StaticResource WetAsphalt}" ItemsSource="{Binding Patients, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Patient}" Margin="10,10,10,0">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
@@ -460,10 +478,15 @@
                                     </Border>
                                 </Grid>
                             </TabItem>
-                            <TabItem FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="13" Header="Dental Chart" BorderBrush="{StaticResource WetAsphalt}">
-                                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
-                                    <chart:DentalChartView/>
-                                </ScrollViewer>
+                            <TabItem x:Name="dentalchart" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="13" Header="Dental Chart" BorderBrush="{StaticResource WetAsphalt}">
+                                <Grid>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                        <Grid>
+                                            <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Patient,Converter={StaticResource ObjectToVisibilityConverter}}"/>
+                                            <Border IsHitTestVisible="False"/>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Grid>
                             </TabItem>
                         </TabControl>
                         <!--<ListView SnapsToDevicePixels="True" Style="{StaticResource ListBox}" BorderBrush="{StaticResource WetAsphalt}" Grid.Column="1" ItemsSource="{Binding Dentists}" SelectedItem="{Binding Dentist}" Margin="10">
@@ -515,16 +538,6 @@
                                 <TextBox Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Note:" Grid.Column="2" Margin="5"/>
                             </StackPanel>
                         </Border>-->
-                    </Grid>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="0.75*"/>
-                            <ColumnDefinition Width="0.75*"/>
-                        </Grid.ColumnDefinitions>
-                        <ComboBox root:AttachedProperties.Label="Treatment:" ItemsSource="{Binding Treatments}" SelectedIndex="0" SelectedItem="{Binding Treatment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
-                        <ComboBox root:AttachedProperties.Label="Dentist:" ItemsSource="{Binding Dentists}" SelectedIndex="0" SelectedItem="{Binding Dentist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource ComboBox}" Margin="5"/>
-                        <TextBox Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Note:" Grid.Column="2" Margin="5"/>
                     </Grid>
                 </StackPanel>
             </Grid>

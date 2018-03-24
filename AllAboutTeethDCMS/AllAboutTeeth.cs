@@ -10,7 +10,7 @@ namespace AllAboutTeethDCMS
 {
     public class AllAboutTeeth
     {
-        private string title = "All About Teeth";
+        private string title = "Strong N' White Dental Clinic Co.";
         private UserControl activePage;
         private User activeUser;
         private Database database;

@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.DentalCharts.ToothViewRotated"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.DentalCharts"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:ToothViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <CheckBox Click="CheckBox_Click" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource toothbox_rotated}" root:AttachedProperties.ToothNo="{ Binding ToothNo, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Icon="{ Binding ToothNo,Converter ={ StaticResource ToothNoToImageConverter}, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Condition="{ Binding Condition, Converter={StaticResource ConditionToSymbolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>

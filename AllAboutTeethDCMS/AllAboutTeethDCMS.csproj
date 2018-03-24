@@ -70,9 +70,11 @@
       <DependentUpon>AppointmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Appointments\AppointmentViewModel.cs" />
+    <Compile Include="AppointmentToStringConverter.cs" />
     <Compile Include="AttachedProperties.cs" />
     <Compile Include="BooleanToStringConverter.cs" />
     <Compile Include="BooleanToVisibilityConverter.cs" />
+    <Compile Include="ConditionToSymbolConverter.cs" />
     <Compile Include="ContentToBooleanConverter.cs" />
     <Compile Include="ContentToVisibility.cs" />
     <Compile Include="ConverterBase.cs" />
@@ -91,6 +93,9 @@
       <DependentUpon>ToothView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DentalCharts\ToothViewModel.cs" />
+    <Compile Include="DentalCharts\ToothViewRotated.xaml.cs">
+      <DependentUpon>ToothViewRotated.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="Medicines\AddMedicineView.xaml.cs">
       <DependentUpon>AddMedicineView.xaml</DependentUpon>
@@ -120,6 +125,10 @@
     <Compile Include="Menu\MenuViewModel.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="ObjectToVisibilityConverter.cs" />
+    <Compile Include="Operations\AddOperationView.xaml.cs">
+      <DependentUpon>AddOperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\AddOperationViewModel.cs" />
     <Compile Include="Operations\Operation.cs" />
     <Compile Include="Operations\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
@@ -174,6 +183,9 @@
       <DependentUpon>TransactionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Transactions\TransactionViewModel.cs" />
+    <Compile Include="TreatmentRecords\AddTreatmentRecordViewModel.cs" />
+    <Compile Include="TreatmentRecords\TreatmentRecord.cs" />
+    <Compile Include="TreatmentRecords\TreatmentRecordsViewModel.cs" />
     <Compile Include="Treatments\AddTreatmentView.xaml.cs">
       <DependentUpon>AddTreatmentView.xaml</DependentUpon>
     </Compile>
@@ -217,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DentalCharts\ToothView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DentalCharts\ToothViewRotated.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -273,6 +289,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Menu\MenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\AddOperationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

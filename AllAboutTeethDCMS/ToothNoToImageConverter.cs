@@ -12,7 +12,16 @@ namespace AllAboutTeethDCMS
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return "/AllAboutTeethDCMS;component/Resources/" + ((string)value) + ".png";
+            if(!String.IsNullOrEmpty((string)value))
+            {
+                int tooth = Int32.Parse(((string)value));
+                if (tooth > 48)
+                {
+                    tooth = tooth - 40;
+                }
+                return "/AllAboutTeethDCMS;component/Resources/" + tooth + ".png";
+            }
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

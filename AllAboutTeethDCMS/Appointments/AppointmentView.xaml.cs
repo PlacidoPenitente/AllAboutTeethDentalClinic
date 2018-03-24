@@ -47,7 +47,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void start_treatment_Click(object sender, RoutedEventArgs e)
         {
-
+            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddOperationView(((AppointmentViewModel)DataContext).ActiveUser, ((AppointmentViewModel)DataContext).Appointment);
         }
     }
 }

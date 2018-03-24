@@ -20,4 +20,6 @@
     <root:PatientToStringConverter x:Key="PatientToStringConverter"/>
     <root:TreatmentToStringConverter x:Key="TreatmentToStringConverter"/>
     <root:TeethToStringConverter x:Key="TeethToStringConverter"/>
+    <root:ConditionToSymbolConverter x:Key="ConditionToSymbolConverter"/>
+    <root:AppointmentToStringConverter x:Key="AppointmentToStringConverter"/>
 </ResourceDictionary>

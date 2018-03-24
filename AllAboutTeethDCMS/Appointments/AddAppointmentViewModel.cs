@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Patients;
+﻿using AllAboutTeethDCMS.DentalChart;
+using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using System;
@@ -17,12 +18,14 @@ namespace AllAboutTeethDCMS.Appointments
         private List<Patient> patients;
         private List<Treatment> treatments;
         private List<User> dentists;
-        private Thread loadThread;
         private string filter = "";
+        private DentalChartViewModel dentalChartViewModel;
 
         private PatientViewModel patientViewModel;
         private TreatmentViewModel treatmentViewModel;
         private UserViewModel userViewModel;
+
+        private Thread loadThread;
 
         public void startLoadThread()
         {
@@ -51,6 +54,8 @@ namespace AllAboutTeethDCMS.Appointments
 
         public AddAppointmentViewModel()
         {
+            dentalChartViewModel = new DentalChartViewModel();
+
             patientViewModel = new PatientViewModel();
             treatmentViewModel = new TreatmentViewModel();
             userViewModel = new UserViewModel();
@@ -69,7 +74,7 @@ namespace AllAboutTeethDCMS.Appointments
             Dentists = userViewModel.Users;
         }
 
-        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; OnPropertyChanged(); } }
+        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
         public string Notes { get => Appointment.Notes; set { Appointment.Notes = value; OnPropertyChanged(); } }
@@ -85,6 +90,8 @@ namespace AllAboutTeethDCMS.Appointments
         public List<User> Dentists { get => dentists; set { dentists = value; OnPropertyChanged(); } }
 
         public string Filter { get => filter; set { filter = value; patientViewModel.Filter = value; patientViewModel.Patients = null; Patients = null; patientViewModel.loadPatients(); startLoadThread(); OnPropertyChanged(); } }
+
+        public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
 
         protected override void setLoaded(List<Appointment> list)
         {

@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,16 @@ using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.DentalCharts
 {
-    public class ToothViewModel : ViewModelBase
+    public class ToothViewModel : CRUDPage<Tooth>
     {
         private Tooth tooth;
+        private bool isSelected = false;
+        private List<ToothViewModel> teeth;
+        
+        public ToothViewModel()
+        {
+            tooth = new Tooth();
+        }
 
         public Patient Owner { get => Tooth.Owner; set { Tooth.Owner = value; OnPropertyChanged(); } }
         public string Condition { get => Tooth.Condition; set { Tooth.Condition = value; OnPropertyChanged(); } }
@@ -21,5 +29,45 @@ namespace AllAboutTeethDCMS.DentalCharts
                     OnPropertyChanged(info.Name);
                 }
             } }
+
+        public bool IsSelected { get => isSelected; set { isSelected = value; OnPropertyChanged(); } }
+
+        public List<ToothViewModel> Teeth { get => teeth; set => teeth = value; }
+
+        public void loadTooth()
+        {
+            CustomFilter = "tooth_owner='" + Owner.No + "' AND tooth_toothno='"+ToothNo+"'";
+            Tooth tooth = null;
+            while (tooth==null)
+            {
+                List<Tooth> teeth = loadFromDatabase("allaboutteeth_tooths", "");
+                if(teeth.Count>0)
+                {
+                    tooth = teeth.ElementAt(0);
+                }
+                else
+                {
+                    saveToDatabase(Tooth, "allaboutteeth_tooths");
+                }
+            }
+            Tooth = tooth;
+        }
+
+        public void saveTooth()
+        {
+            updateDatabase(Tooth, "allaboutteeth_tooths");
+        }
+
+        protected override void setLoaded(List<Tooth> list)
+        {
+            if(list.Count<1)
+            {
+                startSaveToDatabase(Tooth, "allaboutteeth_tooths");
+            }
+            else
+            {
+                Tooth = list.ElementAt(0);
+            }
+        }
     }
 }

@@ -357,14 +357,14 @@
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </SelectiveScrollingGrid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource Sunflower}"/>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="cell" TargetType="{x:Type DataGridCell}">
@@ -375,7 +375,7 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
         <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+        <Setter Property="Background" Value="{StaticResource PeterRiver}"/>
         <Setter Property="SeparatorBrush" Value="{StaticResource MidnightBlue}"/>
         <Setter Property="SeparatorVisibility" Value="Visible"/>
         <Setter Property="Template">
@@ -388,7 +388,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="Ascending">
-                            <Setter Property="Background" Value="{StaticResource GreenSea}"/>
+                            <Setter Property="Background" Value="{StaticResource BelizeHole}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -489,17 +489,17 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border x:Name="tooth" BorderBrush="{StaticResource Turquoise}" Background="{StaticResource WetAsphalt}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="tooth" BorderBrush="{StaticResource GreenSea}" Background="{StaticResource WetAsphalt}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="0" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="0" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
                                 <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
                             </Border>
-                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
                                 <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
                             </Border>
                             <Border Grid.Row="2" Margin="0,0,0,0">
@@ -523,20 +523,20 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Border x:Name="tooth" Background="{StaticResource WetAsphalt}" BorderBrush="{StaticResource Turquoise}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border x:Name="tooth" Background="{StaticResource WetAsphalt}" BorderBrush="{StaticResource GreenSea}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="100"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Border Grid.Row="2" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,0">
+                            <Border Grid.Row="2" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,0">
                                 <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
                             </Border>
-                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="1" Padding="3" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
                                 <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
                             </Border>
-                            <Border Grid.Row="0" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,1">
+                            <Border Grid.Row="0" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
                                 <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
                             </Border>
                         </Grid>
