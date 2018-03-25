@@ -58,6 +58,26 @@ namespace AllAboutTeethDCMS.DentalCharts
             updateDatabase(Tooth, "allaboutteeth_tooths");
         }
 
+        protected override void afterSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void setLoaded(List<Tooth> list)
         {
             if(list.Count<1)

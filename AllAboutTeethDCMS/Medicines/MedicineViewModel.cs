@@ -30,5 +30,25 @@ namespace AllAboutTeethDCMS.Medicines
         {
             Medicines = list;
         }
+
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterSave()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

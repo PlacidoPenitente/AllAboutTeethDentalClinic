@@ -19,4 +19,12 @@
     <ImageSource x:Key="icons8_Generic_Book_File_Type_32px.png">/Resources/icons8_Generic_Book_File_Type_32px.png</ImageSource>
     <ImageSource x:Key="icons8_Maintenance_32px_1.png">/Resources/icons8_Maintenance_32px_1.png</ImageSource>
     <ImageSource x:Key="icons8_Doctor_Male_32px.png">/Resources/icons8_Doctor_Male_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Sort_Down_24px_1.png">/Resources/icons8_Sort_Down_24px_1.png</ImageSource>
+    <ImageSource x:Key="icons8_Sort_Up_24px.png">/Resources/icons8_Sort_Up_24px.png</ImageSource>
+    <ImageSource x:Key="icons8_Add_32px.png">/Resources/icons8_Add_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_View_Details_32px.png">/Resources/icons8_View_Details_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Trash_Can_32px.png">/Resources/icons8_Trash_Can_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Edit_32px.png">/Resources/icons8_Edit_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Open_Archive_32px.png">/Resources/icons8_Open_Archive_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Archive_32px.png">/Resources/icons8_Archive_32px.png</ImageSource>
 </ResourceDictionary>

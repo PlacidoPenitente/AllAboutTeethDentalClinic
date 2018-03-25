@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Login
+namespace AllAboutTeethDCMS.Users
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml
@@ -23,6 +23,16 @@ namespace AllAboutTeethDCMS.Login
         public LoginView()
         {
             InitializeComponent();
+        }
+
+        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            ((LoginViewModel)DataContext).Password = passwordBox.Password;
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            ((LoginViewModel)DataContext).loadUsers();
         }
     }
 }

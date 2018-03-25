@@ -14,6 +14,7 @@ namespace AllAboutTeethDCMS
         private MenuViewModel menuViewModel;
         private User activeUser;
         private MySqlConnection connection;
+        private MainWindowViewModel mainWindowViewModel;
 
         public void createConnection()
         {
@@ -23,7 +24,8 @@ namespace AllAboutTeethDCMS
         }
         
         public MenuViewModel MenuViewModel { get => menuViewModel; set => menuViewModel = value; }
-        public User ActiveUser { get => activeUser; set { activeUser = value; OnPropertyChanged(); } }
         public MySqlConnection Connection { get => connection; set => connection = value; }
+        public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
+        public User ActiveUser { get => activeUser; set => activeUser = value; }
     }
 }

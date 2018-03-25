@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.DialogBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS"
+             mc:Ignorable="d" 
+             x:Name="dialog"
+             Visibility="{Binding Answer, Converter={StaticResource AnswerToVisibilityConverter}}"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:DialogBoxViewModel/>
+    </UserControl.DataContext>
+    <Border>
+        <Border.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Border.Background>
+        <Grid>
+            <Border Width="400" Height="220" Background="{StaticResource WetAsphalt}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Border Background="{StaticResource MidnightBlue}">
+                    <Label Margin="5" Content="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                </Border>
+                    <Border Grid.Row="1" Margin="20,10,20,10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border>
+                                <Image Source="{Binding ElementName=dialog, Path=local:AttachedProperties.Icon}"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Foreground="White" FontFamily="{StaticResource RobotoLight}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                <Grid HorizontalAlignment="Stretch" Grid.Row="2" Background="{StaticResource MidnightBlue}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Button x:Name="yes" Click="yes_Click" Content="Yes" Width="100" Visibility="{Binding YesVisibility, UpdateSourceTrigger=PropertyChanged}" Height="43" Grid.Column="1" Style="{StaticResource PrimaryButton}"/>
+                    <Button x:Name="no" Click="no_Click" Content="No" Width="100" Visibility="{Binding NoVisibility, UpdateSourceTrigger=PropertyChanged}" Height="43" Grid.Column="2" Style="{StaticResource DangerButton}"/>
+                    <Button x:Name="ok" Click="ok_Click" Content="OK" Width="100" Visibility="{Binding OkVisibility, UpdateSourceTrigger=PropertyChanged}" Height="43" Grid.Column="3" Style="{StaticResource PrimaryButton}"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+    </Border>
+</UserControl>

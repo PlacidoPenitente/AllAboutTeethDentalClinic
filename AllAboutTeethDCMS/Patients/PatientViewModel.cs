@@ -25,8 +25,6 @@ namespace AllAboutTeethDCMS.Patients
         {
             DentalChartViewModel = new DentalChartViewModel();
             treatmentRecordsViewModel = new TreatmentRecordViewModel();
-            treatmentRecordsViewModel.loadTreatmentRecords();
-            startLoadThread();
         }
 
         private List<string> conditions = new List<string>()
@@ -52,7 +50,21 @@ namespace AllAboutTeethDCMS.Patients
             "Supernumerary"
         };
 
-        public Patient Patient { get => patient; set { patient = value; DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.TeethView.Clear(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value; OnPropertyChanged(); } }
+        public Patient Patient { get => patient;
+            set
+            {
+                patient = value;
+                DentalChartViewModel = new DentalChartViewModel();
+                DentalChartViewModel.TeethView.Clear();
+                DentalChartViewModel.User = ActiveUser;
+                DentalChartViewModel.Patient = value;
+                TreatmentRecords = null;
+                treatmentRecordsViewModel.CustomFilter = "treatmentrecord_patient='" + value.No + "'";
+                treatmentRecordsViewModel.loadTreatmentRecords();
+                startLoadThread();
+                OnPropertyChanged();
+            }
+        }
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
         public string Filter { get => filter; set { filter = value; OnPropertyChanged(); loadPatients(); } }
 
@@ -65,7 +77,7 @@ namespace AllAboutTeethDCMS.Patients
 
         public int SelectedTooth { get => DentalChartViewModel.TeethView.Count; set { selectedTooth = value; OnPropertyChanged(); } }
 
-        public List<TreatmentRecord> TreatmentRecords { get => treatmentRecords; set => treatmentRecords = value; }
+        public List<TreatmentRecord> TreatmentRecords { get => treatmentRecords; set { treatmentRecords = value; OnPropertyChanged(); } }
 
 
         private Thread loadThread;
@@ -86,6 +98,7 @@ namespace AllAboutTeethDCMS.Patients
             {
                 TreatmentRecords = treatmentRecordsViewModel.TreatmentRecords;
             }
+            Console.WriteLine(TreatmentRecords.Count+"---------------------------------------------");
         }
 
         public void setPatients(List<Patient> patients)
@@ -106,6 +119,26 @@ namespace AllAboutTeethDCMS.Patients
         protected override void setLoaded(List<Patient> list)
         {
             Patients = list;
+        }
+
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterSave()
+        {
+            throw new NotImplementedException();
         }
     }
 }

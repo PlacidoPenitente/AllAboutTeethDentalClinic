@@ -20,7 +20,7 @@ namespace AllAboutTeethDCMS.Menu
     {
         private MainWindowViewModel mainWindowViewModel;
 
-        private User activeUser = new User();
+        private User activeUser;
 
         private OperationView operationView;
         private AddOperationView addOperationView;
@@ -28,9 +28,50 @@ namespace AllAboutTeethDCMS.Menu
         private AppointmentView appointmentView;
         private AddAppointmentView addAppointmentView;
 
+        #region User
         private UserView userView;
         private AddUserView addUserView;
         private EditUserView editUserView;
+
+        public UserView UserView { get => userView; set => userView = value; }
+        public AddUserView AddUserView { get => addUserView; set => addUserView = value; }
+        public EditUserView EditUserView { get => editUserView; set => editUserView = value; }
+
+        public void gotoUsers()
+        {
+            if(UserView==null)
+            {
+                UserView = new UserView();
+            }
+            MainWindowViewModel.ActivePage = UserView;
+            ((UserViewModel)UserView.DataContext).ActiveUser = ActiveUser;
+            ((UserViewModel)UserView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoAddUserView()
+        {
+            if(AddUserView==null)
+            {
+                AddUserView = new AddUserView();
+            }
+            MainWindowViewModel.ActivePage = AddUserView;
+            ((AddUserViewModel)AddUserView.DataContext).ActiveUser = ActiveUser;
+            ((AddUserViewModel)AddUserView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoEditUserView(User selectedUser)
+        {
+            if(EditUserView==null)
+            {
+                EditUserView = new EditUserView();
+            }
+            MainWindowViewModel.ActivePage = EditUserView;
+            ((EditUserViewModel)EditUserView.DataContext).ActiveUser = ActiveUser;
+            ((EditUserViewModel)EditUserView.DataContext).User = selectedUser;
+            ((EditUserViewModel)EditUserView.DataContext).CopyUser = (User)selectedUser.Clone();
+            ((EditUserViewModel)EditUserView.DataContext).MenuViewModel = this;
+        }
+        #endregion
 
         private PatientView patientView;
         private AddPatientView addPatientView;
@@ -54,41 +95,12 @@ namespace AllAboutTeethDCMS.Menu
 
         private MaintenanceView maintenanceView;
 
-        private string patientTotal = "";
-
-        public MenuViewModel()
-        {
-            AppointmentView = new AppointmentView();
-            PatientView = new PatientView();
-            TreatmentView = new TreatmentView();
-            UserView = new UserView();
-            AddUserView = new AddUserView();
-            MaintenanceView = new MaintenanceView();
-            EditUserView = new EditUserView();
-            AddPatientView = new AddPatientView();
-            EditPatientView = new EditPatientView();
-            AddTreatmentView = new AddTreatmentView();
-            EditTreatmentView = new EditTreatmentView();
-            SupplierView = new SupplierView();
-            AddSupplierView = new AddSupplierView();
-            EditSupplierView = new EditSupplierView();
-            ProviderView = new ProviderView();
-            AddProviderView = new AddProviderView();
-            EditProviderView = new EditProviderView();
-            MedicineView = new MedicineView();
-            AddAppointmentView = new AddAppointmentView();
-            OperationView = new OperationView();
-        }
-        
         public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
 
         public AppointmentView AppointmentView { get => appointmentView; set => appointmentView = value; }
         public PatientView PatientView { get => patientView; set { patientView = value; OnPropertyChanged(); } }
         public TreatmentView TreatmentView { get => TreatmentView1; set => TreatmentView1 = value; }
-        public UserView UserView { get => userView; set => userView = value; }
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
-        public AddUserView AddUserView { get => addUserView; set => addUserView = value; }
-        public EditUserView EditUserView { get => editUserView; set => editUserView = value; }
 
         public User ActiveUser { get => activeUser; set => activeUser = value; }
         public AddPatientView AddPatientView { get => addPatientView; set => addPatientView = value; }
@@ -109,9 +121,6 @@ namespace AllAboutTeethDCMS.Menu
 
         public AddAppointmentView AddAppointmentView { get => addAppointmentView; set => addAppointmentView = value; }
         public OperationView OperationView { get => operationView; set => operationView = value; }
-
-
-        public string PatientTotal { get => patientTotal; set { patientTotal = value; OnPropertyChanged(); } }
 
         public AddOperationView AddOperationView { get => addOperationView; set => addOperationView = value; }
 
@@ -205,32 +214,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddProviderViewModel)AddProviderView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoUsers(User activeUser)
-        {
-            UserView = new UserView();
-            MainWindowViewModel.ActivePage = UserView;
-            ((UserViewModel)UserView.DataContext).ActiveUser = activeUser;
-            ((UserViewModel)UserView.DataContext).MenuViewModel = this;
-            ((UserViewModel)UserView.DataContext).loadUsers();
-        }
-
-        public void gotoAddUserView(User activeUser)
-        {
-            AddUserView = new AddUserView();
-            MainWindowViewModel.ActivePage = AddUserView;
-            ((AddUserViewModel)AddUserView.DataContext).ActiveUser = activeUser;
-            ((AddUserViewModel)AddUserView.DataContext).MenuViewModel = this;
-        }
-
-        public void gotoEditUserView(User activeUser, User selectedUser)
-        {
-            EditUserView = new EditUserView();
-            MainWindowViewModel.ActivePage = EditUserView;
-            ((EditUserViewModel)EditUserView.DataContext).ActiveUser = activeUser;
-            ((EditUserViewModel)EditUserView.DataContext).User = selectedUser;
-            ((EditUserViewModel)EditUserView.DataContext).CopyUser = (User)selectedUser.Clone();
-            ((EditUserViewModel)EditUserView.DataContext).MenuViewModel = this;
-        }
+        
 
         public void gotoSuppliers(User activeUser)
         {

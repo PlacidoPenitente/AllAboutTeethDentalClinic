@@ -29,7 +29,6 @@ namespace AllAboutTeethDCMS.Users
             }
             if (!hasError)
             {
-                User.AddedBy = ActiveUser;
                 startUpdateToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }

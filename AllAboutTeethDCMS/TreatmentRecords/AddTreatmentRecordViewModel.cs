@@ -32,6 +32,26 @@ namespace AllAboutTeethDCMS.TreatmentRecords
             saveToDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
+        protected override void afterSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void setLoaded(List<TreatmentRecord> list)
         {
             throw new NotImplementedException();

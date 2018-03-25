@@ -23,76 +23,74 @@ namespace AllAboutTeethDCMS
         private Thread saveThread;
         private Thread deleteThread;
 
-        private int customCount = 1;
-        
+        private MySqlDataReader reader;
+
+
         protected void saveToDatabase(T model, string tableName)
         {
-            for(int i=0; i<CustomCount; i++)
+            createConnection();
+            MySqlCommand command = Connection.CreateCommand();
+            command.CommandText = "INSERT INTO " + tableName + " VALUES (";
+            foreach (PropertyInfo info in model.GetType().GetProperties())
             {
-                createConnection();
-                MySqlCommand command = Connection.CreateCommand();
-                command.CommandText = "INSERT INTO " + tableName + " VALUES (";
-                foreach (PropertyInfo info in model.GetType().GetProperties())
+                if (info.Name.Equals("No"))
                 {
-                    if (info.Name.Equals("No"))
-                    {
-                        command.CommandText += "NULL,";
-                    }
-                    else if (info.Name.Equals("DateAdded") || info.Name.Equals("DateModified"))
-                    {
-                        command.CommandText += "NOW(),";
-                    }
-                    else
-                    {
-                        command.CommandText += "@" + info.Name + ",";
-                    }
+                    command.CommandText += "NULL,";
                 }
-                command.CommandText = command.CommandText.Remove(command.CommandText.Length - 1) + ");";
-
-                foreach (PropertyInfo info in model.GetType().GetProperties())
+                else if (info.Name.Equals("DateAdded") || info.Name.Equals("DateModified"))
                 {
-                    if (info.Name.Equals("AddedBy"))
-                    {
-                        command.Parameters.AddWithValue("@" + info.Name, ActiveUser.No);
-                    }
-                    else if (info.Name.Equals("Dentist"))
-                    {
-                        User activeUser = (User)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, activeUser.No);
-                    }
-                    else if (info.Name.Equals("Appointment"))
-                    {
-                        Appointment appointment = (Appointment)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, appointment.No);
-                    }
-                    else if (info.Name.Equals("Tooth"))
-                    {
-                        Tooth tooth = (Tooth)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, tooth.No);
-                    }
-                    else if (info.Name.Equals("Supplier"))
-                    {
-                        Supplier supplier = (Supplier)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, supplier.No);
-                    }
-                    else if (info.Name.Equals("Patient")|| info.Name.Equals("Owner"))
-                    {
-                        Patient patient = (Patient)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, patient.No);
-                    }
-                    else if (info.Name.Equals("Treatment"))
-                    {
-                        Treatment treatment = (Treatment)info.GetValue(model);
-                        command.Parameters.AddWithValue("@" + info.Name, treatment.No);
-                    }
-                    else if (!info.Name.Equals("No") && !info.Name.Equals("DateAdded") && !info.Name.Equals("DateModified"))
-                    {
-                        command.Parameters.AddWithValue("@" + info.Name, info.GetValue(model));
-                    }
+                    command.CommandText += "NOW(),";
                 }
-                command.ExecuteNonQuery();
-                Connection.Close();
+                else
+                {
+                    command.CommandText += "@" + info.Name + ",";
+                }
             }
+            command.CommandText = command.CommandText.Remove(command.CommandText.Length - 1) + ");";
+
+            foreach (PropertyInfo info in model.GetType().GetProperties())
+            {
+                if (info.Name.Equals("AddedBy"))
+                {
+                    command.Parameters.AddWithValue("@" + info.Name, ActiveUser.No);
+                }
+                else if (info.Name.Equals("Dentist"))
+                {
+                    User activeUser = (User)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, activeUser.No);
+                }
+                else if (info.Name.Equals("Appointment"))
+                {
+                    Appointment appointment = (Appointment)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, appointment.No);
+                }
+                else if (info.Name.Equals("Tooth"))
+                {
+                    Tooth tooth = (Tooth)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, tooth.No);
+                }
+                else if (info.Name.Equals("Supplier"))
+                {
+                    Supplier supplier = (Supplier)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, supplier.No);
+                }
+                else if (info.Name.Equals("Patient") || info.Name.Equals("Owner"))
+                {
+                    Patient patient = (Patient)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, patient.No);
+                }
+                else if (info.Name.Equals("Treatment"))
+                {
+                    Treatment treatment = (Treatment)info.GetValue(model);
+                    command.Parameters.AddWithValue("@" + info.Name, treatment.No);
+                }
+                else if (!info.Name.Equals("No") && !info.Name.Equals("DateAdded") && !info.Name.Equals("DateModified"))
+                {
+                    command.Parameters.AddWithValue("@" + info.Name, info.GetValue(model));
+                }
+            }
+            command.ExecuteNonQuery();
+            Connection.Close();
         }
 
         protected void deleteFromDatabase(T model, string tableName)
@@ -109,7 +107,14 @@ namespace AllAboutTeethDCMS
         protected void updateDatabase(T model, string tableName)
         {
             string prefix = new T().GetType().Name;
-            createConnection();
+            if(Connection==null)
+            {
+                createConnection();
+            }
+            if(Connection.State!=System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "UPDATE " + tableName + " SET ";
             int no = 0;
@@ -166,6 +171,10 @@ namespace AllAboutTeethDCMS
             object model = Activator.CreateInstance(propertyInfo.PropertyType);
             createConnection();
             MySqlCommand command = Connection.CreateCommand();
+            if(tableName.Equals("allaboutteeth_DentalCharts"))
+            {
+                tableName = "allaboutteeth_tooths";
+            }
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
             command.Parameters.AddWithValue("@no", key);
             MySqlDataReader reader = command.ExecuteReader();
@@ -206,7 +215,14 @@ namespace AllAboutTeethDCMS
         protected T loadItem(string tableName, int key=0)
         {
             string prefix = new T().GetType().Name;
-            createConnection();
+            if (Connection == null)
+            {
+                createConnection();
+            }
+            if (Connection.State != System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM " + tableName+" WHERE "+prefix+"_No=@no";
             command.Parameters.AddWithValue("@no", key);
@@ -269,7 +285,11 @@ namespace AllAboutTeethDCMS
 
         private void executeSaveToDatabase()
         {
-            saveToDatabase(model, tableName);
+            if(beforeSave())
+            {
+                saveToDatabase(model, tableName);
+                afterSave();
+            }
         }
 
         protected void startUpdateToDatabase(T model, string tableName)
@@ -286,7 +306,11 @@ namespace AllAboutTeethDCMS
 
         private void executeUpdateToDatabase()
         {
-            updateDatabase(model, tableName);
+            if(beforeUpdate())
+            {
+                updateDatabase(model, tableName);
+                afterUpdate();
+            }
         }
 
         protected void startDeleteFromDatabase(T model, string tableName)
@@ -304,7 +328,6 @@ namespace AllAboutTeethDCMS
         private void executeDeleteFromDatabase()
         {
             deleteFromDatabase(model, tableName);
-            startLoadFromDatabase(tableName, filter);
         }
 
         protected void startLoadFromDatabase(string tableName, string filter)
@@ -326,12 +349,16 @@ namespace AllAboutTeethDCMS
         }
 
         protected abstract void setLoaded(List<T> list);
+        protected abstract bool beforeUpdate();
+        protected abstract void afterUpdate();
+        protected abstract bool beforeSave();
+        protected abstract void afterSave();
 
         private double progress = 0;
         public double Progress { get => progress; set { progress = value; OnPropertyChanged(); } }
 
         public string CustomFilter { get => customFilter; set => customFilter = value; }
-        public int CustomCount { get => customCount; set => customCount = value; }
+        public MySqlDataReader Reader { get => reader; set => reader = value; }
 
         private string customFilter = "1";
 
@@ -341,7 +368,14 @@ namespace AllAboutTeethDCMS
             string prefix = new T().GetType().Name;
             List<T> list = new List<T>();
             List<int> primaryKeys = new List<int>();
-            createConnection();
+            if(Connection==null)
+            {
+                createConnection();
+            }
+            if(Connection.State != System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM "+tableName;
             if(!filter.Trim().Equals(""))
@@ -362,12 +396,12 @@ namespace AllAboutTeethDCMS
                 command.CommandText +=" WHERE " + CustomFilter;
             }
 
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            Reader = command.ExecuteReader();
+            while (Reader.Read())
             {
-                primaryKeys.Add(reader.GetInt32(prefix+"_No"));
+                primaryKeys.Add(Reader.GetInt32(prefix+"_No"));
             }
-            reader.Close();
+            Reader.Close();
             Connection.Close();
             foreach(int primaryKey in primaryKeys)
             {

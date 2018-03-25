@@ -24,13 +24,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Image Source="{StaticResource icons8_Doctor_Male_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="18" Content="Add New User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
-            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
+            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43"/>
         </Grid>
         <StackPanel Grid.Row="2" Background="White"/>
-        <ScrollViewer Grid.Row="2">
-            <Grid>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid MinWidth="800">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.25*"/>
                     <ColumnDefinition Width="*"/>
@@ -107,7 +107,6 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </ScrollViewer>
         <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
         <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">

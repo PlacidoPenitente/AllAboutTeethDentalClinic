@@ -61,6 +61,7 @@
     <Compile Include="AgeToVisibilityConverter.cs" />
     <Compile Include="AgeToVisibilityInvertedConverter.cs" />
     <Compile Include="AllAboutTeeth.cs" />
+    <Compile Include="AnswerToVisibilityConverter.cs" />
     <Compile Include="Appointments\AddAppointmentView.xaml.cs">
       <DependentUpon>AddAppointmentView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +97,7 @@
     <Compile Include="DentalCharts\ToothViewRotated.xaml.cs">
       <DependentUpon>ToothViewRotated.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DialogBoxViewModel.cs" />
     <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="Medicines\AddMedicineView.xaml.cs">
       <DependentUpon>AddMedicineView.xaml</DependentUpon>
@@ -110,10 +112,6 @@
       <DependentUpon>MedicineView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Medicines\MedicineViewModel.cs" />
-    <Compile Include="Login\LoginView.xaml.cs">
-      <DependentUpon>LoginView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Login\LoginViewModel.cs" />
     <Compile Include="Maintenance\MaintenanceView.xaml.cs">
       <DependentUpon>MaintenanceView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +123,7 @@
     <Compile Include="Menu\MenuViewModel.cs" />
     <Compile Include="ModelBase.cs" />
     <Compile Include="ObjectToVisibilityConverter.cs" />
+    <Compile Include="ObjectToVisibilityConverterInverted.cs" />
     <Compile Include="Operations\AddOperationView.xaml.cs">
       <DependentUpon>AddOperationView.xaml</DependentUpon>
     </Compile>
@@ -208,7 +207,15 @@
       <DependentUpon>EditUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\EditUserViewModel.cs" />
+    <Compile Include="Users\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\LoginViewModel.cs" />
     <Compile Include="Users\User.cs" />
+    <Compile Include="Users\UserPreviewView.xaml.cs">
+      <DependentUpon>UserPreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Users\UserPreviewViewModel.cs" />
     <Compile Include="Users\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
@@ -216,6 +223,9 @@
     <Compile Include="PageViewModel.cs" />
     <Compile Include="UserToStringConverter.cs" />
     <Compile Include="ViewModelBase.cs" />
+    <Compile Include="DialogBoxView.xaml.cs">
+      <DependentUpon>DialogBoxView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Appointments\AddAppointmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,10 +275,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Medicines\MedicineView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Login\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,7 +366,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Users\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Users\UserPreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Users\UserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DialogBoxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -387,6 +405,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\lato-black.ttf" />
+    <Resource Include="Resources\lato-bold.ttf" />
+    <Resource Include="Resources\lato-bolditalic.ttf" />
+    <Resource Include="Resources\lato-italic.ttf" />
+    <Resource Include="Resources\lato-light.ttf" />
+    <Resource Include="Resources\lato-regular.ttf" />
     <Resource Include="Resources\Roboto-BlackItalic.ttf" />
     <Resource Include="Resources\Roboto-Bold.ttf" />
     <Resource Include="Resources\Roboto-BoldItalic.ttf" />
@@ -507,6 +531,28 @@
     <Resource Include="Resources\46.png" />
     <Resource Include="Resources\47.png" />
     <Resource Include="Resources\48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Sort_Down_24px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Sort_Up_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Add_32px.png" />
+    <Resource Include="Resources\icons8_Trash_Can_32px.png" />
+    <Resource Include="Resources\icons8_View_Details_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_False_Teeth_32px.png" />
+    <Resource Include="Resources\icons8_Invoice_32px.png" />
+    <Resource Include="Resources\icons8_Treatment_Plan_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Archive_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Open_Archive_32px.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

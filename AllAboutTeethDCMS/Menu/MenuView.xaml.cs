@@ -51,7 +51,7 @@ namespace AllAboutTeethDCMS.Menu
         private void accounts_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoUsers(menuViewModel.ActiveUser);
+            menuViewModel.gotoUsers();
         }
 
         private void maintenance_Click(object sender, RoutedEventArgs e)

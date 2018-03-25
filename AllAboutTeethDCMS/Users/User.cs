@@ -29,7 +29,7 @@ namespace AllAboutTeethDCMS.Users
         private string image = "";
         private DateTime dateAdded = DateTime.Now;
         private DateTime dateModified = DateTime.Now;
-        private User addedBy;
+        private string status = "Active";
 
         public int No { get => no; set => no = value; }
         public string Username { get => username; set => username = value; }
@@ -50,7 +50,7 @@ namespace AllAboutTeethDCMS.Users
         public string Image { get => image; set => image = value; }
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
-        public User AddedBy { get => addedBy; set => addedBy = value; }
+        public string Status { get => status; set => status = value; }
 
         public override string ToString()
         {

@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AllAboutTeethDCMS"
+        xmlns:login="clr-namespace:AllAboutTeethDCMS.Users"
         xmlns:menu="clr-namespace:AllAboutTeethDCMS.Menu"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="600" Width="800">
+        Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Height="600" Width="800">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -18,7 +19,49 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource MidnightBlue}">
-            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Background="{StaticResource MidnightBlue}" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Margin="5" Grid.Column="2" Background="{StaticResource Turquoise}" CornerRadius="3" Padding="2">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Label Content="{Binding ActiveUser.Type}" Foreground="White" FontFamily="{StaticResource RobotoLight}" FontSize="13" Padding="0"/>
+                                </StackPanel>
+                            </Border>
+                            <Label VerticalAlignment="Center" Content="{Binding ActiveUser.LastName}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" Padding="0"/>
+                            <Label VerticalAlignment="Center" Content=", " Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" Padding="0"/>
+                            <Label VerticalAlignment="Center" Content="{Binding ActiveUser.FirstName}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" Padding="0"/>
+                            <Label VerticalAlignment="Center" Content=" " Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" Padding="0"/>
+                            <Label VerticalAlignment="Center" Content="{Binding ActiveUser.MiddleName}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" Padding="0"/>
+                        </StackPanel>
+                    </Border>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding DateTime, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Foreground="{StaticResource Sunflower}" FontFamily="{StaticResource RobotoLight}" VerticalAlignment="Center" Margin="5" FontSize="13" Padding="0"/>
+                        <Label Content="{Binding Time, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="{StaticResource Orange}" FontFamily="{StaticResource Roboto}" VerticalAlignment="Center" Margin="5" FontSize="13" Padding="0"/>
+                    </Grid>
+                </Grid>
+                <Border Grid.Column="1" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="5">
+
+                </Border>
+            </Grid>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -26,16 +69,14 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="{StaticResource WetAsphalt}"/>
-            <menu:MenuView x:Name="menuView" Width="200"/>
-
-            <Border SnapsToDevicePixels="True" Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource Turquoise}">
+            <menu:MenuView x:Name="menuView" Width="200" DataContext="{Binding MenuViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+            <Border SnapsToDevicePixels="True" Grid.Column="1" BorderThickness="2" BorderBrush="{StaticResource Turquoise}" Margin="0,0,5,0">
                 <ContentControl Content="{Binding ActivePage, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
-            <!--<ScrollViewer  VerticalScrollBarVisibility="Auto">
-            </ScrollViewer>-->
         </Grid>
-        <Grid Background="{StaticResource MidnightBlue}" Grid.Row="2">
-
+        <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
+            
         </Grid>
+        <login:LoginView DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
     </Grid>
 </Window>

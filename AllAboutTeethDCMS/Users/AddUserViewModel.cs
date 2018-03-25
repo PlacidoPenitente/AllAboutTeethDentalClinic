@@ -53,7 +53,6 @@ namespace AllAboutTeethDCMS.Users
             }
             if (!hasError)
             {
-                User.AddedBy = ActiveUser;
                 startSaveToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
@@ -61,6 +60,26 @@ namespace AllAboutTeethDCMS.Users
         protected override void setLoaded(List<User> list)
         {
             throw new NotImplementedException();
+        }
+
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            return true;
+        }
+
+        protected override void afterSave()
+        {
+            Console.WriteLine("Successfully Saved");
         }
 
         public User User

@@ -22,4 +22,6 @@
     <root:TeethToStringConverter x:Key="TeethToStringConverter"/>
     <root:ConditionToSymbolConverter x:Key="ConditionToSymbolConverter"/>
     <root:AppointmentToStringConverter x:Key="AppointmentToStringConverter"/>
+    <root:ObjectToVisibilityConverterInverted x:Key="ObjectToVisibilityConverterInverted"/>
+    <root:AnswerToVisibilityConverter x:Key="AnswerToVisibilityConverter"/>
 </ResourceDictionary>

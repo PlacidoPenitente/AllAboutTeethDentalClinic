@@ -473,10 +473,10 @@
                         <Border Margin="10,0,0,0" Background="{StaticResource BelizeHole}"  BorderThickness="2,2,2,0" BorderBrush="{StaticResource WetAsphalt}">
                             <Label Content="Treatment History" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="15" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center"/>
                         </Border>
-                        <DataGrid Grid.Row="1" BorderThickness="2,1,2,2" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding TreatmentRecords, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="10,0,0,0">
+                        <DataGrid Grid.Row="1" BorderThickness="2,1,2,2" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding TreatmentRecords, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="10,0,0,0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="No." Binding="{Binding No}"/>
-                                <DataGridTextColumn Header="Appointment" Binding="{Binding Appointemnt, Converter={StaticResource AppointmentToStringConverter}}"/>
+                                <DataGridTextColumn Header="Appointment" Binding="{Binding Appointment, Converter={StaticResource AppointmentToStringConverter}}"/>
                                 <DataGridTextColumn Header="Treatment" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
                                 <DataGridTextColumn Header="Note" Binding="{Binding Notes}"/>
                                 <DataGridTextColumn Header="Date Performed" Binding="{Binding DateAdded}"/>

@@ -53,6 +53,26 @@ namespace AllAboutTeethDCMS.Treatments
             throw new NotImplementedException();
         }
 
+        protected override bool beforeUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterSave()
+        {
+            throw new NotImplementedException();
+        }
+
         public string Name { get => Treatment.Name; set { Treatment.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
         public string Description { get => Treatment.Description; set { Treatment.Description = value; OnPropertyChanged(); } }
 

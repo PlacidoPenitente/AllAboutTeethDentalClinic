@@ -32,7 +32,7 @@ namespace AllAboutTeethDCMS.Users
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((EditUserViewModel)DataContext).MenuViewModel.gotoUsers(((EditUserViewModel)DataContext).ActiveUser);
+            ((EditUserViewModel)DataContext).MenuViewModel.gotoUsers();
         }
 
         private void passwordMain_PasswordChanged(object sender, RoutedEventArgs e)

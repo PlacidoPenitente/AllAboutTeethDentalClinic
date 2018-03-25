@@ -6,7 +6,7 @@
 			 xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="600" d:DesignWidth="800">
+			 d:DesignHeight="900" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:UserViewModel/>
     </UserControl.DataContext>
@@ -22,137 +22,55 @@
 			<ColumnDefinition Width="0.1*"/>
 		</Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
-            <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
+            <Image Source="{StaticResource icons8_Doctor_Male_32px.png}" Stretch="None"  Margin="10,0,10,0"/>
             <Label FontSize="18" Content="Users" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Account: "/>
-                <Button Margin="0,20,0,0" Height="45" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" x:Name="add_account" Click="add_account_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_account" Click="edit_account_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_account" Click="delete_account_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search User: "/>
+                <Button Margin="0,9,0,0" Height="43" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Users, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
+                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Users, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="No." Binding="{Binding No}"/>
-                        <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
+                        <DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" FontFamily="{StaticResource Roboto}"/>
                         <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"/>
+                        <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
                         <DataGridTextColumn Header="Middle Name" Binding="{Binding MiddleName}"/>
-                        <DataGridTextColumn Header="Username" Binding="{Binding Username}"/>
                         <DataGridTextColumn Header="Type" Binding="{Binding Type}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
-                        <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
-                    </DataGrid.Columns>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                     </DataGrid.Columns>
                 </DataGrid>
-                <Grid Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Width="400" Grid.Column="1" Margin="0,10,0,0">
-                    <Border SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource MidnightBlue}">
-                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Margin="10">
-                                <StackPanel>
-                                    <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
-                                </StackPanel>
-                                <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
-                                    
-                                </Border>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Gender:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Address, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Contact No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.ContactNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <Grid Margin="3">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="100"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label HorizontalAlignment="Left" Width="100" Content="Email Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                                </Grid>
-                                <StackPanel Margin="0,20,0,0">
-                                    <Border HorizontalAlignment="Center" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2" SnapsToDevicePixels="True">
-                                        <Label HorizontalAlignment="Center" Content="{Binding User.Username}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Margin="3" Foreground="{StaticResource WetAsphalt}"/>
-                                    </Border>
-                                    <Label HorizontalAlignment="Center" Content="{Binding User.Type, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Border>
-                </Grid>
+                <StackPanel Grid.Column="1" Margin="0,10,0,0">
+                    <Button x:Name="add" Click="add_Click" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}"/>
+                    <Button x:Name="view" Click="view_Click" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}"/>
+                    <Button x:Name="edit" Click="edit_Click" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}"/>
+                    <Button x:Name="archive" Click="archive_Click" Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}"/>
+                    <Button x:Name="unarchive" Click="unarchive_Click" Visibility="{Binding UnarchiveVisibility,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}"/>
+                    <Button x:Name="delete" Click="delete_Click" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}"/>
+                </StackPanel>
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
             <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Users: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
+        <root:DialogBoxView Grid.Row="1" Grid.ColumnSpan="3" DataContext="{Binding ArchiveDialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>
