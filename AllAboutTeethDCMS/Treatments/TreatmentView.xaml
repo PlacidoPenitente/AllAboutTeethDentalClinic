@@ -58,7 +58,7 @@
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
-                        <DataGridTextColumn Header="Added By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
+                        <DataGridTextColumn Header="Updated By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

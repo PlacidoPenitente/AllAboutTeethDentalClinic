@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource icons8_Add_Property_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Image Source="{StaticResource icons8_Truck_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="18" Content="Add New Supplier" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
@@ -56,7 +56,14 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox root:AttachedProperties.Error="{Binding AddressError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.Column="0" Margin="5" Grid.ColumnSpan="2"/>
-                        <TextBox Text="{Binding Schedule, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Days Open:" Grid.Column="2" Margin="5"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Schedule, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Schedule:" Grid.Column="0" Margin="5" Grid.ColumnSpan="2"/>
                     </Grid>
                 </StackPanel>
             </Grid>
@@ -70,5 +77,6 @@
             <Button x:Name="addSupplier" Grid.Column="0" Click="addSupplier_Click" Style="{StaticResource PrimaryButton}" Content="Add Supplier" Height="48"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
         </Grid>
+        <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

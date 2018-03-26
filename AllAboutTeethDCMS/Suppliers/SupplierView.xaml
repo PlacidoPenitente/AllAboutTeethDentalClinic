@@ -55,14 +55,15 @@
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
                         <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                        <DataGridTextColumn Header="Updated By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Column="1" Margin="0,10,0,0">
                     <Button x:Name="add" Click="add_Click" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}"/>
-                    <Button x:Name="edit" Click="edit_Click" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}"/>
+                    <Button x:Name="edit" Click="edit_Click" Visibility="{Binding Supplier, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}"/>
                     <Button x:Name="archive" Click="archive_Click" Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}"/>
                     <Button x:Name="unarchive" Click="unarchive_Click" Visibility="{Binding UnarchiveVisibility,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}"/>
-                    <Button x:Name="delete" Click="delete_Click" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}"/>
+                    <Button x:Name="delete" Click="delete_Click" Visibility="{Binding Supplier, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}"/>
                 </StackPanel>
             </Grid>
         </Grid>

@@ -168,9 +168,50 @@ namespace AllAboutTeethDCMS.Menu
         }
         #endregion
 
+        #region Providers
         private ProviderView providerView;
         private AddProviderView addProviderView;
         private EditProviderView editProviderView;
+
+        public ProviderView ProviderView { get => providerView; set => providerView = value; }
+        public AddProviderView AddProviderView { get => addProviderView; set => addProviderView = value; }
+        public EditProviderView EditProviderView { get => editProviderView; set => editProviderView = value; }
+
+        public void gotoProviders()
+        {
+            if(ProviderView==null)
+            {
+                ProviderView = new ProviderView();
+            }
+            MainWindowViewModel.ActivePage = ProviderView;
+            ((ProviderViewModel)ProviderView.DataContext).ActiveUser = ActiveUser;
+            ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoEditProviderView(Provider provider)
+        {
+            if(EditProviderView==null)
+            {
+                EditProviderView = new EditProviderView();
+            }
+            MainWindowViewModel.ActivePage = EditProviderView;
+            ((EditProviderViewModel)EditProviderView.DataContext).ActiveUser = ActiveUser;
+            ((EditProviderViewModel)EditProviderView.DataContext).Provider = provider;
+            ((EditProviderViewModel)EditProviderView.DataContext).CopyProvider = (Provider)provider.Clone();
+            ((EditProviderViewModel)EditProviderView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoAddProviderView()
+        {
+            if(AddAppointmentView==null)
+            {
+                AddProviderView = new AddProviderView();
+            }
+            MainWindowViewModel.ActivePage = AddProviderView;
+            ((AddProviderViewModel)AddProviderView.DataContext).ActiveUser = ActiveUser;
+            ((AddProviderViewModel)AddProviderView.DataContext).MenuViewModel = this;
+        }
+        #endregion
 
         private MedicineView itemView;
         private AddMedicineView addMedicineView;
@@ -188,9 +229,6 @@ namespace AllAboutTeethDCMS.Menu
         public TreatmentView TreatmentView1 { get => treatmentView; set => treatmentView = value; }
         public AddTreatmentView AddTreatmentView { get => addTreatmentView; set => addTreatmentView = value; }
         public EditTreatmentView EditTreatmentView { get => editTreatmentView; set => editTreatmentView = value; }
-        public ProviderView ProviderView { get => providerView; set => providerView = value; }
-        public AddProviderView AddProviderView { get => addProviderView; set => addProviderView = value; }
-        public EditProviderView EditProviderView { get => editProviderView; set => editProviderView = value; }
         public MedicineView MedicineView { get => ItemView; set => ItemView = value; }
         public MedicineView ItemView { get => itemView; set => itemView = value; }
         public AddMedicineView AddMedicineView { get => addMedicineView; set => addMedicineView = value; }
@@ -228,8 +266,6 @@ namespace AllAboutTeethDCMS.Menu
             ((AppointmentViewModel)AppointmentView.DataContext).loadAppointments();
         }
 
-        
-
         public void gotoTreatments(User activeUser)
         {
             TreatmentView = new TreatmentView();
@@ -256,39 +292,6 @@ namespace AllAboutTeethDCMS.Menu
             ((AddTreatmentViewModel)AddTreatmentView.DataContext).ActiveUser = activeUser;
             ((AddTreatmentViewModel)AddTreatmentView.DataContext).MenuViewModel = this;
         }
-
-        public void gotoProviders(User activeUser)
-        {
-            ProviderView = new ProviderView();
-            MainWindowViewModel.ActivePage = ProviderView;
-            ((ProviderViewModel)ProviderView.DataContext).ActiveUser = activeUser;
-            ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
-            ((ProviderViewModel)ProviderView.DataContext).loadProviders();
-        }
-
-        public void gotoEditProviderView(User activeUser, Provider provider)
-        {
-            EditProviderView = new EditProviderView();
-            MainWindowViewModel.ActivePage = EditProviderView;
-            ((EditProviderViewModel)EditProviderView.DataContext).ActiveUser = activeUser;
-            ((EditProviderViewModel)EditProviderView.DataContext).Provider = provider;
-            ((EditProviderViewModel)EditProviderView.DataContext).CopyProvider = (Provider)provider.Clone();
-            ((EditProviderViewModel)EditProviderView.DataContext).MenuViewModel = this;
-        }
-
-        public void gotoAddProviderView(User activeUser)
-        {
-            AddProviderView = new AddProviderView();
-            MainWindowViewModel.ActivePage = AddProviderView;
-            ((AddProviderViewModel)AddProviderView.DataContext).ActiveUser = activeUser;
-            ((AddProviderViewModel)AddProviderView.DataContext).MenuViewModel = this;
-        }
-
-        
-
-        
-
-        
 
         public void gotoMedicines(User activeUser)
         {

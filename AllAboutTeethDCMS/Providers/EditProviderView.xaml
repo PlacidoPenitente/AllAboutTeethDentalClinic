@@ -23,8 +23,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-            <Label FontSize="18" Content="Edit Treatment" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Image Source="{StaticResource icons8_Credit_Card_32px_1.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
+            <Label FontSize="18" Content="Edit Provider" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
         <StackPanel Grid.Row="1" Background="White"/>
@@ -62,5 +62,6 @@
             <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Save Provider" Height="48"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
         </Grid>
+        <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

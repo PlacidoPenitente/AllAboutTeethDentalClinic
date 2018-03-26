@@ -37,7 +37,7 @@ namespace AllAboutTeethDCMS.Providers
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((EditProviderViewModel)DataContext).MenuViewModel.gotoProviders(((EditProviderViewModel)DataContext).ActiveUser);
+            ((EditProviderViewModel)DataContext).MenuViewModel.gotoProviders();
         }
     }
 }

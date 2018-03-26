@@ -69,7 +69,7 @@ namespace AllAboutTeethDCMS.Menu
         private void providers_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoProviders(menuViewModel.ActiveUser);
+            menuViewModel.gotoProviders();
         }
 
         private void dashboard_Click(object sender, RoutedEventArgs e)
