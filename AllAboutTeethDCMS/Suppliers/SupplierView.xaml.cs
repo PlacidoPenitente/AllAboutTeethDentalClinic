@@ -30,19 +30,29 @@ namespace AllAboutTeethDCMS.Suppliers
             ((SupplierViewModel)DataContext).loadSuppliers();
         }
 
-        private void add_treatment_Click(object sender, RoutedEventArgs e)
+        private void add_Click(object sender, RoutedEventArgs e)
         {
-            ((SupplierViewModel)DataContext).MenuViewModel.gotoAddSupplierView(((SupplierViewModel)DataContext).ActiveUser);
+            ((SupplierViewModel)DataContext).MenuViewModel.gotoAddSupplierView();
         }
 
-        private void edit_treatment_Click(object sender, RoutedEventArgs e)
+        private void edit_Click(object sender, RoutedEventArgs e)
         {
-            ((SupplierViewModel)DataContext).MenuViewModel.gotoEditSupplierView(((SupplierViewModel)DataContext).ActiveUser, ((SupplierViewModel)DataContext).Supplier);
+            ((SupplierViewModel)DataContext).MenuViewModel.gotoEditSupplierView((Supplier)((SupplierViewModel)DataContext).Supplier.Clone());
         }
 
-        private void delete_treatment_Click(object sender, RoutedEventArgs e)
+        private void delete_Click(object sender, RoutedEventArgs e)
         {
-            ((SupplierViewModel)DataContext).deleteTreatment();
+            ((SupplierViewModel)DataContext).deleteSupplier();
+        }
+
+        private void unarchive_Click(object sender, RoutedEventArgs e)
+        {
+            ((SupplierViewModel)DataContext).unarchive();
+        }
+
+        private void archive_Click(object sender, RoutedEventArgs e)
+        {
+            ((SupplierViewModel)DataContext).archive();
         }
     }
 }

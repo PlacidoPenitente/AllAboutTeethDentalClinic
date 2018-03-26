@@ -25,7 +25,14 @@ namespace AllAboutTeethDCMS
 
         protected void saveToDatabase(T model, string tableName)
         {
-            createConnection();
+            if (Connection == null)
+            {
+                createConnection();
+            }
+            if (Connection.State != System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "INSERT INTO " + tableName + " VALUES (";
             foreach (PropertyInfo info in model.GetType().GetProperties())
@@ -93,7 +100,14 @@ namespace AllAboutTeethDCMS
         protected void deleteFromDatabase(T model, string tableName)
         {
             string prefix = new T().GetType().Name;
-            createConnection();
+            if (Connection == null)
+            {
+                createConnection();
+            }
+            if (Connection.State != System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "DELETE FROM " + tableName + " WHERE "+prefix+"_No=@key";
             command.Parameters.AddWithValue("@key", model.GetType().GetProperty("No").GetValue(model));
@@ -554,7 +568,14 @@ namespace AllAboutTeethDCMS
             }
             if (!value.Trim().Equals(original))
             {
-                createConnection();
+                if(Connection==null)
+                {
+                    createConnection();
+                }
+                if (Connection.State != System.Data.ConnectionState.Open)
+                {
+                    Connection.Open();
+                }
                 MySqlCommand command = Connection.CreateCommand();
                 command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
                 command.Parameters.AddWithValue("@name", value);

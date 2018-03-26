@@ -28,7 +28,7 @@ namespace AllAboutTeethDCMS.Menu
         private AppointmentView appointmentView;
         private AddAppointmentView addAppointmentView;
 
-        #region User
+        #region Users
         private UserView userView;
         private AddUserView addUserView;
         private EditUserView editUserView;
@@ -123,9 +123,50 @@ namespace AllAboutTeethDCMS.Menu
         private AddTreatmentView addTreatmentView;
         private EditTreatmentView editTreatmentView;
 
+        #region Suppliers
         private SupplierView supplierView;
         private AddSupplierView addSupplierView;
         private EditSupplierView editSupplierView;
+
+        public SupplierView SupplierView { get => supplierView; set => supplierView = value; }
+        public AddSupplierView AddSupplierView { get => addSupplierView; set => addSupplierView = value; }
+        public EditSupplierView EditSupplierView { get => editSupplierView; set => editSupplierView = value; }
+
+        public void gotoSuppliers()
+        {
+            if(SupplierView==null)
+            {
+                SupplierView = new SupplierView();
+            }
+            MainWindowViewModel.ActivePage = SupplierView;
+            ((SupplierViewModel)SupplierView.DataContext).ActiveUser = ActiveUser;
+            ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoAddSupplierView()
+        {
+            if(AddSupplierView==null)
+            {
+                AddSupplierView = new AddSupplierView();
+            }
+            MainWindowViewModel.ActivePage = AddSupplierView;
+            ((AddSupplierViewModel)AddSupplierView.DataContext).ActiveUser = ActiveUser;
+            ((AddSupplierViewModel)AddSupplierView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoEditSupplierView(Supplier selectedSupplier)
+        {
+            if(EditSupplierView==null)
+            {
+                EditSupplierView = new EditSupplierView();
+            }
+            MainWindowViewModel.ActivePage = EditSupplierView;
+            ((EditSupplierViewModel)EditSupplierView.DataContext).ActiveUser = ActiveUser;
+            ((EditSupplierViewModel)EditSupplierView.DataContext).Supplier = selectedSupplier;
+            ((EditSupplierViewModel)EditSupplierView.DataContext).CopySupplier = (Supplier)selectedSupplier.Clone();
+            ((EditSupplierViewModel)EditSupplierView.DataContext).MenuViewModel = this;
+        }
+        #endregion
 
         private ProviderView providerView;
         private AddProviderView addProviderView;
@@ -147,9 +188,6 @@ namespace AllAboutTeethDCMS.Menu
         public TreatmentView TreatmentView1 { get => treatmentView; set => treatmentView = value; }
         public AddTreatmentView AddTreatmentView { get => addTreatmentView; set => addTreatmentView = value; }
         public EditTreatmentView EditTreatmentView { get => editTreatmentView; set => editTreatmentView = value; }
-        public SupplierView SupplierView { get => supplierView; set => supplierView = value; }
-        public AddSupplierView AddSupplierView { get => addSupplierView; set => addSupplierView = value; }
-        public EditSupplierView EditSupplierView { get => editSupplierView; set => editSupplierView = value; }
         public ProviderView ProviderView { get => providerView; set => providerView = value; }
         public AddProviderView AddProviderView { get => addProviderView; set => addProviderView = value; }
         public EditProviderView EditProviderView { get => editProviderView; set => editProviderView = value; }
@@ -248,32 +286,7 @@ namespace AllAboutTeethDCMS.Menu
 
         
 
-        public void gotoSuppliers(User activeUser)
-        {
-            SupplierView = new SupplierView();
-            MainWindowViewModel.ActivePage = SupplierView;
-            ((SupplierViewModel)SupplierView.DataContext).ActiveUser = activeUser;
-            ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
-            ((SupplierViewModel)SupplierView.DataContext).loadSuppliers();
-        }
-
-        public void gotoAddSupplierView(User activeUser)
-        {
-            AddSupplierView = new AddSupplierView();
-            MainWindowViewModel.ActivePage = AddSupplierView;
-            ((AddSupplierViewModel)AddSupplierView.DataContext).ActiveUser = activeUser;
-            ((AddSupplierViewModel)AddSupplierView.DataContext).MenuViewModel = this;
-        }
-
-        public void gotoEditSupplierView(User activeUser, Supplier selectedSupplier)
-        {
-            EditSupplierView = new EditSupplierView();
-            MainWindowViewModel.ActivePage = EditSupplierView;
-            ((EditSupplierViewModel)EditSupplierView.DataContext).ActiveUser = activeUser;
-            ((EditSupplierViewModel)EditSupplierView.DataContext).Supplier = selectedSupplier;
-            ((EditSupplierViewModel)EditSupplierView.DataContext).CopySupplier = (Supplier)selectedSupplier.Clone();
-            ((EditSupplierViewModel)EditSupplierView.DataContext).MenuViewModel = this;
-        }
+        
 
         
 
