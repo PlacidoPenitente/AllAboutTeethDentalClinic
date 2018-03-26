@@ -157,7 +157,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysicianOfficeAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office Address:" Grid.ColumnSpan="2" Margin="5"/>
-                        <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysicianOfficeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office Number:" Grid.Column="2" Margin="5"/>
+                        <TextBox Visibility="{Binding PhysicianName, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PhysicianOfficeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Office No.:" Grid.Column="2" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>

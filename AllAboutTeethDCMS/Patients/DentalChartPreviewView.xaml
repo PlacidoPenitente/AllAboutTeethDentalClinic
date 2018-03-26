@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.Patients.DentalChartPreviewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.Patients"
+             xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             mc:Ignorable="d" 
+             Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Grid.Background>
+        <Grid Margin="10" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
+                <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+            </ScrollViewer>
+            <StackPanel Grid.Column="1">
+                <Button x:Name="close" Click="close_Click" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

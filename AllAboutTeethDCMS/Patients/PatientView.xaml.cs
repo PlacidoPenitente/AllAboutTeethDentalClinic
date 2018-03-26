@@ -61,28 +61,9 @@ namespace AllAboutTeethDCMS.Patients
             ((PatientViewModel)DataContext).archive();
         }
 
-        private void show_dentalchart_Click(object sender, RoutedEventArgs e)
+        private void chart_Click(object sender, RoutedEventArgs e)
         {
-            //((PatientViewModel)DataContext).Visibility = "Visible";
-        }
-
-        private void updateChart_Click(object sender, RoutedEventArgs e)
-        {
-            //foreach(ToothViewModel toothView in ((PatientViewModel)DataContext).DentalChartViewModel.TeethView)
-            //{
-            //    toothView.Condition = ((PatientViewModel)DataContext).Condition;
-            //}
-            //((PatientViewModel)DataContext).DentalChartViewModel.startUpdatingTeeth();
-        }
-
-        private void reload_Click(object sender, RoutedEventArgs e)
-        {
-            //((PatientViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
-        }
-
-        private void close_Click(object sender, RoutedEventArgs e)
-        {
-            //((PatientViewModel)DataContext).Visibility = "Collapsed";
+            ((PatientViewModel)DataContext).DentalChartPreviewViewModel.Visibility = "Visible";
         }
     }
 }

@@ -23,8 +23,6 @@ namespace AllAboutTeethDCMS
         private Thread saveThread;
         private Thread deleteThread;
 
-        private MySqlDataReader reader;
-
         protected void saveToDatabase(T model, string tableName)
         {
             createConnection();
@@ -165,10 +163,16 @@ namespace AllAboutTeethDCMS
             Connection.Close();
         }
 
-        protected object loadInfo(PropertyInfo propertyInfo, string prefix, string tableName, int key=0)
+        protected object loadInfo(object model, string prefix, string tableName, int key=0)
         {
-            object model = Activator.CreateInstance(propertyInfo.PropertyType);
-            createConnection();
+            if (Connection == null)
+            {
+                createConnection();
+            }
+            if (Connection.State != System.Data.ConnectionState.Open)
+            {
+                Connection.Open();
+            }
             MySqlCommand command = Connection.CreateCommand();
             if(tableName.Equals("allaboutteeth_DentalCharts"))
             {
@@ -176,7 +180,8 @@ namespace AllAboutTeethDCMS
             }
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
             command.Parameters.AddWithValue("@no", key);
-            reader = command.ExecuteReader();
+            List<object> temp = new List<object>();
+            MySqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
                 foreach (PropertyInfo info in model.GetType().GetProperties())
@@ -197,13 +202,24 @@ namespace AllAboutTeethDCMS
                     {
                         info.SetValue(model, reader.GetBoolean(prefix + "_" + info.Name));
                     }
+                    else if (info.PropertyType.ToString().Equals("System.Double"))
+                    {
+                        info.SetValue(model, reader.GetDecimal(prefix + "_" + info.Name));
+                    }
                     else
                     {
-                        info.SetValue(model, loadInfo(info, info.PropertyType.Name, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
+                        var infoTemp = Activator.CreateInstance(info.PropertyType);
+                        infoTemp.GetType().GetProperty("No").SetValue(infoTemp, reader.GetInt32(prefix + "_" + info.Name));
+                        info.SetValue(model, infoTemp);
+                        temp.Add(infoTemp);
                     }
                 }
                 reader.Close();
                 Connection.Close();
+                foreach (object info in temp)
+                {
+                    loadInfo(info, info.GetType().Name, "allaboutteeth_" + info.GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), (int)info.GetType().GetProperty("No").GetValue(info));
+                }
                 return model;
             }
             reader.Close();
@@ -225,8 +241,8 @@ namespace AllAboutTeethDCMS
             MySqlCommand command = Connection.CreateCommand();
             command.CommandText = "SELECT * FROM " + tableName+" WHERE "+prefix+"_No=@no";
             command.Parameters.AddWithValue("@no", key);
+            List<object> temp = new List<object>();
             MySqlDataReader reader = command.ExecuteReader();
-
             if(reader.Read())
             {
                 T model = new T();
@@ -254,11 +270,18 @@ namespace AllAboutTeethDCMS
                     }
                     else
                     {
-                        info.SetValue(model, loadInfo(info, info.PropertyType.Name, "allaboutteeth_" + info.PropertyType.Namespace.Replace("AllAboutTeethDCMS.", ""), reader.GetInt32(prefix + "_" + info.Name)));
+                        var infoTemp = Activator.CreateInstance(info.PropertyType);
+                        infoTemp.GetType().GetProperty("No").SetValue(infoTemp, reader.GetInt32(prefix + "_" + info.Name));
+                        info.SetValue(model, infoTemp);
+                        temp.Add(infoTemp);
                     }
                 }
                 reader.Close();
                 Connection.Close();
+                foreach (object info in temp)
+                {
+                    loadInfo(info, info.GetType().Name, "allaboutteeth_" + info.GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), (int)info.GetType().GetProperty("No").GetValue(info));
+                }
                 return model;
             }
             reader.Close();
@@ -388,7 +411,6 @@ namespace AllAboutTeethDCMS
         public double Progress { get => progress; set { progress = value; OnPropertyChanged(); } }
 
         public string CustomFilter { get => customFilter; set => customFilter = value; }
-        public MySqlDataReader Reader { get => reader; set => reader = value; }
 
         private string customFilter = "1";
 
@@ -425,12 +447,12 @@ namespace AllAboutTeethDCMS
             {
                 command.CommandText +=" WHERE " + CustomFilter;
             }
-            Reader = command.ExecuteReader();
-            while (Reader.Read())
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                primaryKeys.Add(Reader.GetInt32(prefix+"_No"));
+                primaryKeys.Add(reader.GetInt32(prefix+"_No"));
             }
-            Reader.Close();
+            reader.Close();
             Connection.Close();
             foreach(int primaryKey in primaryKeys)
             {
@@ -500,7 +522,7 @@ namespace AllAboutTeethDCMS
                 MySqlCommand command = Connection.CreateCommand();
                 command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
                 command.Parameters.AddWithValue("@user", value);
-                reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     if(reader.GetString("user_username").Equals(original))
@@ -536,7 +558,7 @@ namespace AllAboutTeethDCMS
                 MySqlCommand command = Connection.CreateCommand();
                 command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
                 command.Parameters.AddWithValue("@name", value);
-                reader = command.ExecuteReader();
+                MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     reader.Close();

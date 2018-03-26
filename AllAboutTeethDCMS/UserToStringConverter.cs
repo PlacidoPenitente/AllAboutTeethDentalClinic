@@ -14,12 +14,12 @@ namespace AllAboutTeethDCMS
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value!=null)
+            User user = (User)value;
+            if(String.IsNullOrEmpty(user.Username))
             {
-                User user = (User)value;
-                return "(" + user.Username + ") " + user.LastName + ", " + user.FirstName + " " + user.MiddleName;
+                return "Unknown User";
             }
-            return "Unknown User";
+            return "(" + user.Username + ") " + user.LastName + ", " + user.FirstName + " " + user.MiddleName;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

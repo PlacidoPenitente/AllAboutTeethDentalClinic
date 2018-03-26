@@ -132,23 +132,20 @@ namespace AllAboutTeethDCMS.DentalChart
             set
             {
                 patient = value;
-                OnPropertyChanged();
-                if(value!=null)
+                TeethView = new List<ToothViewModel>();
+                foreach (PropertyInfo info in GetType().GetProperties())
                 {
-                    TeethView = new List<ToothViewModel>();
-                    foreach (PropertyInfo info in GetType().GetProperties())
+                    if (info.Name.StartsWith("ToothView"))
                     {
-                        if (info.Name.StartsWith("ToothView"))
-                        {
-                            ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
-                            toothView.Teeth = TeethView;
-                            toothView.Owner = value;
-                            toothView.ActiveUser = User;
-                        }
-                        OnPropertyChanged(info.Name);
+                        ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
+                        toothView.Teeth = TeethView;
+                        toothView.Owner = value;
+                        toothView.ActiveUser = User;
                     }
-                    startLoadingTeeth();
+                    OnPropertyChanged(info.Name);
                 }
+                startLoadingTeeth();
+                OnPropertyChanged();
             }
         }
 
@@ -164,20 +161,14 @@ namespace AllAboutTeethDCMS.DentalChart
 
         public void loadTeeth()
         {
-            if(Patient!=null)
+            foreach (PropertyInfo info in GetType().GetProperties())
             {
-                foreach (PropertyInfo info in GetType().GetProperties())
+                if (info.Name.StartsWith("ToothView"))
                 {
-                    if (info.Name.StartsWith("ToothView"))
-                    {
-                        ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
-                        toothView.Teeth = TeethView;
-                        toothView.Owner = Patient;
-                        toothView.ActiveUser = User;
-                        toothView.loadTooth();
-                    }
-                    OnPropertyChanged(info.Name);
+                    ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
+                    toothView.loadTooth();
                 }
+                OnPropertyChanged(info.Name);
             }
         }
 

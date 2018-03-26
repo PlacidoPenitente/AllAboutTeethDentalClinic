@@ -221,10 +221,38 @@ namespace AllAboutTeethDCMS.Patients
                     FaxNo = "";
                 }
                 OnPropertyChanged(); } }
-        public string OfficeNo { get => Patient.OfficeNo; set { Patient.OfficeNo = value; OnPropertyChanged(); } }
+        public string OfficeNo { get => Patient.OfficeNo; set {
+                bool valid = true;
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    Patient.OfficeNo = value;
+                }
+                OnPropertyChanged(); } }
         public string DentalInsurance { get => Patient.DentalInsurance; set { Patient.DentalInsurance = value; OnPropertyChanged(); } }
         public string EffectiveDate { get => Patient.EffectiveDate; set { Patient.EffectiveDate = value; OnPropertyChanged(); } }
-        public string FaxNo { get => Patient.FaxNo; set { Patient.FaxNo = value; OnPropertyChanged(); } }
+        public string FaxNo { get => Patient.FaxNo; set {
+                bool valid = true;
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    Patient.FaxNo = value;
+                }
+                OnPropertyChanged(); } }
         public string ParentGuardianName { get => Patient.ParentGuardianName; set => Patient.ParentGuardianName = value; }
         public string CellNo { get => Patient.CellNo; set {
                 bool valid = true;
@@ -270,7 +298,21 @@ namespace AllAboutTeethDCMS.Patients
                 OnPropertyChanged(); } }
         public string PhysycianSpecialty { get => Patient.PhysicianSpecialty; set { Patient.PhysicianSpecialty = value; OnPropertyChanged(); } }
         public string PhysicianOfficeAddress { get => Patient.PhysicianOfficeAddress; set { Patient.PhysicianOfficeAddress = value; OnPropertyChanged(); } }
-        public string PhysicianOfficeNumber { get => Patient.PhysicianOfficeNumber; set { Patient.PhysicianOfficeNumber = value; OnPropertyChanged(); } }
+        public string PhysicianOfficeNumber { get => Patient.PhysicianOfficeNumber; set {
+                bool valid = true;
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    Patient.PhysicianOfficeNumber = value;
+                }
+                OnPropertyChanged(); } }
         public bool IsInGoodHealth { get => Patient.IsInGoodHealth; set { Patient.IsInGoodHealth = value; OnPropertyChanged(); } }
         public string ConditionBeingTreated { get => Patient.ConditionBeingTreated; set { Patient.ConditionBeingTreated = value; OnPropertyChanged(); } }
         public string IllnessOrOperation { get => Patient.IllnessOrOperation; set { Patient.IllnessOrOperation = value; OnPropertyChanged(); } }

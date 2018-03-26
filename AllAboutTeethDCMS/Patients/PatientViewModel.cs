@@ -15,6 +15,7 @@ namespace AllAboutTeethDCMS.Patients
         private List<Patient> patients;
         private string filter = "";
         private PatientPreviewViewModel patientPreviewViewModel;
+        private DentalChartPreviewViewModel dentalChartPreviewViewModel;
 
         private DialogBoxViewModel dialogBoxViewModel;
         private string archiveVisibility = "Collapsed";
@@ -144,6 +145,7 @@ namespace AllAboutTeethDCMS.Patients
         {
             DialogBoxViewModel = new DialogBoxViewModel();
             PatientPreviewViewModel = new PatientPreviewViewModel();
+            DentalChartPreviewViewModel = new DentalChartPreviewViewModel();
         }
 
         public Patient Patient
@@ -163,24 +165,22 @@ namespace AllAboutTeethDCMS.Patients
                     {
                         UnarchiveVisibility = "Visible";
                     }
+                    PatientPreviewViewModel.Patient = value;
+                    DentalChartPreviewViewModel.DentalChartViewModel.User = ActiveUser;
+                    DentalChartPreviewViewModel.Patient = value;
                 }
-                PatientPreviewViewModel.Patient = value;
             }
         }
-
-
 
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
         public string Filter { get => filter; set { filter = value; loadPatients(); OnPropertyChanged(); } }
 
         public PatientPreviewViewModel PatientPreviewViewModel { get => patientPreviewViewModel; set { patientPreviewViewModel = value; OnPropertyChanged(); } }
 
+        public DentalChartPreviewViewModel DentalChartPreviewViewModel { get => dentalChartPreviewViewModel; set { dentalChartPreviewViewModel = value; OnPropertyChanged(); } }
+
         public void loadPatients()
         {
-            if (Reader != null && !Reader.IsClosed)
-            {
-                Reader.Close();
-            }
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 

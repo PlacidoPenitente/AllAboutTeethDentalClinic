@@ -137,6 +137,10 @@
       <DependentUpon>AddPatientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Patients\AddPatientViewModel.cs" />
+    <Compile Include="Patients\DentalChartPreviewView.xaml.cs">
+      <DependentUpon>DentalChartPreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patients\DentalChartPreviewViewModel.cs" />
     <Compile Include="Patients\EditPatientView.xaml.cs">
       <DependentUpon>EditPatientView.xaml</DependentUpon>
     </Compile>
@@ -311,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Patients\AddPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patients\DentalChartPreviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -170,10 +170,6 @@ namespace AllAboutTeethDCMS.Users
 
         public void loadUsers()
         {
-            if(Reader!=null&&!Reader.IsClosed)
-            {
-                Reader.Close();
-            }
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
