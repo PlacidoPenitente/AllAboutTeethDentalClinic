@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Treatments
@@ -16,11 +17,165 @@ namespace AllAboutTeethDCMS.Treatments
         {
             treatment = new Treatment();
             copyTreatment = (Treatment)treatment.Clone();
+            Outputs = new List<string>()
+            {
+                "None",
+                "Decayed (Caries Indicated for Filling)",
+                "Missing due to Caries",
+                "Filled",
+                "Caries Indicated for Extraction",
+                "Root Fragment",
+                "Missing due to Other Causes",
+                "Impacted Tooth",
+                "Jacket Crown",
+                "Amalgam Filling",
+                "Abutment",
+                "Pontic",
+                "Inlay",
+                "Fixed Cure Composite",
+                "Removable Denture",
+                "Extracted due to Caries",
+                "Extracted due to Other Causes",
+                "Present Teeth",
+                "Congenitally Missing",
+                "Supernumerary"
+            };
+            DialogBoxViewModel = new DialogBoxViewModel();
         }
 
-        public virtual void resetForm()
+        private DialogBoxViewModel dialogBoxViewModel;
+        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+        protected override bool beforeSave()
         {
-            Treatment = new Treatment();
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Add Service";
+            DialogBoxViewModel.Message = "Are you sure you want to add this service?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Adding service. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterSave(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                Treatment = new Treatment();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        protected override bool beforeUpdate()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Update Service";
+            DialogBoxViewModel.Message = "Are you sure you want to update this service?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Updating service. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterUpdate(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                CopyTreatment = (Treatment)Treatment.Clone();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                Treatment = new Treatment();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
         }
 
         public virtual void saveTreatment()
@@ -43,32 +198,11 @@ namespace AllAboutTeethDCMS.Treatments
             }
             if (!hasError)
             {
-                Treatment.AddedBy = ActiveUser;
                 startSaveToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
         protected override void setLoaded(List<Treatment> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterUpdate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeSave()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterSave(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -105,5 +239,30 @@ namespace AllAboutTeethDCMS.Treatments
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
 
         private string nameError = "";
+
+        private List<string> outputs;
+
+        public bool DecayedCariesIndicatedForFilling { get => Treatment.DecayedCariesIndicatedForFilling; set { Treatment.DecayedCariesIndicatedForFilling = value; OnPropertyChanged(); } }
+        public bool MissingDueToCaries { get => Treatment.MissingDueToCaries; set { Treatment.MissingDueToCaries = value; OnPropertyChanged(); } }
+        public bool Filled { get => Treatment.Filled; set { Treatment.Filled = value; OnPropertyChanged(); } }
+        public bool CariesIndicatedForExtraction { get => Treatment.CariesIndicatedForExtraction; set { Treatment.CariesIndicatedForExtraction = value; OnPropertyChanged(); } }
+        public bool RootFragment { get => Treatment.RootFragment; set { Treatment.RootFragment = value; OnPropertyChanged(); } }
+        public bool MissingDueToOtherCauses { get => Treatment.MissingDueToOtherCauses; set { Treatment.MissingDueToOtherCauses = value; OnPropertyChanged(); } }
+        public bool ImpactedTooth { get => Treatment.ImpactedTooth; set { Treatment.ImpactedTooth = value; OnPropertyChanged(); } }
+        public bool JacketCrown { get => Treatment.JacketCrown; set { Treatment.JacketCrown = value; OnPropertyChanged(); } }
+        public bool AmalgamFilling { get => Treatment.AmalgamFilling; set { Treatment.AmalgamFilling = value; OnPropertyChanged(); } }
+        public bool Abutment { get => Treatment.Abutment; set { Treatment.Abutment = value; OnPropertyChanged(); } }
+        public bool Pontic { get => Treatment.Pontic; set { Treatment.Pontic = value; OnPropertyChanged(); } }
+        public bool Inlay { get => Treatment.Inlay; set { Treatment.Inlay = value; OnPropertyChanged(); } }
+        public bool FixedCureComposite { get => Treatment.FixedCureComposite; set { Treatment.FixedCureComposite = value; OnPropertyChanged(); } }
+        public bool RemovableDenture { get => Treatment.RemovableDenture; set { Treatment.RemovableDenture = value; OnPropertyChanged(); } }
+        public bool ExtractionDueToCaries { get => Treatment.ExtractionDueToCaries; set { Treatment.ExtractionDueToCaries = value; OnPropertyChanged(); } }
+        public bool ExtractionDueToOtherCauses { get => Treatment.ExtractionDueToOtherCauses; set { Treatment.ExtractionDueToOtherCauses = value; OnPropertyChanged(); } }
+        public bool PresentTeeth { get => Treatment.PresentTeeth; set { Treatment.PresentTeeth = value; OnPropertyChanged(); } }
+        public bool CongenitallyMissing { get => Treatment.CongenitallyMissing; set { Treatment.CongenitallyMissing = value; OnPropertyChanged(); } }
+        public bool Supernumerary { get => Treatment.Supernumerary; set { Treatment.Supernumerary = value; OnPropertyChanged(); } }
+        public string Output { get => Treatment.Output; set { Treatment.Output = value; OnPropertyChanged(); } }
+
+        public List<string> Outputs { get => outputs; set { outputs = value; OnPropertyChanged(); } }
     }
 }

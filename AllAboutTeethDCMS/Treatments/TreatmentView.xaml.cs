@@ -30,19 +30,29 @@ namespace AllAboutTeethDCMS.Treatments
             ((TreatmentViewModel)DataContext).loadTreatments();
         }
 
-        private void add_treatment_Click(object sender, RoutedEventArgs e)
+        private void add_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).MenuViewModel.gotoAddTreatmentView(((TreatmentViewModel)DataContext).ActiveUser);
+            ((TreatmentViewModel)DataContext).MenuViewModel.gotoAddTreatmentView();
         }
 
-        private void edit_treatment_Click(object sender, RoutedEventArgs e)
+        private void edit_Click(object sender, RoutedEventArgs e)
         {
-            ((TreatmentViewModel)DataContext).MenuViewModel.gotoEditTreatmentView(((TreatmentViewModel)DataContext).ActiveUser, (Treatment)((TreatmentViewModel)DataContext).Treatment.Clone());
+            ((TreatmentViewModel)DataContext).MenuViewModel.gotoEditTreatmentView((Treatment)((TreatmentViewModel)DataContext).Treatment.Clone());
         }
 
-        private void delete_treatment_Click(object sender, RoutedEventArgs e)
+        private void delete_Click(object sender, RoutedEventArgs e)
         {
             ((TreatmentViewModel)DataContext).deleteTreatment();
+        }
+
+        private void unarchive_Click(object sender, RoutedEventArgs e)
+        {
+            ((TreatmentViewModel)DataContext).unarchive();
+        }
+
+        private void archive_Click(object sender, RoutedEventArgs e)
+        {
+            ((TreatmentViewModel)DataContext).archive();
         }
     }
 }

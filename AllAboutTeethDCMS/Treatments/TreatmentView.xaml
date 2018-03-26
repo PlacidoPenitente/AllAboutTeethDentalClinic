@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Treatments"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="600" d:DesignWidth="800">
+			 d:DesignHeight="900" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:TreatmentViewModel/>
     </UserControl.DataContext>
@@ -22,50 +22,52 @@
             <ColumnDefinition Width="0.1*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
-            <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
+            <Image Source="{StaticResource icons8_Syringe_32px.png}" Stretch="None"  Margin="10,0,10,0"/>
             <Label FontSize="18" Content="Services" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Service: "/>
-                <Button Margin="0,20,0,0" Height="45" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" x:Name="add_treatment" Click="add_treatment_Click" Content="Add" Grid.Column="3" Style="{StaticResource PrimaryButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Treatment, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="edit_treatment" Click="edit_treatment_Click" Content="Edit" Grid.Column="4" Style="{StaticResource InfoButton}" Width="100"/>
-                <Button Margin="0,20,0,0" Height="45" Visibility="{Binding Treatment, Converter={StaticResource ObjectToVisibilityConverter}}" x:Name="delete_treatment" Click="delete_treatment_Click" Content="Delete" Grid.Column="5" Style="{StaticResource DangerButton}" Width="100"/>
+                <TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Service: "/>
+                <Button Margin="0,9,0,0" Height="43" x:Name="search_account" Click="search_account_Click" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Treatments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Treatment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="4" Margin="0,10,10,0">
+                <DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Treatments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Treatment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="No." Binding="{Binding No}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" FontFamily="{StaticResource Roboto}"/>
                         <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
                         <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
                         <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
                         <DataGridTextColumn Header="Updated By" Binding="{Binding AddedBy, Converter={StaticResource UserToStringConverter}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <StackPanel Grid.Column="1" Margin="0,10,0,0">
+                    <Button x:Name="add" Click="add_Click" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}"/>
+                    <Button x:Name="edit" Click="edit_Click" Visibility="{Binding Service, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}"/>
+                    <Button x:Name="archive" Click="archive_Click" Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}"/>
+                    <Button x:Name="unarchive" Click="unarchive_Click" Visibility="{Binding UnarchiveVisibility,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}"/>
+                    <Button x:Name="delete" Click="delete_Click" Visibility="{Binding Service, Converter={StaticResource ObjectToVisibilityConverter}}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}"/>
+                </StackPanel>
             </Grid>
         </Grid>
         <StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
             <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Services: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
+        <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

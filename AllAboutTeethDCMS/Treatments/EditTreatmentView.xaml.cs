@@ -37,7 +37,7 @@ namespace AllAboutTeethDCMS.Treatments
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((EditTreatmentViewModel)DataContext).MenuViewModel.gotoTreatments(((EditTreatmentViewModel)DataContext).ActiveUser);
+            ((EditTreatmentViewModel)DataContext).MenuViewModel.gotoTreatments();
         }
     }
 }

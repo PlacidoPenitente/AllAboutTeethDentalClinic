@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using AllAboutTeethDCMS.Providers;
+using AllAboutTeethDCMS.Treatments;
 
 namespace AllAboutTeethDCMS.Treatments
 {
@@ -36,9 +37,30 @@ namespace AllAboutTeethDCMS.Treatments
             }
         }
 
-        public override void resetForm()
+        public override void startResetThread()
         {
-            Treatment = (Treatment)CopyTreatment.Clone();
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                Treatment = (Treatment)CopyTreatment.Clone();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
         }
     }
 }

@@ -127,30 +127,38 @@ namespace AllAboutTeethDCMS.Menu
         public AddTreatmentView AddTreatmentView { get => addTreatmentView; set => addTreatmentView = value; }
         public EditTreatmentView EditTreatmentView { get => editTreatmentView; set => editTreatmentView = value; }
 
-        public void gotoTreatments(User activeUser)
+        public void gotoTreatments()
         {
-            TreatmentView = new TreatmentView();
+            if(TreatmentView==null)
+            {
+                TreatmentView = new TreatmentView();
+            }
             MainWindowViewModel.ActivePage = TreatmentView;
-            ((TreatmentViewModel)TreatmentView.DataContext).ActiveUser = activeUser;
+            ((TreatmentViewModel)TreatmentView.DataContext).ActiveUser = ActiveUser;
             ((TreatmentViewModel)TreatmentView.DataContext).MenuViewModel = this;
-            ((TreatmentViewModel)TreatmentView.DataContext).loadTreatments();
         }
 
-        public void gotoEditTreatmentView(User activeUser, Treatment treatment)
+        public void gotoEditTreatmentView(Treatment treatment)
         {
-            EditTreatmentView = new EditTreatmentView();
+            if(EditTreatmentView==null)
+            {
+                EditTreatmentView = new EditTreatmentView();
+            }
             MainWindowViewModel.ActivePage = EditTreatmentView;
-            ((EditTreatmentViewModel)EditTreatmentView.DataContext).ActiveUser = activeUser;
+            ((EditTreatmentViewModel)EditTreatmentView.DataContext).ActiveUser = ActiveUser;
             ((EditTreatmentViewModel)EditTreatmentView.DataContext).Treatment = treatment;
             ((EditTreatmentViewModel)EditTreatmentView.DataContext).CopyTreatment = (Treatment)treatment.Clone();
             ((EditTreatmentViewModel)EditTreatmentView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddTreatmentView(User activeUser)
+        public void gotoAddTreatmentView()
         {
-            AddTreatmentView = new AddTreatmentView();
+            if(AddTreatmentView == null)
+            {
+                AddTreatmentView = new AddTreatmentView();
+            }
             MainWindowViewModel.ActivePage = AddTreatmentView;
-            ((AddTreatmentViewModel)AddTreatmentView.DataContext).ActiveUser = activeUser;
+            ((AddTreatmentViewModel)AddTreatmentView.DataContext).ActiveUser = ActiveUser;
             ((AddTreatmentViewModel)AddTreatmentView.DataContext).MenuViewModel = this;
         }
         #endregion
