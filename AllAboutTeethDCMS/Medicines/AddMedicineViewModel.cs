@@ -31,9 +31,17 @@ namespace AllAboutTeethDCMS.Medicines
 
         public void setItemsSources()
         {
-            while (Suppliers == null)
+            while (supplierViewModel.Suppliers == null)
             {
-                Suppliers = supplierViewModel.Suppliers;
+                Thread.Sleep(100);
+            }
+            Suppliers = new List<Supplier>();
+            foreach (Supplier supplier in supplierViewModel.Suppliers)
+            {
+                if (supplier.Status.Equals("Active"))
+                {
+                    Suppliers.Add(supplier);
+                }
             }
         }
 
@@ -43,11 +51,143 @@ namespace AllAboutTeethDCMS.Medicines
             copyMedicine = (Medicine)medicine.Clone();
             startLoadThread();
             supplierViewModel.loadSuppliers();
+
+            DialogBoxViewModel = new DialogBoxViewModel();
         }
 
-        public virtual void resetForm()
+        private DialogBoxViewModel dialogBoxViewModel;
+        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+        protected override bool beforeSave()
         {
-            Medicine = new Medicine();
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Add Item";
+            DialogBoxViewModel.Message = "Are you sure you want to add this item?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Adding item. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterSave(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                Medicine = new Medicine();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        protected override bool beforeUpdate()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Update Item";
+            DialogBoxViewModel.Message = "Are you sure you want to update this item?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Updating item. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterUpdate(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                CopyMedicine = (Medicine)Medicine.Clone();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                Medicine = new Medicine();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
         }
 
         public virtual void saveMedicine()
@@ -70,32 +210,11 @@ namespace AllAboutTeethDCMS.Medicines
             }
             if (!hasError)
             {
-                Medicine.AddedBy = ActiveUser;
                 startSaveToDatabase(Medicine, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
         protected override void setLoaded(List<Medicine> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterUpdate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeSave()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterSave(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -114,33 +233,49 @@ namespace AllAboutTeethDCMS.Medicines
         public string Description { get => Medicine.Description; set { Medicine.Description = value; OnPropertyChanged(); } }
         public Supplier Supplier { get => Medicine.Supplier; set { Medicine.Supplier = value; OnPropertyChanged(); } }
         public string Quantity { get => Medicine.Quantity.ToString(); set {
-                try
+                bool valid = true;
+                foreach (char c in value.ToArray())
                 {
-                    Medicine.Quantity = Int32.Parse(value);
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
                 }
-                catch(Exception ex)
+                if (valid)
                 {
-                    ex.ToString();
-                    Medicine.Quantity = 0;
-                }
-                if(Medicine.Quantity<0)
-                {
-                    Medicine.Quantity = 0;
+                    try
+                    {
+                        Medicine.Quantity = Int32.Parse(value);
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.ToString();
+                        Medicine.Quantity = 0;
+                    }
                 }
                 OnPropertyChanged(); } }
         public string CriticalAmount { get => Medicine.CriticalAmount.ToString(); set {
-                try
+                bool valid = true;
+                foreach (char c in value.ToArray())
                 {
-                    Medicine.CriticalAmount = Int32.Parse(value);
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
                 }
-                catch (Exception ex)
+                if (valid)
                 {
-                    ex.ToString();
-                    Medicine.CriticalAmount = 0;
-                }
-                if (Medicine.CriticalAmount < 0)
-                {
-                    Medicine.CriticalAmount = 0;
+                    try
+                    {
+                        Medicine.CriticalAmount = Int32.Parse(value);
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.ToString();
+                        Medicine.CriticalAmount = 0;
+                    }
                 }
                 OnPropertyChanged(); } }
 
@@ -150,17 +285,17 @@ namespace AllAboutTeethDCMS.Medicines
             set
             {
                 medicine = value;
-                OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
                     OnPropertyChanged(info.Name);
                 }
+                OnPropertyChanged();
             }
         }
 
         public Medicine CopyMedicine { get => copyMedicine; set { copyMedicine = value; } }
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
-        public List<Supplier> Suppliers { get => suppliers; set => suppliers = value; }
+        public List<Supplier> Suppliers { get => suppliers; set { suppliers = value; OnPropertyChanged(); } }
 
         private string nameError = "";
     }

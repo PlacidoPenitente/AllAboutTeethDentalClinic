@@ -19,6 +19,7 @@ namespace AllAboutTeethDCMS.Providers
             copyProvider = (Provider)provider.Clone();
             DialogBoxViewModel = new DialogBoxViewModel();
         }
+
         private DialogBoxViewModel dialogBoxViewModel;
         public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
         protected override bool beforeSave()

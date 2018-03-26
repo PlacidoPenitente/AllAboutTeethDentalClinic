@@ -30,19 +30,29 @@ namespace AllAboutTeethDCMS.Medicines
             ((MedicineViewModel)DataContext).loadMedicines();
         }
 
-        private void add_treatment_Click(object sender, RoutedEventArgs e)
+        private void add_Click(object sender, RoutedEventArgs e)
         {
-            ((MedicineViewModel)DataContext).MenuViewModel.gotoAddMedicineView(((MedicineViewModel)DataContext).ActiveUser);
+            ((MedicineViewModel)DataContext).MenuViewModel.gotoAddMedicineView();
         }
 
-        private void edit_treatment_Click(object sender, RoutedEventArgs e)
+        private void edit_Click(object sender, RoutedEventArgs e)
         {
-            ((MedicineViewModel)DataContext).MenuViewModel.gotoEditMedicineView(((MedicineViewModel)DataContext).ActiveUser, (Medicine)((MedicineViewModel)DataContext).Medicine.Clone());
+            ((MedicineViewModel)DataContext).MenuViewModel.gotoEditMedicineView((Medicine)((MedicineViewModel)DataContext).Medicine.Clone());
         }
 
-        private void delete_treatment_Click(object sender, RoutedEventArgs e)
+        private void delete_Click(object sender, RoutedEventArgs e)
         {
             ((MedicineViewModel)DataContext).deleteMedicine();
+        }
+
+        private void unarchive_Click(object sender, RoutedEventArgs e)
+        {
+            ((MedicineViewModel)DataContext).unarchive();
+        }
+
+        private void archive_Click(object sender, RoutedEventArgs e)
+        {
+            ((MedicineViewModel)DataContext).archive();
         }
     }
 }

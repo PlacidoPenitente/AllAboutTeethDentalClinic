@@ -61,7 +61,6 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </ScrollViewer>
         <StackPanel Grid.Row="2" Background="{StaticResource Asbestos}"/>
         <Grid Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center">
@@ -72,5 +71,6 @@
             <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Add Item" Height="48"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
         </Grid>
+        <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

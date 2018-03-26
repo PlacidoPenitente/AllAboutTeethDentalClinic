@@ -37,7 +37,7 @@ namespace AllAboutTeethDCMS.Medicines
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((EditMedicineViewModel)DataContext).MenuViewModel.gotoMedicines(((EditMedicineViewModel)DataContext).ActiveUser);
+            ((EditMedicineViewModel)DataContext).MenuViewModel.gotoMedicines();
         }
     }
 }

@@ -34,7 +34,6 @@ namespace AllAboutTeethDCMS.Providers
             }
         }
 
-
         public override void startResetThread()
         {
             DialogBoxViewModel.Answer = "None";
