@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllAboutTeethDCMS.Users
+namespace AllAboutTeethDCMS.Patients
 {
-    public class UserPreviewViewModel : ViewModelBase
+    public class PatientPreviewViewModel : ViewModelBase
     {
-        private User user;
+        private Patient patient;
         private string visibility = "Collapsed";
 
-        public User User { get => user; set { user = value; OnPropertyChanged(); } }
+        public Patient Patient { get => patient; set { patient = value; OnPropertyChanged(); } }
         public string Visibility { get => visibility; set { visibility = value; OnPropertyChanged(); } }
     }
 }

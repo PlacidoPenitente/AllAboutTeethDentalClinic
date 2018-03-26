@@ -26,48 +26,63 @@ namespace AllAboutTeethDCMS.Patients
             InitializeComponent();
         }
 
-        private void delete_patient_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).deleteUser();
-        }
-
-        private void edit_patient_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).MenuViewModel.gotoEditPatientView(((PatientViewModel)DataContext).ActiveUser, (Patient)((PatientViewModel)DataContext).Patient.Clone());
-        }
-
-        private void add_patient_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).MenuViewModel.gotoAddPatientView(((PatientViewModel)DataContext).ActiveUser);
-        }
-
-        private void search_patient_Click(object sender, RoutedEventArgs e)
+        private void search_account_Click(object sender, RoutedEventArgs e)
         {
             ((PatientViewModel)DataContext).loadPatients();
         }
 
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).MenuViewModel.gotoAddPatientView();
+        }
+
+        private void view_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).PatientPreviewViewModel.Visibility = "Visible";
+        }
+
+        private void edit_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).MenuViewModel.gotoEditPatientView((Patient)((PatientViewModel)DataContext).Patient.Clone());
+        }
+
+        private void delete_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).deletePatient();
+        }
+
+        private void unarchive_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).unarchive();
+        }
+
+        private void archive_Click(object sender, RoutedEventArgs e)
+        {
+            ((PatientViewModel)DataContext).archive();
+        }
+
         private void show_dentalchart_Click(object sender, RoutedEventArgs e)
         {
-            ((PatientViewModel)DataContext).Visibility = "Visible";
+            //((PatientViewModel)DataContext).Visibility = "Visible";
         }
 
         private void updateChart_Click(object sender, RoutedEventArgs e)
         {
-            foreach(ToothViewModel toothView in ((PatientViewModel)DataContext).DentalChartViewModel.TeethView)
-            {
-                toothView.Condition = ((PatientViewModel)DataContext).Condition;
-            }
-            ((PatientViewModel)DataContext).DentalChartViewModel.startUpdatingTeeth();
+            //foreach(ToothViewModel toothView in ((PatientViewModel)DataContext).DentalChartViewModel.TeethView)
+            //{
+            //    toothView.Condition = ((PatientViewModel)DataContext).Condition;
+            //}
+            //((PatientViewModel)DataContext).DentalChartViewModel.startUpdatingTeeth();
         }
 
         private void reload_Click(object sender, RoutedEventArgs e)
         {
-            ((PatientViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
+            //((PatientViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
         }
 
         private void close_Click(object sender, RoutedEventArgs e)
         {
-            ((PatientViewModel)DataContext).Visibility = "Collapsed";
+            //((PatientViewModel)DataContext).Visibility = "Collapsed";
         }
     }
 }

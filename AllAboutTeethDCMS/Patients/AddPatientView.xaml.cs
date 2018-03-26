@@ -23,6 +23,7 @@ namespace AllAboutTeethDCMS.Patients
         public AddPatientView()
         {
             InitializeComponent();
+            birthdate.DisplayDateEnd = DateTime.Now;
         }
 
         private void addpatient_Click(object sender, RoutedEventArgs e)
@@ -37,7 +38,7 @@ namespace AllAboutTeethDCMS.Patients
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((AddPatientViewModel)DataContext).MenuViewModel.gotoPatients(((AddPatientViewModel)DataContext).ActiveUser);
+            ((AddPatientViewModel)DataContext).MenuViewModel.gotoPatients();
         }
 
         private void treatment_Click(object sender, RoutedEventArgs e)

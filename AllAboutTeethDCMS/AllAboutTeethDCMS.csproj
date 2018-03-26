@@ -142,6 +142,10 @@
     </Compile>
     <Compile Include="Patients\EditPatientViewModel.cs" />
     <Compile Include="Patients\Patient.cs" />
+    <Compile Include="Patients\PatientPreviewView.xaml.cs">
+      <DependentUpon>PatientPreviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Patients\PatientPreviewViewModel.cs" />
     <Compile Include="Patients\PatientView.xaml.cs">
       <DependentUpon>PatientView.xaml</DependentUpon>
     </Compile>
@@ -311,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Patients\EditPatientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Patients\PatientPreviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -553,6 +561,39 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icons8_Open_Archive_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Tooth_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Help_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Info_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Error_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Ok_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Spinner_Frame_8_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Delete_48px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Print_48px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Print_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Delete_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Shutdown_16px_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AllAboutTeethDCMS"
         xmlns:login="clr-namespace:AllAboutTeethDCMS.Users"
         xmlns:menu="clr-namespace:AllAboutTeethDCMS.Menu"
+        Icon="{StaticResource icons8_Tooth_32px.png}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Height="600" Width="800">
@@ -33,6 +34,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Border BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2">
                         <StackPanel Orientation="Horizontal">
@@ -56,6 +58,19 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="{Binding DateTime, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Foreground="{StaticResource Sunflower}" FontFamily="{StaticResource RobotoLight}" VerticalAlignment="Center" Margin="5" FontSize="13" Padding="0"/>
                         <Label Content="{Binding Time, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="{StaticResource Orange}" FontFamily="{StaticResource Roboto}" VerticalAlignment="Center" Margin="5" FontSize="13" Padding="0"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="1" CornerRadius="3" Margin="5" Background="{StaticResource Wisteria}" Padding="2" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,5,0">
+                                <Label Content="{Binding ActiveUser.Username}" Foreground="White" VerticalAlignment="Center" FontFamily="{StaticResource RobotoLight}" FontSize="14" Padding="0"/>
+                            </StackPanel>
+                        </Border>
+                        <Button Style="{StaticResource DangerButton}" Content="Logout" Grid.Column="2"/>
                     </Grid>
                 </Grid>
                 <Border Grid.Column="1" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="5">

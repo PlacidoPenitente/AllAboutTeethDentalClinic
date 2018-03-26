@@ -36,7 +36,7 @@ namespace AllAboutTeethDCMS.Treatments
             throw new NotImplementedException();
         }
 
-        protected override void afterUpdate()
+        protected override void afterUpdate(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,17 @@ namespace AllAboutTeethDCMS.Treatments
             throw new NotImplementedException();
         }
 
-        protected override void afterSave()
+        protected override void afterSave(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeDelete()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterDelete(bool isSuccessful)
         {
             throw new NotImplementedException();
         }

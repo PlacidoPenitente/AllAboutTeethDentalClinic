@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Patients
@@ -29,14 +30,34 @@ namespace AllAboutTeethDCMS.Patients
             }
             if (!hasError)
             {
-                Patient.AddedBy = ActiveUser;
                 startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
-        public override void resetForm()
+        public override void startResetThread()
         {
-            Patient = (Patient)CopyPatient.Clone();
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                Patient = (Patient)CopyPatient.Clone();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
         }
     }
 }

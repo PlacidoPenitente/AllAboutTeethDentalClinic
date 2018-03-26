@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Users
@@ -15,22 +16,146 @@ namespace AllAboutTeethDCMS.Users
         private List<string> accountTypes = new List<string>() { "Administrator", "Dentist", "Staff" };
         private User copyUser;
 
+        private DialogBoxViewModel dialogBoxViewModel;
+        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+        protected override bool beforeSave()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Add User";
+            DialogBoxViewModel.Message = "Are you sure you want to add this user?";
+            
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Adding user. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterSave(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                User = new User();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        protected override bool beforeUpdate()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Update User";
+            DialogBoxViewModel.Message = "Are you sure you want to update this user?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Updating user. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterUpdate(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                CopyUser = (User)User.Clone();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                User = new User();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+
         public AddUserViewModel()
         {
             user = new User();
             copyUser = (User)user.Clone();
-        }
-
-        public virtual void resetForm()
-        {
-            User = new User();
-            foreach (PropertyInfo info in GetType().GetProperties())
-            {
-                if (info.Name.EndsWith("Error"))
-                {
-                    info.SetValue(this, "");
-                }
-            }
+            DialogBoxViewModel = new DialogBoxViewModel();
         }
 
         public virtual void saveUser()
@@ -62,24 +187,14 @@ namespace AllAboutTeethDCMS.Users
             throw new NotImplementedException();
         }
 
-        protected override bool beforeUpdate()
+        protected override bool beforeDelete()
         {
             throw new NotImplementedException();
         }
 
-        protected override void afterUpdate()
+        protected override void afterDelete(bool isSuccessful)
         {
             throw new NotImplementedException();
-        }
-
-        protected override bool beforeSave()
-        {
-            return true;
-        }
-
-        protected override void afterSave()
-        {
-            Console.WriteLine("Successfully Saved");
         }
 
         public User User
@@ -95,7 +210,39 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string Username { get => User.Username; set { User.Username = value; UsernameError = ""; UsernameError = validateUsername(value, CopyUser.Username); OnPropertyChanged(); } }
+        public string Username { get => User.Username;
+            set {
+                bool valid = true;
+                UsernameError = "";
+                if (String.IsNullOrEmpty(value))
+                {
+                    valid = false;
+                    User.Username = "";
+                    UsernameError = "Username is required.";
+                }
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsLetterOrDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    UsernameError = "";
+                    UsernameError = validateUsername(value, CopyUser.Username);
+                    if(value.Length<61)
+                    {
+                        User.Username = value;
+                    }
+                    if (value.Length < 5)
+                    {
+                        UsernameError = "Must be atleast 5 characters.";
+                    }
+                }
+                OnPropertyChanged();
+            } }
         public string Password { get => User.Password; set { User.Password = value; PasswordError = ""; PasswordError = validatePassword(value); PasswordCopy = PasswordCopy; OnPropertyChanged(); } }
         public string AccountType { get => User.Type; set { User.Type = value;  OnPropertyChanged(); } }
         public string FirstName { get => User.FirstName; set { User.FirstName = value; FirstNameError = ""; FirstNameError = validate(value); OnPropertyChanged(); } }
@@ -104,7 +251,35 @@ namespace AllAboutTeethDCMS.Users
         public DateTime Birthdate { get => User.Birthdate; set { User.Birthdate = value;  OnPropertyChanged(); } }
         public string Gender { get => User.Gender; set { User.Gender = value;  OnPropertyChanged(); } }
         public string Address { get => User.Address; set { User.Address = value;  OnPropertyChanged(); AddressError = ""; AddressError = validate(value); } }
-        public string ContactNo { get => User.ContactNo; set { User.ContactNo = value; ContactNoError = ""; ContactNoError = validateContact(value); OnPropertyChanged(); } }
+        public string ContactNo { get => User.ContactNo; set {
+                bool valid = true;
+                ContactNoError = "";
+                if (String.IsNullOrEmpty(value))
+                {
+                    valid = false;
+                    User.ContactNo = "";
+                    ContactNoError = "Contact No. is required.";
+                }
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    if (value.Length < 12)
+                    {
+                        User.ContactNo = value;
+                    }
+                    if(value.Length<11)
+                    {
+                        ContactNoError = "Must be an 11-digit number.";
+                    }
+                }
+                OnPropertyChanged(); } }
         public string EmailAddress { get => User.EmailAddress; set { User.EmailAddress = value;  OnPropertyChanged(); } }
         public string Question1 { get => User.Question1; set { User.Question1 = value; Question1Error = ""; Question1Error = validate(value); OnPropertyChanged(); } }
         public string Question2 { get => User.Question2; set { User.Question2 = value; Question2Error = ""; Question2Error = validate(value); OnPropertyChanged(); } }

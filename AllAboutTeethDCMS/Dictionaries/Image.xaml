@@ -27,4 +27,7 @@
     <ImageSource x:Key="icons8_Edit_32px.png">/Resources/icons8_Edit_32px.png</ImageSource>
     <ImageSource x:Key="icons8_Open_Archive_32px.png">/Resources/icons8_Open_Archive_32px.png</ImageSource>
     <ImageSource x:Key="icons8_Archive_32px.png">/Resources/icons8_Archive_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Tooth_32px.png">/Resources/icons8_Tooth_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Delete_32px_2.png">/Resources/icons8_Delete_32px_2.png</ImageSource>
+    <ImageSource x:Key="icons8_Shutdown_16px_1.png">/Resources/icons8_Shutdown_16px_1.png</ImageSource>
 </ResourceDictionary>

@@ -13,21 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Users
+namespace AllAboutTeethDCMS.Patients
 {
     /// <summary>
-    /// Interaction logic for UserPreviewView.xaml
+    /// Interaction logic for PatientPreviewView.xaml
     /// </summary>
-    public partial class UserPreviewView : UserControl
+    public partial class PatientPreviewView : UserControl
     {
-        public UserPreviewView()
+        public PatientPreviewView()
         {
             InitializeComponent();
         }
 
         private void close_Click(object sender, RoutedEventArgs e)
         {
-            ((UserPreviewViewModel)DataContext).Visibility = "Collapsed";
+            ((PatientPreviewViewModel)DataContext).Visibility = "Collapsed";
         }
     }
 }

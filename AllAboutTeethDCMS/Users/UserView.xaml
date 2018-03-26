@@ -71,6 +71,7 @@
             <Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Users: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
             <ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
         </StackPanel>
-        <root:DialogBoxView Grid.Row="1" Grid.ColumnSpan="3" DataContext="{Binding ArchiveDialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <local:UserPreviewView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding UserPreviewViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

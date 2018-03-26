@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllAboutTeethDCMS.Patients
@@ -13,9 +14,146 @@ namespace AllAboutTeethDCMS.Patients
         private Patient copyPatient;
         private List<string> genders = new List<string>() { "Male", "Female" };
 
+        private DialogBoxViewModel dialogBoxViewModel;
+        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+        protected override bool beforeSave()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Add Patient";
+            DialogBoxViewModel.Message = "Are you sure you want to add this patient?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Adding patient. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterSave(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                Patient = new Patient();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        protected override bool beforeUpdate()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Update Patient";
+            DialogBoxViewModel.Message = "Are you sure you want to update this patient?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                DialogBoxViewModel.Mode = "Progress";
+                DialogBoxViewModel.Message = "Updating patient. Please wait.";
+                DialogBoxViewModel.Answer = "None";
+                return true;
+            }
+            return false;
+        }
+
+        protected override void afterUpdate(bool isSuccessful)
+        {
+            if (isSuccessful)
+            {
+                DialogBoxViewModel.Mode = "Success";
+                DialogBoxViewModel.Message = "Operation completed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+                CopyPatient = (Patient)Patient.Clone();
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Message = "Operation failed.";
+                DialogBoxViewModel.Answer = "None";
+                while (DialogBoxViewModel.Answer.Equals("None"))
+                {
+                    Thread.Sleep(100);
+                }
+                DialogBoxViewModel.Answer = "";
+            }
+        }
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            {
+                Patient = new Patient();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+
         public AddPatientViewModel()
         {
             patient = new Patient();
+            copyPatient = (Patient)patient.Clone();
+            DialogBoxViewModel = new DialogBoxViewModel();
         }
 
         public virtual void savePatient()
@@ -38,10 +176,9 @@ namespace AllAboutTeethDCMS.Patients
             }
             if (!hasError)
             {
-                Patient.AddedBy = ActiveUser;
                 startSaveToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
-        }
+        } 
 
         public Patient Patient { get => patient; set { patient = value;
                 OnPropertyChanged();
@@ -63,7 +200,21 @@ namespace AllAboutTeethDCMS.Patients
         public string Nationality { get => Patient.Nationality; set { Patient.Nationality = value; OnPropertyChanged(); } }
         public string Nickname { get => Patient.Nickname; set { Patient.Nickname = value; OnPropertyChanged(); } }
         public string HomeAddress { get => Patient.HomeAddress; set { Patient.HomeAddress = value; HomeAddressError = ""; HomeAddressError = validate(value); OnPropertyChanged(); } }
-        public string HomeNo { get => Patient.HomeNo; set { Patient.HomeNo = value; OnPropertyChanged(); } }
+        public string HomeNo { get => Patient.HomeNo; set {
+                bool valid = true;
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    Patient.HomeNo = value;
+                }
+                OnPropertyChanged(); } }
         public string Occupation { get => Patient.Occupation; set { Patient.Occupation = value;
                 if (value.Trim().Equals("")) {
                     OfficeNo = "";
@@ -75,7 +226,35 @@ namespace AllAboutTeethDCMS.Patients
         public string EffectiveDate { get => Patient.EffectiveDate; set { Patient.EffectiveDate = value; OnPropertyChanged(); } }
         public string FaxNo { get => Patient.FaxNo; set { Patient.FaxNo = value; OnPropertyChanged(); } }
         public string ParentGuardianName { get => Patient.ParentGuardianName; set => Patient.ParentGuardianName = value; }
-        public string CellNo { get => Patient.CellNo; set { Patient.CellNo = value; CellNoError = ""; CellNoError = validateContact(value); OnPropertyChanged(); } }
+        public string CellNo { get => Patient.CellNo; set {
+                bool valid = true;
+                CellNoError = "";
+                if (String.IsNullOrEmpty(value))
+                {
+                    valid = false;
+                    Patient.CellNo = "";
+                    CellNoError = "Cell./Mobile No. is required.";
+                }
+                foreach (char c in value.ToArray())
+                {
+                    if (!Char.IsDigit(c))
+                    {
+                        valid = false;
+                        break;
+                    }
+                }
+                if (valid)
+                {
+                    if (value.Length < 12)
+                    {
+                        Patient.CellNo = value;
+                    }
+                    if (value.Length < 11)
+                    {
+                        CellNoError = "Must be an 11-digit number.";
+                    }
+                }
+                OnPropertyChanged(); } }
         public string EmailAddress { get => Patient.EmailAddress; set { Patient.EmailAddress = value; OnPropertyChanged(); } }
         public string Referral { get => Patient.Referral; set { Patient.Referral = value; OnPropertyChanged(); } }
         public string Reason { get => Patient.Reason; set { Patient.Reason = value; OnPropertyChanged(); } }
@@ -117,32 +296,17 @@ namespace AllAboutTeethDCMS.Patients
         public string CellNoError { get => cellNoError; set { cellNoError = value; OnPropertyChanged(); } }
         public string HomeAddressError { get => homeAddressError; set { homeAddressError = value; OnPropertyChanged(); } }
 
-        public virtual void resetForm()
-        {
-            Patient = new Patient();
-        }
-
         protected override void setLoaded(List<Patient> list)
         {
             throw new NotImplementedException();
         }
 
-        protected override bool beforeUpdate()
+        protected override bool beforeDelete()
         {
             throw new NotImplementedException();
         }
 
-        protected override void afterUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeSave()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterSave()
+        protected override void afterDelete(bool isSuccessful)
         {
             throw new NotImplementedException();
         }

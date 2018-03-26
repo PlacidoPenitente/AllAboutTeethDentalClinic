@@ -25,7 +25,6 @@ namespace AllAboutTeethDCMS
 
         private MySqlDataReader reader;
 
-
         protected void saveToDatabase(T model, string tableName)
         {
             createConnection();
@@ -177,7 +176,7 @@ namespace AllAboutTeethDCMS
             }
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
             command.Parameters.AddWithValue("@no", key);
-            MySqlDataReader reader = command.ExecuteReader();
+            reader = command.ExecuteReader();
             if (reader.Read())
             {
                 foreach (PropertyInfo info in model.GetType().GetProperties())
@@ -285,10 +284,18 @@ namespace AllAboutTeethDCMS
 
         private void executeSaveToDatabase()
         {
-            if(beforeSave())
+            if (beforeSave())
             {
-                saveToDatabase(model, tableName);
-                afterSave();
+                try
+                {
+                    saveToDatabase(model, tableName);
+                    afterSave(true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    afterSave(false);
+                }
             }
         }
 
@@ -308,8 +315,16 @@ namespace AllAboutTeethDCMS
         {
             if(beforeUpdate())
             {
-                updateDatabase(model, tableName);
-                afterUpdate();
+                try
+                {
+                    updateDatabase(model, tableName);
+                    afterUpdate(true);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    afterUpdate(false);
+                }
             }
         }
 
@@ -327,7 +342,20 @@ namespace AllAboutTeethDCMS
 
         private void executeDeleteFromDatabase()
         {
-            deleteFromDatabase(model, tableName);
+            if (beforeDelete())
+            {
+                try
+                {
+                    deleteFromDatabase(model, tableName);
+                    afterDelete(true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    afterDelete(false);
+                }
+            }
+
         }
 
         protected void startLoadFromDatabase(string tableName, string filter)
@@ -350,9 +378,11 @@ namespace AllAboutTeethDCMS
 
         protected abstract void setLoaded(List<T> list);
         protected abstract bool beforeUpdate();
-        protected abstract void afterUpdate();
+        protected abstract void afterUpdate(bool isSuccessful);
         protected abstract bool beforeSave();
-        protected abstract void afterSave();
+        protected abstract void afterSave(bool isSuccessful);
+        protected abstract bool beforeDelete();
+        protected abstract void afterDelete(bool isSuccessful);
 
         private double progress = 0;
         public double Progress { get => progress; set { progress = value; OnPropertyChanged(); } }
@@ -395,7 +425,6 @@ namespace AllAboutTeethDCMS
             {
                 command.CommandText +=" WHERE " + CustomFilter;
             }
-
             Reader = command.ExecuteReader();
             while (Reader.Read())
             {
@@ -444,7 +473,12 @@ namespace AllAboutTeethDCMS
                 return "This field is required.";
             }
 
-            if(value.Trim().Length<5)
+            if (value.Trim().Length > 60)
+            {
+                return "Cannot be more than 60 characters.";
+            }
+
+            if (value.Trim().Length<5)
             {
                 return "Must be atleast 5 characters.";
             }
@@ -453,31 +487,39 @@ namespace AllAboutTeethDCMS
 
         protected string validateUsername(string value, string original)
         {
-            if(!value.Trim().Equals(original))
+            try
             {
-                if (String.IsNullOrEmpty(value.Trim()))
+                if (Connection == null)
                 {
-                    return "This field is required.";
+                    createConnection();
                 }
-
-                if (value.Trim().Length < 5)
+                if (Connection.State != System.Data.ConnectionState.Open)
                 {
-                    return "Must be atleast 5 characters.";
+                    Connection.Open();
                 }
-
-                createConnection();
                 MySqlCommand command = Connection.CreateCommand();
                 command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
                 command.Parameters.AddWithValue("@user", value);
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 if (reader.Read())
                 {
+                    if(reader.GetString("user_username").Equals(original))
+                    {
+                        reader.Close();
+                        Connection.Close();
+                        return "";
+                    }
                     reader.Close();
                     Connection.Close();
                     return "Username is already taken.";
                 }
                 reader.Close();
                 Connection.Close();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Unable to check username.";
             }
             return "";
         }
@@ -494,7 +536,7 @@ namespace AllAboutTeethDCMS
                 MySqlCommand command = Connection.CreateCommand();
                 command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
                 command.Parameters.AddWithValue("@name", value);
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     reader.Close();

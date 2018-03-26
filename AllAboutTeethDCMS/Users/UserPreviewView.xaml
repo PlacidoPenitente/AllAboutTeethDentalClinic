@@ -4,10 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Width="400" Grid.Column="1" Margin="0,10,0,0">
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="White" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Width="500" Grid.Column="1" Margin="10">
             <Border SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource MidnightBlue}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
@@ -91,5 +102,8 @@
                 </ScrollViewer>
             </Border>
         </Grid>
+        <StackPanel Grid.Column="2" Margin="0,10,0,0">
+            <Button x:Name="close" Click="close_Click" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

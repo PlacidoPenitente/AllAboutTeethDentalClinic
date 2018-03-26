@@ -37,7 +37,7 @@ namespace AllAboutTeethDCMS.Users {
 
         private void view_Click(object sender, RoutedEventArgs e)
         {
-
+            ((UserViewModel)DataContext).UserPreviewViewModel.Visibility = "Visible";
         }
 
         private void edit_Click(object sender, RoutedEventArgs e)

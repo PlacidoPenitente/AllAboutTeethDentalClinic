@@ -23,6 +23,7 @@ namespace AllAboutTeethDCMS.Users
         public EditUserView()
         {
             InitializeComponent();
+            birthdate.DisplayDateEnd = DateTime.Now;
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)

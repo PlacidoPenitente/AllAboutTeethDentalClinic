@@ -29,7 +29,7 @@
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43"/>
         </Grid>
         <StackPanel Grid.Row="2" Background="White"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <Grid MinWidth="800">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.25*"/>
@@ -52,8 +52,8 @@
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.75*"/>
+                            <ColumnDefinition Width="0.75*"/>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -62,15 +62,17 @@
                         <DatePicker x:Name="birthdate" root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource DatePickerStyle}" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding ContactNoError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="3" Margin="5"/>
                         <TextBox IsReadOnly="True" Text="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Age:" Grid.Column="2" Margin="5"/>
-                        <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="4" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox root:AttachedProperties.Error="{Binding AddressError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.ColumnSpan="2" Margin="5"/>
+                        <TextBox root:AttachedProperties.Error="{Binding AddressError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Address, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Address:" Grid.ColumnSpan="4" Margin="5"/>
+                        <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="4" Margin="5"/>
                     </Grid>
                     <StackPanel>
                         <Label Content="Account Information" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
@@ -117,5 +119,6 @@
             <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="48"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
         </Grid>
+        <root:DialogBoxView Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>
