@@ -33,7 +33,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (!hasError)
             {
                 Treatment.AddedBy = ActiveUser;
-                updateDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                UpdateDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 

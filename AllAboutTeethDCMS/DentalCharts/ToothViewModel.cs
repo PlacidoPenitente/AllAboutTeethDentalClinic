@@ -36,18 +36,18 @@ namespace AllAboutTeethDCMS.DentalCharts
 
         public void loadTooth()
         {
-            CustomFilter = "tooth_owner='" + Owner.No + "' AND tooth_toothno='"+ToothNo+"'";
+            //CustomFilter = "tooth_owner='" + Owner.No + "' AND tooth_toothno='"+ToothNo+"'";
             Tooth tooth = null;
             while (tooth==null)
             {
-                List<Tooth> teeth = loadFromDatabase("allaboutteeth_tooths", "");
+                List<Tooth> teeth = LoadFromDatabase("allaboutteeth_tooths", "");
                 if(teeth.Count>0)
                 {
                     tooth = teeth.ElementAt(0);
                 }
                 else
                 {
-                    saveToDatabase(Tooth, "allaboutteeth_tooths");
+                    SaveToDatabase(Tooth, "allaboutteeth_tooths");
                 }
             }
             Tooth = tooth;
@@ -55,7 +55,7 @@ namespace AllAboutTeethDCMS.DentalCharts
 
         public void saveTooth()
         {
-            updateDatabase(Tooth, "allaboutteeth_tooths");
+            UpdateDatabase(Tooth, "allaboutteeth_tooths");
         }
 
         protected override void afterDelete(bool isSuccessful)

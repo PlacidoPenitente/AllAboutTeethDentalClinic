@@ -29,7 +29,7 @@ namespace AllAboutTeethDCMS.TreatmentRecords
 
         public void saveTreatmentRecord()
         {
-            saveToDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            SaveToDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         protected override void afterDelete(bool isSuccessful)

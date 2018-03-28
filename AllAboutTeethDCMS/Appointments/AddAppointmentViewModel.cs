@@ -158,7 +158,7 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 Patient.Status = "Scheduled";
                 patientViewModel.ActiveUser = ActiveUser;
-                patientViewModel.updateDatabase(Patient, "allaboutteeth_patients");
+                patientViewModel.UpdateDatabase(Patient, "allaboutteeth_patients");
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
