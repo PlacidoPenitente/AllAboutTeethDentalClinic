@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource icons8_Syringe_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-            <Label FontSize="18" Content="Edit Service" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Label FontSize="19" Content="Edit Service" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
         <StackPanel Grid.Row="1" Background="White"/>
@@ -37,7 +37,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
                     <StackPanel>
-                        <Label Content="Service Information" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="Service Information" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -62,10 +62,10 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <Label Content="Tooth Condition:" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                            <Label Content="Tooth Condition:" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                            <Label Content="Is Allowed?" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                            <Label Content="Is Allowed?" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                         </StackPanel>
                     </Grid>
                     <Grid>
@@ -249,8 +249,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Save Service" Height="48"/>
-            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
+            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Save Service" Height="43"/>
+            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
         </Grid>
     </Grid>
 </UserControl>

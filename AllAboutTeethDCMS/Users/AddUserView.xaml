@@ -6,10 +6,19 @@
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="800">
+             d:DesignHeight="1024" d:DesignWidth="1024">
     <UserControl.DataContext>
         <local:AddUserViewModel/>
     </UserControl.DataContext>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -25,20 +34,20 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource icons8_Doctor_Male_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-            <Label FontSize="18" Content="Add New User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Label FontSize="19" Content="Add New User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43"/>
         </Grid>
         <StackPanel Grid.Row="2" Background="White"/>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
-            <Grid MinWidth="800">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.25*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="800"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
                     <StackPanel>
-                        <Label Content="User Information" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="User Information" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -75,7 +84,7 @@
                         <TextBox Text="{Binding EmailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Email Address:" Grid.Column="4" Margin="5"/>
                     </Grid>
                     <StackPanel>
-                        <Label Content="Account Information" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="Account Information" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -107,7 +116,18 @@
                         <TextBox root:AttachedProperties.Error="{Binding Question2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding Answer2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
-                </StackPanel>
+                    <StackPanel>
+                        <Label Content="Commision Settings" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Commission Rate:" Margin="5"/>
+                    </Grid>
+            </StackPanel>
             </Grid>
         </ScrollViewer>
         <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
@@ -116,9 +136,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="48"/>
-            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
+            <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="43"/>
+            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
         </Grid>
-        <root:DialogBoxView Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <root:DialogBoxView Visibility="Collapsed" Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

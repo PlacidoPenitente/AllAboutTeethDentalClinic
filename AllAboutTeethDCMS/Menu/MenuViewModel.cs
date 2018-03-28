@@ -19,14 +19,17 @@ namespace AllAboutTeethDCMS.Menu
     public class MenuViewModel : ViewModelBase
     {
         private MainWindowViewModel mainWindowViewModel;
-
         private User activeUser;
+
+        public MenuViewModel()
+        {
+            UserView = new UserView();
+            AddUserView = new AddUserView();
+            EditUserView = new EditUserView();
+        }
 
         private OperationView operationView;
         private AddOperationView addOperationView;
-
-        private AppointmentView appointmentView;
-        private AddAppointmentView addAppointmentView;
 
         #region Users
         private UserView userView;
@@ -298,18 +301,67 @@ namespace AllAboutTeethDCMS.Menu
         }
         #endregion
 
-        private MaintenanceView maintenanceView;
-
-        public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
+        #region Appointments
+        private AppointmentView appointmentView;
+        private AddAppointmentView addAppointmentView;
+        private EditAppointmentView editAppointmentView;
 
         public AppointmentView AppointmentView { get => appointmentView; set => appointmentView = value; }
-        public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
-
-        public User ActiveUser { get => activeUser; set => activeUser = value; }
-
         public AddAppointmentView AddAppointmentView { get => addAppointmentView; set => addAppointmentView = value; }
-        public OperationView OperationView { get => operationView; set => operationView = value; }
+        public EditAppointmentView EditAppointmentView { get => editAppointmentView; set => editAppointmentView = value; }
 
+        public void gotoAppointments()
+        {
+            if(AppointmentView==null)
+            {
+                AppointmentView = new AppointmentView();
+            }
+            MainWindowViewModel.ActivePage = AppointmentView;
+            ((AppointmentViewModel)AppointmentView.DataContext).ActiveUser = ActiveUser;
+            ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoAddAppointmentView()
+        {
+            if(AddAppointmentView==null)
+            {
+                AddAppointmentView = new AddAppointmentView();
+            }
+            MainWindowViewModel.ActivePage = AddAppointmentView;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).ActiveUser = ActiveUser;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;
+        }
+
+        public void gotoEditAppointmentView(Appointment selectedAppointment)
+        {
+            if (EditAppointmentView == null)
+            {
+                EditAppointmentView = new EditAppointmentView();
+            }
+            MainWindowViewModel.ActivePage = EditAppointmentView;
+            ((EditAppointmentViewModel)EditAppointmentView.DataContext).ActiveUser = ActiveUser;
+            ((EditAppointmentViewModel)EditAppointmentView.DataContext).Appointment = selectedAppointment;
+            ((EditAppointmentViewModel)EditAppointmentView.DataContext).CopyAppointment = (Appointment)selectedAppointment.Clone();
+            ((EditAppointmentViewModel)EditAppointmentView.DataContext).MenuViewModel = this;
+        }
+        #endregion
+
+        public void gotoAddOperationView(Appointment appointment)
+        {
+            AddOperationView = new AddOperationView();
+            MainWindowViewModel.ActivePage = AddOperationView;
+            ((AddOperationViewModel)AddOperationView.DataContext).ActiveUser = activeUser;
+            ((AddOperationViewModel)AddOperationView.DataContext).Appointment = appointment;
+            ((AddOperationViewModel)AddOperationView.DataContext).MenuViewModel = this;
+        }
+
+        private MaintenanceView maintenanceView;
+        public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
+
+        
+        public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
+        public User ActiveUser { get => activeUser; set => activeUser = value; }
+        public OperationView OperationView { get => operationView; set => operationView = value; }
         public AddOperationView AddOperationView { get => addOperationView; set => addOperationView = value; }
 
         public void gotoOperations(User activeUser)
@@ -321,35 +373,9 @@ namespace AllAboutTeethDCMS.Menu
             ((OperationViewModel)OperationView.DataContext).loadOperations();
         }
 
-        public void gotoAddOperationView(User activeUser, Appointment appointment)
-        {
-            AddOperationView = new AddOperationView();
-            MainWindowViewModel.ActivePage = AddOperationView;
-            ((AddOperationViewModel)AddOperationView.DataContext).ActiveUser = activeUser;
-            ((AddOperationViewModel)AddOperationView.DataContext).Appointment = appointment;
-            ((AddOperationViewModel)AddOperationView.DataContext).MenuViewModel = this;
-        }
-
-        public void gotoAppointments(User activeUser)
-        {
-            AppointmentView = new AppointmentView();
-            MainWindowViewModel.ActivePage = AppointmentView;
-            ((AppointmentViewModel)AppointmentView.DataContext).ActiveUser = activeUser;
-            ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
-            ((AppointmentViewModel)AppointmentView.DataContext).loadAppointments();
-        }
-
         public void gotoMaintenance()
         {
             MainWindowViewModel.ActivePage = MaintenanceView;
-        }
-
-        public void gotoAddAppointmentView(User activeUser)
-        {
-            AddAppointmentView = new AddAppointmentView();
-            MainWindowViewModel.ActivePage = AddAppointmentView;
-            ((AddAppointmentViewModel)AddAppointmentView.DataContext).ActiveUser = activeUser;
-            ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;
         }
     }
 }

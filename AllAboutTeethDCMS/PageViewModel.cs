@@ -11,21 +11,27 @@ namespace AllAboutTeethDCMS
 {
     public abstract class PageViewModel : ViewModelBase
     {
+        #region Fields
         private MenuViewModel menuViewModel;
-        private User activeUser;
         private MySqlConnection connection;
         private MainWindowViewModel mainWindowViewModel;
+        private User activeUser;
+        #endregion
 
+        #region Properties
+        public MenuViewModel MenuViewModel { get => menuViewModel; set => menuViewModel = value; }
+        public MySqlConnection Connection { get => connection; set => connection = value; }
+        public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
+        public User ActiveUser { get => activeUser; set => activeUser = value; }
+        #endregion
+
+        #region Methods
         public void createConnection()
         {
             connection = new MySqlConnection();
             connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
             connection.Open();
         }
-        
-        public MenuViewModel MenuViewModel { get => menuViewModel; set => menuViewModel = value; }
-        public MySqlConnection Connection { get => connection; set => connection = value; }
-        public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
-        public User ActiveUser { get => activeUser; set => activeUser = value; }
+        #endregion
     }
 }

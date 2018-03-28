@@ -71,6 +71,10 @@
       <DependentUpon>AppointmentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Appointments\AppointmentViewModel.cs" />
+    <Compile Include="Appointments\EditAppointmentView.xaml.cs">
+      <DependentUpon>EditAppointmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Appointments\EditAppointmentViewModel.cs" />
     <Compile Include="AppointmentToStringConverter.cs" />
     <Compile Include="AttachedProperties.cs" />
     <Compile Include="BooleanToStringConverter.cs" />
@@ -169,6 +173,7 @@
       <DependentUpon>ProviderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Providers\ProviderViewModel.cs" />
+    <Compile Include="StringToImageConverter.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
@@ -239,6 +244,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Appointments\AppointmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Appointments\EditAppointmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

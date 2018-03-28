@@ -24,4 +24,5 @@
     <root:AppointmentToStringConverter x:Key="AppointmentToStringConverter"/>
     <root:ObjectToVisibilityConverterInverted x:Key="ObjectToVisibilityConverterInverted"/>
     <root:AnswerToVisibilityConverter x:Key="AnswerToVisibilityConverter"/>
+    <root:StringToImageConverter x:Key="StringToImageConverter"/>
 </ResourceDictionary>

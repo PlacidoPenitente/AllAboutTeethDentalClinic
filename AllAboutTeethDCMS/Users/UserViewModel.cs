@@ -168,6 +168,7 @@ namespace AllAboutTeethDCMS.Users
 
         public UserPreviewViewModel UserPreviewViewModel { get => userPreviewViewModel; set { userPreviewViewModel = value; OnPropertyChanged(); } }
 
+
         public void loadUsers()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
@@ -197,5 +198,8 @@ namespace AllAboutTeethDCMS.Users
         {
             throw new NotImplementedException();
         }
+
+        private int width = 0;
+        public int Width { get => width; set { width = value; OnPropertyChanged(); Console.WriteLine(width); } }
     }
 }

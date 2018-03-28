@@ -115,7 +115,7 @@ namespace AllAboutTeethDCMS
             Connection.Close();
         }
 
-        protected void updateDatabase(T model, string tableName)
+        public void updateDatabase(T model, string tableName)
         {
             string prefix = new T().GetType().Name;
             if(Connection==null)
@@ -591,5 +591,13 @@ namespace AllAboutTeethDCMS
             }
             return "";
         }
+
+        public CRUDPage()
+        {
+            DialogBoxViewModel = new DialogBoxViewModel();
+        }
+
+        private DialogBoxViewModel dialogBoxViewModel;
+        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
     }
 }

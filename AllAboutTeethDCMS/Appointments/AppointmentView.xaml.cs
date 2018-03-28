@@ -30,24 +30,29 @@ namespace AllAboutTeethDCMS.Appointments
             ((AppointmentViewModel)DataContext).loadAppointments();
         }
 
-        private void add_treatment_Click(object sender, RoutedEventArgs e)
+        private void add_Click(object sender, RoutedEventArgs e)
         {
-            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddAppointmentView(((AppointmentViewModel)DataContext).ActiveUser);
+            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddAppointmentView();
         }
 
-        private void edit_treatment_Click(object sender, RoutedEventArgs e)
+        private void edit_Click(object sender, RoutedEventArgs e)
         {
-            //((AppointmentViewModel)DataContext).MenuViewModel.gotoAppointments(((AppointmentViewModel)DataContext).ActiveUser, (Appointment)((AppointmentViewModel)DataContext).Appointment.Clone());
+            ((AppointmentViewModel)DataContext).MenuViewModel.gotoEditAppointmentView((Appointment)((AppointmentViewModel)DataContext).Appointment.Clone());
         }
 
-        private void delete_treatment_Click(object sender, RoutedEventArgs e)
+        private void delete_Click(object sender, RoutedEventArgs e)
         {
             ((AppointmentViewModel)DataContext).deleteAppointment();
         }
 
-        private void start_treatment_Click(object sender, RoutedEventArgs e)
+        private void unarchive_Click(object sender, RoutedEventArgs e)
         {
-            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddOperationView(((AppointmentViewModel)DataContext).ActiveUser, ((AppointmentViewModel)DataContext).Appointment);
+            ((AppointmentViewModel)DataContext).unarchive();
+        }
+
+        private void archive_Click(object sender, RoutedEventArgs e)
+        {
+            ((AppointmentViewModel)DataContext).archive();
         }
     }
 }

@@ -11,9 +11,9 @@ namespace AllAboutTeethDCMS
         private string title = "";
         private string message = "";
         private string answer = "";
-        private string yesVisibility = "Collpased";
-        private string noVisibility = "Collpased";
-        private string okVisibility = "Collpased";
+        private string yesVisibility = "Collapsed";
+        private string noVisibility = "Collapsed";
+        private string okVisibility = "Collapsed";
         private string mode = "Information";
         private string icon = "";
 

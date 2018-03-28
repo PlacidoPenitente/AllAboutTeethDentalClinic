@@ -16,38 +16,28 @@ using System.Windows.Shapes;
 namespace AllAboutTeethDCMS.Appointments
 {
     /// <summary>
-    /// Interaction logic for AddAppointmentView.xaml
+    /// Interaction logic for EditAppointmentView.xaml
     /// </summary>
-    public partial class AddAppointmentView : UserControl
+    public partial class EditAppointmentView : UserControl
     {
-        public AddAppointmentView()
+        public EditAppointmentView()
         {
             InitializeComponent();
         }
 
         private void addTreatment_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).saveAppointment();
+            ((EditAppointmentViewModel)DataContext).saveAppointment();
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).resetForm();
+            ((EditAppointmentViewModel)DataContext).resetForm();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((AddAppointmentViewModel)DataContext).MenuViewModel.gotoAppointments();
-        }
-
-        private void reload_Click(object sender, RoutedEventArgs e)
-        {
-            //((AddAppointmentViewModel)DataContext).DentalChartViewModel.startLoadingTeeth();
-        }
-
-        private void search_Click(object sender, RoutedEventArgs e)
-        {
-
+            ((EditAppointmentViewModel)DataContext).MenuViewModel.gotoAppointments();
         }
     }
 }

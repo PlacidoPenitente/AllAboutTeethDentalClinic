@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
             <Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
-            <Label FontSize="18" Content="Patients" VerticalAlignment="Center" Foreground="White"/>
+            <Label FontSize="19" Content="Patients" VerticalAlignment="Center" Foreground="White"/>
         </StackPanel>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Grid Grid.Column="1" Grid.Row="1" Margin="10">

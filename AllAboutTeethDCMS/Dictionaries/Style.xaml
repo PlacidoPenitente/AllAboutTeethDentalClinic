@@ -242,7 +242,7 @@
                         <Border>
                             <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{StaticResource Turquoise}"/>
                         </Border>
-                        <Border Background="{TemplateBinding Background}" Margin="5,5,5,0" CornerRadius="3" SnapsToDevicePixels="True">
+                        <Border Background="{TemplateBinding Background}" Margin="5,5,5,0" CornerRadius="4" SnapsToDevicePixels="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -251,14 +251,14 @@
                                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" PlacementTarget="{Binding ElementName=root}" Placement="Bottom">
                                     <Border x:Name="DropDownBorder" SnapsToDevicePixels="True" Background="Transparent">
                                         <ScrollViewer x:Name="DropDownScrollViewer">
-                                            <Border RenderOptions.ClearTypeHint="Enabled">
+                                            <Border Margin="0,5,0,0" RenderOptions.ClearTypeHint="Enabled">
                                                 <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Border>
                                         </ScrollViewer>
                                     </Border>
                                 </Popup>
                                 <ContentPresenter x:Name="presenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="10,0,10,0" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                                <ToggleButton Margin="5,5,5,6" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton Margin="5,5,5,5" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
                                             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -430,6 +430,8 @@
         <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{StaticResource Clouds}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource MidnightBlue}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource Turquoise}"/>
@@ -440,6 +442,15 @@
 
     <Style x:Key="cell" TargetType="{x:Type DataGridCell}">
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Asbestos}">
+                        <ContentPresenter Margin="3,2,3,2"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource Turquoise}"/>
@@ -449,7 +460,7 @@
     </Style>
 
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Width" Value="1" />
+        <Setter Property="Width" Value="5" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Cursor" Value="SizeWE" />
         <Setter Property="Template">
@@ -472,12 +483,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
                     <Grid>
-                        <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Asbestos}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter HorizontalAlignment="Center"/>
@@ -508,6 +517,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="RowStyle" Value="{StaticResource Row}"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WetAsphalt}"/>
         <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WetAsphalt}"/>
     </Style>

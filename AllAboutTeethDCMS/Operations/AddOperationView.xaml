@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource add_account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-            <Label FontSize="18" Content="Add New Treatment" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+            <Label FontSize="19" Content="Add New Treatment" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
             <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
         </Grid>
         <StackPanel Grid.Row="1" Background="White"/>
@@ -72,8 +72,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Apply Treatment" Height="48"/>
-            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
+            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Apply Treatment" Height="43"/>
+            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
 			<Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
-			<Label FontSize="18" Content="Add New Patient" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
+			<Label FontSize="19" Content="Add New Patient" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
 			<Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
 		</Grid>
 		<StackPanel Grid.Row="1" Background="White"/>
@@ -37,7 +37,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
                     <StackPanel>
-                        <Label Content="Patient Information" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="Patient Information" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -127,7 +127,7 @@
                         <TextBox Grid.ColumnSpan="2" Text="{Binding Reason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="What is your reason for dental consultation?" Grid.Column="1" Margin="5"/>
                     </Grid>
                     <StackPanel>
-                        <Label Content="Dental History" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="Dental History" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -139,7 +139,7 @@
                         <TextBox Text="{Binding LastDentalVisit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Last Dental Visit:" Grid.Column="1" Margin="5"/>
                     </Grid>
                     <StackPanel>
-                        <Label Content="Medical History" FontFamily="{StaticResource Roboto}" FontSize="18" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
+                        <Label Content="Medical History" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -302,8 +302,8 @@
 				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
-			<Button x:Name="addpatient" Grid.Column="0" Click="addpatient_Click" Style="{StaticResource PrimaryButton}" Content="Add Patient" Height="48"/>
-			<Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="48"/>
+			<Button x:Name="addpatient" Grid.Column="0" Click="addpatient_Click" Style="{StaticResource PrimaryButton}" Content="Add Patient" Height="43"/>
+			<Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
 		</Grid>
         <root:DialogBoxView Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
 	</Grid>
