@@ -24,35 +24,5 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             InitializeComponent();
         }
-
-        private void search_account_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).loadSuppliers();
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).MenuViewModel.gotoAddSupplierView();
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).MenuViewModel.gotoEditSupplierView((Supplier)((SupplierViewModel)DataContext).Supplier.Clone());
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).deleteSupplier();
-        }
-
-        private void unarchive_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).unarchive();
-        }
-
-        private void archive_Click(object sender, RoutedEventArgs e)
-        {
-            ((SupplierViewModel)DataContext).archive();
-        }
     }
 }

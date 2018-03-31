@@ -51,7 +51,7 @@ namespace AllAboutTeethDCMS.Medicines
             medicine = new Medicine();
             copyMedicine = (Medicine)medicine.Clone();
             startLoadThread();
-            supplierViewModel.loadSuppliers();
+            supplierViewModel.LoadSuppliers();
 
             DialogBoxViewModel = new DialogBoxViewModel();
         }

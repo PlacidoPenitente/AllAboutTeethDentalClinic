@@ -33,7 +33,7 @@ namespace AllAboutTeethDCMS.Appointments
                 loadTreatmentsThread = new Thread(setTreatments);
                 loadTreatmentsThread.IsBackground = true;
                 loadTreatmentsThread.Start();
-                treatmentViewModel.loadTreatments();
+                treatmentViewModel.LoadTreatments();
             }
         }
 

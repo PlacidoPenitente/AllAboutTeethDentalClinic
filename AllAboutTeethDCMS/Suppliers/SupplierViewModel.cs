@@ -10,29 +10,32 @@ namespace AllAboutTeethDCMS.Suppliers
 {
     public class SupplierViewModel : CRUDPage<Supplier>
     {
+        #region Fields
         private Supplier supplier;
         private List<Supplier> suppliers;
-        private string filter = "";
 
-        private DialogBoxViewModel dialogBoxViewModel;
+        private DelegateCommand loadCommand;
+        private DelegateCommand archiveCommand;
+        private DelegateCommand unarchiveCommand;
+        private DelegateCommand deleteCommand;
+        private DelegateCommand addCommand;
+        private DelegateCommand editCommand;
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        private string filterResult = "";
+        #endregion
 
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
-        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
-
-        public void archive()
+        public SupplierViewModel()
         {
-            startUpdateToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            LoadCommand = new DelegateCommand(new Action(LoadSuppliers));
+            ArchiveCommand = new DelegateCommand(new Action(Archive));
+            UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
+            DeleteCommand = new DelegateCommand(new Action(DeleteSupplier));
+            AddCommand = new DelegateCommand(new Action(GotoAddSupplier));
+            EditCommand = new DelegateCommand(new Action(GotoEditSupplier));
         }
 
-        public void unarchive()
-        {
-            startUpdateToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
+        #region Methods
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -40,7 +43,7 @@ namespace AllAboutTeethDCMS.Suppliers
             if (Supplier.Status.Equals("Active"))
             {
                 DialogBoxViewModel.Title = "Archive Supplier";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this supplier? Supplier can no longer be used.";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this supplier? Account can no longer be used.";
             }
             else
             {
@@ -79,7 +82,7 @@ namespace AllAboutTeethDCMS.Suppliers
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                loadSuppliers();
+                LoadSuppliers();
             }
             else
             {
@@ -109,7 +112,7 @@ namespace AllAboutTeethDCMS.Suppliers
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleteing supplier. Please wait.";
+                DialogBoxViewModel.Message = "Deleting supplier. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -120,7 +123,7 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             if (isSuccessful)
             {
-                loadSuppliers();
+                LoadSuppliers();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -138,16 +141,46 @@ namespace AllAboutTeethDCMS.Suppliers
             DialogBoxViewModel.Answer = "";
         }
 
-        public SupplierViewModel()
+        protected override bool beforeCreate()
         {
-            DialogBoxViewModel = new DialogBoxViewModel();
+            return true;
         }
+
+        protected override void afterCreate(bool isSuccessful)
+        {
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
+        }
+
+        protected override void afterLoad(List<Supplier> list)
+        {
+            Suppliers = list;
+            FilterResult = "";
+            if (list.Count > 1)
+            {
+                FilterResult = "Found " + list.Count + " result/s.";
+            }
+        }
+        #endregion
+
+        #region Properties
+        public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
+        public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
+        public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
+        public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         public Supplier Supplier
         {
-            get => supplier; set
+            get => supplier;
+            set
             {
-                supplier = value; OnPropertyChanged();
+                supplier = value;
+                OnPropertyChanged();
+
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
@@ -163,45 +196,42 @@ namespace AllAboutTeethDCMS.Suppliers
                 }
             }
         }
-
-
-
         public List<Supplier> Suppliers { get => suppliers; set { suppliers = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadSuppliers(); OnPropertyChanged(); } }
 
-        public void loadSuppliers()
+        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
+        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region Commands
+        public void GotoAddSupplier()
+        {
+            MenuViewModel.GotoAddSupplierView();
+        }
+
+        public void LoadSuppliers()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void deleteSupplier()
+        public void GotoEditSupplier()
+        {
+            MenuViewModel.GotoEditSupplierView(Supplier);
+        }
+
+        public void Archive()
+        {
+            startUpdateToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void Unarchive()
+        {
+            startUpdateToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void DeleteSupplier()
         {
             startDeleteFromDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
-
-        protected override void afterLoad(List<Supplier> list)
-        {
-            Suppliers = list;
-            FilterResult = "";
-            if (list.Count > 0)
-            {
-                FilterResult = "Found " + list.Count + " result/s.";
-            }
-        }
-
-        protected override bool beforeCreate()
-        {
-            return true;
-        }
-
-        protected override void afterCreate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

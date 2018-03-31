@@ -213,7 +213,7 @@ namespace AllAboutTeethDCMS.Users
 
         public void GotoEditUser()
         {
-            MenuViewModel.gotoEditUserView(User);
+            MenuViewModel.GotoEditUserView(User);
         }
 
         public void Archive()

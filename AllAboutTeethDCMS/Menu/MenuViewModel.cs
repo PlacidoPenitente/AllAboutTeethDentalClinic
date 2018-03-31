@@ -62,7 +62,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddUserViewModel)AddUserView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditUserView(User selectedUser)
+        public void GotoEditUserView(User selectedUser)
         {
             EditUserView = new EditUserView();
             MainWindowViewModel.ActivePage = EditUserView;
@@ -138,7 +138,7 @@ namespace AllAboutTeethDCMS.Menu
             ((TreatmentViewModel)TreatmentView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditTreatmentView(Treatment treatment)
+        public void GotoEditTreatmentView(Treatment treatment)
         {
             if(EditTreatmentView==null)
             {
@@ -151,7 +151,7 @@ namespace AllAboutTeethDCMS.Menu
             ((EditTreatmentViewModel)EditTreatmentView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddTreatmentView()
+        public void GotoAddTreatmentView()
         {
             if(AddTreatmentView == null)
             {
@@ -183,7 +183,7 @@ namespace AllAboutTeethDCMS.Menu
             ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddSupplierView()
+        public void GotoAddSupplierView()
         {
             if(AddSupplierView==null)
             {
@@ -194,7 +194,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddSupplierViewModel)AddSupplierView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditSupplierView(Supplier selectedSupplier)
+        public void GotoEditSupplierView(Supplier selectedSupplier)
         {
             if(EditSupplierView==null)
             {

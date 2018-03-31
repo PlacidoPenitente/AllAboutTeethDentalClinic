@@ -10,42 +10,45 @@ namespace AllAboutTeethDCMS.Treatments
 {
     public class TreatmentViewModel : CRUDPage<Treatment>
     {
+        #region Fields
         private Treatment treatment;
         private List<Treatment> treatments;
-        private string filter = "";
 
-        private DialogBoxViewModel dialogBoxViewModel;
+        private DelegateCommand loadCommand;
+        private DelegateCommand archiveCommand;
+        private DelegateCommand unarchiveCommand;
+        private DelegateCommand deleteCommand;
+        private DelegateCommand addCommand;
+        private DelegateCommand editCommand;
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        private string filterResult = "";
+        #endregion
 
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
-        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
-
-        public void archive()
+        public TreatmentViewModel()
         {
-            startUpdateToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            LoadCommand = new DelegateCommand(new Action(LoadTreatments));
+            ArchiveCommand = new DelegateCommand(new Action(Archive));
+            UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
+            DeleteCommand = new DelegateCommand(new Action(DeleteTreatment));
+            AddCommand = new DelegateCommand(new Action(GotoAddTreatment));
+            EditCommand = new DelegateCommand(new Action(GotoEditTreatment));
         }
 
-        public void unarchive()
-        {
-            startUpdateToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
+        #region Methods
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
             if (Treatment.Status.Equals("Active"))
             {
-                DialogBoxViewModel.Title = "Archive Service";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this service? Service can no longer be used.";
+                DialogBoxViewModel.Title = "Archive Treatment";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this treatment? Account can no longer be used.";
             }
             else
             {
-                DialogBoxViewModel.Title = "Unarchive Service";
-                DialogBoxViewModel.Message = "Are you sure you want to activate this service?";
+                DialogBoxViewModel.Title = "Unarchive Treatment";
+                DialogBoxViewModel.Message = "Are you sure you want to activate this treatment?";
             }
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -57,14 +60,14 @@ namespace AllAboutTeethDCMS.Treatments
                 {
                     Treatment.Status = "Archived";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Archiving service. Please wait.";
+                    DialogBoxViewModel.Message = "Archiving treatment. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 else
                 {
                     Treatment.Status = "Active";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Activating service. Please wait.";
+                    DialogBoxViewModel.Message = "Activating treatment. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 return true;
@@ -79,7 +82,7 @@ namespace AllAboutTeethDCMS.Treatments
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                loadTreatments();
+                LoadTreatments();
             }
             else
             {
@@ -98,8 +101,8 @@ namespace AllAboutTeethDCMS.Treatments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Delete Service";
-            DialogBoxViewModel.Message = "Are you sure you want to totally delete this service?";
+            DialogBoxViewModel.Title = "Delete Treatment";
+            DialogBoxViewModel.Message = "Are you sure you want to totally delete this treatment?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -109,7 +112,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleteing treatment. Please wait.";
+                DialogBoxViewModel.Message = "Deleting treatment. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -120,7 +123,7 @@ namespace AllAboutTeethDCMS.Treatments
         {
             if (isSuccessful)
             {
-                loadTreatments();
+                LoadTreatments();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -138,16 +141,46 @@ namespace AllAboutTeethDCMS.Treatments
             DialogBoxViewModel.Answer = "";
         }
 
-        public TreatmentViewModel()
+        protected override bool beforeCreate()
         {
-            DialogBoxViewModel = new DialogBoxViewModel();
+            return true;
         }
+
+        protected override void afterCreate(bool isSuccessful)
+        {
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
+        }
+
+        protected override void afterLoad(List<Treatment> list)
+        {
+            Treatments = list;
+            FilterResult = "";
+            if (list.Count > 1)
+            {
+                FilterResult = "Found " + list.Count + " result/s.";
+            }
+        }
+        #endregion
+
+        #region Properties
+        public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
+        public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
+        public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
+        public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         public Treatment Treatment
         {
-            get => treatment; set
+            get => treatment;
+            set
             {
-                treatment = value; OnPropertyChanged();
+                treatment = value;
+                OnPropertyChanged();
+
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
@@ -163,44 +196,42 @@ namespace AllAboutTeethDCMS.Treatments
                 }
             }
         }
-
-
-
         public List<Treatment> Treatments { get => treatments; set { treatments = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadTreatments(); OnPropertyChanged(); } }
 
-        public void loadTreatments()
+        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
+        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region Commands
+        public void GotoAddTreatment()
+        {
+            MenuViewModel.GotoAddTreatmentView();
+        }
+
+        public void LoadTreatments()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void deleteTreatment()
+        public void GotoEditTreatment()
+        {
+            MenuViewModel.GotoEditTreatmentView(Treatment);
+        }
+
+        public void Archive()
+        {
+            startUpdateToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void Unarchive()
+        {
+            startUpdateToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void DeleteTreatment()
         {
             startDeleteFromDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
-
-        protected override void afterLoad(List<Treatment> list)
-        {
-            Treatments = list;
-            FilterResult = "";
-            if (list.Count > 0)
-            {
-                FilterResult = "Found " + list.Count + " result/s.";
-            }
-        }
-
-        protected override bool beforeCreate()
-        {
-            return true;
-        }
-
-        protected override void afterCreate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-        }
+        #endregion
     }
 }
