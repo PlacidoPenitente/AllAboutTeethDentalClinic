@@ -29,7 +29,7 @@ namespace AllAboutTeethDCMS.Users
         private string answer2 = "";
         private string specialization = "";
         private int rate = 40;
-        private string status = "Active";
+        private string status = "Archived";
         private string image = "";
         private DateTime dateAdded = DateTime.Now;
         private DateTime dateModified = DateTime.Now;

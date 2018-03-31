@@ -23,11 +23,17 @@ namespace AllAboutTeethDCMS.Users
         public EditUserView()
         {
             InitializeComponent();
-            birthdate.DisplayDateEnd = DateTime.Now;
+        }
+
+        private void addUser_Click(object sender, RoutedEventArgs e)
+        {
+            ((EditUserViewModel)DataContext).saveUser();
         }
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
+            passwordMain.Password = "";
+            passwordCopy.Password = "";
             ((EditUserViewModel)DataContext).resetForm();
         }
 
@@ -46,9 +52,20 @@ namespace AllAboutTeethDCMS.Users
             ((EditUserViewModel)DataContext).PasswordCopy = passwordCopy.Password;
         }
 
-        private void addUser_Click(object sender, RoutedEventArgs e)
+        private void passwordMain_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            ((EditUserViewModel)DataContext).saveUser();
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void passwordCopy_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

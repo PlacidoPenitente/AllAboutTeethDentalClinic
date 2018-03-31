@@ -236,6 +236,7 @@
     <Compile Include="Users\UserViewModel.cs" />
     <Compile Include="PageViewModel.cs" />
     <Compile Include="UserToStringConverter.cs" />
+    <Compile Include="UserTypeToVisibilityConverter.cs" />
     <Compile Include="ViewModelBase.cs" />
     <Compile Include="DialogBoxView.xaml.cs">
       <DependentUpon>DialogBoxView.xaml</DependentUpon>

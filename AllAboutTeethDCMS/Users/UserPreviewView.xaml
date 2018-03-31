@@ -7,7 +7,7 @@
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
              x:Name="viewer"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.5"/>
@@ -92,6 +92,24 @@
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="120" Content="Email Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
                                 <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                            </Grid>
+                            <Grid Margin="5">
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Type}" Value="Dentist">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Left" Width="120" Content="Specialization:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Specialization, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
                             <StackPanel Margin="0,20,0,0">
                                 <Border HorizontalAlignment="Center" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2" SnapsToDevicePixels="True">

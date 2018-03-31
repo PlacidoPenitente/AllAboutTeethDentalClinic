@@ -64,10 +64,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoEditUserView(User selectedUser)
         {
-            if(EditUserView==null)
-            {
-                EditUserView = new EditUserView();
-            }
+            EditUserView = new EditUserView();
             MainWindowViewModel.ActivePage = EditUserView;
             ((EditUserViewModel)EditUserView.DataContext).ActiveUser = ActiveUser;
             ((EditUserViewModel)EditUserView.DataContext).User = selectedUser;

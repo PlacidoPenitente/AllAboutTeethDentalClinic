@@ -10,6 +10,7 @@ namespace AllAboutTeethDCMS.Users
 {
     public class UserViewModel : CRUDPage<User>
     {
+        #region Fields
         private User user;
         private List<User> users;
 
@@ -22,7 +23,7 @@ namespace AllAboutTeethDCMS.Users
 
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        private string filterResult = "";
+        #endregion
 
         public UserViewModel()
         {
@@ -59,7 +60,7 @@ namespace AllAboutTeethDCMS.Users
                 {
                     User.Status = "Archived";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Disabling user. Please wait.";
+                    DialogBoxViewModel.Message = "Archiving user. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 else
@@ -111,7 +112,7 @@ namespace AllAboutTeethDCMS.Users
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleteing user. Please wait.";
+                DialogBoxViewModel.Message = "Deleting user. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -172,12 +173,31 @@ namespace AllAboutTeethDCMS.Users
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
-        public User User { get => user; set { user = value; OnPropertyChanged(); } }
+        public User User { get => user;
+            set
+            {
+                user = value;
+                OnPropertyChanged();
+
+                ArchiveVisibility = "Collapsed";
+                UnarchiveVisibility = "Collapsed";
+                if (value != null)
+                {
+                    if (value.Status.Equals("Active"))
+                    {
+                        ArchiveVisibility = "Visible";
+                    }
+                    else
+                    {
+                        UnarchiveVisibility = "Visible";
+                    }
+                }
+            }
+        }
         public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands

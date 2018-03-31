@@ -93,18 +93,27 @@ namespace AllAboutTeethDCMS
             {
                 beforeLoad(command);
             }
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                primaryKeys.Add(reader.GetInt32(prefix + "_No"));
-            }
-            reader.Close();
-            Connection.Close();
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    primaryKeys.Add(reader.GetInt32(prefix + "_No"));
+                }
+                reader.Close();
+                Connection.Close();
 
-            foreach (int primaryKey in primaryKeys)
+                foreach (int primaryKey in primaryKeys)
+                {
+                    list.Add((T)LoadItem(new T(), tableName, primaryKey));
+                    Progress = ((double)list.Count / primaryKeys.Count) * 100;
+                }
+            }
+            catch(Exception ex)
             {
-                list.Add((T)LoadItem(new T(), tableName, primaryKey));
-                Progress = ((double)list.Count / primaryKeys.Count) * 100;
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(ex.Message);
+                Console.BackgroundColor = ConsoleColor.Black;
             }
             return list;
         }
@@ -366,6 +375,7 @@ namespace AllAboutTeethDCMS
         private double progress = 0;
         private string tableName = "";
         private string filter = "";
+        private string filterResult = "";
         private T model;
         #endregion
 
@@ -375,6 +385,7 @@ namespace AllAboutTeethDCMS
         public string TableName { get => tableName; set => tableName = value; }
         public string Filter { get => filter; set => filter = value; }
         public T Model { get => model; set => model = value; }
+        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
         #endregion
 
         protected bool Validate(string value)

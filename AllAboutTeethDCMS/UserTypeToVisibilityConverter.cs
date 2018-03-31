@@ -4,27 +4,25 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace AllAboutTeethDCMS
 {
-    public class AnswerToVisibilityConverter : IValueConverter
+    public class UserTypeToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(((string)value).Equals("None"))
+            if(((string)value).Equals("Dentist"))
             {
-                return 1;
+                return Visibility.Visible;
             }
-            else
-            {
-                return 0;
-            }
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return "None";
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace AllAboutTeethDCMS
         private string yesVisibility = "Collapsed";
         private string noVisibility = "Collapsed";
         private string okVisibility = "Collapsed";
+        private string cancelVisibility = "Collapsed";
         private string mode = "Information";
         private string icon = "";
         private DelegateCommand yesCommand;
@@ -34,13 +36,18 @@ namespace AllAboutTeethDCMS
         public string YesVisibility { get => yesVisibility; set { yesVisibility = value; OnPropertyChanged(); } }
         public string NoVisibility { get => noVisibility; set { noVisibility = value; OnPropertyChanged(); } }
         public string OkVisibility { get => okVisibility; set { okVisibility = value; OnPropertyChanged(); } }
+        public string CancelVisibility { get => cancelVisibility; set { cancelVisibility = value; OnPropertyChanged(); } }
 
-        public string Mode { get => mode; set { mode = value; OnPropertyChanged();
+        public string Mode { get => mode;
+            set
+            {
+                mode = value; OnPropertyChanged();
                 if (value.Equals("Information"))
                 {
                     OkVisibility = "Visible";
                     YesVisibility = "Collapsed";
                     NoVisibility = "Collapsed";
+                    CancelVisibility = "Collapsed";
                     Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Info_48px.png";
                 }
                 else if (value.Equals("Progress"))
@@ -48,6 +55,7 @@ namespace AllAboutTeethDCMS
                     OkVisibility = "Collapsed";
                     YesVisibility = "Collapsed";
                     NoVisibility = "Collapsed";
+                    CancelVisibility = "Collapsed";
                     Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Spinner_Frame_8_48px.png";
                 }
                 else if (value.Equals("Error"))
@@ -55,6 +63,7 @@ namespace AllAboutTeethDCMS
                     OkVisibility = "Visible";
                     YesVisibility = "Collapsed";
                     NoVisibility = "Collapsed";
+                    CancelVisibility = "Collapsed";
                     Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Error_48px.png";
                 }
                 else if (value.Equals("Success"))
@@ -62,16 +71,27 @@ namespace AllAboutTeethDCMS
                     OkVisibility = "Visible";
                     YesVisibility = "Collapsed";
                     NoVisibility = "Collapsed";
+                    CancelVisibility = "Collapsed";
                     Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Ok_48px.png";
+                }
+                else if(value.Equals("Confirm"))
+                {
+                    OkVisibility = "Visible";
+                    YesVisibility = "Collapsed";
+                    NoVisibility = "Collapsed";
+                    CancelVisibility = "Visible";
+                    Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Info_48px.png";
                 }
                 else
                 {
                     OkVisibility = "Collapsed";
                     YesVisibility = "Visible";
                     NoVisibility = "Visible";
+                    CancelVisibility = "Collapsed";
                     Icon = "/AllAboutTeethDCMS;component/Resources/icons8_Help_48px.png";
                 }
-            } }
+            }
+        }
 
         public string Icon { get => icon; set { icon = value; OnPropertyChanged(); } }
 

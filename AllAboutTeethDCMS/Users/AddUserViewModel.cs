@@ -281,7 +281,6 @@ namespace AllAboutTeethDCMS.Users
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                User = new User();
             }
             else
             {
@@ -367,6 +366,13 @@ namespace AllAboutTeethDCMS.Users
             {
                 startSaveToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
         }
 
         #region Reset Thread
@@ -376,16 +382,16 @@ namespace AllAboutTeethDCMS.Users
         public virtual void startResetThread()
         {
             DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Mode = "Confirm";
             DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
                 Thread.Sleep(100);
             }
 
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            if (DialogBoxViewModel.Answer.Equals("OK"))
             {
                 User = new User();
                 foreach (PropertyInfo info in GetType().GetProperties())

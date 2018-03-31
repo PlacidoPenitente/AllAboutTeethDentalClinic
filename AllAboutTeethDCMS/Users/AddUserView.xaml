@@ -14,7 +14,7 @@
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5"/>
+                    <DoubleAnimation From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
@@ -166,6 +166,6 @@
                 </Button.Triggers>
             </Button>
         </Grid>
-        <root:DialogBoxView x:Name="dialog" Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>
