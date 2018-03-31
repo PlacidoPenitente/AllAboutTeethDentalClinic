@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Users
 {
@@ -11,28 +12,29 @@ namespace AllAboutTeethDCMS.Users
     {
         private User user;
         private List<User> users;
-        private string filter = "";
-        private UserPreviewViewModel userPreviewViewModel;
 
-        private DialogBoxViewModel dialogBoxViewModel;
+        private DelegateCommand loadCommand;
+        private DelegateCommand archiveCommand;
+        private DelegateCommand unarchiveCommand;
+        private DelegateCommand deleteCommand;
+        private DelegateCommand addCommand;
+        private DelegateCommand editCommand;
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
         private string filterResult = "";
 
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
-        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
-
-        public void archive()
+        public UserViewModel()
         {
-            startUpdateToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            LoadCommand = new DelegateCommand(new Action(LoadUsers));
+            ArchiveCommand = new DelegateCommand(new Action(Archive));
+            UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
+            DeleteCommand = new DelegateCommand(new Action(DeleteUser));
+            AddCommand = new DelegateCommand(new Action(GotoAddUser));
+            EditCommand = new DelegateCommand(new Action(GotoEditUser));
         }
 
-        public void unarchive()
-        {
-            startUpdateToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
+        #region Methods
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -57,7 +59,7 @@ namespace AllAboutTeethDCMS.Users
                 {
                     User.Status = "Archived";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Archiving user. Please wait.";
+                    DialogBoxViewModel.Message = "Disabling user. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 else
@@ -79,7 +81,7 @@ namespace AllAboutTeethDCMS.Users
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                loadUsers();
+                LoadUsers();
             }
             else
             {
@@ -120,7 +122,7 @@ namespace AllAboutTeethDCMS.Users
         {
             if (isSuccessful)
             {
-                loadUsers();
+                LoadUsers();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -138,68 +140,76 @@ namespace AllAboutTeethDCMS.Users
             DialogBoxViewModel.Answer = "";
         }
 
-        public UserViewModel()
-        {
-            DialogBoxViewModel = new DialogBoxViewModel();
-            UserPreviewViewModel = new UserPreviewViewModel();
-        }
-
-        public User User { get => user; set { user = value; OnPropertyChanged();
-                ArchiveVisibility = "Collapsed";
-                UnarchiveVisibility = "Collapsed";
-                if (value != null)
-                {
-                    if (value.Status.Equals("Active"))
-                    {
-                        ArchiveVisibility = "Visible";
-                    }
-                    else
-                    {
-                        UnarchiveVisibility = "Visible";
-                    }
-                }
-                UserPreviewViewModel.User = value;
-            } }
-
-        
-
-        public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadUsers(); OnPropertyChanged(); } }
-
-        public UserPreviewViewModel UserPreviewViewModel { get => userPreviewViewModel; set { userPreviewViewModel = value; OnPropertyChanged(); } }
-
-
-        public void loadUsers()
-        {
-            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
-        }
-
-        public void deleteUser()
-        {
-            startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
-
-        protected override void setLoaded(List<User> list)
-        {
-            Users = list;
-            FilterResult = "";
-            if (list.Count>0)
-            {
-                FilterResult = "Found " + list.Count + " result/s.";
-            }
-        }
-
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             return true;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
-            throw new NotImplementedException();
         }
 
-        private int width = 0;
-        public int Width { get => width; set { width = value; OnPropertyChanged(); Console.WriteLine(width); } }
+        protected override void beforeLoad(MySqlCommand command)
+        {
+        }
+
+        protected override void afterLoad(List<User> list)
+        {
+            Users = list;
+            FilterResult = "";
+            if (list.Count > 1)
+            {
+                FilterResult = "Found " + list.Count + " result/s.";
+            }
+        }
+        #endregion
+
+        #region Properties
+        public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
+        public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
+        public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
+        public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
+
+        public User User { get => user; set { user = value; OnPropertyChanged(); } }
+        public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
+
+        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
+        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region Commands
+        public void GotoAddUser()
+        {
+            MenuViewModel.GotoAddUserView();
+        }
+
+        public void LoadUsers()
+        {
+            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+        }
+
+        public void GotoEditUser()
+        {
+            MenuViewModel.gotoEditUserView(User);
+        }
+
+        public void Archive()
+        {
+            startUpdateToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void Unarchive()
+        {
+            startUpdateToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void DeleteUser()
+        {
+            startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+        #endregion
     }
 }

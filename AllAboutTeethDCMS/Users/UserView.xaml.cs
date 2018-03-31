@@ -24,40 +24,5 @@ namespace AllAboutTeethDCMS.Users {
         {
             InitializeComponent();
         }
-
-        private void search_account_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).loadUsers();
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).MenuViewModel.gotoAddUserView();
-        }
-
-        private void view_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).UserPreviewViewModel.Visibility = "Visible";
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).MenuViewModel.gotoEditUserView((User)((UserViewModel)DataContext).User.Clone());
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).deleteUser();
-        }
-
-        private void unarchive_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).unarchive();
-        }
-
-        private void archive_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserViewModel)DataContext).archive();
-        }
     }
 }

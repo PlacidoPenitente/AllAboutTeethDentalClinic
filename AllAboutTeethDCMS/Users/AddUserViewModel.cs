@@ -22,7 +22,22 @@ namespace AllAboutTeethDCMS.Users
         #region Properties
         public User User { get => user; set  { user = value; foreach (PropertyInfo info in GetType().GetProperties()) OnPropertyChanged(info.Name); } }
         public User CopyUser { get => copyUser; set => copyUser = value; }
-        public string PasswordCopy { get => passwordCopy; set => passwordCopy = value; }
+        public string PasswordCopy { get => passwordCopy;
+            set
+            {
+                PasswordCopyError = "";
+                if (!Password.Equals(value))
+                {
+                    PasswordCopyError = "Doesn't match with password.";
+                }
+                if (!Validate(value))
+                {
+                    PasswordCopyError = "Please re-type your password.";
+                }
+                passwordCopy = value;
+                OnPropertyChanged();
+            }
+        }
         public List<string> Genders { get => genders; set => genders = value; }
         public List<string> AccountTypes { get => accountTypes; set => accountTypes = value; }
         #endregion
@@ -39,6 +54,8 @@ namespace AllAboutTeethDCMS.Users
         private string question2Error = "";
         private string answer1Error = "";
         private string answer2Error = "";
+        private DateTime dateEnd;
+        private DateTime dateStart;
 
         public string UsernameError { get => usernameError; set { usernameError = value; OnPropertyChanged(); } }
         public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
@@ -51,26 +68,160 @@ namespace AllAboutTeethDCMS.Users
         public string Question2Error { get => question2Error; set { question2Error = value; OnPropertyChanged(); } }
         public string Answer1Error { get => answer1Error; set { answer1Error = value; OnPropertyChanged(); } }
         public string Answer2Error { get => answer2Error; set { answer2Error = value; OnPropertyChanged(); } }
+        public DateTime DateEnd { get => dateEnd; set => dateEnd = value; }
+        public DateTime DateStart { get => dateStart; set => dateStart = value; }
         #endregion
 
         #region User Properties
-        public string Username { get => User.Username; set { User.Username = value; OnPropertyChanged(); } }
-        public string Password { get => User.Password; set { User.Password = value; OnPropertyChanged(); } }
+        public string Username { get => User.Username;
+            set
+            {
+                UsernameError = "";
+                if(!value.Contains(" "))
+                {
+                    UsernameError = ValidateUsername(value, CopyUser.Username);
+                    if (!Validate(value))
+                    {
+                        UsernameError = "Username is required.";
+                    }
+                    User.Username = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string Password { get => User.Password; 
+            set
+            {
+                PasswordCopyError = "";
+                PasswordError = "";
+                if (!value.Equals(PasswordCopy))
+                {
+                    PasswordCopyError = "Doesn't match with password.";
+                }
+                if (!Validate(value))
+                {
+                    PasswordError = "Password is required.";
+                }
+                User.Password = value;
+                OnPropertyChanged("PasswordCopyError");
+                OnPropertyChanged();
+            }
+        }
         public string Type { get => User.Type; set { User.Type = value; OnPropertyChanged(); } }
-        public string FirstName { get => User.FirstName; set { User.FirstName = value; OnPropertyChanged(); } }
+        public string FirstName { get => User.FirstName;
+            set
+            {
+                FirstNameError = "";
+                if(!Validate(value))
+                {
+                    FirstNameError = "First Name is required.";
+                }
+                User.FirstName = value;
+                OnPropertyChanged();
+
+            }
+        }
         public string MiddleName { get => User.MiddleName; set { User.MiddleName = value; OnPropertyChanged(); } }
-        public string LastName { get => User.LastName; set { User.LastName = value; OnPropertyChanged(); } }
+        public string LastName { get => User.LastName;
+            set
+            {
+                LastNameError = "";
+                if (!Validate(value))
+                {
+                    LastNameError = "Last Name is required.";
+                }
+                User.LastName = value;
+                OnPropertyChanged();
+            }
+        }
         public string Gender { get => User.Gender; set { User.Gender = value; OnPropertyChanged(); } }
         public DateTime Birthdate { get => User.Birthdate; set { User.Birthdate = value; OnPropertyChanged(); } }
-        public string Address { get => User.Address; set { User.Address = value; OnPropertyChanged(); } }
-        public string ContactNo { get => User.ContactNo; set { User.ContactNo = value; OnPropertyChanged(); } }
+        public string Address { get => User.Address;
+            set
+            {
+                AddressError = "";
+                if (!Validate(value))
+                {
+                    AddressError = "Address is required.";
+                }
+                User.Address = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ContactNo { get => User.ContactNo;
+            set
+            {
+                if(ValidateNumberOnly(value))
+                {
+                    ContactNoError = "";
+                    if (!Validate(value))
+                    {
+                        ContactNoError = "Contact No. is required.";
+                        User.ContactNo = value;
+                        OnPropertyChanged();
+                    }
+                    else if(value.Length<12)
+                    {
+                        if(value.Length<11)
+                        {
+                            ContactNoError = "Enter your 11-digit Mobile No.";
+                        }
+                        User.ContactNo = value;
+                        OnPropertyChanged();
+                    }
+                }
+            }
+        }
         public string EmailAddress { get => User.EmailAddress; set { User.EmailAddress = value; OnPropertyChanged(); } }
-        public string Question1 { get => User.Question1; set { User.Question1 = value; OnPropertyChanged(); } }
-        public string Question2 { get => User.Question2; set { User.Question2 = value; OnPropertyChanged(); } }
-        public string Answer1 { get => User.Answer1; set { User.Answer1 = value; OnPropertyChanged(); } }
-        public string Answer2 { get => User.Answer2; set { User.Answer2 = value; OnPropertyChanged(); } }
+        public string Question1 { get => User.Question1;
+            set
+            {
+                Question1Error = "";
+                if (!Validate(value))
+                {
+                    Question1Error = "Question No. 1 is required.";
+                }
+                User.Question1 = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Question2 { get => User.Question2;
+            set
+            {
+                Question2Error = "";
+                if (!Validate(value))
+                {
+                    Question2Error = "Quesrion No. 2 is required.";
+                }
+                User.Question2 = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Answer1 { get => User.Answer1;
+            set
+            {
+                Answer1Error = "";
+                if (!Validate(value))
+                {
+                    Answer1Error = "Answer for Question No. 1 is required.";
+                }
+                User.Answer1 = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Answer2 { get => User.Answer2;
+            set
+            {
+                Answer2Error = "";
+                if (!Validate(value))
+                {
+                    Answer2Error = "Answer for Question No. 2 is required.";
+                }
+                User.Answer2 = value;
+                OnPropertyChanged();
+            }
+        }
         public string Specialization { get => User.Specialization; set { User.Specialization = value; OnPropertyChanged(); } }
-        public int Rate { get => User.Rate; set { User.Rate = value; OnPropertyChanged(); } }
         public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); } }
         #endregion
 
@@ -78,9 +229,25 @@ namespace AllAboutTeethDCMS.Users
         {
             user = new User();
             CopyUser = (User)user.Clone();
+            if((DateTime.Now.Year - 75)%4!=0&&DateTime.Now.Month==2&&DateTime.Now.Day==29)
+            {
+                DateStart = DateTime.Parse("3/1/"+(DateTime.Now.Year-75));
+            }
+            else
+            {
+                DateStart = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 75));
+            }
+            if ((DateTime.Now.Year - 18) % 4!=0 && DateTime.Now.Month == 2 && DateTime.Now.Day == 29)
+            {
+                DateEnd = DateTime.Parse("2/28/" + (DateTime.Now.Year - 18));
+            }
+            else
+            {
+                DateEnd = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 18));
+            }
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
@@ -102,7 +269,7 @@ namespace AllAboutTeethDCMS.Users
             return false;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             if (isSuccessful)
             {
@@ -178,6 +345,32 @@ namespace AllAboutTeethDCMS.Users
             }
         }
 
+        public virtual void saveUser()
+        {
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                info.SetValue(this, info.GetValue(this));
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                startSaveToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
+        }
+
+        #region Reset Thread
+
         private Thread resetThread;
 
         public virtual void startResetThread()
@@ -212,33 +405,15 @@ namespace AllAboutTeethDCMS.Users
             resetThread.IsBackground = true;
             resetThread.Start();
         }
+        #endregion
 
-
-        public virtual void saveUser()
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
         {
-            foreach(PropertyInfo info in GetType().GetProperties())
-            {
-                info.SetValue(this, info.GetValue(this));
-            }
-            bool hasError = false;
-            foreach (PropertyInfo info in GetType().GetProperties())
-            {
-                if (info.Name.EndsWith("Error"))
-                {
-                    if (!((string)info.GetValue(this)).Equals(""))
-                    {
-                        hasError = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasError)
-            {
-                startSaveToDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-            }
+            throw new NotImplementedException();
         }
 
-        protected override void setLoaded(List<User> list)
+        protected override void afterLoad(List<User> list)
         {
             throw new NotImplementedException();
         }
@@ -252,5 +427,6 @@ namespace AllAboutTeethDCMS.Users
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

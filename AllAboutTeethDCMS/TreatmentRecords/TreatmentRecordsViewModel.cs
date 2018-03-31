@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.TreatmentRecords;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace AllAboutTeethDCMS.TreatmentRecords
             startDeleteFromDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        protected override void setLoaded(List<TreatmentRecord> list)
+        protected override void afterLoad(List<TreatmentRecord> list)
         {
             TreatmentRecords = list;
         }
@@ -42,12 +43,12 @@ namespace AllAboutTeethDCMS.TreatmentRecords
             throw new NotImplementedException();
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             throw new NotImplementedException();
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -58,6 +59,11 @@ namespace AllAboutTeethDCMS.TreatmentRecords
         }
 
         protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

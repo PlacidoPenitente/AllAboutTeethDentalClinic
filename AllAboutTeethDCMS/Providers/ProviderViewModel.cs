@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Providers
 {
@@ -178,7 +179,7 @@ namespace AllAboutTeethDCMS.Providers
             startDeleteFromDatabase(Provider, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        protected override void setLoaded(List<Provider> list)
+        protected override void afterLoad(List<Provider> list)
         {
             Providers = list;
             FilterResult = "";
@@ -188,12 +189,17 @@ namespace AllAboutTeethDCMS.Providers
             }
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             return true;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

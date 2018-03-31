@@ -24,10 +24,5 @@ namespace AllAboutTeethDCMS.Users
         {
             InitializeComponent();
         }
-
-        private void close_Click(object sender, RoutedEventArgs e)
-        {
-            ((UserPreviewViewModel)DataContext).Visibility = "Collapsed";
-        }
     }
 }

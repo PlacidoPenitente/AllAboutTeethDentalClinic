@@ -6,13 +6,23 @@
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="1024" d:DesignWidth="1024">
     <UserControl.DataContext>
         <local:EditUserViewModel/>
     </UserControl.DataContext>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <Grid SnapsToDevicePixels="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -25,15 +35,15 @@
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource icons8_Doctor_Male_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="19" Content="Update User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
-            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="45"/>
+            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43"/>
         </Grid>
-        <StackPanel Grid.Row="1" Background="White" Grid.RowSpan="2"/>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <Grid MinWidth="800">
+        <StackPanel Grid.Row="2" Background="White"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.25*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.25*"/>
+                    <ColumnDefinition Width="800"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
                     <StackPanel>
@@ -106,7 +116,15 @@
                         <TextBox root:AttachedProperties.Error="{Binding Question2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding Answer2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
-                </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Text="{Binding Specialization, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Specialization:" Margin="5"/>
+                    </Grid>
+            </StackPanel>
             </Grid>
         </ScrollViewer>
         <StackPanel Grid.Row="3" Background="{StaticResource Asbestos}"/>
@@ -115,7 +133,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="editUser" Grid.Column="0" Click="editUser_Click" Style="{StaticResource PrimaryButton}" Content="Save User" Height="43"/>
+            <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="43"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
         </Grid>
         <root:DialogBoxView Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>

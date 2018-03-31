@@ -23,7 +23,6 @@ namespace AllAboutTeethDCMS.Users
         public AddUserView()
         {
             InitializeComponent();
-            birthdate.DisplayDateEnd = DateTime.Now;
         }
 
         private void addUser_Click(object sender, RoutedEventArgs e)
@@ -51,6 +50,22 @@ namespace AllAboutTeethDCMS.Users
         private void passwordCopy_PasswordChanged(object sender, RoutedEventArgs e)
         {
             ((AddUserViewModel)DataContext).PasswordCopy = passwordCopy.Password;
+        }
+
+        private void passwordMain_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Space)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void passwordCopy_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Users;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace AllAboutTeethDCMS.DentalCharts
             throw new NotImplementedException();
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -78,7 +79,7 @@ namespace AllAboutTeethDCMS.DentalCharts
             throw new NotImplementedException();
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             throw new NotImplementedException();
         }
@@ -88,7 +89,7 @@ namespace AllAboutTeethDCMS.DentalCharts
             throw new NotImplementedException();
         }
 
-        protected override void setLoaded(List<Tooth> list)
+        protected override void afterLoad(List<Tooth> list)
         {
             if(list.Count<1)
             {
@@ -98,6 +99,10 @@ namespace AllAboutTeethDCMS.DentalCharts
             {
                 Tooth = list.ElementAt(0);
             }
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
         }
     }
 }

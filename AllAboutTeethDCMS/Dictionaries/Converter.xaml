@@ -25,4 +25,5 @@
     <root:ObjectToVisibilityConverterInverted x:Key="ObjectToVisibilityConverterInverted"/>
     <root:AnswerToVisibilityConverter x:Key="AnswerToVisibilityConverter"/>
     <root:StringToImageConverter x:Key="StringToImageConverter"/>
+    <root:DoubleToBooleanConverter x:Key="DoubleToBooleanConverter"/>
 </ResourceDictionary>

@@ -19,7 +19,7 @@ namespace AllAboutTeethDCMS.Users
         private string middleName = "";
         private string lastName = "";
         private string gender = "Male";
-        private DateTime birthdate = DateTime.Now;
+        private DateTime birthdate;
         private string address = "";
         private string contactNo = "";
         private string emailAddress = "";
@@ -28,12 +28,24 @@ namespace AllAboutTeethDCMS.Users
         private string answer1 = "";
         private string answer2 = "";
         private string specialization = "";
-        private int rate = 0;
+        private int rate = 40;
         private string status = "Active";
         private string image = "";
         private DateTime dateAdded = DateTime.Now;
         private DateTime dateModified = DateTime.Now;
         #endregion
+
+        public User()
+        {
+            if ((DateTime.Now.Year - 18) % 4 != 0 && DateTime.Now.Month == 2 && DateTime.Now.Day == 29)
+            {
+                Birthdate = DateTime.Parse("2/28/" + (DateTime.Now.Year - 18));
+            }
+            else
+            {
+                Birthdate = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 18));
+            }
+        }
 
         #region Properties
         public int No { get => no; set => no = value; }

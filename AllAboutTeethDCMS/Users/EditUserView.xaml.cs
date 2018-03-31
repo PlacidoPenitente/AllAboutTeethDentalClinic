@@ -46,7 +46,7 @@ namespace AllAboutTeethDCMS.Users
             ((EditUserViewModel)DataContext).PasswordCopy = passwordCopy.Password;
         }
 
-        private void editUser_Click(object sender, RoutedEventArgs e)
+        private void addUser_Click(object sender, RoutedEventArgs e)
         {
             ((EditUserViewModel)DataContext).saveUser();
         }

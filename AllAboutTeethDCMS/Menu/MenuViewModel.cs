@@ -51,7 +51,7 @@ namespace AllAboutTeethDCMS.Menu
             ((UserViewModel)UserView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddUserView()
+        public void GotoAddUserView()
         {
             if(AddUserView==null)
             {

@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.Suppliers;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace AllAboutTeethDCMS.Medicines
 
         private DialogBoxViewModel dialogBoxViewModel;
         public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
@@ -79,7 +80,7 @@ namespace AllAboutTeethDCMS.Medicines
             return false;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             if (isSuccessful)
             {
@@ -214,7 +215,7 @@ namespace AllAboutTeethDCMS.Medicines
             }
         }
 
-        protected override void setLoaded(List<Medicine> list)
+        protected override void afterLoad(List<Medicine> list)
         {
             throw new NotImplementedException();
         }
@@ -225,6 +226,11 @@ namespace AllAboutTeethDCMS.Medicines
         }
 
         protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

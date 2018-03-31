@@ -1,18 +1,9 @@
-﻿using AllAboutTeethDCMS.Appointments;
-using AllAboutTeethDCMS.DentalCharts;
-using AllAboutTeethDCMS.Patients;
-using AllAboutTeethDCMS.Suppliers;
-using AllAboutTeethDCMS.Treatments;
-using AllAboutTeethDCMS.Users;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace AllAboutTeethDCMS
 {
@@ -98,7 +89,10 @@ namespace AllAboutTeethDCMS
                     command.Parameters.AddWithValue("@" + info.Name, "%" + filter + "%");
                 }
             }
-
+            else
+            {
+                beforeLoad(command);
+            }
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -254,17 +248,17 @@ namespace AllAboutTeethDCMS
 
         private void executeSaveToDatabase()
         {
-            if (beforeSave())
+            if (beforeCreate())
             {
                 try
                 {
                     SaveToDatabase(Model, TableName);
-                    afterSave(true);
+                    afterCreate(true);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    afterSave(false);
+                    afterCreate(false);
                 }
             }
         }
@@ -281,7 +275,7 @@ namespace AllAboutTeethDCMS
         private void executeLoadFromDatabase()
         {
             List<T> list = LoadFromDatabase(TableName, Filter);
-            setLoaded(list);
+            afterLoad(list);
         }
         #endregion
 
@@ -357,11 +351,12 @@ namespace AllAboutTeethDCMS
         }
 
         #region Abstract Methods
-        protected abstract void setLoaded(List<T> list);
+        protected abstract bool beforeCreate();
+        protected abstract void afterCreate(bool isSuccessful);
+        protected abstract void beforeLoad(MySqlCommand command);
+        protected abstract void afterLoad(List<T> list);
         protected abstract bool beforeUpdate();
         protected abstract void afterUpdate(bool isSuccessful);
-        protected abstract bool beforeSave();
-        protected abstract void afterSave(bool isSuccessful);
         protected abstract bool beforeDelete();
         protected abstract void afterDelete(bool isSuccessful);
         #endregion
@@ -381,6 +376,39 @@ namespace AllAboutTeethDCMS
         public string Filter { get => filter; set => filter = value; }
         public T Model { get => model; set => model = value; }
         #endregion
+
+        protected bool Validate(string value)
+        {
+            if(String.IsNullOrEmpty(value.Trim()))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        protected bool ValidateNumberOnly(string value)
+        {
+            foreach (char c in value.ToArray())
+            {
+                if (!Char.IsDigit(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        protected bool ValidateLetterAndNumberOnly(string value)
+        {
+            foreach (char c in value.ToArray())
+            {
+                if (!Char.IsLetterOrDigit(c))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         protected string validate(string value)
         {
@@ -427,7 +455,7 @@ namespace AllAboutTeethDCMS
             return "";
         }
 
-        protected string validateUsername(string value, string original)
+        protected string ValidateUsername(string value, string original)
         {
             try
             {

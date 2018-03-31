@@ -68,7 +68,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ComboBox root:AttachedProperties.Label="Gender:" ItemsSource="{Binding Genders}" SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
-                        <DatePicker x:Name="birthdate" root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource DatePickerStyle}" Margin="5"/>
+                        <DatePicker DisplayDateStart="{Binding DateStart}" DisplayDate="{Binding DateEnd}" DisplayDateEnd="{Binding DateEnd}" root:AttachedProperties.Label="Birthdate:" Text="{Binding Birthdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource DatePickerStyle}" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding ContactNoError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="3" Margin="5"/>
                         <TextBox IsReadOnly="True" Text="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Age:" Grid.Column="2" Margin="5"/>
                     </Grid>
@@ -94,9 +94,9 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Grid.Column="0" Margin="5"/>
-                        <PasswordBox x:Name="passwordMain" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="passwordMain_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Password:" Grid.Column="1" Margin="5"/>
-                        <PasswordBox x:Name="passwordCopy" root:AttachedProperties.Error="{Binding PasswordCopyError, UpdateSourceTrigger=PropertyChanged}" PasswordChanged="passwordCopy_PasswordChanged" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Confirm Password:" Grid.Column="2" Margin="5"/>
-                        <ComboBox root:AttachedProperties.Label="Account Type:" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding AccountType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Style="{StaticResource ComboBox}" Margin="5"/>
+                        <PasswordBox x:Name="passwordMain" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Password:" Grid.Column="1" Margin="5" PasswordChanged="passwordMain_PasswordChanged" PreviewKeyDown="passwordMain_PreviewKeyDown"/>
+                        <PasswordBox x:Name="passwordCopy" root:AttachedProperties.Error="{Binding PasswordCopyError, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PasswordBox}" root:AttachedProperties.Label="Confirm Password:" Grid.Column="2" Margin="5" PasswordChanged="passwordCopy_PasswordChanged" PreviewKeyDown="passwordCopy_PreviewKeyDown"/>
+                        <ComboBox root:AttachedProperties.Label="Account Type:" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Style="{StaticResource ComboBox}" Margin="5"/>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -116,16 +116,23 @@
                         <TextBox root:AttachedProperties.Error="{Binding Question2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding Answer2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
-                    <StackPanel>
-                        <Label Content="Commision Settings" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
-                    </StackPanel>
                     <Grid>
+                        <Grid.Style>
+                            <Style TargetType="{x:Type Grid}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Type, UpdateSourceTrigger=PropertyChanged}" Value="Dentist">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Commission Rate:" Margin="5"/>
+                        <TextBox Text="{Binding Specialization, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Specialization:" Margin="5"/>
                     </Grid>
             </StackPanel>
             </Grid>
@@ -136,9 +143,29 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="43"/>
-            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43"/>
+            <Button x:Name="addUser" Grid.Column="0" Click="addUser_Click" Style="{StaticResource PrimaryButton}" Content="Add User" Height="43">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="dialog" From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+            <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Reset Form" Height="43">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="dialog" From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
         </Grid>
-        <root:DialogBoxView Visibility="Collapsed" Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+        <root:DialogBoxView x:Name="dialog" Grid.RowSpan="4" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

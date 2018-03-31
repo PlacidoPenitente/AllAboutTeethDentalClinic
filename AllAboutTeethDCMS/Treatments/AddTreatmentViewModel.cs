@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Treatments
 {
@@ -45,7 +46,7 @@ namespace AllAboutTeethDCMS.Treatments
 
         private DialogBoxViewModel dialogBoxViewModel;
         public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
@@ -67,7 +68,7 @@ namespace AllAboutTeethDCMS.Treatments
             return false;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             if (isSuccessful)
             {
@@ -202,7 +203,7 @@ namespace AllAboutTeethDCMS.Treatments
             }
         }
 
-        protected override void setLoaded(List<Treatment> list)
+        protected override void afterLoad(List<Treatment> list)
         {
             throw new NotImplementedException();
         }
@@ -213,6 +214,11 @@ namespace AllAboutTeethDCMS.Treatments
         }
 
         protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

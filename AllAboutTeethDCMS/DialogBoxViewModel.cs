@@ -16,6 +16,16 @@ namespace AllAboutTeethDCMS
         private string okVisibility = "Collapsed";
         private string mode = "Information";
         private string icon = "";
+        private DelegateCommand yesCommand;
+        private DelegateCommand noCommand;
+        private DelegateCommand oKCommand;
+
+        public DialogBoxViewModel()
+        {
+            YesCommand = new DelegateCommand(AnswerYes);
+            NoCommand = new DelegateCommand(AnswerNo);
+            OKCommand = new DelegateCommand(AnswerOK);
+        }
 
         public string Title { get => title; set { title = value; OnPropertyChanged(); } }
         public string Message { get => message; set { message = value; OnPropertyChanged(); } }
@@ -64,5 +74,24 @@ namespace AllAboutTeethDCMS
             } }
 
         public string Icon { get => icon; set { icon = value; OnPropertyChanged(); } }
+
+        public DelegateCommand YesCommand { get => yesCommand; set => yesCommand = value; }
+        public DelegateCommand NoCommand { get => noCommand; set => noCommand = value; }
+        public DelegateCommand OKCommand { get => oKCommand; set => oKCommand = value; }
+
+        public void AnswerYes()
+        {
+            Answer = "Yes";
+        }
+
+        public void AnswerNo()
+        {
+            Answer = "No";
+        }
+
+        public void AnswerOK()
+        {
+            Answer = "OK";
+        }
     }
 }

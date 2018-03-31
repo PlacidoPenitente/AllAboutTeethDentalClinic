@@ -24,20 +24,5 @@ namespace AllAboutTeethDCMS
         {
             InitializeComponent();
         }
-
-        private void yes_Click(object sender, RoutedEventArgs e)
-        {
-            ((DialogBoxViewModel)DataContext).Answer = "Yes";
-        }
-
-        private void no_Click(object sender, RoutedEventArgs e)
-        {
-            ((DialogBoxViewModel)DataContext).Answer = "No";
-        }
-
-        private void ok_Click(object sender, RoutedEventArgs e)
-        {
-            ((DialogBoxViewModel)DataContext).Answer = "OK";
-        }
     }
 }

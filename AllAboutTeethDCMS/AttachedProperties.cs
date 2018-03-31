@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllAboutTeethDCMS.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,6 +78,20 @@ namespace AllAboutTeethDCMS
         public static String GetToothNo(DependencyObject element)
         {
             return (String)element.GetValue(ToothNoProperty);
+        }
+        #endregion
+
+        #region UserDP
+        public static readonly DependencyProperty UserProperty = DependencyProperty.RegisterAttached("User", typeof(User), typeof(AttachedProperties), new FrameworkPropertyMetadata(null));
+
+        public static void SetUser(DependencyObject element, User value)
+        {
+            element.SetValue(UserProperty, value);
+        }
+
+        public static User GetUser(DependencyObject element)
+        {
+            return (User)element.GetValue(UserProperty);
         }
         #endregion
     }

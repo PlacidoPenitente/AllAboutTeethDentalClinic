@@ -58,7 +58,7 @@ namespace AllAboutTeethDCMS.Users
             startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        protected override void setLoaded(List<User> list)
+        protected override void afterLoad(List<User> list)
         {
             if(list.Count>0)
             {
@@ -77,12 +77,12 @@ namespace AllAboutTeethDCMS.Users
             throw new NotImplementedException();
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             throw new NotImplementedException();
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             throw new NotImplementedException();
         }
@@ -95,6 +95,10 @@ namespace AllAboutTeethDCMS.Users
         protected override void afterDelete(bool isSuccessful)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Patients
 {
@@ -16,7 +17,7 @@ namespace AllAboutTeethDCMS.Patients
 
         private DialogBoxViewModel dialogBoxViewModel;
         public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
@@ -38,7 +39,7 @@ namespace AllAboutTeethDCMS.Patients
             return false;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             if (isSuccessful)
             {
@@ -338,7 +339,7 @@ namespace AllAboutTeethDCMS.Patients
         public string CellNoError { get => cellNoError; set { cellNoError = value; OnPropertyChanged(); } }
         public string HomeAddressError { get => homeAddressError; set { homeAddressError = value; OnPropertyChanged(); } }
 
-        protected override void setLoaded(List<Patient> list)
+        protected override void afterLoad(List<Patient> list)
         {
             throw new NotImplementedException();
         }
@@ -349,6 +350,11 @@ namespace AllAboutTeethDCMS.Patients
         }
 
         protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

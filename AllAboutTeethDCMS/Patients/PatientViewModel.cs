@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.TreatmentRecords;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -189,7 +190,7 @@ namespace AllAboutTeethDCMS.Patients
             startDeleteFromDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        protected override void setLoaded(List<Patient> list)
+        protected override void afterLoad(List<Patient> list)
         {
             Patients = list;
             FilterResult = "";
@@ -199,14 +200,18 @@ namespace AllAboutTeethDCMS.Patients
             }
         }
 
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             return true;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
         }
     }
 }

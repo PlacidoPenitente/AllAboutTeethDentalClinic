@@ -2,6 +2,7 @@
 using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -90,7 +91,7 @@ namespace AllAboutTeethDCMS.Appointments
                 loadUsersThread = new Thread(setUsers);
                 loadUsersThread.IsBackground = true;
                 loadUsersThread.Start();
-                userViewModel.loadUsers();
+                userViewModel.LoadUsers();
             }
         }
 
@@ -130,7 +131,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         private DialogBoxViewModel dialogBoxViewModel;
         public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        protected override bool beforeSave()
+        protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
@@ -152,7 +153,7 @@ namespace AllAboutTeethDCMS.Appointments
             return false;
         }
 
-        protected override void afterSave(bool isSuccessful)
+        protected override void afterCreate(bool isSuccessful)
         {
             if (isSuccessful)
             {
@@ -316,7 +317,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         public Appointment CopyAppointment { get => copyAppointment; set => copyAppointment = value; }
 
-        protected override void setLoaded(List<Appointment> list)
+        protected override void afterLoad(List<Appointment> list)
         {
             throw new NotImplementedException();
         }
@@ -400,6 +401,11 @@ namespace AllAboutTeethDCMS.Appointments
         }
 
         protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
         }

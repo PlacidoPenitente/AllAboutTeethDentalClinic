@@ -5,106 +5,116 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
-             Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
              mc:Ignorable="d" 
+             x:Name="viewer"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="Black" Opacity="0.5"/>
         </Grid.Background>
-        <Grid VerticalAlignment="Center">
+        <Grid VerticalAlignment="Center" Width="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.25*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0.25*"/>
             </Grid.ColumnDefinitions>
-            <Grid Background="White" Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverter}}" Grid.Column="1" Margin="10">
+            <Grid Background="White" Visibility="{Binding ElementName=viewer, Path=(root:AttachedProperties.User), Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="10">
                 <Border SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource MidnightBlue}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="10">
                             <StackPanel>
-                                <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>
+                                <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="19"/>
                             </StackPanel>
                             <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
 
                             </Border>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Last Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).LastName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="First Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).FirstName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Middle Name:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).MiddleName, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Gender:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Gender, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Birthdate:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Birthdate, Converter={StaticResource DateToLongConverter}, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.Address, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Address, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="100" Content="Contact No.:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.ContactNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).ContactNo, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
-                            <Grid Margin="3">
+                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Left" Width="120" Content="Email Address:" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
-                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding User.EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).EmailAddress, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
                             </Grid>
                             <StackPanel Margin="0,20,0,0">
                                 <Border HorizontalAlignment="Center" BorderBrush="{StaticResource Turquoise}" BorderThickness="0,0,0,2" SnapsToDevicePixels="True">
-                                    <Label HorizontalAlignment="Center" Content="{Binding User.Username}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Margin="3" Foreground="{StaticResource WetAsphalt}"/>
+                                    <Label HorizontalAlignment="Center" Content="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Username}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Margin="5" Foreground="{StaticResource WetAsphalt}"/>
                                 </Border>
-                                <Label HorizontalAlignment="Center" Content="{Binding User.Type, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
+                                <Label HorizontalAlignment="Center" Content="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Type, UpdateSourceTrigger=PropertyChanged}" Padding="0" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </Border>
             </Grid>
             <StackPanel Grid.Column="2" Margin="0,10,0,0">
-                <Button x:Name="close" Click="close_Click" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}"/>
+                <Button Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="1" To="0" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="viewer"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
