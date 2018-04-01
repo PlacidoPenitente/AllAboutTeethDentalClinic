@@ -21,37 +21,6 @@ namespace AllAboutTeethDCMS.Suppliers
             DialogBoxViewModel = new DialogBoxViewModel();
         }
 
-        public virtual void saveSupplier()
-        {
-            foreach (PropertyInfo info in GetType().GetProperties())
-            {
-                info.SetValue(this, info.GetValue(this));
-            }
-            bool hasError = false;
-            foreach (PropertyInfo info in GetType().GetProperties())
-            {
-                if (info.Name.EndsWith("Error"))
-                {
-                    if (!((string)info.GetValue(this)).Equals(""))
-                    {
-                        hasError = true;
-                        break;
-                    }
-                }
-            }
-            if (!hasError)
-            {
-                startSaveToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-            }
-        }
-
-        protected override void afterLoad(List<Supplier> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -86,7 +55,6 @@ namespace AllAboutTeethDCMS.Suppliers
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Supplier = new Supplier();
             }
             else
             {
@@ -150,21 +118,54 @@ namespace AllAboutTeethDCMS.Suppliers
             }
         }
 
+        public virtual void saveSupplier()
+        {
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                info.SetValue(this, info.GetValue(this));
+            }
+            bool hasError = false;
+            foreach (PropertyInfo info in GetType().GetProperties())
+            {
+                if (info.Name.EndsWith("Error"))
+                {
+                    if (!((string)info.GetValue(this)).Equals(""))
+                    {
+                        hasError = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasError)
+            {
+                startSaveToDatabase(Supplier, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
         private Thread resetThread;
 
         public virtual void startResetThread()
         {
             DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Mode = "Confirm";
             DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
                 Thread.Sleep(100);
             }
 
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            if (DialogBoxViewModel.Answer.Equals("OK"))
             {
                 Supplier = new Supplier();
                 foreach (PropertyInfo info in GetType().GetProperties())
@@ -184,6 +185,18 @@ namespace AllAboutTeethDCMS.Suppliers
             resetThread.IsBackground = true;
             resetThread.Start();
         }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterLoad(List<Supplier> list)
+        {
+            throw new NotImplementedException();
+        }
 
         protected override bool beforeDelete()
         {
@@ -194,11 +207,7 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             throw new NotImplementedException();
         }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         public Supplier Supplier
         {

@@ -28,28 +28,34 @@ namespace AllAboutTeethDCMS.Treatments
                         hasError = true;
                         break;
                     }
+                    else
+                    {
+                        DialogBoxViewModel.Mode = "Error";
+                        DialogBoxViewModel.Title = "Save Failed";
+                        DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                        DialogBoxViewModel.Answer = "None";
+                    }
                 }
             }
             if (!hasError)
             {
-                Treatment.AddedBy = ActiveUser;
-                UpdateDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                startUpdateToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
         }
 
         public override void startResetThread()
         {
             DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Mode = "Confirm";
             DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
                 Thread.Sleep(100);
             }
 
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            if (DialogBoxViewModel.Answer.Equals("OK"))
             {
                 Treatment = (Treatment)CopyTreatment.Clone();
                 foreach (PropertyInfo info in GetType().GetProperties())

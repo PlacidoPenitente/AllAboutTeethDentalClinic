@@ -93,7 +93,7 @@ namespace AllAboutTeethDCMS.Menu
             ((PatientViewModel)PatientView.DataContext).ActiveUser = ActiveUser;
             ((PatientViewModel)PatientView.DataContext).MenuViewModel = this;
         }
-        public void gotoAddPatientView()
+        public void GotoAddPatientView()
         {
             if(AddPatientView==null)
             {
@@ -104,7 +104,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddPatientViewModel)AddPatientView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditPatientView(Patient selectedPatient)
+        public void GotoEditPatientView(Patient selectedPatient)
         {
             if(EditPatientView==null)
             {
@@ -228,7 +228,7 @@ namespace AllAboutTeethDCMS.Menu
             ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditProviderView(Provider provider)
+        public void GotoEditProviderView(Provider provider)
         {
             if(EditProviderView==null)
             {
@@ -241,7 +241,7 @@ namespace AllAboutTeethDCMS.Menu
             ((EditProviderViewModel)EditProviderView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddProviderView()
+        public void GotoAddProviderView()
         {
             if(AddAppointmentView==null)
             {
@@ -273,7 +273,7 @@ namespace AllAboutTeethDCMS.Menu
             ((MedicineViewModel)MedicineView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddMedicineView()
+        public void GotoAddMedicineView()
         {
             if (AddMedicineView == null)
             {
@@ -284,7 +284,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddMedicineViewModel)AddMedicineView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditMedicineView(Medicine selectedMedicine)
+        public void GotoEditMedicineView(Medicine selectedMedicine)
         {
             if (EditMedicineView == null)
             {
@@ -318,7 +318,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoAddAppointmentView()
+        public void GotoAddAppointmentView()
         {
             if(AddAppointmentView==null)
             {
@@ -329,7 +329,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;
         }
 
-        public void gotoEditAppointmentView(Appointment selectedAppointment)
+        public void GotoEditAppointmentView(Appointment selectedAppointment)
         {
             if (EditAppointmentView == null)
             {

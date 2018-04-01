@@ -10,29 +10,32 @@ namespace AllAboutTeethDCMS.Appointments
 {
     public class AppointmentViewModel : CRUDPage<Appointment>
     {
+        #region Fields
         private Appointment appointment;
         private List<Appointment> appointments;
-        private string filter = "";
 
-        private DialogBoxViewModel dialogBoxViewModel;
+        private DelegateCommand loadCommand;
+        private DelegateCommand archiveCommand;
+        private DelegateCommand unarchiveCommand;
+        private DelegateCommand deleteCommand;
+        private DelegateCommand addCommand;
+        private DelegateCommand editCommand;
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        private string filterResult = "";
+        #endregion
 
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
-        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
-
-        public void archive()
+        public AppointmentViewModel()
         {
-            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            LoadCommand = new DelegateCommand(new Action(LoadAppointments));
+            ArchiveCommand = new DelegateCommand(new Action(Archive));
+            UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
+            DeleteCommand = new DelegateCommand(new Action(DeleteAppointment));
+            AddCommand = new DelegateCommand(new Action(GotoAddAppointment));
+            EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
         }
 
-        public void unarchive()
-        {
-            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
+        #region Methods
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -40,7 +43,7 @@ namespace AllAboutTeethDCMS.Appointments
             if (Appointment.Status.Equals("Active"))
             {
                 DialogBoxViewModel.Title = "Archive Appointment";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this appointment? Appointment can no longer be used.";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this appointment?";
             }
             else
             {
@@ -79,7 +82,7 @@ namespace AllAboutTeethDCMS.Appointments
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                loadAppointments();
+                LoadAppointments();
             }
             else
             {
@@ -109,7 +112,7 @@ namespace AllAboutTeethDCMS.Appointments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleteing appointment. Please wait.";
+                DialogBoxViewModel.Message = "Deleting appointment. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -120,7 +123,7 @@ namespace AllAboutTeethDCMS.Appointments
         {
             if (isSuccessful)
             {
-                loadAppointments();
+                LoadAppointments();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -138,16 +141,46 @@ namespace AllAboutTeethDCMS.Appointments
             DialogBoxViewModel.Answer = "";
         }
 
-        public AppointmentViewModel()
+        protected override bool beforeCreate()
         {
-            DialogBoxViewModel = new DialogBoxViewModel();
+            return true;
         }
+
+        protected override void afterCreate(bool isSuccessful)
+        {
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
+        }
+
+        protected override void afterLoad(List<Appointment> list)
+        {
+            Appointments = list;
+            FilterResult = "";
+            if (list.Count > 1)
+            {
+                FilterResult = "Found " + list.Count + " result/s.";
+            }
+        }
+        #endregion
+
+        #region Properties
+        public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
+        public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
+        public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
+        public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         public Appointment Appointment
         {
-            get => appointment; set
+            get => appointment;
+            set
             {
-                appointment = value; OnPropertyChanged();
+                appointment = value;
+                OnPropertyChanged();
+
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
@@ -163,44 +196,42 @@ namespace AllAboutTeethDCMS.Appointments
                 }
             }
         }
-
-
-
         public List<Appointment> Appointments { get => appointments; set { appointments = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadAppointments(); OnPropertyChanged(); } }
 
-        public void loadAppointments()
+        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
+        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+        #endregion
+
+        #region Commands
+        public void GotoAddAppointment()
+        {
+            MenuViewModel.GotoAddAppointmentView();
+        }
+
+        public void LoadAppointments()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void deleteAppointment()
+        public void GotoEditAppointment()
+        {
+            MenuViewModel.GotoEditAppointmentView(Appointment);
+        }
+
+        public void Archive()
+        {
+            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void Unarchive()
+        {
+            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void DeleteAppointment()
         {
             startDeleteFromDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
-
-        protected override void afterLoad(List<Appointment> list)
-        {
-            Appointments = list;
-            FilterResult = "";
-            if (list.Count > 0)
-            {
-                FilterResult = "Found " + list.Count + " result/s.";
-            }
-        }
-
-        protected override bool beforeCreate()
-        {
-            return true;
-        }
-
-        protected override void afterCreate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-        }
+        #endregion
     }
 }

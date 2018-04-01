@@ -46,24 +46,20 @@ namespace AllAboutTeethDCMS.Medicines
             }
         }
 
-        public AddMedicineViewModel()
+        public AddMedicineViewModel() : base()
         {
             medicine = new Medicine();
             copyMedicine = (Medicine)medicine.Clone();
             startLoadThread();
             supplierViewModel.LoadSuppliers();
-
-            DialogBoxViewModel = new DialogBoxViewModel();
         }
 
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Add Item";
-            DialogBoxViewModel.Message = "Are you sure you want to add this item?";
+            DialogBoxViewModel.Title = "Add Medicine";
+            DialogBoxViewModel.Message = "Are you sure you want to add this medicine?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -73,7 +69,7 @@ namespace AllAboutTeethDCMS.Medicines
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Adding item. Please wait.";
+                DialogBoxViewModel.Message = "Adding medicine. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -92,7 +88,6 @@ namespace AllAboutTeethDCMS.Medicines
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Medicine = new Medicine();
             }
             else
             {
@@ -111,8 +106,8 @@ namespace AllAboutTeethDCMS.Medicines
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Update Item";
-            DialogBoxViewModel.Message = "Are you sure you want to update this item?";
+            DialogBoxViewModel.Title = "Update Medicine";
+            DialogBoxViewModel.Message = "Are you sure you want to update this medicine?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -122,7 +117,7 @@ namespace AllAboutTeethDCMS.Medicines
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Updating item. Please wait.";
+                DialogBoxViewModel.Message = "Updating medicine. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -156,41 +151,6 @@ namespace AllAboutTeethDCMS.Medicines
             }
         }
 
-        private Thread resetThread;
-
-        public virtual void startResetThread()
-        {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
-
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                Medicine = new Medicine();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    if (info.Name.EndsWith("Error"))
-                    {
-                        info.SetValue(this, "");
-                    }
-                }
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
-        public void resetForm()
-        {
-            resetThread = new Thread(startResetThread);
-            resetThread.IsBackground = true;
-            resetThread.Start();
-        }
-
         public virtual void saveMedicine()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
@@ -213,6 +173,57 @@ namespace AllAboutTeethDCMS.Medicines
             {
                 startSaveToDatabase(Medicine, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Confirm";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("OK"))
+            {
+                Medicine = new Medicine();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void afterLoad(List<Medicine> list)
@@ -229,11 +240,7 @@ namespace AllAboutTeethDCMS.Medicines
         {
             throw new NotImplementedException();
         }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         public string Name { get => Medicine.Name; set { Medicine.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyMedicine.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
         public string Description { get => Medicine.Description; set { Medicine.Description = value; OnPropertyChanged(); } }

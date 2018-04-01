@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Users;
+﻿using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +93,20 @@ namespace AllAboutTeethDCMS
         public static User GetUser(DependencyObject element)
         {
             return (User)element.GetValue(UserProperty);
+        }
+        #endregion
+
+        #region PatientDP
+        public static readonly DependencyProperty PatientProperty = DependencyProperty.RegisterAttached("Patient", typeof(Patient), typeof(AttachedProperties), new FrameworkPropertyMetadata(null));
+
+        public static void SetPatient(DependencyObject element, Patient value)
+        {
+            element.SetValue(PatientProperty, value);
+        }
+
+        public static Patient GetPatient(DependencyObject element)
+        {
+            return (Patient)element.GetValue(PatientProperty);
         }
         #endregion
     }

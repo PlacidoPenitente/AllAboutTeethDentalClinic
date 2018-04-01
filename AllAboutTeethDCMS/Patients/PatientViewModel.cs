@@ -1,5 +1,4 @@
 ﻿using AllAboutTeethDCMS.DentalChart;
-using AllAboutTeethDCMS.TreatmentRecords;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,31 +11,32 @@ namespace AllAboutTeethDCMS.Patients
 {
     public class PatientViewModel : CRUDPage<Patient>
     {
+        #region Fields
         private Patient patient;
         private List<Patient> patients;
-        private string filter = "";
-        private PatientPreviewViewModel patientPreviewViewModel;
-        private DentalChartPreviewViewModel dentalChartPreviewViewModel;
 
-        private DialogBoxViewModel dialogBoxViewModel;
+        private DelegateCommand loadCommand;
+        private DelegateCommand archiveCommand;
+        private DelegateCommand unarchiveCommand;
+        private DelegateCommand deleteCommand;
+        private DelegateCommand addCommand;
+        private DelegateCommand editCommand;
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        private string filterResult = "";
+        #endregion
 
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
-        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
-        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-        public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
-
-        public void archive()
+        public PatientViewModel()
         {
-            startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            LoadCommand = new DelegateCommand(new Action(LoadPatients));
+            ArchiveCommand = new DelegateCommand(new Action(Archive));
+            UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
+            DeleteCommand = new DelegateCommand(new Action(DeletePatient));
+            AddCommand = new DelegateCommand(new Action(GotoAddPatient));
+            EditCommand = new DelegateCommand(new Action(GotoEditPatient));
         }
 
-        public void unarchive()
-        {
-            startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
+        #region Methods
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -44,7 +44,7 @@ namespace AllAboutTeethDCMS.Patients
             if (Patient.Status.Equals("Active"))
             {
                 DialogBoxViewModel.Title = "Archive Patient";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this patient? Patient can no longer be set for appointment.";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this patient? Account can no longer be used.";
             }
             else
             {
@@ -83,7 +83,7 @@ namespace AllAboutTeethDCMS.Patients
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                loadPatients();
+                LoadPatients();
             }
             else
             {
@@ -113,7 +113,7 @@ namespace AllAboutTeethDCMS.Patients
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleteing patient. Please wait.";
+                DialogBoxViewModel.Message = "Deleting patient. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -124,7 +124,7 @@ namespace AllAboutTeethDCMS.Patients
         {
             if (isSuccessful)
             {
-                loadPatients();
+                LoadPatients();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -142,18 +142,46 @@ namespace AllAboutTeethDCMS.Patients
             DialogBoxViewModel.Answer = "";
         }
 
-        public PatientViewModel()
+        protected override bool beforeCreate()
         {
-            DialogBoxViewModel = new DialogBoxViewModel();
-            PatientPreviewViewModel = new PatientPreviewViewModel();
-            DentalChartPreviewViewModel = new DentalChartPreviewViewModel();
+            return true;
         }
+
+        protected override void afterCreate(bool isSuccessful)
+        {
+        }
+
+        protected override void beforeLoad(MySqlCommand command)
+        {
+        }
+
+        protected override void afterLoad(List<Patient> list)
+        {
+            Patients = list;
+            FilterResult = "";
+            if (list.Count > 1)
+            {
+                FilterResult = "Found " + list.Count + " result/s.";
+            }
+        }
+        #endregion
+
+        #region Properties
+        public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
+        public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
+        public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
+        public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         public Patient Patient
         {
-            get => patient; set
+            get => patient;
+            set
             {
-                patient = value; OnPropertyChanged();
+                patient = value;
+                OnPropertyChanged();
+
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
@@ -166,52 +194,45 @@ namespace AllAboutTeethDCMS.Patients
                     {
                         UnarchiveVisibility = "Visible";
                     }
-                    PatientPreviewViewModel.Patient = value;
-                    DentalChartPreviewViewModel.DentalChartViewModel.User = ActiveUser;
-                    DentalChartPreviewViewModel.Patient = value;
                 }
             }
         }
-
         public List<Patient> Patients { get => patients; set { patients = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadPatients(); OnPropertyChanged(); } }
 
-        public PatientPreviewViewModel PatientPreviewViewModel { get => patientPreviewViewModel; set { patientPreviewViewModel = value; OnPropertyChanged(); } }
+        public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
+        public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+        #endregion
 
-        public DentalChartPreviewViewModel DentalChartPreviewViewModel { get => dentalChartPreviewViewModel; set { dentalChartPreviewViewModel = value; OnPropertyChanged(); } }
+        #region Commands
+        public void GotoAddPatient()
+        {
+            MenuViewModel.GotoAddPatientView();
+        }
 
-        public void loadPatients()
+        public void LoadPatients()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void deletePatient()
+        public void GotoEditPatient()
+        {
+            MenuViewModel.GotoEditPatientView(Patient);
+        }
+
+        public void Archive()
+        {
+            startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void Unarchive()
+        {
+            startUpdateToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+        }
+
+        public void DeletePatient()
         {
             startDeleteFromDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
-
-        protected override void afterLoad(List<Patient> list)
-        {
-            Patients = list;
-            FilterResult = "";
-            if (list.Count > 0)
-            {
-                FilterResult = "Found " + list.Count + " result/s.";
-            }
-        }
-
-        protected override bool beforeCreate()
-        {
-            return true;
-        }
-
-        protected override void afterCreate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-        }
+        #endregion
     }
 }

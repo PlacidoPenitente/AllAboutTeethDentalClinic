@@ -25,45 +25,5 @@ namespace AllAboutTeethDCMS.Patients
         {
             InitializeComponent();
         }
-
-        private void search_account_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).loadPatients();
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).MenuViewModel.gotoAddPatientView();
-        }
-
-        private void view_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).PatientPreviewViewModel.Visibility = "Visible";
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).MenuViewModel.gotoEditPatientView((Patient)((PatientViewModel)DataContext).Patient.Clone());
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).deletePatient();
-        }
-
-        private void unarchive_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).unarchive();
-        }
-
-        private void archive_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).archive();
-        }
-
-        private void chart_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientViewModel)DataContext).DentalChartPreviewViewModel.Visibility = "Visible";
-        }
     }
 }

@@ -24,35 +24,5 @@ namespace AllAboutTeethDCMS.Medicines
         {
             InitializeComponent();
         }
-
-        private void search_account_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).loadMedicines();
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).MenuViewModel.gotoAddMedicineView();
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).MenuViewModel.gotoEditMedicineView((Medicine)((MedicineViewModel)DataContext).Medicine.Clone());
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).deleteMedicine();
-        }
-
-        private void unarchive_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).unarchive();
-        }
-
-        private void archive_Click(object sender, RoutedEventArgs e)
-        {
-            ((MedicineViewModel)DataContext).archive();
-        }
     }
 }

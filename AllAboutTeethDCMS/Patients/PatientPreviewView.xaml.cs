@@ -24,10 +24,5 @@ namespace AllAboutTeethDCMS.Patients
         {
             InitializeComponent();
         }
-
-        private void close_Click(object sender, RoutedEventArgs e)
-        {
-            ((PatientPreviewViewModel)DataContext).Visibility = "Collapsed";
-        }
     }
 }

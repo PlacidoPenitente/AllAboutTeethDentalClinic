@@ -14,7 +14,7 @@ namespace AllAboutTeethDCMS.Treatments
         private Treatment treatment;
         private Treatment copyTreatment;
 
-        public AddTreatmentViewModel()
+        public AddTreatmentViewModel() : base()
         {
             treatment = new Treatment();
             copyTreatment = (Treatment)treatment.Clone();
@@ -41,17 +41,13 @@ namespace AllAboutTeethDCMS.Treatments
                 "Congenitally Missing",
                 "Supernumerary"
             };
-            DialogBoxViewModel = new DialogBoxViewModel();
         }
-
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Add Service";
-            DialogBoxViewModel.Message = "Are you sure you want to add this service?";
+            DialogBoxViewModel.Title = "Add Treatment";
+            DialogBoxViewModel.Message = "Are you sure you want to add this treatment?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -61,7 +57,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Adding service. Please wait.";
+                DialogBoxViewModel.Message = "Adding treatment. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -80,7 +76,6 @@ namespace AllAboutTeethDCMS.Treatments
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Treatment = new Treatment();
             }
             else
             {
@@ -99,8 +94,8 @@ namespace AllAboutTeethDCMS.Treatments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Update Service";
-            DialogBoxViewModel.Message = "Are you sure you want to update this service?";
+            DialogBoxViewModel.Title = "Update Treatment";
+            DialogBoxViewModel.Message = "Are you sure you want to update this treatment?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -110,7 +105,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Updating service. Please wait.";
+                DialogBoxViewModel.Message = "Updating treatment. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -144,41 +139,6 @@ namespace AllAboutTeethDCMS.Treatments
             }
         }
 
-        private Thread resetThread;
-
-        public virtual void startResetThread()
-        {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
-
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                Treatment = new Treatment();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    if (info.Name.EndsWith("Error"))
-                    {
-                        info.SetValue(this, "");
-                    }
-                }
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
-        public void resetForm()
-        {
-            resetThread = new Thread(startResetThread);
-            resetThread.IsBackground = true;
-            resetThread.Start();
-        }
-
         public virtual void saveTreatment()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
@@ -201,6 +161,57 @@ namespace AllAboutTeethDCMS.Treatments
             {
                 startSaveToDatabase(Treatment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Confirm";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("OK"))
+            {
+                Treatment = new Treatment();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void afterLoad(List<Treatment> list)
@@ -217,37 +228,26 @@ namespace AllAboutTeethDCMS.Treatments
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string Name { get => Treatment.Name; set { Treatment.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
-        public string Description { get => Treatment.Description; set { Treatment.Description = value; OnPropertyChanged(); } }
-
-        public Treatment Treatment
-        {
-            get => treatment;
-            set
-            {
-                treatment = value;
-                OnPropertyChanged();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    OnPropertyChanged(info.Name);
-                }
-            }
-        }
-        
+        public Treatment Treatment { get => treatment; set { treatment = value; foreach (PropertyInfo info in GetType().GetProperties()) OnPropertyChanged(info.Name); } }
         public Treatment CopyTreatment { get => copyTreatment; set { copyTreatment = value; } }
 
+        private string nameError = "";
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
 
-        private string nameError = "";
-
         private List<string> outputs;
+        public List<string> Outputs { get => outputs; set { outputs = value; OnPropertyChanged(); } }
 
+        public string Name { get => Treatment.Name; set {
+                if(!value.Contains("  "))
+                {
+                    Treatment.Name = value;
+                    NameError = "";
+                    NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged();
+                }
+            } }
+        public string Description { get => Treatment.Description; set { Treatment.Description = value; OnPropertyChanged(); } }
         public bool DecayedCariesIndicatedForFilling { get => Treatment.DecayedCariesIndicatedForFilling; set { Treatment.DecayedCariesIndicatedForFilling = value; OnPropertyChanged(); } }
         public bool MissingDueToCaries { get => Treatment.MissingDueToCaries; set { Treatment.MissingDueToCaries = value; OnPropertyChanged(); } }
         public bool Filled { get => Treatment.Filled; set { Treatment.Filled = value; OnPropertyChanged(); } }
@@ -268,7 +268,5 @@ namespace AllAboutTeethDCMS.Treatments
         public bool CongenitallyMissing { get => Treatment.CongenitallyMissing; set { Treatment.CongenitallyMissing = value; OnPropertyChanged(); } }
         public bool Supernumerary { get => Treatment.Supernumerary; set { Treatment.Supernumerary = value; OnPropertyChanged(); } }
         public string Output { get => Treatment.Output; set { Treatment.Output = value; OnPropertyChanged(); } }
-
-        public List<string> Outputs { get => outputs; set { outputs = value; OnPropertyChanged(); } }
     }
 }

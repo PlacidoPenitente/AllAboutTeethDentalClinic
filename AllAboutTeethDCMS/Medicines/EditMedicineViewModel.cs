@@ -26,6 +26,13 @@ namespace AllAboutTeethDCMS.Medicines
                         hasError = true;
                         break;
                     }
+                    else
+                    {
+                        DialogBoxViewModel.Mode = "Error";
+                        DialogBoxViewModel.Title = "Save Failed";
+                        DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                        DialogBoxViewModel.Answer = "None";
+                    }
                 }
             }
             if (!hasError)
@@ -37,16 +44,16 @@ namespace AllAboutTeethDCMS.Medicines
         public override void startResetThread()
         {
             DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
+            DialogBoxViewModel.Mode = "Confirm";
             DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
                 Thread.Sleep(100);
             }
 
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
+            if (DialogBoxViewModel.Answer.Equals("OK"))
             {
                 Medicine = (Medicine)CopyMedicine.Clone();
                 foreach (PropertyInfo info in GetType().GetProperties())

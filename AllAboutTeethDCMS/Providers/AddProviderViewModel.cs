@@ -21,8 +21,6 @@ namespace AllAboutTeethDCMS.Providers
             DialogBoxViewModel = new DialogBoxViewModel();
         }
 
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -57,7 +55,6 @@ namespace AllAboutTeethDCMS.Providers
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Provider = new Provider();
             }
             else
             {
@@ -121,41 +118,6 @@ namespace AllAboutTeethDCMS.Providers
             }
         }
 
-        private Thread resetThread;
-
-        public virtual void startResetThread()
-        {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
-
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                Provider = new Provider();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    if (info.Name.EndsWith("Error"))
-                    {
-                        info.SetValue(this, "");
-                    }
-                }
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
-        public void resetForm()
-        {
-            resetThread = new Thread(startResetThread);
-            resetThread.IsBackground = true;
-            resetThread.Start();
-        }
-
         public virtual void saveProvider()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
@@ -178,6 +140,57 @@ namespace AllAboutTeethDCMS.Providers
             {
                 startSaveToDatabase(Provider, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Confirm";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("OK"))
+            {
+                Provider = new Provider();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void afterLoad(List<Provider> list)
@@ -194,11 +207,7 @@ namespace AllAboutTeethDCMS.Providers
         {
             throw new NotImplementedException();
         }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         public string Name { get => Provider.Name; set { Provider.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyProvider.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
         public string ContactNo { get => Provider.ContactNo; set {

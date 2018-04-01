@@ -15,8 +15,7 @@ namespace AllAboutTeethDCMS.Patients
         private Patient copyPatient;
         private List<string> genders = new List<string>() { "Male", "Female" };
 
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -51,7 +50,6 @@ namespace AllAboutTeethDCMS.Patients
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Patient = new Patient();
             }
             else
             {
@@ -115,48 +113,6 @@ namespace AllAboutTeethDCMS.Patients
             }
         }
 
-        private Thread resetThread;
-
-        public virtual void startResetThread()
-        {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
-
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                Patient = new Patient();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    if (info.Name.EndsWith("Error"))
-                    {
-                        info.SetValue(this, "");
-                    }
-                }
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
-        public void resetForm()
-        {
-            resetThread = new Thread(startResetThread);
-            resetThread.IsBackground = true;
-            resetThread.Start();
-        }
-
-        public AddPatientViewModel()
-        {
-            patient = new Patient();
-            copyPatient = (Patient)patient.Clone();
-            DialogBoxViewModel = new DialogBoxViewModel();
-        }
-
         public virtual void savePatient()
         {
             foreach (PropertyInfo info in GetType().GetProperties())
@@ -179,7 +135,80 @@ namespace AllAboutTeethDCMS.Patients
             {
                 startSaveToDatabase(Patient, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
-        } 
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Confirm";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("OK"))
+            {
+                Patient = new Patient();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterLoad(List<Patient> list)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override bool beforeDelete()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterDelete(bool isSuccessful)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        
+public AddPatientViewModel()
+        {
+            patient = new Patient();
+            copyPatient = (Patient)patient.Clone();
+        }
 
         public Patient Patient { get => patient; set { patient = value;
                 OnPropertyChanged();
@@ -338,26 +367,6 @@ namespace AllAboutTeethDCMS.Patients
         public string LastNameError { get => lastNameError; set { lastNameError = value; OnPropertyChanged(); } }
         public string CellNoError { get => cellNoError; set { cellNoError = value; OnPropertyChanged(); } }
         public string HomeAddressError { get => homeAddressError; set { homeAddressError = value; OnPropertyChanged(); } }
-
-        protected override void afterLoad(List<Patient> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeDelete()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterDelete(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
 
         private string firstNameError = "";
         private string lastNameError = "";

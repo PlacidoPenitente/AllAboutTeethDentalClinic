@@ -24,35 +24,5 @@ namespace AllAboutTeethDCMS.Appointments
         {
             InitializeComponent();
         }
-
-        private void search_account_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).loadAppointments();
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).MenuViewModel.gotoAddAppointmentView();
-        }
-
-        private void edit_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).MenuViewModel.gotoEditAppointmentView((Appointment)((AppointmentViewModel)DataContext).Appointment.Clone());
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).deleteAppointment();
-        }
-
-        private void unarchive_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).unarchive();
-        }
-
-        private void archive_Click(object sender, RoutedEventArgs e)
-        {
-            ((AppointmentViewModel)DataContext).archive();
-        }
     }
 }

@@ -62,7 +62,7 @@ namespace AllAboutTeethDCMS.Appointments
                 loadPatientsThread = new Thread(setPatients);
                 loadPatientsThread.IsBackground = true;
                 loadPatientsThread.Start();
-                patientViewModel.loadPatients();
+                patientViewModel.LoadPatients();
             }
         }
 
@@ -129,8 +129,80 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadUsersThread();
         }
 
-        private DialogBoxViewModel dialogBoxViewModel;
-        public DialogBoxViewModel DialogBoxViewModel { get => dialogBoxViewModel; set { dialogBoxViewModel = value; OnPropertyChanged(); } }
+        
+
+        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
+        public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
+        public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
+        public string Notes { get => Appointment.Notes; set { Appointment.Notes = value; OnPropertyChanged(); } }
+        public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    OnPropertyChanged(info.Name);
+                }
+            } }
+
+        public List<Patient> Patients {
+            get
+            {
+                if(patients==null)
+                {
+                    return new List<Patient>();
+                }
+                return patients;
+            }
+            set { patients = value; OnPropertyChanged(); } }
+        public List<Treatment> Treatments {
+            get
+            {
+                if(treatments==null)
+                {
+                    return new List<Treatment>();
+                }
+                return treatments;
+            }
+            set { treatments = value; OnPropertyChanged(); } }
+        public List<User> Dentists {
+            get
+            {
+                if(dentists==null)
+                {
+                    return new List<User>();
+                }
+                return dentists;
+            }
+            set { dentists = value; OnPropertyChanged(); } }
+
+        public string Filter { get => filter; set { filter = value; patientViewModel.Filter = value;
+
+                OnPropertyChanged(); } }
+
+        public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
+
+        public Appointment CopyAppointment { get => copyAppointment; set => copyAppointment = value; }
+
+        private Thread loadDialogThread;
+
+        public void startLoadDialogThread()
+        {
+            if (loadDialogThread == null || !loadDialogThread.IsAlive)
+            {
+                loadDialogThread = new Thread(showDialog);
+                loadDialogThread.IsBackground = true;
+                loadDialogThread.Start();
+            }
+        }
+
+        public void showDialog()
+        {
+            DialogBoxViewModel.Answer = "None";
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+        
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -157,9 +229,6 @@ namespace AllAboutTeethDCMS.Appointments
         {
             if (isSuccessful)
             {
-                Patient.Status = "Scheduled";
-                patientViewModel.ActiveUser = ActiveUser;
-                patientViewModel.UpdateDatabase(Patient, "allaboutteeth_patients");
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -168,7 +237,6 @@ namespace AllAboutTeethDCMS.Appointments
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
-                Appointment = new Appointment();
             }
             else
             {
@@ -232,121 +300,9 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
-        private Thread resetThread;
-
-        public virtual void startResetThread()
-        {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Reset Form";
-            DialogBoxViewModel.Message = "Are you sure you want to reset this form?";
-
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                Appointment = new Appointment();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    if (info.Name.EndsWith("Error"))
-                    {
-                        info.SetValue(this, "");
-                    }
-                }
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
-        public void resetForm()
-        {
-            resetThread = new Thread(startResetThread);
-            resetThread.IsBackground = true;
-            resetThread.Start();
-        }
-
-        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
-        public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
-        public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
-        public string Notes { get => Appointment.Notes; set { Appointment.Notes = value; OnPropertyChanged(); } }
-        public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged();
-                foreach (PropertyInfo info in GetType().GetProperties())
-                {
-                    OnPropertyChanged(info.Name);
-                }
-            } }
-
-        public List<Patient> Patients {
-            get
-            {
-                if(patients==null)
-                {
-                    return new List<Patient>();
-                }
-                return patients;
-            }
-            set { patients = value; OnPropertyChanged(); } }
-        public List<Treatment> Treatments {
-            get
-            {
-                if(treatments==null)
-                {
-                    return new List<Treatment>();
-                }
-                return treatments;
-            }
-            set { treatments = value; OnPropertyChanged(); } }
-        public List<User> Dentists {
-            get
-            {
-                if(dentists==null)
-                {
-                    return new List<User>();
-                }
-                return dentists;
-            }
-            set { dentists = value; OnPropertyChanged(); } }
-
-        public string Filter { get => filter; set { filter = value; patientViewModel.Filter = value;
-
-                OnPropertyChanged(); } }
-
-        public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
-
-        public Appointment CopyAppointment { get => copyAppointment; set => copyAppointment = value; }
-
-        protected override void afterLoad(List<Appointment> list)
-        {
-            throw new NotImplementedException();
-        }
-
-        private Thread loadDialogThread;
-
-        public void startLoadDialogThread()
-        {
-            if (loadDialogThread == null || !loadDialogThread.IsAlive)
-            {
-                loadDialogThread = new Thread(showDialog);
-                loadDialogThread.IsBackground = true;
-                loadDialogThread.Start();
-            }
-        }
-
-        public void showDialog()
-        {
-            DialogBoxViewModel.Answer = "None";
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-            DialogBoxViewModel.Answer = "";
-        }
-
         public virtual void saveAppointment()
         {
-            if(Patient==null)
+            if (Patient == null)
             {
                 DialogBoxViewModel.Mode = "Error";
                 DialogBoxViewModel.Title = "Patient Error";
@@ -372,10 +328,7 @@ namespace AllAboutTeethDCMS.Appointments
             }
             foreach (PropertyInfo info in GetType().GetProperties())
             {
-                if(!info.Name.Equals("Filter"))
-                {
-                    info.SetValue(this, info.GetValue(this));
-                }
+                info.SetValue(this, info.GetValue(this));
             }
             bool hasError = false;
             foreach (PropertyInfo info in GetType().GetProperties())
@@ -393,6 +346,62 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 startSaveToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
+            else
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Save Failed";
+                DialogBoxViewModel.Message = "Form contains errors. Please check all required fields.";
+                DialogBoxViewModel.Answer = "None";
+            }
+        }
+
+        #region Reset Thread
+
+        private Thread resetThread;
+
+        public virtual void startResetThread()
+        {
+            DialogBoxViewModel.Answer = "None";
+            DialogBoxViewModel.Mode = "Confirm";
+            DialogBoxViewModel.Title = "Reset Form";
+            DialogBoxViewModel.Message = "Resetting form will restore previous values. Proceed?";
+
+            while (DialogBoxViewModel.Answer.Equals("None"))
+            {
+                Thread.Sleep(100);
+            }
+
+            if (DialogBoxViewModel.Answer.Equals("OK"))
+            {
+                Appointment = new Appointment();
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.EndsWith("Error"))
+                    {
+                        info.SetValue(this, "");
+                    }
+                }
+            }
+            DialogBoxViewModel.Answer = "";
+        }
+
+        public void resetForm()
+        {
+            resetThread = new Thread(startResetThread);
+            resetThread.IsBackground = true;
+            resetThread.Start();
+        }
+        #endregion
+
+        #region Unimplemented Methods
+        protected override void beforeLoad(MySqlCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void afterLoad(List<Appointment> list)
+        {
+            throw new NotImplementedException();
         }
 
         protected override bool beforeDelete()
@@ -404,10 +413,6 @@ namespace AllAboutTeethDCMS.Appointments
         {
             throw new NotImplementedException();
         }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
