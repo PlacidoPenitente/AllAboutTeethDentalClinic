@@ -176,6 +176,7 @@
     </Compile>
     <Compile Include="Providers\ProviderViewModel.cs" />
     <Compile Include="StringToImageConverter.cs" />
+    <Compile Include="StringToPasswordMaskConverter.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>

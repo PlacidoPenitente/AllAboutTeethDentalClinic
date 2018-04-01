@@ -63,6 +63,7 @@ namespace AllAboutTeethDCMS.Users
                         info.SetValue(this, "");
                     }
                 }
+                PasswordCopy = "";
             }
             DialogBoxViewModel.Answer = "";
         }

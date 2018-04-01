@@ -66,8 +66,8 @@ namespace AllAboutTeethDCMS.Users
         public string Answer2 { get => answer2; set => answer2 = value; }
         public string Specialization { get => specialization; set => specialization = value; }
         public int Rate { get => rate; set => rate = value; }
-        public string Status { get => status; set => status = value; }
         public string Image { get => image; set => image = value; }
+        public string Status { get => status; set => status = value; }
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
         #endregion

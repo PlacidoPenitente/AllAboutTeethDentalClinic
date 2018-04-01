@@ -26,4 +26,5 @@
     <root:AnswerToVisibilityConverter x:Key="AnswerToVisibilityConverter"/>
     <root:StringToImageConverter x:Key="StringToImageConverter"/>
     <root:DoubleToBooleanConverter x:Key="DoubleToBooleanConverter"/>
+    <root:StringToPasswordMaskConverter x:Key="StringToPasswordMaskConverter"/>
 </ResourceDictionary>

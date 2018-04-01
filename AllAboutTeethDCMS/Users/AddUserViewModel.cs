@@ -25,17 +25,20 @@ namespace AllAboutTeethDCMS.Users
         public string PasswordCopy { get => passwordCopy;
             set
             {
-                PasswordCopyError = "";
-                if (!Password.Equals(value))
+                if(!value.Contains(" ")&&value.Length<61)
                 {
-                    PasswordCopyError = "Doesn't match with password.";
+                    PasswordCopyError = "";
+                    if (!Password.Equals(value))
+                    {
+                        PasswordCopyError = "Doesn't match with password.";
+                    }
+                    if (!Validate(value))
+                    {
+                        PasswordCopyError = "Please re-type your password.";
+                    }
+                    passwordCopy = value;
+                    OnPropertyChanged();
                 }
-                if (!Validate(value))
-                {
-                    PasswordCopyError = "Please re-type your password.";
-                }
-                passwordCopy = value;
-                OnPropertyChanged();
             }
         }
         public List<string> Genders { get => genders; set => genders = value; }
@@ -76,13 +79,17 @@ namespace AllAboutTeethDCMS.Users
         public string Username { get => User.Username;
             set
             {
-                UsernameError = "";
-                if(!value.Contains(" "))
+                if(!value.Contains(" ") && value.Length < 61)
                 {
+                    UsernameError = "";
                     UsernameError = ValidateUsername(value, CopyUser.Username);
                     if (!Validate(value))
                     {
                         UsernameError = "Username is required.";
+                    }
+                    if(value.Length<6)
+                    {
+                        UsernameError = "Username is too short.";
                     }
                     User.Username = value;
                     OnPropertyChanged();
@@ -92,46 +99,69 @@ namespace AllAboutTeethDCMS.Users
         public string Password { get => User.Password; 
             set
             {
-                PasswordCopyError = "";
-                PasswordError = "";
-                if (!value.Equals(PasswordCopy))
+                if (!value.Contains(" ") && value.Length < 61)
                 {
-                    PasswordCopyError = "Doesn't match with password.";
+                    PasswordCopyError = "";
+                    PasswordError = "";
+                    if (!value.Equals(PasswordCopy))
+                    {
+                        PasswordCopyError = "Doesn't match with password.";
+                    }
+                    if (!Validate(value))
+                    {
+                        PasswordError = "Password is required.";
+                    }
+                    if(value.Length<6)
+                    {
+                        PasswordError = "Password too short.";
+                    }
+                    User.Password = value;
+                    OnPropertyChanged("PasswordCopyError");
+                    OnPropertyChanged();
                 }
-                if (!Validate(value))
-                {
-                    PasswordError = "Password is required.";
-                }
-                User.Password = value;
-                OnPropertyChanged("PasswordCopyError");
-                OnPropertyChanged();
             }
         }
         public string Type { get => User.Type; set { User.Type = value; OnPropertyChanged(); } }
         public string FirstName { get => User.FirstName;
             set
             {
-                FirstNameError = "";
-                if(!Validate(value))
+                if(!value.Contains("  ")&&!value.StartsWith(" "))
                 {
-                    FirstNameError = "First Name is required.";
+                    FirstNameError = "";
+                    if (!Validate(value))
+                    {
+                        FirstNameError = "First Name is required.";
+                    }
+                    User.FirstName = value;
+                    OnPropertyChanged();
                 }
-                User.FirstName = value;
-                OnPropertyChanged();
 
             }
         }
-        public string MiddleName { get => User.MiddleName; set { User.MiddleName = value; OnPropertyChanged(); } }
+        public string MiddleName { get => User.MiddleName;
+            set
+            {
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                {
+                    User.MiddleName = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public string LastName { get => User.LastName;
             set
             {
-                LastNameError = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    LastNameError = "Last Name is required.";
+                    LastNameError = "";
+                    if (!Validate(value))
+                    {
+                        LastNameError = "Last Name is required.";
+                    }
+                    User.LastName = value;
+                    OnPropertyChanged();
                 }
-                User.LastName = value;
-                OnPropertyChanged();
+                    
             }
         }
         public string Gender { get => User.Gender; set { User.Gender = value; OnPropertyChanged(); } }
@@ -139,13 +169,17 @@ namespace AllAboutTeethDCMS.Users
         public string Address { get => User.Address;
             set
             {
-                AddressError = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    AddressError = "Address is required.";
+                    AddressError = "";
+                    if (!Validate(value))
+                    {
+                        AddressError = "Address is required.";
+                    }
+                    User.Address = value;
+                    OnPropertyChanged();
                 }
-                User.Address = value;
-                OnPropertyChanged();
+                
             }
         }
         public string ContactNo { get => User.ContactNo;
@@ -172,56 +206,92 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string EmailAddress { get => User.EmailAddress; set { User.EmailAddress = value; OnPropertyChanged(); } }
+        public string EmailAddress { get => User.EmailAddress;
+            set
+            {
+                if (!value.Contains(" "))
+                {
+                    User.EmailAddress = value;
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
         public string Question1 { get => User.Question1;
             set
             {
-                Question1Error = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    Question1Error = "Question No. 1 is required.";
+                    Question1Error = "";
+                    if (!Validate(value))
+                    {
+                        Question1Error = "Question No. 1 is required.";
+                    }
+                    User.Question1 = value;
+                    OnPropertyChanged();
                 }
-                User.Question1 = value;
-                OnPropertyChanged();
+                
             }
         }
         public string Question2 { get => User.Question2;
             set
             {
-                Question2Error = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    Question2Error = "Quesrion No. 2 is required.";
+                    Question2Error = "";
+                    if (!Validate(value))
+                    {
+                        Question2Error = "Quesrion No. 2 is required.";
+                    }
+                    User.Question2 = value;
+                    OnPropertyChanged();
                 }
-                User.Question2 = value;
-                OnPropertyChanged();
+                
             }
         }
         public string Answer1 { get => User.Answer1;
             set
             {
-                Answer1Error = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    Answer1Error = "Answer for Question No. 1 is required.";
+                    Answer1Error = "";
+                    if (!Validate(value))
+                    {
+                        Answer1Error = "Answer for Question No. 1 is required.";
+                    }
+                    User.Answer1 = value;
+                    OnPropertyChanged();
                 }
-                User.Answer1 = value;
-                OnPropertyChanged();
+                
             }
         }
         public string Answer2 { get => User.Answer2;
             set
             {
-                Answer2Error = "";
-                if (!Validate(value))
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
                 {
-                    Answer2Error = "Answer for Question No. 2 is required.";
+                    Answer2Error = "";
+                    if (!Validate(value))
+                    {
+                        Answer2Error = "Answer for Question No. 2 is required.";
+                    }
+                    User.Answer2 = value;
+                    OnPropertyChanged();
                 }
-                User.Answer2 = value;
-                OnPropertyChanged();
+                
             }
         }
-        public string Specialization { get => User.Specialization; set { User.Specialization = value; OnPropertyChanged(); } }
+        public string Specialization { get => User.Specialization;
+            set
+            {
+                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                {
+                    User.Specialization = value;
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
         public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); } }
         #endregion
 
@@ -281,6 +351,10 @@ namespace AllAboutTeethDCMS.Users
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                User = new User();
+                CopyUser = (User)User.Clone();
+                PasswordCopy = "";
+                PasswordCopyError = "";
             }
             else
             {
@@ -330,6 +404,8 @@ namespace AllAboutTeethDCMS.Users
                 }
                 DialogBoxViewModel.Answer = "";
                 CopyUser = (User)User.Clone();
+                PasswordCopy = "";
+                PasswordCopyError = "";
             }
             else
             {
@@ -401,6 +477,7 @@ namespace AllAboutTeethDCMS.Users
                         info.SetValue(this, "");
                     }
                 }
+                PasswordCopy = "";
             }
             DialogBoxViewModel.Answer = "";
         }

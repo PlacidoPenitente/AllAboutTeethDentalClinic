@@ -32,40 +32,12 @@ namespace AllAboutTeethDCMS.Users
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            passwordMain.Password = "";
-            passwordCopy.Password = "";
             ((EditUserViewModel)DataContext).resetForm();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
             ((EditUserViewModel)DataContext).MenuViewModel.gotoUsers();
-        }
-
-        private void passwordMain_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            ((EditUserViewModel)DataContext).Password = passwordMain.Password;
-        }
-
-        private void passwordCopy_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            ((EditUserViewModel)DataContext).PasswordCopy = passwordCopy.Password;
-        }
-
-        private void passwordMain_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void passwordCopy_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-            {
-                e.Handled = true;
-            }
         }
     }
 }
