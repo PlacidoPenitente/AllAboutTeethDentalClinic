@@ -55,6 +55,8 @@ namespace AllAboutTeethDCMS.Providers
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                Provider = new Provider();
+                CopyProvider = (Provider)Provider.Clone();
             }
             else
             {
@@ -209,8 +211,21 @@ namespace AllAboutTeethDCMS.Providers
         }
         #endregion
 
-        public string Name { get => Provider.Name; set { Provider.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyProvider.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
-        public string ContactNo { get => Provider.ContactNo; set {
+        public string Name { get => Provider.Name;
+            set
+            {
+                if (!value.Contains("  ")&& !value.StartsWith(" "))
+                {
+                    Provider.Name = value;
+                    NameError = "";
+                    NameError = validateUniqueName(value, CopyProvider.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
+        public string ContactNo { get => Provider.ContactNo;
+            set {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -224,8 +239,20 @@ namespace AllAboutTeethDCMS.Providers
                 {
                     Provider.ContactNo = value;
                 }
-                OnPropertyChanged(); } }
-        public string Address { get => Provider.Address; set { Provider.Address = value; OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
+        public string Address { get => Provider.Address;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Provider.Address = value;
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
 
         public Provider Provider
         {

@@ -43,7 +43,7 @@ namespace AllAboutTeethDCMS.Suppliers
             if (Supplier.Status.Equals("Active"))
             {
                 DialogBoxViewModel.Title = "Archive Supplier";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this supplier? Account can no longer be used.";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this supplier?";
             }
             else
             {

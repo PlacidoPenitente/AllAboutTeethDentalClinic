@@ -55,6 +55,8 @@ namespace AllAboutTeethDCMS.Suppliers
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                Supplier = new Supplier();
+                CopySupplier = (Supplier)Supplier.Clone();
             }
             else
             {
@@ -223,9 +225,42 @@ namespace AllAboutTeethDCMS.Suppliers
             }
         }
 
-        public string Name { get => Supplier.Name; set { Supplier.Name = value; NameError = ""; NameError = validateUniqueName(value, CopySupplier.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
-        public string Address { get => Supplier.Address; set { Supplier.Address = value; AddressError = ""; AddressError = validate(value); OnPropertyChanged(); } }
-        public string Products { get => Supplier.Products; set { Supplier.Products = value; OnPropertyChanged(); } }
+        public string Name { get => Supplier.Name;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Supplier.Name = value;
+                    NameError = "";
+                    NameError = validateUniqueName(value, CopySupplier.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
+        public string Address { get => Supplier.Address;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Supplier.Address = value; AddressError = "";
+                    AddressError = validate(value);
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
+        public string Products { get => Supplier.Products;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Supplier.Products = value;
+                    OnPropertyChanged();
+                }
+                
+            }
+        }
         public Supplier CopySupplier { get => copySupplier; set { copySupplier = value; OnPropertyChanged(); } }
         public string ContactNo { get => Supplier.ContactNo; set {
                 bool valid = true;
@@ -242,7 +277,16 @@ namespace AllAboutTeethDCMS.Suppliers
                     Supplier.ContactNo = value;
                 }
                 OnPropertyChanged(); } }
-        public string Schedule { get => Supplier.Schedule; set { Supplier.Schedule = value; OnPropertyChanged(); } }
+        public string Schedule { get => Supplier.Schedule;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Supplier.Schedule = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
         public string AddressError { get => addressError; set { addressError = value; OnPropertyChanged(); } }
