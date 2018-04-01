@@ -32,12 +32,12 @@ namespace AllAboutTeethDCMS.Medicines
 
         public void setItemsSources()
         {
-            while (supplierViewModel.Suppliers == null)
+            while (SupplierViewModel.Suppliers == null)
             {
                 Thread.Sleep(100);
             }
             Suppliers = new List<Supplier>();
-            foreach (Supplier supplier in supplierViewModel.Suppliers)
+            foreach (Supplier supplier in SupplierViewModel.Suppliers)
             {
                 if (supplier.Status.Equals("Active"))
                 {
@@ -51,7 +51,7 @@ namespace AllAboutTeethDCMS.Medicines
             medicine = new Medicine();
             copyMedicine = (Medicine)medicine.Clone();
             startLoadThread();
-            supplierViewModel.LoadSuppliers();
+            SupplierViewModel.LoadSuppliers();
         }
 
         protected override bool beforeCreate()
@@ -88,6 +88,8 @@ namespace AllAboutTeethDCMS.Medicines
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                Medicine = new Medicine();
+                CopyMedicine = (Medicine)Medicine.Clone();
             }
             else
             {
@@ -242,8 +244,27 @@ namespace AllAboutTeethDCMS.Medicines
         }
         #endregion
 
-        public string Name { get => Medicine.Name; set { Medicine.Name = value; NameError = ""; NameError = validateUniqueName(value, CopyMedicine.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged(); } }
-        public string Description { get => Medicine.Description; set { Medicine.Description = value; OnPropertyChanged(); } }
+        public string Name { get => Medicine.Name;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Medicine.Name = value; NameError = "";
+                    NameError = validateUniqueName(value, CopyMedicine.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string Description { get => Medicine.Description;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Medicine.Description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public Supplier Supplier { get => Medicine.Supplier; set { Medicine.Supplier = value; OnPropertyChanged(); } }
         public string Quantity { get => Medicine.Quantity.ToString(); set {
                 bool valid = true;
@@ -309,6 +330,8 @@ namespace AllAboutTeethDCMS.Medicines
         public Medicine CopyMedicine { get => copyMedicine; set { copyMedicine = value; } }
         public string NameError { get => nameError; set { nameError = value; OnPropertyChanged(); } }
         public List<Supplier> Suppliers { get => suppliers; set { suppliers = value; OnPropertyChanged(); } }
+
+        public SupplierViewModel SupplierViewModel { get => supplierViewModel; set => supplierViewModel = value; }
 
         private string nameError = "";
     }

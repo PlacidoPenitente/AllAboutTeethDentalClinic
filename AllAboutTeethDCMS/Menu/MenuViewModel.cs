@@ -49,6 +49,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = UserView;
             ((UserViewModel)UserView.DataContext).ActiveUser = ActiveUser;
             ((UserViewModel)UserView.DataContext).MenuViewModel = this;
+            ((UserViewModel)UserView.DataContext).LoadUsers();
         }
 
         public void GotoAddUserView()
@@ -181,6 +182,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = SupplierView;
             ((SupplierViewModel)SupplierView.DataContext).ActiveUser = ActiveUser;
             ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
+            ((SupplierViewModel)SupplierView.DataContext).LoadSuppliers();
         }
 
         public void GotoAddSupplierView()
@@ -226,6 +228,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = ProviderView;
             ((ProviderViewModel)ProviderView.DataContext).ActiveUser = ActiveUser;
             ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
+            ((ProviderViewModel)ProviderView.DataContext).LoadProviders();
         }
 
         public void GotoEditProviderView(Provider provider)
@@ -271,6 +274,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = MedicineView;
             ((MedicineViewModel)MedicineView.DataContext).ActiveUser = ActiveUser;
             ((MedicineViewModel)MedicineView.DataContext).MenuViewModel = this;
+            ((MedicineViewModel)MedicineView.DataContext).LoadMedicines();
         }
 
         public void GotoAddMedicineView()
@@ -282,6 +286,9 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AddMedicineView;
             ((AddMedicineViewModel)AddMedicineView.DataContext).ActiveUser = ActiveUser;
             ((AddMedicineViewModel)AddMedicineView.DataContext).MenuViewModel = this;
+            ((AddMedicineViewModel)AddMedicineView.DataContext).SupplierViewModel.Suppliers = null;
+            ((AddMedicineViewModel)AddMedicineView.DataContext).startLoadThread();
+            ((AddMedicineViewModel)AddMedicineView.DataContext).SupplierViewModel.LoadSuppliers();
         }
 
         public void GotoEditMedicineView(Medicine selectedMedicine)

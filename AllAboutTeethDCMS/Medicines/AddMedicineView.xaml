@@ -64,7 +64,7 @@
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox root:AttachedProperties.Label="Supplier:" ItemsSource="{Binding Suppliers}" SelectedIndex="0" SelectedItem="{Binding Supplier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
+                        <ComboBox root:AttachedProperties.Label="Supplier:" ItemsSource="{Binding Suppliers, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding Supplier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
                         <TextBox Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Quantity:" Grid.Column="1" Margin="5"/>
                         <TextBox Text="{Binding CriticalAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Critical Amount:" Grid.Column="2" Margin="5"/>
                     </Grid>
