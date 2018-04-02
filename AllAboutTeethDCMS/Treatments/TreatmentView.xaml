@@ -45,7 +45,7 @@
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="SearchTreatment: "/>
+				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Treatment: "/>
 				<Button Margin="0,9,0,0" Height="43" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100" Command="{Binding LoadCommand}"/>
 			</Grid>
 			<Grid Grid.Row="1">

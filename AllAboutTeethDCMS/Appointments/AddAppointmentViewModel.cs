@@ -33,18 +33,18 @@ namespace AllAboutTeethDCMS.Appointments
                 loadTreatmentsThread = new Thread(setTreatments);
                 loadTreatmentsThread.IsBackground = true;
                 loadTreatmentsThread.Start();
-                treatmentViewModel.LoadTreatments();
+                TreatmentViewModel.LoadTreatments();
             }
         }
 
         public void setTreatments()
         {
-            while (treatmentViewModel.Treatments == null)
+            while (TreatmentViewModel.Treatments == null)
             {
                 Thread.Sleep(100);
             }
             Treatments = new List<Treatment>();
-            foreach (Treatment treatment in treatmentViewModel.Treatments)
+            foreach (Treatment treatment in TreatmentViewModel.Treatments)
             {
                 if (treatment.Status.Equals("Active"))
                 {
@@ -62,18 +62,18 @@ namespace AllAboutTeethDCMS.Appointments
                 loadPatientsThread = new Thread(setPatients);
                 loadPatientsThread.IsBackground = true;
                 loadPatientsThread.Start();
-                patientViewModel.LoadPatients();
+                PatientViewModel.LoadPatients();
             }
         }
 
         public void setPatients()
         {
-            while (patientViewModel.Patients == null)
+            while (PatientViewModel.Patients == null)
             {
                 Thread.Sleep(100);
             }
             Patients = new List<Patient>();
-            foreach (Patient patient in patientViewModel.Patients)
+            foreach (Patient patient in PatientViewModel.Patients)
             {
                 if (patient.Status.Equals("Active"))
                 {
@@ -91,18 +91,18 @@ namespace AllAboutTeethDCMS.Appointments
                 loadUsersThread = new Thread(setUsers);
                 loadUsersThread.IsBackground = true;
                 loadUsersThread.Start();
-                userViewModel.LoadUsers();
+                UserViewModel.LoadUsers();
             }
         }
 
         public void setUsers()
         {
-            while (userViewModel.Users == null)
+            while (UserViewModel.Users == null)
             {
                 Thread.Sleep(100);
             }
             Dentists = new List<User>();
-            foreach (User user in userViewModel.Users)
+            foreach (User user in UserViewModel.Users)
             {
                 if (user.Status.Equals("Active")&& user.Type.Equals("Dentist"))
                 {
@@ -115,9 +115,9 @@ namespace AllAboutTeethDCMS.Appointments
         {
             dentalChartViewModel = new DentalChartViewModel();
 
-            patientViewModel = new PatientViewModel();
-            treatmentViewModel = new TreatmentViewModel();
-            userViewModel = new UserViewModel();
+            PatientViewModel = new PatientViewModel();
+            TreatmentViewModel = new TreatmentViewModel();
+            UserViewModel = new UserViewModel();
 
             Appointment = new Appointment();
             CopyAppointment = (Appointment)appointment.Clone();
@@ -129,12 +129,24 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadUsersThread();
         }
 
-        
-
         public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
-        public string Notes { get => Appointment.Notes; set { Appointment.Notes = value; OnPropertyChanged(); } }
+        public string Notes {
+            get
+            {
+                if(Patient!=null)
+                {
+                    return Patient.Reason;
+                }
+                return "";
+            }
+            set
+            {
+                Patient.Reason = value;
+                OnPropertyChanged();
+            }
+        }
         public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
@@ -145,41 +157,30 @@ namespace AllAboutTeethDCMS.Appointments
         public List<Patient> Patients {
             get
             {
-                if(patients==null)
-                {
-                    return new List<Patient>();
-                }
                 return patients;
             }
             set { patients = value; OnPropertyChanged(); } }
         public List<Treatment> Treatments {
             get
             {
-                if(treatments==null)
-                {
-                    return new List<Treatment>();
-                }
                 return treatments;
             }
             set { treatments = value; OnPropertyChanged(); } }
         public List<User> Dentists {
             get
             {
-                if(dentists==null)
-                {
-                    return new List<User>();
-                }
                 return dentists;
             }
             set { dentists = value; OnPropertyChanged(); } }
 
-        public string Filter { get => filter; set { filter = value; patientViewModel.Filter = value;
-
-                OnPropertyChanged(); } }
+        public string Filter { get => filter; set { filter = value; PatientViewModel.Filter = value; PatientViewModel.Patients = null; startLoadPatientsThread(); OnPropertyChanged(); } }
 
         public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
 
         public Appointment CopyAppointment { get => copyAppointment; set => copyAppointment = value; }
+        public PatientViewModel PatientViewModel { get => patientViewModel; set => patientViewModel = value; }
+        public TreatmentViewModel TreatmentViewModel { get => treatmentViewModel; set => treatmentViewModel = value; }
+        public UserViewModel UserViewModel { get => userViewModel; set => userViewModel = value; }
 
         private Thread loadDialogThread;
 
@@ -237,6 +238,8 @@ namespace AllAboutTeethDCMS.Appointments
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                Appointment = new Appointment();
+                CopyAppointment = (Appointment)Appointment.Clone();
             }
             else
             {
@@ -325,10 +328,6 @@ namespace AllAboutTeethDCMS.Appointments
                 DialogBoxViewModel.Message = "No treatment was selected.";
                 startLoadDialogThread();
                 return;
-            }
-            foreach (PropertyInfo info in GetType().GetProperties())
-            {
-                info.SetValue(this, info.GetValue(this));
             }
             bool hasError = false;
             foreach (PropertyInfo info in GetType().GetProperties())

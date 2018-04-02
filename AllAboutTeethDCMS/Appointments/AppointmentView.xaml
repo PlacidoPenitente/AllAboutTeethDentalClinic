@@ -57,9 +57,10 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}"/>
-						<DataGridTextColumn Header="Service" Binding="{Binding Treatment}"/>
-						<DataGridTemplateColumn Header="Dentist" CellTemplate="{StaticResource dentist}"/>
-						<DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+						<DataGridTextColumn Header="Service" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+                        <DataGridTemplateColumn Header="Dentist" CellTemplate="{StaticResource dentist}"/>
+                        <DataGridTextColumn Header="Reason for Consulation" Binding="{Binding Patient.Reason}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>

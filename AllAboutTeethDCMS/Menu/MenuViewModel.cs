@@ -83,7 +83,6 @@ namespace AllAboutTeethDCMS.Menu
         public AddPatientView AddPatientView { get => addPatientView; set => addPatientView = value; }
         public EditPatientView EditPatientView { get => editPatientView; set => editPatientView = value; }
 
-
         public void gotoPatients()
         {
             if(PatientView==null)
@@ -93,6 +92,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = PatientView;
             ((PatientViewModel)PatientView.DataContext).ActiveUser = ActiveUser;
             ((PatientViewModel)PatientView.DataContext).MenuViewModel = this;
+            ((PatientViewModel)PatientView.DataContext).LoadPatients();
         }
         public void GotoAddPatientView()
         {
@@ -137,6 +137,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = TreatmentView;
             ((TreatmentViewModel)TreatmentView.DataContext).ActiveUser = ActiveUser;
             ((TreatmentViewModel)TreatmentView.DataContext).MenuViewModel = this;
+            ((TreatmentViewModel)TreatmentView.DataContext).LoadTreatments();
         }
 
         public void GotoEditTreatmentView(Treatment treatment)
@@ -323,6 +324,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AppointmentView;
             ((AppointmentViewModel)AppointmentView.DataContext).ActiveUser = ActiveUser;
             ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
+            ((AppointmentViewModel)AppointmentView.DataContext).LoadAppointments();
         }
 
         public void GotoAddAppointmentView()
@@ -334,6 +336,12 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AddAppointmentView;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).ActiveUser = ActiveUser;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).PatientViewModel.Patients = null;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).TreatmentViewModel.Treatments = null;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).UserViewModel.Users = null;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadPatientsThread();
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadTreatmentsThread();
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadUsersThread();
         }
 
         public void GotoEditAppointmentView(Appointment selectedAppointment)

@@ -32,7 +32,7 @@
 			<ColumnDefinition Width="0.1*"/>
 		</Grid.ColumnDefinitions>
 		<StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
-			<Image Source="{StaticResource icons8_Truck_32px.png}" Stretch="None"  Margin="10,0,10,0"/>
+			<Image Source="{StaticResource account_icon}" Stretch="None"  Margin="10,0,10,0"/>
 			<Label FontSize="19" Content="Patients" VerticalAlignment="Center" Foreground="White"/>
 		</StackPanel>
 		<StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
@@ -46,7 +46,7 @@
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="SearchPatient: "/>
+				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient: "/>
 				<Button Margin="0,9,0,0" Height="43" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100" Command="{Binding LoadCommand}"/>
 			</Grid>
 			<Grid Grid.Row="1">
@@ -119,8 +119,8 @@
 		<StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
 			<Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Patients: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
 			<ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
-        </StackPanel>
-        <local:PatientPreviewView root:AttachedProperties.Patient="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" x:Name="viewer" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
-        <root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+		</StackPanel>
+		<local:PatientPreviewView root:AttachedProperties.Patient="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" x:Name="viewer" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
+		<root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
 	</Grid>
 </UserControl>

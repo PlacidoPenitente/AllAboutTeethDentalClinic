@@ -42,13 +42,13 @@ namespace AllAboutTeethDCMS.Treatments
             DialogBoxViewModel.Mode = "Question";
             if (Treatment.Status.Equals("Active"))
             {
-                DialogBoxViewModel.Title = "Archive Treatment";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this treatment? Account can no longer be used.";
+                DialogBoxViewModel.Title = "Archive Service";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this service?";
             }
             else
             {
-                DialogBoxViewModel.Title = "Unarchive Treatment";
-                DialogBoxViewModel.Message = "Are you sure you want to activate this treatment?";
+                DialogBoxViewModel.Title = "Unarchive Service";
+                DialogBoxViewModel.Message = "Are you sure you want to activate this service?";
             }
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -60,14 +60,14 @@ namespace AllAboutTeethDCMS.Treatments
                 {
                     Treatment.Status = "Archived";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Archiving treatment. Please wait.";
+                    DialogBoxViewModel.Message = "Archiving service. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 else
                 {
                     Treatment.Status = "Active";
                     DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Activating treatment. Please wait.";
+                    DialogBoxViewModel.Message = "Activating service. Please wait.";
                     DialogBoxViewModel.Answer = "None";
                 }
                 return true;
@@ -101,8 +101,8 @@ namespace AllAboutTeethDCMS.Treatments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Delete Treatment";
-            DialogBoxViewModel.Message = "Are you sure you want to totally delete this treatment?";
+            DialogBoxViewModel.Title = "Delete Service";
+            DialogBoxViewModel.Message = "Are you sure you want to totally delete this service?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -112,7 +112,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleting treatment. Please wait.";
+                DialogBoxViewModel.Message = "Deleting service. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }

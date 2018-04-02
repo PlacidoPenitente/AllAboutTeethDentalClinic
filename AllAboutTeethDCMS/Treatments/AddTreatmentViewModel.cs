@@ -46,8 +46,8 @@ namespace AllAboutTeethDCMS.Treatments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Add Treatment";
-            DialogBoxViewModel.Message = "Are you sure you want to add this treatment?";
+            DialogBoxViewModel.Title = "Add Service";
+            DialogBoxViewModel.Message = "Are you sure you want to add this service?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -57,7 +57,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Adding treatment. Please wait.";
+                DialogBoxViewModel.Message = "Adding serivce. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -76,6 +76,8 @@ namespace AllAboutTeethDCMS.Treatments
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+                Treatment = new Treatment();
+                CopyTreatment = (Treatment)Treatment.Clone();
             }
             else
             {
@@ -94,8 +96,8 @@ namespace AllAboutTeethDCMS.Treatments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Update Treatment";
-            DialogBoxViewModel.Message = "Are you sure you want to update this treatment?";
+            DialogBoxViewModel.Title = "Update Service";
+            DialogBoxViewModel.Message = "Are you sure you want to update this service?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -105,7 +107,7 @@ namespace AllAboutTeethDCMS.Treatments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Updating treatment. Please wait.";
+                DialogBoxViewModel.Message = "Updating service. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -247,7 +249,16 @@ namespace AllAboutTeethDCMS.Treatments
                     NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged();
                 }
             } }
-        public string Description { get => Treatment.Description; set { Treatment.Description = value; OnPropertyChanged(); } }
+        public string Description { get => Treatment.Description;
+            set
+            {
+                if (!value.Contains("  ") && !value.StartsWith(" "))
+                {
+                    Treatment.Description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public bool DecayedCariesIndicatedForFilling { get => Treatment.DecayedCariesIndicatedForFilling; set { Treatment.DecayedCariesIndicatedForFilling = value; OnPropertyChanged(); } }
         public bool MissingDueToCaries { get => Treatment.MissingDueToCaries; set { Treatment.MissingDueToCaries = value; OnPropertyChanged(); } }
         public bool Filled { get => Treatment.Filled; set { Treatment.Filled = value; OnPropertyChanged(); } }

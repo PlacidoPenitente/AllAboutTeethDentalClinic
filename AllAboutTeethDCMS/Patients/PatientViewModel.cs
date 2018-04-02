@@ -44,7 +44,7 @@ namespace AllAboutTeethDCMS.Patients
             if (Patient.Status.Equals("Active"))
             {
                 DialogBoxViewModel.Title = "Archive Patient";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this patient? Account can no longer be used.";
+                DialogBoxViewModel.Message = "Are you sure you want to archive this patient? Patient can no longer be scheduled.";
             }
             else
             {

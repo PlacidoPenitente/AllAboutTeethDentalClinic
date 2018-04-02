@@ -45,7 +45,7 @@
                         </Grid.ColumnDefinitions>
                         <ComboBox root:AttachedProperties.Label="Treatment:" ItemsSource="{Binding Treatments, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding Treatment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Style="{StaticResource ComboBox}" Margin="5"/>
                         <ComboBox root:AttachedProperties.Label="Dentist:" ItemsSource="{Binding Dentists, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding Dentist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource ComboBox}" Margin="5"/>
-                        <TextBox Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Reason for Consultation:" Grid.Column="2" Margin="5"/>
+                        <TextBox IsReadOnly="True" Text="{Binding Patient.Reason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Reason for Consultation:" Grid.Column="2" Margin="5"/>
                     </Grid>
                     <Grid Height="408" Margin="0,20,0,20">
                         <Grid.ColumnDefinitions>

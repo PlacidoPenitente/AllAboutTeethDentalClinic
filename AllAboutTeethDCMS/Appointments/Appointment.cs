@@ -15,7 +15,6 @@ namespace AllAboutTeethDCMS.Appointments
         private Patient patient;
         private Treatment treatment;
         private User dentist;
-        private string notes = "";
         private string status = "Pending";
         private DateTime dateAdded = DateTime.Now;
         private DateTime dateModified = DateTime.Now;
@@ -25,7 +24,6 @@ namespace AllAboutTeethDCMS.Appointments
         public Patient Patient { get => patient; set => patient = value; }
         public Treatment Treatment { get => treatment; set => treatment = value; }
         public User Dentist { get => dentist; set => dentist = value; }
-        public string Notes { get => notes; set => notes = value; }
         public string Status { get => status; set => status = value; }
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
