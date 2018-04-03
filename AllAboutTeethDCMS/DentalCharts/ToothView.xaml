@@ -10,6 +10,6 @@
         <local:ToothViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <CheckBox Click="CheckBox_Click" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding ToothNo, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Icon="{ Binding ToothNo,Converter ={ StaticResource ToothNoToImageConverter}, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Condition="{ Binding Condition, Converter={StaticResource ConditionToSymbolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+        <CheckBox Click="CheckBox_Click" root:AttachedProperties.IsAllowed="{Binding IsAllowed, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsAllowed, UpdateSourceTrigger=PropertyChanged}" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource toothbox}" root:AttachedProperties.ToothNo="{ Binding ToothNo, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Icon="{ Binding ToothNo,Converter ={ StaticResource ToothNoToImageConverter}, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Condition="{ Binding Condition, Converter={StaticResource ConditionToSymbolConverter}, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

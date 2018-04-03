@@ -109,5 +109,19 @@ namespace AllAboutTeethDCMS
             return (Patient)element.GetValue(PatientProperty);
         }
         #endregion
+
+        #region IsAllowedDP
+        public static readonly DependencyProperty IsAllowedProperty = DependencyProperty.RegisterAttached("IsAllowed", typeof(bool), typeof(AttachedProperties), new FrameworkPropertyMetadata(true));
+
+        public static void SetIsAllowed(DependencyObject element, bool value)
+        {
+            element.SetValue(IsAllowedProperty, value);
+        }
+
+        public static bool GetIsAllowed(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsAllowedProperty);
+        }
+        #endregion
     }
 }

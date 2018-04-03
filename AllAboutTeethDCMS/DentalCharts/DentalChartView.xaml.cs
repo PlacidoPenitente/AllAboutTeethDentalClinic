@@ -21,13 +21,9 @@ namespace AllAboutTeethDCMS.DentalChart
     /// </summary>
     public partial class DentalChartView : UserControl
     {
-        private Patient patient;
-
         public DentalChartView()
         {
             InitializeComponent();
         }
-
-        public Patient Patient { get => patient; set => patient = value; }
     }
 }

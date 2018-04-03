@@ -185,13 +185,16 @@ namespace AllAboutTeethDCMS.Treatments
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
                 {
-                    if (value.Status.Equals("Active"))
+                    if(!value.Status.Equals("Scheduled"))
                     {
-                        ArchiveVisibility = "Visible";
-                    }
-                    else
-                    {
-                        UnarchiveVisibility = "Visible";
+                        if (value.Status.Equals("Active"))
+                        {
+                            ArchiveVisibility = "Visible";
+                        }
+                        else
+                        {
+                            UnarchiveVisibility = "Visible";
+                        }
                     }
                 }
             }

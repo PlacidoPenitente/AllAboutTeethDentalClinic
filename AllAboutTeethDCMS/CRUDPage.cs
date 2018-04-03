@@ -93,21 +93,21 @@ namespace AllAboutTeethDCMS
             {
                 beforeLoad(command);
             }
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                primaryKeys.Add(reader.GetInt32(prefix + "_No"));
+            }
+            reader.Close();
+            Connection.Close();
+
+            foreach (int primaryKey in primaryKeys)
+            {
+                list.Add((T)LoadItem(new T(), tableName, primaryKey));
+                Progress = ((double)list.Count / primaryKeys.Count) * 100;
+            }
             try
             {
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    primaryKeys.Add(reader.GetInt32(prefix + "_No"));
-                }
-                reader.Close();
-                Connection.Close();
-
-                foreach (int primaryKey in primaryKeys)
-                {
-                    list.Add((T)LoadItem(new T(), tableName, primaryKey));
-                    Progress = ((double)list.Count / primaryKeys.Count) * 100;
-                }
             }
             catch(Exception ex)
             {
@@ -168,7 +168,14 @@ namespace AllAboutTeethDCMS
 
                 foreach (object info in temp)
                 {
-                    LoadItem(info, "allaboutteeth_" + info.GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), (int)info.GetType().GetProperty("No").GetValue(info));
+                    if(!info.GetType().Name.Equals("Tooth"))
+                    {
+                        LoadItem(info, "allaboutteeth_" + info.GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), (int)info.GetType().GetProperty("No").GetValue(info));
+                    }
+                    else
+                    {
+                        LoadItem(info, "allaboutteeth_tooths", (int)info.GetType().GetProperty("No").GetValue(info));
+                    }
                 }
 
                 return model;

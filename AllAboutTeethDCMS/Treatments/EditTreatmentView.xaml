@@ -83,7 +83,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Decayed (Caries Indicated for Filling)" />
+                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Decayed (Caries Indicated For Filling)" />
                         <CheckBox Grid.Column="1" Style="{StaticResource CheckBox}" IsChecked="{Binding DecayedCariesIndicatedForFilling, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <Grid>
@@ -92,7 +92,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Missing due to Caries" />
+                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Missing Due To Caries" />
                         <CheckBox Grid.Column="1" Style="{StaticResource CheckBox}" IsChecked="{Binding MissingDueToCaries, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <Grid>
@@ -110,7 +110,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Caries Indicated for Extraction" />
+                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Caries Indicated For Extraction" />
                         <CheckBox Grid.Column="1" Style="{StaticResource CheckBox}" IsChecked="{Binding CariesIndicatedForExtraction, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <Grid>
@@ -128,7 +128,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Missing due to Other Causes" />
+                        <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Missing Due To Other Causes" />
                         <CheckBox Grid.Column="1" Style="{StaticResource CheckBox}" IsChecked="{Binding MissingDueToOtherCauses, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                     <Grid>

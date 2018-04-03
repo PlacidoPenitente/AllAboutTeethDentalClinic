@@ -21,12 +21,12 @@ namespace AllAboutTeethDCMS.Treatments
             Outputs = new List<string>()
             {
                 "None",
-                "Decayed (Caries Indicated for Filling)",
-                "Missing due to Caries",
+                "Decayed (Caries Indicated For Filling)",
+                "Missing Due To Caries",
                 "Filled",
-                "Caries Indicated for Extraction",
+                "Caries Indicated For Extraction",
                 "Root Fragment",
-                "Missing due to Other Causes",
+                "Missing Due To Other Causes",
                 "Impacted Tooth",
                 "Jacket Crown",
                 "Amalgam Filling",
@@ -35,8 +35,8 @@ namespace AllAboutTeethDCMS.Treatments
                 "Inlay",
                 "Fixed Cure Composite",
                 "Removable Denture",
-                "Extracted due to Caries",
-                "Extracted due to Other Causes",
+                "Extraction Due To Caries",
+                "Extraction Due To Other Causes",
                 "Present Teeth",
                 "Congenitally Missing",
                 "Supernumerary"

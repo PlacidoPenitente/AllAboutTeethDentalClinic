@@ -129,7 +129,7 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadUsersThread();
         }
 
-        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
+        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
         public string Notes {
@@ -238,6 +238,16 @@ namespace AllAboutTeethDCMS.Appointments
                     Thread.Sleep(100);
                 }
                 DialogBoxViewModel.Answer = "";
+
+                CreateConnection();
+                MySqlCommand command = Connection.CreateCommand();
+                command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='"+ActiveUser.No+"' where patient_no='" + Patient.No + "'";
+                command.ExecuteNonQuery();
+                Connection.Close();
+
+                PatientViewModel.Patients = null;
+                startLoadPatientsThread();
+
                 Appointment = new Appointment();
                 CopyAppointment = (Appointment)Appointment.Clone();
             }

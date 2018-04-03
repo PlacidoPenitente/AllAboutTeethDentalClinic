@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.DentalCharts;
 using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
@@ -128,6 +129,8 @@ namespace AllAboutTeethDCMS.DentalChart
         public ToothViewModel ToothView74 { get => toothView74; set { toothView74 = value; OnPropertyChanged(); } }
         public ToothViewModel ToothView75 { get => toothView75; set { toothView75 = value; OnPropertyChanged(); } }
 
+        private Treatment treatment;
+
         public Patient Patient { get => patient;
             set
             {
@@ -167,6 +170,15 @@ namespace AllAboutTeethDCMS.DentalChart
                 {
                     ToothViewModel toothView = (ToothViewModel)info.GetValue(this);
                     toothView.loadTooth();
+                    if(Treatment!=null)
+                    {
+
+                        toothView.IsAllowed = (bool)Treatment.GetType().GetProperty(toothView.Condition.Replace(" ", "").Replace("(", "").Replace(")", "")).GetValue(Treatment);
+                    }
+                    else
+                    {
+                        toothView.IsAllowed = true;
+                    }
                 }
                 OnPropertyChanged(info.Name);
             }
@@ -192,8 +204,10 @@ namespace AllAboutTeethDCMS.DentalChart
         }
 
         public User User { get => user; set => user = value; }
-        public List<ToothViewModel> TeethView { get => teethView; set => teethView = value; }
+        public List<ToothViewModel> TeethView { get => teethView; set { teethView = value; OnPropertyChanged(); } }
         public Thread LoadTeethThread { get => loadTeethThread; set { loadTeethThread = value; } }
+
+        public Treatment Treatment { get => treatment; set => treatment = value; }
 
         public DentalChartViewModel()
         {

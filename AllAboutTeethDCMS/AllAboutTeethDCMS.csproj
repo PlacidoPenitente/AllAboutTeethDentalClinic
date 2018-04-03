@@ -40,6 +40,8 @@
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -48,6 +50,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WebCam_Capture">
+      <HintPath>..\..\..\..\Desktop\WPFCSharpWebCam\bin\Debug\WebCam_Capture.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -105,6 +110,7 @@
     <Compile Include="DialogBoxViewModel.cs" />
     <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="DoubleToBooleanConverter.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Medicines\AddMedicineView.xaml.cs">
       <DependentUpon>AddMedicineView.xaml</DependentUpon>
     </Compile>
@@ -200,7 +206,10 @@
     <Compile Include="Transactions\TransactionViewModel.cs" />
     <Compile Include="TreatmentRecords\AddTreatmentRecordViewModel.cs" />
     <Compile Include="TreatmentRecords\TreatmentRecord.cs" />
-    <Compile Include="TreatmentRecords\TreatmentRecordsViewModel.cs" />
+    <Compile Include="TreatmentRecords\TreatmentRecordViewModel.cs" />
+    <Compile Include="TreatmentRecords\TreatmentRecordView.xaml.cs">
+      <DependentUpon>TreatmentRecordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Treatments\AddTreatmentView.xaml.cs">
       <DependentUpon>AddTreatmentView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +251,7 @@
     <Compile Include="DialogBoxView.xaml.cs">
       <DependentUpon>DialogBoxView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WebCam.cs" />
     <Page Include="Appointments\AddAppointmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -374,6 +384,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TreatmentRecords\TreatmentRecordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Treatments\AddTreatmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -456,6 +470,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Reports\" />
+    <Folder Include="System\Drawing\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icons8_User_32px.png" />

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Operations
+namespace AllAboutTeethDCMS.TreatmentRecords
 {
     /// <summary>
-    /// Interaction logic for OperationView.xaml
+    /// Interaction logic for TreatmentRecordView.xaml
     /// </summary>
-    public partial class OperationView : UserControl
+    public partial class TreatmentRecordView : UserControl
     {
-        public OperationView()
+        public TreatmentRecordView()
         {
             InitializeComponent();
         }

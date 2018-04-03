@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AllAboutTeethDCMS.Operations;
+using AllAboutTeethDCMS.TreatmentRecords;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -28,7 +29,7 @@ namespace AllAboutTeethDCMS.Menu
             EditUserView = new EditUserView();
         }
 
-        private OperationView operationView;
+        private TreatmentRecordView operationView;
         private AddOperationView addOperationView;
 
         #region Users
@@ -373,16 +374,16 @@ namespace AllAboutTeethDCMS.Menu
         
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
         public User ActiveUser { get => activeUser; set => activeUser = value; }
-        public OperationView OperationView { get => operationView; set => operationView = value; }
+        public TreatmentRecordView TreatmentRecordView { get => operationView; set => operationView = value; }
         public AddOperationView AddOperationView { get => addOperationView; set => addOperationView = value; }
 
         public void gotoOperations(User activeUser)
         {
-            OperationView = new OperationView();
-            MainWindowViewModel.ActivePage = OperationView;
-            ((OperationViewModel)OperationView.DataContext).ActiveUser = activeUser;
-            ((OperationViewModel)OperationView.DataContext).MenuViewModel = this;
-            ((OperationViewModel)OperationView.DataContext).loadOperations();
+            TreatmentRecordView = new TreatmentRecordView();
+            MainWindowViewModel.ActivePage = TreatmentRecordView;
+            ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).ActiveUser = activeUser;
+            ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).MenuViewModel = this;
+            ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).LoadTreatmentRecords();
         }
 
         public void gotoMaintenance()

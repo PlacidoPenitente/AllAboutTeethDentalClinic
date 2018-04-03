@@ -1,6 +1,7 @@
 ﻿using AllAboutTeethDCMS.Appointments;
 using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.DentalCharts;
+using AllAboutTeethDCMS.Medicines;
 using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Treatments;
@@ -13,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AllAboutTeethDCMS.Operations
 {
@@ -21,18 +23,46 @@ namespace AllAboutTeethDCMS.Operations
         private Operation operation;
         private Operation copyOperation;
         private DentalChartViewModel dentalChartViewModel;
+        private MedicineViewModel medicineViewModel;
 
         public void updateList()
         {
-            foreach(ToothViewModel toothViewModel in DentalChartViewModel.TeethView)
+            //ToothList = null;
+            //ToothList = DentalChartViewModel.TeethView;
+            List<ToothViewModel> temp = new List<ToothViewModel>();
+            temp.AddRange(DentalChartViewModel.TeethView);
+            ToothList = temp;
+        }
+
+        public void finishTreatment()
+        {
+            if(ToothList!=null && ToothList.Count>0)
             {
-                AddTreatmentRecordViewModel treatmentRecord = new AddTreatmentRecordViewModel();
-                treatmentRecord.Treatment = Appointment.Treatment;
-                treatmentRecord.Appointment = Appointment;
-                treatmentRecord.Tooth = toothViewModel.Tooth;
-                treatmentRecord.Patient = Appointment.Patient;
-                treatmentRecord.ActiveUser = ActiveUser;
-                treatmentRecord.saveTreatmentRecord();
+                if (MessageBox.Show("Are you sure you want to save this treatment?", "Save Treatment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    foreach (ToothViewModel toothViewModel in ToothList)
+                    {
+                        AddTreatmentRecordViewModel treatmentRecord = new AddTreatmentRecordViewModel();
+                        treatmentRecord.Treatment = Appointment.Treatment;
+                        treatmentRecord.Appointment = Appointment;
+                        treatmentRecord.Tooth = toothViewModel.Tooth;
+                        treatmentRecord.Patient = Appointment.Patient;
+                        treatmentRecord.Notes = toothViewModel.Remarks;
+                        treatmentRecord.ActiveUser = ActiveUser;
+                        treatmentRecord.saveTreatmentRecord();
+                        if (!Appointment.Treatment.Output.Equals("None"))
+                        {
+                            toothViewModel.Tooth.Condition = Appointment.Treatment.Output;
+                        }
+                        toothViewModel.saveTooth();
+                        toothViewModel.loadTooth();
+                    }
+                    MessageBox.Show("Treatment was successfully saved.", "Treatment Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No tooth is selected.", "Selection Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -41,6 +71,13 @@ namespace AllAboutTeethDCMS.Operations
             operation = new Operation();
             dentalChartViewModel = new DentalChartViewModel();
             copyOperation = (Operation)operation.Clone();
+
+            AddCommand = new DelegateCommand(new Action(addTooth));
+            RemoveCommand = new DelegateCommand(new Action(removeTooth));
+            ClearCommand = new DelegateCommand(new Action(clearTeeth));
+
+            MedicineViewModel = new MedicineViewModel();
+            MedicineViewModel.LoadMedicines();
         }
 
         public virtual void resetForm()
@@ -142,6 +179,7 @@ namespace AllAboutTeethDCMS.Operations
                 DentalChartViewModel.TeethView.Clear();
                 DentalChartViewModel = new DentalChartViewModel();
                 DentalChartViewModel.User = ActiveUser;
+                DentalChartViewModel.Treatment = Appointment.Treatment;
                 DentalChartViewModel.Patient = value.Patient;
                 Teeth = DentalChartViewModel.TeethView;
             } }
@@ -149,5 +187,56 @@ namespace AllAboutTeethDCMS.Operations
         public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
 
         public List<ToothViewModel> Teeth { get => teeth; set { teeth = value; OnPropertyChanged(); } }
+ 
+        public List<ToothViewModel> ToothList { get => toothList; set { toothList = value; OnPropertyChanged(); } }
+
+        public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
+        public DelegateCommand RemoveCommand { get => removeCommand; set => removeCommand = value; }
+        public DelegateCommand ClearCommand { get => clearCommand; set => clearCommand = value; }
+        public ToothViewModel SelectedTVM { get => selectedTVM; set { selectedTVM = value; OnPropertyChanged(); } }
+
+        public MedicineViewModel MedicineViewModel { get => medicineViewModel; set => medicineViewModel = value; }
+
+        private List<ToothViewModel> toothList;
+
+        private DelegateCommand addCommand;
+        private DelegateCommand removeCommand;
+        private DelegateCommand clearCommand;
+
+        public void addTooth()
+        {
+            List<ToothViewModel> temp = new List<ToothViewModel>();
+            if(ToothList!=null)
+            {
+                temp.AddRange(ToothList);
+            }
+            foreach(ToothViewModel tvm in DentalChartViewModel.TeethView)
+            {
+                if(!temp.Contains(tvm))
+                {
+                    temp.Add(tvm);
+                }
+            }
+            ToothList = temp;
+        }
+
+        private ToothViewModel selectedTVM;
+
+        public void removeTooth()
+        {
+            List<ToothViewModel> temp = new List<ToothViewModel>();
+            temp.AddRange(ToothList);
+            if(SelectedTVM!=null)
+            {
+                temp.Remove(SelectedTVM);
+                SelectedTVM = null;
+            }
+            ToothList = temp;
+        }
+
+        public void clearTeeth()
+        {
+            ToothList = new List<ToothViewModel>();
+        }
     }
 }

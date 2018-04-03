@@ -33,7 +33,7 @@ namespace AllAboutTeethDCMS.Operations
 
         private void resetForm_Click(object sender, RoutedEventArgs e)
         {
-            ((AddOperationViewModel)DataContext).resetForm();
+            ((AddOperationViewModel)DataContext).finishTreatment();
         }
 
         private void back_Click(object sender, RoutedEventArgs e)

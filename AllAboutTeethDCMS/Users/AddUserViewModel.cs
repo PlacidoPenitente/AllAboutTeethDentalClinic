@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using WebCam_Capture;
 
 namespace AllAboutTeethDCMS.Users
 {
@@ -17,6 +19,7 @@ namespace AllAboutTeethDCMS.Users
         private string passwordCopy = "";
         private List<string> genders = new List<string>() { "Male", "Female" };
         private List<string> accountTypes = new List<string>() { "Administrator", "Dentist", "Staff" };
+        private WebCam webCam;
         #endregion
 
         #region Properties
@@ -293,6 +296,8 @@ namespace AllAboutTeethDCMS.Users
             }
         }
         public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); } }
+
+        public WebCam WebCam { get => webCam; set => webCam = value; }
         #endregion
 
         public AddUserViewModel() : base()
@@ -315,6 +320,7 @@ namespace AllAboutTeethDCMS.Users
             {
                 DateEnd = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 18));
             }
+            WebCam = new WebCam();
         }
 
         protected override bool beforeCreate()

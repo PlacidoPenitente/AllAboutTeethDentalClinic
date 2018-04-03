@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="AllAboutTeethDCMS.Operations.OperationView"
+﻿<UserControl x:Class="AllAboutTeethDCMS.TreatmentRecords.TreatmentRecordView"
 			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:local="clr-namespace:AllAboutTeethDCMS.Operations"
+			 xmlns:local="clr-namespace:AllAboutTeethDCMS.TreatmentRecords"
 			 xmlns:root="clr-namespace:AllAboutTeethDCMS"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="600" d:DesignWidth="800">
+			 d:DesignHeight="900" d:DesignWidth="800">
 	<UserControl.DataContext>
-		<local:OperationViewModel/>
+		<local:TreatmentRecordViewModel/>
 	</UserControl.DataContext>
 	<UserControl.Triggers>
 		<EventTrigger RoutedEvent="UserControl.Loaded">
@@ -32,7 +32,7 @@
 		</Grid.ColumnDefinitions>
 		<StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
 			<Image Source="{StaticResource icons8_Bill_32px.png}" Stretch="None"  Margin="10,0,10,0"/>
-			<Label FontSize="19" Content="Treatments" VerticalAlignment="Center" Foreground="White"/>
+			<Label FontSize="19" Content="Treatment Records" VerticalAlignment="Center" Foreground="White"/>
 		</StackPanel>
 		<StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
 		<Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -45,7 +45,7 @@
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Item: "/>
+				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Treatment Record: "/>
 				<Button Margin="0,9,0,0" Height="43" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100" Command="{Binding LoadCommand}"/>
 			</Grid>
 			<Grid Grid.Row="1">
@@ -53,19 +53,21 @@
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Operations, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Operation, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
+				<DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding TreatmentRecords, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding TreatmentRecord, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="No." Binding="{Binding Appointment.No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}"/>
-						<DataGridTextColumn Header="Tooth No" Binding="{Binding Tooth}"/>
+						<DataGridTextColumn Header="Tooth" Binding="{Binding Tooth.ToothNo}"/>
+						<DataGridTextColumn Header="Treatment" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+						<DataGridTextColumn Header="Remarks" Binding="{Binding Notes}"/>
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Column="1" Margin="0,10,0,0">
-					<Button Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
-					<Button Visibility="Collapsed" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
+					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
+					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
 						<!--<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -76,8 +78,8 @@
 							</EventTrigger>
 						</Button.Triggers>-->
 					</Button>
-					<Button Visibility="{Binding Operation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
-					<Button Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
+					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
+					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -88,7 +90,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding UnarchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding UnarchiveCommand}">
+					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding UnarchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -99,7 +101,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding Operation, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -114,7 +116,7 @@
 			</Grid>
 		</Grid>
 		<StackPanel SnapsToDevicePixels="True" Background="{StaticResource Asbestos}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
-			<Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Items: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
+			<Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Treatment Records: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
 			<ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
 		</StackPanel>
 		<root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>

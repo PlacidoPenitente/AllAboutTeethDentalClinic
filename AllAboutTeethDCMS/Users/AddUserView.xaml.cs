@@ -39,5 +39,9 @@ namespace AllAboutTeethDCMS.Users
         {
             ((AddUserViewModel)DataContext).MenuViewModel.gotoUsers();
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

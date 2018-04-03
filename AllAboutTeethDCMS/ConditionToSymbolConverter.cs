@@ -14,12 +14,12 @@ namespace AllAboutTeethDCMS
         {
             switch((string)value)
             {
-                case "Decayed (Caries Indicated for Filling)": return "D";
-                case "Missing due to Caries": return "M";
+                case "Decayed (Caries Indicated For Filling)": return "D";
+                case "Missing Due To Caries": return "M";
                 case "Filled": return "F";
-                case "Caries Indicated for Extraction": return "I";
+                case "Caries Indicated For Extraction": return "I";
                 case "Root Fragment": return "RF";
-                case "Missing due to Other Causes": return "MO";
+                case "Missing Due To Other Causes": return "MO";
                 case "Impacted Tooth": return "Im";
                 case "Jacket Crown": return "J";
                 case "Amalgam Filling": return "A";
@@ -28,8 +28,8 @@ namespace AllAboutTeethDCMS
                 case "Inlay": return "In";
                 case "Fixed Cure Composite": return "FX";
                 case "Removable Denture": return "Rm";
-                case "Extracted due to Caries": return "X";
-                case "Extracted due to Other Causes": return "XO";
+                case "Extraction Due To Caries": return "X";
+                case "Extraction Due To Other Causes": return "XO";
                 case "Present Teeth": return "√";
                 case "Congenitally Missing": return "Cm";
                 case "Supernumerary": return "Sp";

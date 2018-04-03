@@ -14,6 +14,7 @@ namespace AllAboutTeethDCMS.DentalCharts
         private Patient owner;
         private string condition = "";
         private string toothNo = "";
+        private string remarks = "";
         private DateTime dateAdded = DateTime.Now;
         private DateTime dateModified = DateTime.Now;
         private User addedBy;
@@ -22,6 +23,7 @@ namespace AllAboutTeethDCMS.DentalCharts
         public Patient Owner { get => owner; set => owner = value; }
         public string Condition { get => condition; set => condition = value; }
         public string ToothNo { get => toothNo; set => toothNo = value; }
+        public string Remarks { get => remarks; set => remarks = value; }
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
         public User AddedBy { get => addedBy; set => addedBy = value; }

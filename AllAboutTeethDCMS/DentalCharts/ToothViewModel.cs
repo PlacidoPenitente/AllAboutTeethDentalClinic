@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Patients;
+﻿using AllAboutTeethDCMS.DentalChart;
+using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
@@ -14,6 +15,8 @@ namespace AllAboutTeethDCMS.DentalCharts
     {
         private Tooth tooth;
         private bool isSelected = false;
+        private bool isAllowed = true;
+
         private List<ToothViewModel> teeth;
         
         public ToothViewModel()
@@ -24,6 +27,7 @@ namespace AllAboutTeethDCMS.DentalCharts
         public Patient Owner { get => Tooth.Owner; set { Tooth.Owner = value; OnPropertyChanged(); } }
         public string Condition { get => Tooth.Condition; set { Tooth.Condition = value; OnPropertyChanged(); } }
         public string ToothNo { get => Tooth.ToothNo; set { Tooth.ToothNo = value; OnPropertyChanged(); } }
+        public string Remarks { get => Tooth.Remarks; set { Tooth.Remarks = value; OnPropertyChanged(); } }
         public Tooth Tooth { get => tooth; set { tooth = value; OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
@@ -34,6 +38,7 @@ namespace AllAboutTeethDCMS.DentalCharts
         public bool IsSelected { get => isSelected; set { isSelected = value; OnPropertyChanged(); } }
 
         public List<ToothViewModel> Teeth { get => teeth; set => teeth = value; }
+        public bool IsAllowed { get => isAllowed; set { isAllowed = value; OnPropertyChanged(); } }
 
         public void loadTooth()
         {
@@ -103,6 +108,8 @@ namespace AllAboutTeethDCMS.DentalCharts
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_tooths where tooth_owner='" + Owner.No + "' AND tooth_toothno='" + ToothNo + "'";
         }
     }
 }

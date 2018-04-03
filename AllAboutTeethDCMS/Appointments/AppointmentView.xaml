@@ -58,9 +58,9 @@
 						<DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}"/>
 						<DataGridTextColumn Header="Service" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
-                        <DataGridTemplateColumn Header="Dentist" CellTemplate="{StaticResource dentist}"/>
-                        <DataGridTextColumn Header="Reason for Consulation" Binding="{Binding Patient.Reason}"/>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+						<DataGridTemplateColumn Header="Dentist" CellTemplate="{StaticResource dentist}"/>
+						<DataGridTextColumn Header="Reason for Consulation" Binding="{Binding Patient.Reason}"/>
+						<DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>
@@ -79,7 +79,8 @@
 							</EventTrigger>
 						</Button.Triggers>-->
 					</Button>
-					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
+					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
+					<Button Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding TreatmentCommand}"/>
 					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
@@ -102,7 +103,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding Item, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+					<Button Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>

@@ -1,18 +1,19 @@
-﻿using System;
+﻿using AllAboutTeethDCMS.TreatmentRecords;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 
-namespace AllAboutTeethDCMS.Appointments
+namespace AllAboutTeethDCMS.TreatmentRecords
 {
-    public class AppointmentViewModel : CRUDPage<Appointment>
+    public class TreatmentRecordViewModel : CRUDPage<TreatmentRecord>
     {
         #region Fields
-        private Appointment appointment;
-        private List<Appointment> appointments;
+        private TreatmentRecord supplier;
+        private List<TreatmentRecord> suppliers;
 
         private DelegateCommand loadCommand;
         private DelegateCommand archiveCommand;
@@ -20,61 +21,25 @@ namespace AllAboutTeethDCMS.Appointments
         private DelegateCommand deleteCommand;
         private DelegateCommand addCommand;
         private DelegateCommand editCommand;
-        private DelegateCommand treatmentCommand;
 
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
         #endregion
 
-        public AppointmentViewModel()
+        public TreatmentRecordViewModel()
         {
-            LoadCommand = new DelegateCommand(new Action(LoadAppointments));
+            LoadCommand = new DelegateCommand(new Action(LoadTreatmentRecords));
             ArchiveCommand = new DelegateCommand(new Action(Archive));
             UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
-            DeleteCommand = new DelegateCommand(new Action(DeleteAppointment));
-            AddCommand = new DelegateCommand(new Action(GotoAddAppointment));
-            EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
-            TreatmentCommand = new DelegateCommand(new Action(GotoAddOperation));
+            DeleteCommand = new DelegateCommand(new Action(DeleteTreatmentRecord));
+            AddCommand = new DelegateCommand(new Action(GotoAddTreatmentRecord));
+            EditCommand = new DelegateCommand(new Action(GotoEditTreatmentRecord));
         }
 
         #region Methods
         protected override bool beforeUpdate()
         {
-            DialogBoxViewModel.Answer = "None";
-            DialogBoxViewModel.Mode = "Question";
-            if (Appointment.Status.Equals("Active"))
-            {
-                DialogBoxViewModel.Title = "Archive Appointment";
-                DialogBoxViewModel.Message = "Are you sure you want to archive this appointment?";
-            }
-            else
-            {
-                DialogBoxViewModel.Title = "Unarchive Appointment";
-                DialogBoxViewModel.Message = "Are you sure you want to activate this appointment?";
-            }
-            while (DialogBoxViewModel.Answer.Equals("None"))
-            {
-                Thread.Sleep(100);
-            }
-            if (DialogBoxViewModel.Answer.Equals("Yes"))
-            {
-                if (Appointment.Status.Equals("Active"))
-                {
-                    Appointment.Status = "Archived";
-                    DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Archiving appointment. Please wait.";
-                    DialogBoxViewModel.Answer = "None";
-                }
-                else
-                {
-                    Appointment.Status = "Active";
-                    DialogBoxViewModel.Mode = "Progress";
-                    DialogBoxViewModel.Message = "Activating appointment. Please wait.";
-                    DialogBoxViewModel.Answer = "None";
-                }
-                return true;
-            }
-            return false;
+            return true;
         }
 
         protected override void afterUpdate(bool isSuccessful)
@@ -84,7 +49,7 @@ namespace AllAboutTeethDCMS.Appointments
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                LoadAppointments();
+                LoadTreatmentRecords();
             }
             else
             {
@@ -103,8 +68,8 @@ namespace AllAboutTeethDCMS.Appointments
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Delete Appointment";
-            DialogBoxViewModel.Message = "Are you sure you want to totally delete this appointment?";
+            DialogBoxViewModel.Title = "Delete TreatmentRecord";
+            DialogBoxViewModel.Message = "Are you sure you want to totally delete this supplier?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -114,7 +79,7 @@ namespace AllAboutTeethDCMS.Appointments
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleting appointment. Please wait.";
+                DialogBoxViewModel.Message = "Deleting supplier. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -125,17 +90,10 @@ namespace AllAboutTeethDCMS.Appointments
         {
             if (isSuccessful)
             {
+                LoadTreatmentRecords();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-
-                CreateConnection();
-                MySqlCommand command = Connection.CreateCommand();
-                command.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Appointment.Patient.No + "'";
-                command.ExecuteNonQuery();
-                Connection.Close();
-
-                LoadAppointments();
             }
             else
             {
@@ -163,9 +121,9 @@ namespace AllAboutTeethDCMS.Appointments
         {
         }
 
-        protected override void afterLoad(List<Appointment> list)
+        protected override void afterLoad(List<TreatmentRecord> list)
         {
-            Appointments = list;
+            TreatmentRecords = list;
             FilterResult = "";
             if (list.Count > 1)
             {
@@ -181,72 +139,49 @@ namespace AllAboutTeethDCMS.Appointments
         public DelegateCommand DeleteCommand { get => deleteCommand; set => deleteCommand = value; }
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
-        public DelegateCommand TreatmentCommand { get => treatmentCommand; set => treatmentCommand = value; }
 
-        public Appointment Appointment
+        public TreatmentRecord TreatmentRecord
         {
-            get => appointment;
+            get => supplier;
             set
             {
-                appointment = value;
+                supplier = value;
                 OnPropertyChanged();
-
-                ArchiveVisibility = "Collapsed";
-                UnarchiveVisibility = "Collapsed";
-                if (value != null)
-                {
-                    if (value.Status.Equals("Active"))
-                    {
-                        ArchiveVisibility = "Visible";
-                    }
-                    else
-                    {
-                        UnarchiveVisibility = "Visible";
-                    }
-                }
             }
         }
-        public List<Appointment> Appointments { get => appointments; set { appointments = value; OnPropertyChanged(); } }
+        public List<TreatmentRecord> TreatmentRecords { get => suppliers; set { suppliers = value; OnPropertyChanged(); } }
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
-
         #endregion
 
         #region Commands
-        public void GotoAddOperation()
+        public void GotoAddTreatmentRecord()
         {
-            MenuViewModel.gotoAddOperationView(Appointment);
         }
 
-        public void GotoAddAppointment()
-        {
-            MenuViewModel.GotoAddAppointmentView();
-        }
-
-        public void LoadAppointments()
+        public void LoadTreatmentRecords()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void GotoEditAppointment()
+        public void GotoEditTreatmentRecord()
         {
-            MenuViewModel.GotoEditAppointmentView(Appointment);
         }
 
         public void Archive()
         {
-            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startUpdateToDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         public void Unarchive()
         {
-            startUpdateToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startUpdateToDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        public void DeleteAppointment()
+        public void DeleteTreatmentRecord()
         {
-            startDeleteFromDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startDeleteFromDatabase(TreatmentRecord, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
         #endregion
     }
