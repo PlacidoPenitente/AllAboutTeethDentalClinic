@@ -240,6 +240,9 @@
     </Compile>
     <Compile Include="Treatments\TreatmentViewModel.cs" />
     <Compile Include="TreatmentToStringConverter.cs" />
+    <Compile Include="UsedItems\AddUsedItemViewModel.cs" />
+    <Compile Include="UsedItems\UsedItem.cs" />
+    <Compile Include="UsedItems\UsedItemViewModel.cs" />
     <Compile Include="Users\AddUserView.xaml.cs">
       <DependentUpon>AddUserView.xaml</DependentUpon>
     </Compile>

@@ -18,7 +18,31 @@ namespace AllAboutTeethDCMS.Payments
         }
 
         public Billing Billing { get => Payment.Billing; set => Payment.Billing = value; }
-        public double AmountPaid { get => Payment.AmountPaid; set => Payment.AmountPaid = value; }
+
+        private string amountPaid = "0";
+
+        public string AmountPaid { get => amountPaid;
+            set
+            {
+                if (!value.Contains(" "))
+                {
+                    try
+                    {
+                        double amount = Double.Parse(value);
+                        if (amount > -1 && amount<=Billing.Balance)
+                        {
+                            Payment.AmountPaid = amount;
+                            amountPaid = value;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                OnPropertyChanged();
+            }
+        }
         public double Balance { get => Payment.Balance; set => Payment.Balance = value; }
         public Payment Payment { get => payment; set => payment = value; }
 

@@ -214,7 +214,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Apply Treatment" Height="43"/>
+            <Button Visibility="Collapsed" x:Name="addTreatment" Grid.Column="0" Click="addTreatment_Click" Style="{StaticResource PrimaryButton}" Content="Apply Treatment" Height="43"/>
             <Button x:Name="resetForm" Grid.Column="1" Click="resetForm_Click" Style="{StaticResource InfoButton}" Content="Save Treatment" Height="43"/>
         </Grid>
     </Grid>

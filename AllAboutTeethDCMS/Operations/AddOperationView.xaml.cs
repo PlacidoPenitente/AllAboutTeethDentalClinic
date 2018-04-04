@@ -38,7 +38,7 @@ namespace AllAboutTeethDCMS.Operations
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            ((AddOperationViewModel)DataContext).MenuViewModel.gotoOperations(((AddOperationViewModel)DataContext).ActiveUser);
+            ((AddOperationViewModel)DataContext).MenuViewModel.gotoAppointments();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

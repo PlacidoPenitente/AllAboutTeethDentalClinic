@@ -7,6 +7,7 @@ using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Providers;
 using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Treatments;
+using AllAboutTeethDCMS.UsedItems;
 using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
@@ -64,8 +65,14 @@ namespace AllAboutTeethDCMS.Operations
                     }
                     foreach(ConsumableItem consumable in Consumables)
                     {
+                        AddUsedItemViewModel addUsedItemViewModel = new AddUsedItemViewModel();
+                        addUsedItemViewModel.Appointment = Appointment;
+                        addUsedItemViewModel.Medicine = consumable.Medicine;
+                        addUsedItemViewModel.Quantity = Int32.Parse(consumable.Consumed);
+                        addUsedItemViewModel.ActiveUser = ActiveUser;
                         consumable.ViewModel.ActiveUser = ActiveUser;
                         consumable.consume();
+                        addUsedItemViewModel.SaveUsedItem();
                     }
                     AddBillingViewModel.Billing.Provider = ProviderViewModel.Provider;
                     if(AddBillingViewModel.Billing.Provider==null)
@@ -77,6 +84,9 @@ namespace AllAboutTeethDCMS.Operations
                     AddBillingViewModel.Billing.AmountCharged = Double.Parse(AmountCharge);
                     AddBillingViewModel.Billing.Balance = Double.Parse(AmountCharge);
                     AddBillingViewModel.saveBilling();
+
+
+
                     MessageBox.Show("Treatment was successfully saved.", "Treatment Saved", MessageBoxButton.OK, MessageBoxImage.Information);
                     CreateConnection();
                     MySqlCommand command = Connection.CreateCommand();
@@ -89,6 +99,8 @@ namespace AllAboutTeethDCMS.Operations
                     command2.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Appointment.Patient.No + "'";
                     command2.ExecuteNonQuery();
                     Connection.Close();
+
+                    MenuViewModel.gotoBillings();
                 }
             }
             else

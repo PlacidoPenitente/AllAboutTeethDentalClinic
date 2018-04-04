@@ -53,7 +53,19 @@
                         </EventTrigger>
                     </Button.Triggers>
                 </Button>
+                <Button Visibility="{Binding Payment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="dialog"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
             </StackPanel>
         </Grid>
+        <root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.ColumnSpan="4" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

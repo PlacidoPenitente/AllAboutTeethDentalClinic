@@ -32,7 +32,7 @@
 		</Grid.ColumnDefinitions>
 		<StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
 			<Image Source="{StaticResource icons8_Credit_Card_32px_1.png}" Stretch="None"  Margin="10,0,10,0"/>
-			<Label FontSize="19" Content="Billings" VerticalAlignment="Center" Foreground="White"/>
+			<Label FontSize="19" Content="Accounts" VerticalAlignment="Center" Foreground="White"/>
 		</StackPanel>
 		<StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
 		<Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -119,7 +119,7 @@
 						<Label Content="Amount Charged:" FontFamily="{StaticResource RobotoMedium}" Foreground="{StaticResource Turquoise}" FontSize="15"/>
 						<Label Content="{Binding Billing.AmountCharged}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"/>
 						<Label Content="Total Amount Paid:" FontFamily="{StaticResource RobotoMedium}" Foreground="{StaticResource Turquoise}" FontSize="15"/>
-						<Label Content="{Binding Billing.AmountCharged}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"/>
+						<Label Content="{Binding TotalPaid}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"/>
 						<Label Content="Remaining Balance:" FontFamily="{StaticResource RobotoMedium}" Foreground="{StaticResource Turquoise}" FontSize="15"/>
 						<Label Content="{Binding Billing.Balance}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"/>
 						<TextBox Text="{Binding AddPaymentViewModel.AmountPaid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Amount Paid:"/>
