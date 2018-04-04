@@ -161,6 +161,8 @@ namespace AllAboutTeethDCMS.Appointments
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_appointments where appointment_status='Pending'";
         }
 
         protected override void afterLoad(List<Appointment> list)

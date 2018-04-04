@@ -68,13 +68,27 @@ namespace AllAboutTeethDCMS.Operations
                         consumable.consume();
                     }
                     AddBillingViewModel.Billing.Provider = ProviderViewModel.Provider;
-                    Console.WriteLine(ProviderViewModel.Provider);
+                    if(AddBillingViewModel.Billing.Provider==null)
+                    {
+                        AddBillingViewModel.Billing.Provider = new Provider();
+                    }
                     AddBillingViewModel.ActiveUser = ActiveUser;
                     AddBillingViewModel.Appointment = Appointment;
                     AddBillingViewModel.Billing.AmountCharged = Double.Parse(AmountCharge);
                     AddBillingViewModel.Billing.Balance = Double.Parse(AmountCharge);
                     AddBillingViewModel.saveBilling();
                     MessageBox.Show("Treatment was successfully saved.", "Treatment Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+                    CreateConnection();
+                    MySqlCommand command = Connection.CreateCommand();
+                    command.CommandText = "update allaboutteeth_appointments set appointment_status='Completed' where appointment_no = '"+Appointment.No+"'";
+                    command.ExecuteNonQuery();
+                    Connection.Close();
+
+                    CreateConnection();
+                    MySqlCommand command2 = Connection.CreateCommand();
+                    command2.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Appointment.Patient.No + "'";
+                    command2.ExecuteNonQuery();
+                    Connection.Close();
                 }
             }
             else
@@ -236,22 +250,26 @@ namespace AllAboutTeethDCMS.Operations
         public string AmountCharge { get => amountCharge;
             set
             {
-                try
+                if(!value.Contains(" "))
                 {
-                    double amount = Double.Parse(value);
-                    if(amount>-1)
+                    try
                     {
-                        amountCharge = value;
-                        if(amount>0)
+                        double amount = Double.Parse(value);
+                        if (amount > -1)
                         {
-                            ProviderViewModel.Provider = null;
+                            amountCharge = value;
+                            if (amount > 0)
+                            {
+                                ProviderViewModel.Provider = null;
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
-                catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                
                 OnPropertyChanged();
             }
         }
@@ -318,16 +336,19 @@ namespace AllAboutTeethDCMS.Operations
                 }
                 if(!SelectedItems.Contains(MedicineViewModel.Medicine))
                 {
-                    SelectedItems.Add(MedicineViewModel.Medicine);
-                    List<ConsumableItem> temp = new List<ConsumableItem>();
-                    temp.AddRange(Consumables);
-                    temp.Add(new ConsumableItem()
+                    if(MedicineViewModel.Medicine.Quantity>0)
                     {
-                        Medicine = MedicineViewModel.Medicine,
-                        Consumed = "0"
+                        SelectedItems.Add(MedicineViewModel.Medicine);
+                        List<ConsumableItem> temp = new List<ConsumableItem>();
+                        temp.AddRange(Consumables);
+                        temp.Add(new ConsumableItem()
+                        {
+                            Medicine = MedicineViewModel.Medicine,
+                            Consumed = "0"
+                        }
+                        );
+                        Consumables = temp;
                     }
-                    );
-                    Consumables = temp;
                 }
             }
         }

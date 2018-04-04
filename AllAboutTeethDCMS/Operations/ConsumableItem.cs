@@ -28,11 +28,26 @@ namespace AllAboutTeethDCMS.Operations
                 }
                 if (valid)
                 {
-                    consumed = value;
-                    if (String.IsNullOrEmpty(consumed))
+                    if (String.IsNullOrEmpty(value))
                     {
                         consumed = "0";
                     }
+                    else
+                    {
+                        try
+                        {
+                            int count = Int32.Parse(value);
+                            if (count<=Medicine.Quantity)
+                            {
+                                consumed = value;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                    
                 }
             }
         }

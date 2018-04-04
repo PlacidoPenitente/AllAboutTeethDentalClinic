@@ -88,6 +88,9 @@
       <DependentUpon>BillingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Billings\BillingViewModel.cs" />
+    <Compile Include="Billings\PaymentsViewer.xaml.cs">
+      <DependentUpon>PaymentsViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BooleanToStringConverter.cs" />
     <Compile Include="BooleanToVisibilityConverter.cs" />
     <Compile Include="ConditionToSymbolConverter.cs" />
@@ -174,6 +177,9 @@
     </Compile>
     <Compile Include="Patients\PatientViewModel.cs" />
     <Compile Include="PatientToStringConverter.cs" />
+    <Compile Include="Payments\AddPaymentViewModel.cs" />
+    <Compile Include="Payments\Payment.cs" />
+    <Compile Include="Payments\PaymentViewModel.cs" />
     <Compile Include="ProgressToVisibilityConverter.cs" />
     <Compile Include="Providers\AddProviderView.xaml.cs">
       <DependentUpon>AddProviderView.xaml</DependentUpon>
@@ -188,6 +194,9 @@
       <DependentUpon>ProviderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Providers\ProviderViewModel.cs" />
+    <Compile Include="Reports\PrintInvoiceView.xaml.cs">
+      <DependentUpon>PrintInvoiceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringToImageConverter.cs" />
     <Compile Include="StringToPasswordMaskConverter.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
@@ -272,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Billings\BillingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Billings\PaymentsViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -379,6 +392,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Reports\PrintInvoiceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Suppliers\AddSupplierView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -480,8 +497,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Payments\" />
-    <Folder Include="Reports\" />
     <Folder Include="System\Drawing\" />
   </ItemGroup>
   <ItemGroup>

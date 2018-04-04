@@ -46,6 +46,7 @@ namespace AllAboutTeethDCMS
                     info.Name.Equals("Patient") ||
                     info.Name.Equals("Owner") ||
                     info.Name.Equals("Provider") ||
+                    info.Name.Equals("Billing") ||
                     info.Name.Equals("Treatment"))
                 {
                     command.Parameters.AddWithValue("@" + info.Name,
@@ -225,6 +226,7 @@ namespace AllAboutTeethDCMS
                     info.Name.Equals("Supplier") ||
                     info.Name.Equals("Patient") ||
                     info.Name.Equals("Owner") ||
+                    info.Name.Equals("Billing") ||
                     info.Name.Equals("Provider") ||
                     info.Name.Equals("Treatment"))
                 {

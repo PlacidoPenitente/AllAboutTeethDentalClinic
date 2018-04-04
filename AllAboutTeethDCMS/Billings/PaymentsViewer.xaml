@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="AllAboutTeethDCMS.Billings.PaymentsViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AllAboutTeethDCMS.Billings"
+             xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             mc:Ignorable="d" 
+            x:Name="viewer"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"/>
+        </Grid.Background>
+        <Grid VerticalAlignment="Center" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.25*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Background="{StaticResource WetAsphalt}" Margin="0,0,10,0" SnapsToDevicePixels="True">
+                    <Label Content="Payment History" FontSize="15" Foreground="{StaticResource Clouds}"/>
+                    <Label FontFamily="{StaticResource RobotoMedium}" Margin="0,10,0,10" FontSize="15" Foreground="{StaticResource Clouds}" Content="{Binding Patient, Converter={StaticResource PatientToStringConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <Border Grid.Row="1">
+                    <DataGrid SelectedIndex="0" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Payments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Payment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
+                            <DataGridTextColumn Header="Amount Paid" Binding="{Binding AmountPaid}"/>
+                            <DataGridTextColumn Header="Balance after Payment" Binding="{Binding Balance}"/>
+                            <DataGridTextColumn Header="Date Paid" Binding="{Binding DateAdded}"/>
+                            <DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Grid>
+            
+            <StackPanel Grid.Column="2" Margin="0,0,0,0">
+                <Button Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="1" To="0" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="viewer"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

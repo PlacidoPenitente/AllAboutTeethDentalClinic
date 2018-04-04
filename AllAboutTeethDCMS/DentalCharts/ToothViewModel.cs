@@ -108,8 +108,11 @@ namespace AllAboutTeethDCMS.DentalCharts
 
         protected override void beforeLoad(MySqlCommand command)
         {
-            command.Parameters.Clear();
-            command.CommandText = "select * from allaboutteeth_tooths where tooth_owner='" + Owner.No + "' AND tooth_toothno='" + ToothNo + "'";
+            if(Owner!=null)
+            {
+                command.Parameters.Clear();
+                command.CommandText = "select * from allaboutteeth_tooths where tooth_owner='" + Owner.No + "' AND tooth_toothno='" + ToothNo + "'";
+            }
         }
     }
 }

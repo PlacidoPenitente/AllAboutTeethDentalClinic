@@ -1,4 +1,4 @@
-﻿using AllAboutTeethDCMS.Payments;
+﻿using AllAboutTeethDCMS.Patients;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 
-namespace AllAboutTeethDCMS.Billings
+namespace AllAboutTeethDCMS.Payments
 {
-    public class BillingViewModel : CRUDPage<Billing>
+    public class PaymentViewModel : CRUDPage<Payment>
     {
         #region Fields
-        private Billing billing;
-        private List<Billing> billings;
+        private Payment payment;
+        private List<Payment> payments;
 
         private DelegateCommand loadCommand;
         private DelegateCommand archiveCommand;
@@ -23,46 +22,20 @@ namespace AllAboutTeethDCMS.Billings
         private DelegateCommand addCommand;
         private DelegateCommand editCommand;
 
-        private string paymentVisibility = "Collapsed";
-
-        private AddPaymentViewModel addPaymentViewModel;
-
-        private DelegateCommand addPaymentCommand;
-
-        public void AddPayment()
-        {
-            if(AddPaymentViewModel.AmountPaid>0)
-            {
-                if (MessageBox.Show("Are you sure you want to add this payment?", "Add Payment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                {
-                    AddPaymentViewModel.ActiveUser = ActiveUser;
-                    AddPaymentViewModel.Billing = Billing;
-                    AddPaymentViewModel.Balance = Billing.Balance - AddPaymentViewModel.AmountPaid;
-                    AddPaymentViewModel.savePayment();
-                    AddPaymentViewModel.AmountPaid = 0;
-                    MessageBox.Show("Payment successfully added", "Add Payment", MessageBoxButton.OK, MessageBoxImage.Information);
-                    LoadBillings();
-                }
-            }
-        }
-
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-
-        private PaymentViewModel paymentViewModel;
         #endregion
 
-        public BillingViewModel()
+        public PaymentViewModel()
         {
-            LoadCommand = new DelegateCommand(new Action(LoadBillings));
+            LoadCommand = new DelegateCommand(new Action(LoadPayments));
             ArchiveCommand = new DelegateCommand(new Action(Archive));
             UnarchiveCommand = new DelegateCommand(new Action(Unarchive));
-            DeleteCommand = new DelegateCommand(new Action(DeleteBilling));
-            AddCommand = new DelegateCommand(new Action(GotoAddBilling));
-            EditCommand = new DelegateCommand(new Action(GotoEditBilling));
-            AddPaymentViewModel = new AddPaymentViewModel();
-            AddPaymentCommand = new DelegateCommand(new Action(AddPayment));
-            PaymentViewModel = new PaymentViewModel();
+            DeleteCommand = new DelegateCommand(new Action(DeletePayment));
+            AddCommand = new DelegateCommand(new Action(GotoAddPayment));
+            EditCommand = new DelegateCommand(new Action(GotoEditPayment));
+            Payment = new Payment();
+            Patient = new Patient();
         }
 
         #region Methods
@@ -70,15 +43,15 @@ namespace AllAboutTeethDCMS.Billings
         {
             //DialogBoxViewModel.Answer = "None";
             //DialogBoxViewModel.Mode = "Question";
-            //if (Billing.Status.Equals("Active"))
+            //if (Payment.Status.Equals("Active"))
             //{
-            //    DialogBoxViewModel.Title = "Archive Billing";
-            //    DialogBoxViewModel.Message = "Are you sure you want to archive this billing?";
+            //    DialogBoxViewModel.Title = "Archive Payment";
+            //    DialogBoxViewModel.Message = "Are you sure you want to archive this payment?";
             //}
             //else
             //{
-            //    DialogBoxViewModel.Title = "Unarchive Billing";
-            //    DialogBoxViewModel.Message = "Are you sure you want to activate this billing?";
+            //    DialogBoxViewModel.Title = "Unarchive Payment";
+            //    DialogBoxViewModel.Message = "Are you sure you want to activate this payment?";
             //}
             //while (DialogBoxViewModel.Answer.Equals("None"))
             //{
@@ -86,18 +59,18 @@ namespace AllAboutTeethDCMS.Billings
             //}
             //if (DialogBoxViewModel.Answer.Equals("Yes"))
             //{
-            //    if (Billing.Status.Equals("Active"))
+            //    if (Payment.Status.Equals("Active"))
             //    {
-            //        Billing.Status = "Archived";
+            //        Payment.Status = "Archived";
             //        DialogBoxViewModel.Mode = "Progress";
-            //        DialogBoxViewModel.Message = "Archiving billing. Please wait.";
+            //        DialogBoxViewModel.Message = "Archiving payment. Please wait.";
             //        DialogBoxViewModel.Answer = "None";
             //    }
             //    else
             //    {
-            //        Billing.Status = "Active";
+            //        Payment.Status = "Active";
             //        DialogBoxViewModel.Mode = "Progress";
-            //        DialogBoxViewModel.Message = "Activating billing. Please wait.";
+            //        DialogBoxViewModel.Message = "Activating payment. Please wait.";
             //        DialogBoxViewModel.Answer = "None";
             //    }
             //    return true;
@@ -112,7 +85,7 @@ namespace AllAboutTeethDCMS.Billings
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
-                LoadBillings();
+                LoadPayments();
             }
             else
             {
@@ -131,8 +104,8 @@ namespace AllAboutTeethDCMS.Billings
         {
             DialogBoxViewModel.Answer = "None";
             DialogBoxViewModel.Mode = "Question";
-            DialogBoxViewModel.Title = "Delete Billing";
-            DialogBoxViewModel.Message = "Are you sure you want to totally delete this billing?";
+            DialogBoxViewModel.Title = "Delete Payment";
+            DialogBoxViewModel.Message = "Are you sure you want to totally delete this payment?";
 
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
@@ -142,7 +115,7 @@ namespace AllAboutTeethDCMS.Billings
             if (DialogBoxViewModel.Answer.Equals("Yes"))
             {
                 DialogBoxViewModel.Mode = "Progress";
-                DialogBoxViewModel.Message = "Deleting billing. Please wait.";
+                DialogBoxViewModel.Message = "Deleting payment. Please wait.";
                 DialogBoxViewModel.Answer = "None";
                 return true;
             }
@@ -153,7 +126,7 @@ namespace AllAboutTeethDCMS.Billings
         {
             if (isSuccessful)
             {
-                LoadBillings();
+                LoadPayments();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -180,27 +153,18 @@ namespace AllAboutTeethDCMS.Billings
         {
         }
 
+        private int billingNo = 0;
+        private Patient patient;
+
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_payments where payment_billing='"+BillingNo+"'";
         }
 
-        protected override void afterLoad(List<Billing> list)
+        protected override void afterLoad(List<Payment> list)
         {
-            Billings = list;
-            foreach(Billing billing in Billings)
-            {
-                CreateConnection();
-                MySqlCommand command = Connection.CreateCommand();
-                command.CommandText = "select * from allaboutteeth_payments where payment_billing="+billing.No+" ORDER BY payment_dateadded DESC";
-                MySqlDataReader reader = command.ExecuteReader();
-                if(reader.Read())
-                {
-                    billing.Balance = reader.GetDouble("payment_balance");
-                }
-                reader.Close();
-                Connection.Close();
-                UpdateDatabase(billing, "allaboutteeth_billings");
-            }
+            Payments = list;
             FilterResult = "";
             if (list.Count > 1)
             {
@@ -217,29 +181,14 @@ namespace AllAboutTeethDCMS.Billings
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
-        public Billing Billing
+        public Payment Payment
         {
-            get => billing;
+            get => payment;
             set
             {
-                billing = value;
-                AddPaymentViewModel.AmountPaid = 0;
-                PaymentVisibility = "Collapsed";
-                if (billing!=null)
-                {
-                    if(billing.Balance>0)
-                    {
-                        PaymentVisibility = "Visible";
-                    }
-                    else
-                    {
-                        PaymentVisibility = "Collapsed";
-                    }
-                    PaymentViewModel.Patient = billing.Appointment.Patient;
-                    PaymentViewModel.BillingNo = billing.No;
-                    PaymentViewModel.LoadPayments();
-                }
+                payment = value;
                 OnPropertyChanged();
+
                 //ArchiveVisibility = "Collapsed";
                 //UnarchiveVisibility = "Collapsed";
                 //if (value != null)
@@ -255,47 +204,44 @@ namespace AllAboutTeethDCMS.Billings
                 //}
             }
         }
-        public List<Billing> Billings { get => billings; set { billings = value; OnPropertyChanged(); } }
+        public List<Payment> Payments { get => payments; set { payments = value; OnPropertyChanged(); } }
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
 
-        public string PaymentVisibility { get => paymentVisibility; set { paymentVisibility = value; OnPropertyChanged(); } }
-
-        public AddPaymentViewModel AddPaymentViewModel { get => addPaymentViewModel; set => addPaymentViewModel = value; }
-        public DelegateCommand AddPaymentCommand { get => addPaymentCommand; set => addPaymentCommand = value; }
-        public PaymentViewModel PaymentViewModel { get => paymentViewModel; set => paymentViewModel = value; }
+        public int BillingNo { get => billingNo; set => billingNo = value; }
+        public Patient Patient { get => patient; set { patient = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands
-        public void GotoAddBilling()
+        public void GotoAddPayment()
         {
-            //MenuViewModel.GotoAddBillingView();
+            //MenuViewModel.GotoAddPaymentView();
         }
 
-        public void LoadBillings()
+        public void LoadPayments()
         {
             startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
         }
 
-        public void GotoEditBilling()
+        public void GotoEditPayment()
         {
-            //MenuViewModel.GotoEditBillingView(Billing);
+            //MenuViewModel.GotoEditPaymentView(Payment);
         }
 
         public void Archive()
         {
-            startUpdateToDatabase(Billing, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startUpdateToDatabase(Payment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         public void Unarchive()
         {
-            startUpdateToDatabase(Billing, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startUpdateToDatabase(Payment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
-        public void DeleteBilling()
+        public void DeletePayment()
         {
-            startDeleteFromDatabase(Billing, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            startDeleteFromDatabase(Payment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
         #endregion
     }
