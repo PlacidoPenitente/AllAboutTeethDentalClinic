@@ -45,6 +45,7 @@ namespace AllAboutTeethDCMS
                     info.Name.Equals("Supplier") ||
                     info.Name.Equals("Patient") ||
                     info.Name.Equals("Owner") ||
+                    info.Name.Equals("Provider") ||
                     info.Name.Equals("Treatment"))
                 {
                     command.Parameters.AddWithValue("@" + info.Name,
@@ -93,6 +94,7 @@ namespace AllAboutTeethDCMS
             {
                 beforeLoad(command);
             }
+            command.CommandText += " ORDER BY "+ prefix + "_datemodified DESC";
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -153,7 +155,7 @@ namespace AllAboutTeethDCMS
                     }
                     else if (info.PropertyType.ToString().Equals("System.Double"))
                     {
-                        info.SetValue(model, reader.GetDecimal(prefix + "_" + info.Name));
+                        info.SetValue(model, reader.GetDouble(prefix + "_" + info.Name));
                     }
                     else
                     {
@@ -223,6 +225,7 @@ namespace AllAboutTeethDCMS
                     info.Name.Equals("Supplier") ||
                     info.Name.Equals("Patient") ||
                     info.Name.Equals("Owner") ||
+                    info.Name.Equals("Provider") ||
                     info.Name.Equals("Treatment"))
                 {
                     command.Parameters.AddWithValue("@" + info.Name,

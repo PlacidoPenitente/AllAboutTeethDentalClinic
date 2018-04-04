@@ -86,5 +86,11 @@ namespace AllAboutTeethDCMS.Menu
         {
 
         }
+
+        private void billing_Click(object sender, RoutedEventArgs e)
+        {
+            MenuViewModel menuViewModel = (MenuViewModel)DataContext;
+            menuViewModel.gotoBillings();
+        }
     }
 }

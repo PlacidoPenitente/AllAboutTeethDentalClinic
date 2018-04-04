@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AllAboutTeethDCMS.Operations;
 using AllAboutTeethDCMS.TreatmentRecords;
+using AllAboutTeethDCMS.Billings;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -376,6 +377,7 @@ namespace AllAboutTeethDCMS.Menu
         public User ActiveUser { get => activeUser; set => activeUser = value; }
         public TreatmentRecordView TreatmentRecordView { get => operationView; set => operationView = value; }
         public AddOperationView AddOperationView { get => addOperationView; set => addOperationView = value; }
+        public BillingView BillingView { get => billingView; set => billingView = value; }
 
         public void gotoOperations(User activeUser)
         {
@@ -389,6 +391,20 @@ namespace AllAboutTeethDCMS.Menu
         public void gotoMaintenance()
         {
             MainWindowViewModel.ActivePage = MaintenanceView;
+        }
+
+        private BillingView billingView;
+
+        public void gotoBillings()
+        {
+            if (BillingView == null)
+            {
+                BillingView = new BillingView();
+            }
+            MainWindowViewModel.ActivePage = BillingView;
+            ((BillingViewModel)BillingView.DataContext).ActiveUser = ActiveUser;
+            ((BillingViewModel)BillingView.DataContext).MenuViewModel = this;
+            ((BillingViewModel)BillingView.DataContext).LoadBillings();
         }
     }
 }

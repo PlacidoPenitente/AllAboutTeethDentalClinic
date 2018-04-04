@@ -45,5 +45,10 @@ namespace AllAboutTeethDCMS.Operations
         {
             ((AddOperationViewModel)DataContext).updateList();
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ((AddOperationViewModel)DataContext).AmountCharge = "0";
+        }
     }
 }

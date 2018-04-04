@@ -133,10 +133,11 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="200"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Style="{StaticResource TextBox}" root:AttachedProperties.Label="Prescription:" AcceptsReturn="True" TextWrapping="Wrap"/>
-                            <TextBox Style="{StaticResource TextBox}" Grid.Column="1" root:AttachedProperties.Label="Amount Charged:"/>
+                            <TextBox Style="{StaticResource TextBox}" Text="{Binding AmountCharge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" root:AttachedProperties.Label="Amount Charged:"/>
+                            <ComboBox DataContext="{Binding ProviderViewModel}" SelectionChanged="ComboBox_SelectionChanged" ItemsSource="{Binding Providers, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Provider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBox}" Grid.Column="2" root:AttachedProperties.Label="HMO:"/>
                         </Grid>
                     </Border>
                     <Border Background="{StaticResource BelizeHole}" Margin="0,20,0,18">
@@ -168,33 +169,26 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Label Content="Selected Teeth" HorizontalAlignment="Center" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource WetAsphalt}"/>
-                            <ListView Grid.Row="1" ItemsSource="{Binding ToothList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTVM, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ListBox}">
+                            <ListView Grid.Row="1" ItemsSource="{Binding Consumables, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedConsumable, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ListBox}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="35"/>
-                                                <ColumnDefinition Width="215"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Image Source="{Binding ToothNo, Converter={StaticResource ToothNoToImageConverter}}" Height="100" Margin="5,0,5,0"/>
-                                            <Grid Grid.Column="1">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label VerticalContentAlignment="Center" FontFamily="{StaticResource Roboto}" FontSize="13" Content="{Binding ToothNo}" Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}"/>
-                                                    <StackPanel Grid.Column="1" Margin="5,0,5,0">
-                                                        <TextBlock Text="Condition: " FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
-                                                        <TextBlock FontFamily="{StaticResource Roboto}" FontSize="13" Text="{Binding Condition}" TextWrapping="Wrap"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                                <TextBox BorderBrush="{StaticResource WetAsphalt}" Background="{StaticResource WetAsphalt}" AcceptsReturn="True" TextWrapping="Wrap" Grid.Row="1" Style="{StaticResource TextBox}" Text="{Binding Remarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Label="Remarks"/>
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label VerticalContentAlignment="Center" FontFamily="{StaticResource Roboto}" FontSize="13" Content="{Binding Medicine.No}" Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}"/>
+                                                <StackPanel Grid.Column="1" Margin="5,0,5,0">
+                                                    <TextBlock Text="Item: " FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                                                    <TextBlock FontFamily="{StaticResource Roboto}" FontSize="13" Text="{Binding Medicine.Name}" TextWrapping="Wrap"/>
+                                                </StackPanel>
                                             </Grid>
+                                            <TextBox Width="150" HorizontalAlignment="Left" BorderBrush="{StaticResource WetAsphalt}" Background="{StaticResource WetAsphalt}" Grid.Row="1" Style="{StaticResource TextBox}" Text="{Binding Consumed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Label="Quantity Consumed:"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -205,9 +199,9 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Height="43" Content="Add" Style="{StaticResource PrimaryButton}" Grid.Column="0" Command="{Binding AddCommand}"/>
-                                <Button Height="43" Content="Remove" Style="{StaticResource WarningButton}" Grid.Column="1" Command="{Binding RemoveCommand}"/>
-                                <Button Height="43" Content="Clear" Style="{StaticResource DangerButton}" Grid.Column="2" Command="{Binding ClearCommand}"/>
+                                <Button Height="43" Content="Add" Style="{StaticResource PrimaryButton}" Grid.Column="0" Command="{Binding AddItemCommand}"/>
+                                <Button Height="43" Content="Remove" Style="{StaticResource WarningButton}" Grid.Column="1" Command="{Binding RemoveItemCommand}"/>
+                                <Button Height="43" Content="Clear" Style="{StaticResource DangerButton}" Grid.Column="2" Command="{Binding ClearItemsCommad}"/>
                             </Grid>
                         </Grid>
                     </Grid>

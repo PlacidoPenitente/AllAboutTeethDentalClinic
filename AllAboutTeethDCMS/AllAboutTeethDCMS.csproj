@@ -82,6 +82,12 @@
     <Compile Include="Appointments\EditAppointmentViewModel.cs" />
     <Compile Include="AppointmentToStringConverter.cs" />
     <Compile Include="AttachedProperties.cs" />
+    <Compile Include="Billings\AddBillingViewModel.cs" />
+    <Compile Include="Billings\Billing.cs" />
+    <Compile Include="Billings\BillingView.xaml.cs">
+      <DependentUpon>BillingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Billings\BillingViewModel.cs" />
     <Compile Include="BooleanToStringConverter.cs" />
     <Compile Include="BooleanToVisibilityConverter.cs" />
     <Compile Include="ConditionToSymbolConverter.cs" />
@@ -140,6 +146,7 @@
       <DependentUpon>AddOperationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Operations\AddOperationViewModel.cs" />
+    <Compile Include="Operations\ConsumableItem.cs" />
     <Compile Include="Operations\Operation.cs" />
     <Compile Include="Operations\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
@@ -261,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Appointments\EditAppointmentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Billings\BillingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -469,6 +480,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Payments\" />
     <Folder Include="Reports\" />
     <Folder Include="System\Drawing\" />
   </ItemGroup>

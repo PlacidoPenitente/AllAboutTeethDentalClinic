@@ -897,4 +897,46 @@
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
+
+    <DataTemplate x:Key="appointment_patient">
+        <Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="background" VerticalAlignment="Top" Margin="5,0,5,0" Padding="3" Background="{StaticResource PeterRiver}" CornerRadius="3">
+                    <Label Content="{Binding Appointment.Patient.No}" Padding="0" FontSize="11" Foreground="White"/>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <Label x:Name="lastname" Content="{Binding Appointment.Patient.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="firstname" Content="{Binding Appointment.Patient.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label Content=" " Padding="0"/>
+                    <Label x:Name="middlename" Content="{Binding Appointment.Patient.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridCell}},Path=IsSelected}" Value="True">
+                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
+                <Setter TargetName="comma" Property="Foreground" Value="White"/>
+                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
+                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}" Value="Archived">
+                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
+                <Setter TargetName="comma" Property="Foreground" Value="White"/>
+                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
+                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Status}" Value="Scheduled">
+                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
+                <Setter TargetName="comma" Property="Foreground" Value="White"/>
+                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
+                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
 </ResourceDictionary>
