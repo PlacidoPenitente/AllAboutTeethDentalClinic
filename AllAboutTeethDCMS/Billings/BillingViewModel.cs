@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.Payments;
+using AllAboutTeethDCMS.Reports;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,10 @@ namespace AllAboutTeethDCMS.Billings
                     AddPaymentViewModel.AmountPaid = "0";
                     MessageBox.Show("Payment successfully added", "Add Payment", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadBillings();
+                    MenuViewModel.gotoInvoices();
+                    Invoice invoice = new Invoice();
+                    MenuViewModel.InvoiceView.viewer.ViewerCore.ReportSource = invoice;
+                    MenuViewModel.InvoiceView.viewer.ViewerCore.SelectionFormula = "{allaboutteeth_billings1.billing_no} = " + Billing.No;
                 }
             }
         }

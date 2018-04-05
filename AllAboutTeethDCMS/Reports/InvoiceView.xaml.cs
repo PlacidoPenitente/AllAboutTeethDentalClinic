@@ -16,13 +16,18 @@ using System.Windows.Shapes;
 namespace AllAboutTeethDCMS.Reports
 {
     /// <summary>
-    /// Interaction logic for PrintInvoiceView.xaml
+    /// Interaction logic for InvoiceView.xaml
     /// </summary>
-    public partial class PrintInvoiceView : UserControl
+    public partial class InvoiceView : UserControl
     {
-        public PrintInvoiceView()
+        public InvoiceView()
         {
             InitializeComponent();
+        }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            ((InvoiceViewModel)DataContext).MenuViewModel.gotoAppointments();
         }
     }
 }
