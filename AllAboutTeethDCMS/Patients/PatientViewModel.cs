@@ -15,6 +15,8 @@ namespace AllAboutTeethDCMS.Patients
         private Patient patient;
         private List<Patient> patients;
 
+        private DelegateCommand loadChartCommand;
+
         private DelegateCommand loadCommand;
         private DelegateCommand archiveCommand;
         private DelegateCommand unarchiveCommand;
@@ -34,6 +36,16 @@ namespace AllAboutTeethDCMS.Patients
             DeleteCommand = new DelegateCommand(new Action(DeletePatient));
             AddCommand = new DelegateCommand(new Action(GotoAddPatient));
             EditCommand = new DelegateCommand(new Action(GotoEditPatient));
+            loadChartCommand = new DelegateCommand(new Action(loadChart));
+            DentalChartPreviewViewModel = new DentalChartPreviewViewModel();
+        }
+
+        private DentalChartPreviewViewModel dentalChartPreviewViewModel;
+
+        public void loadChart()
+        {
+            DentalChartPreviewViewModel.DentalChartViewModel.User = ActiveUser;
+            DentalChartPreviewViewModel.Patient = Patient;
         }
 
         #region Methods
@@ -204,6 +216,9 @@ namespace AllAboutTeethDCMS.Patients
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public DelegateCommand LoadChartCommand { get => loadChartCommand; set => loadChartCommand = value; }
+        public DentalChartPreviewViewModel DentalChartPreviewViewModel { get => dentalChartPreviewViewModel; set => dentalChartPreviewViewModel = value; }
         #endregion
 
         #region Commands

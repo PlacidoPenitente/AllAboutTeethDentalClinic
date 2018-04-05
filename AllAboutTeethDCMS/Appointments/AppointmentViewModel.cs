@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Appointments
@@ -13,6 +14,8 @@ namespace AllAboutTeethDCMS.Appointments
         #region Fields
         private Appointment appointment;
         private List<Appointment> appointments;
+
+        private string operateVisibility = "Visible";
 
         private DelegateCommand loadCommand;
         private DelegateCommand archiveCommand;
@@ -213,12 +216,21 @@ namespace AllAboutTeethDCMS.Appointments
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
 
+        public string OperateVisibility { get => operateVisibility; set { operateVisibility = value; OnPropertyChanged(); } }
+
         #endregion
 
         #region Commands
         public void GotoAddOperation()
         {
-            MenuViewModel.gotoAddOperationView(Appointment);
+            if(ActiveUser.Type.Equals("Dentist")|| ActiveUser.Type.Equals("Administrator"))
+            {
+                MenuViewModel.gotoAddOperationView(Appointment);
+            }
+            else
+            {
+                MessageBox.Show("You're not allowed to perform this operation.", "Not Allowed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void GotoAddAppointment()

@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.Menu;
+using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace AllAboutTeethDCMS
         {
             InitializeComponent();
             ((MenuViewModel)menuView.DataContext).MainWindowViewModel = (MainWindowViewModel)DataContext;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ((LoginViewModel)login.DataContext).User = null;
         }
     }
 }

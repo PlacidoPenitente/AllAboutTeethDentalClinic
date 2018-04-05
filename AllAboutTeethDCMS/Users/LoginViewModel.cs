@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AllAboutTeethDCMS.Users
 {
@@ -11,7 +12,6 @@ namespace AllAboutTeethDCMS.Users
     {
         private User user;
         private List<User> users;
-        private string filter = "";
 
         private string username = "";
         private string userNameError = "";
@@ -20,7 +20,6 @@ namespace AllAboutTeethDCMS.Users
 
         public User User { get => user; set { user = value; OnPropertyChanged(); } }
         public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
-        public string Filter { get => filter; set { filter = value; loadUsers(); OnPropertyChanged(); } }
 
         public string Username { get => username; set {
                 bool valid = true;
@@ -45,12 +44,32 @@ namespace AllAboutTeethDCMS.Users
                 }
                 OnPropertyChanged(); } }
         public string UserNameError { get => userNameError; set { userNameError = value; OnPropertyChanged(); } }
-        public string Password { get => password; set { password = value; OnPropertyChanged(); } }
+        public string Password
+        {
+            get => password;
+            set
+            {
+                if (!value.Contains(" ") && value.Length < 11)
+                {
+                    PasswordError = "";
+                    if (!Validate(value))
+                    {
+                        PasswordError = "Password is required.";
+                    }
+                    password = value;
+                    OnPropertyChanged("PasswordCopyError");
+                    OnPropertyChanged();
+                }
+            }
+        }
         public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
 
         public void loadUsers()
         {
-            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+            if(Username.Length>5)
+            {
+                startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+            }
         }
 
         public void deleteUser()
@@ -60,10 +79,29 @@ namespace AllAboutTeethDCMS.Users
 
         protected override void afterLoad(List<User> list)
         {
+            UserNameError = "";
+            PasswordError = "";
             if(list.Count>0)
             {
-                User = list.ElementAt(0);
-                MainWindowViewModel.ActiveUser = User;
+                bool valid = false;
+                foreach(User user in list)
+                {
+                    if(user.Password.Equals(Password))
+                    {
+                        valid = true;
+                        User = user;
+                        MainWindowViewModel.ActiveUser = User;
+                        break;
+                    }
+                }
+                if(!valid)
+                {
+                    PasswordError = "Incorrect password. Please try again.";
+                }
+            }
+            else
+            {
+                UserNameError = "Account does not exist.";
             }
         }
 
@@ -99,6 +137,8 @@ namespace AllAboutTeethDCMS.Users
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_users where user_username='"+Username+"'";
         }
     }
 }

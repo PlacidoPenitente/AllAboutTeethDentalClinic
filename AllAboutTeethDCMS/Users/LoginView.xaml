@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UserNameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
-            <PasswordBox x:Name="passwordBox" PasswordChanged="passwordBox_PasswordChanged" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Foreground="White" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordBox}"/>
+            <TextBox x:Name="passwordBox" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBox2}"/>
             <Button x:Name="loginButton" Click="loginButton_Click" Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}"/>
         </Grid>
         <Grid Grid.Row="1" Background="{StaticResource WetAsphalt}">

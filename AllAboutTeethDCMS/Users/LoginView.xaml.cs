@@ -25,11 +25,6 @@ namespace AllAboutTeethDCMS.Users
             InitializeComponent();
         }
 
-        private void passwordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            ((LoginViewModel)DataContext).Password = passwordBox.Password;
-        }
-
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             ((LoginViewModel)DataContext).loadUsers();

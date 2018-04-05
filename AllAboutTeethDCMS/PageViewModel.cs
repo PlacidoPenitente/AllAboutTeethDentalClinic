@@ -28,15 +28,22 @@ namespace AllAboutTeethDCMS
         #region Methods
         public void CreateConnection()
         {
-            if (Connection == null)
+            try
             {
-                Connection = new MySqlConnection();
-                Connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
-                Connection.Open();
+                if (Connection == null)
+                {
+                    Connection = new MySqlConnection();
+                    Connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
+                    Connection.Open();
+                }
+                if (Connection.State != System.Data.ConnectionState.Open)
+                {
+                    Connection.Open();
+                }
             }
-            if (Connection.State != System.Data.ConnectionState.Open)
+            catch(Exception ex)
             {
-                Connection.Open();
+
             }
         }
         #endregion

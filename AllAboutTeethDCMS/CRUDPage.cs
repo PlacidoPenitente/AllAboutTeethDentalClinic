@@ -96,12 +96,19 @@ namespace AllAboutTeethDCMS
                 beforeLoad(command);
             }
             command.CommandText += " ORDER BY "+ prefix + "_datemodified DESC";
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-                primaryKeys.Add(reader.GetInt32(prefix + "_No"));
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    primaryKeys.Add(reader.GetInt32(prefix + "_No"));
+                }
+                reader.Close();
             }
-            reader.Close();
+            catch(Exception ex)
+            {
+
+            }
             Connection.Close();
 
             foreach (int primaryKey in primaryKeys)

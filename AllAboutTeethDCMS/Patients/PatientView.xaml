@@ -113,6 +113,17 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
+					<Button Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_False_Teeth_32px.png}" Background="{StaticResource BelizeHole}" Command="{Binding LoadChartCommand}">
+						<Button.Triggers>
+							<EventTrigger RoutedEvent="Button.Click">
+								<BeginStoryboard>
+									<Storyboard>
+										<DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="dental"/>
+									</Storyboard>
+								</BeginStoryboard>
+							</EventTrigger>
+						</Button.Triggers>
+					</Button>
 				</StackPanel>
 			</Grid>
 		</Grid>
@@ -120,6 +131,7 @@
 			<Label Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Content="Loading Patients: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" HorizontalAlignment="Right" Margin="10"/>
 			<ProgressBar Visibility="{Binding Progress, Converter={StaticResource ProgressToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Value="{Binding Progress, UpdateSourceTrigger=PropertyChanged}" Width="200" Height="25"/>
 		</StackPanel>
+		<local:DentalChartPreviewView DataContext="{Binding DentalChartPreviewViewModel, UpdateSourceTrigger=PropertyChanged}" x:Name="dental" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}"  Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
 		<local:PatientPreviewView root:AttachedProperties.Patient="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" x:Name="viewer" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
 		<root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
 	</Grid>

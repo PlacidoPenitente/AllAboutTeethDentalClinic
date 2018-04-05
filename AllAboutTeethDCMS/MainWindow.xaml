@@ -70,7 +70,7 @@
                                 <Label Content="{Binding ActiveUser.Username}" Foreground="White" VerticalAlignment="Center" FontFamily="{StaticResource RobotoLight}" FontSize="14" Padding="0"/>
                             </StackPanel>
                         </Border>
-                        <Button Style="{StaticResource DangerButton}" Content="Logout" Grid.Column="2"/>
+                        <Button Click="Button_Click" Style="{StaticResource DangerButton}" Content="Logout" Grid.Column="2"/>
                     </Grid>
                 </Grid>
                 <Border Grid.Column="1" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="5">
@@ -92,6 +92,6 @@
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
             
         </Grid>
-        <login:LoginView DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
+        <login:LoginView x:Name="login" DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
     </Grid>
 </Window>

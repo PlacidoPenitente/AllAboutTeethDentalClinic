@@ -102,7 +102,7 @@ namespace AllAboutTeethDCMS.Users
         public string Password { get => User.Password; 
             set
             {
-                if (!value.Contains(" ") && value.Length < 61)
+                if (!value.Contains(" ") && value.Length < 11)
                 {
                     PasswordCopyError = "";
                     PasswordError = "";

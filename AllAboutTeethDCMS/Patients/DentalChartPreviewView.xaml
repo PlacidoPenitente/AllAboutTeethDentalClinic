@@ -7,7 +7,7 @@
              xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
              mc:Ignorable="d" 
-             Visibility="{Binding Visibility, UpdateSourceTrigger=PropertyChanged}"
+             x:Name="viewer"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
@@ -18,11 +18,36 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
-                <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
-            </ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Width="250" Style="{StaticResource ComboBox}" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Grid.Column="1" Content="Update" Style="{StaticResource PrimaryButton}" Height="43" Margin="0,7,0,0" Command="{Binding UpdateCommand}"/>
+                </Grid>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
+                    <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+                </ScrollViewer>
+            </Grid>
             <StackPanel Grid.Column="1">
-                <Button x:Name="close" Click="close_Click" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}"/>
+                <Button Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="1" To="0" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="viewer"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
