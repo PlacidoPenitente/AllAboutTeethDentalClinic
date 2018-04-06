@@ -206,10 +206,15 @@ namespace AllAboutTeethDCMS.Patients
         }
         #endregion
         
-public AddPatientViewModel()
+        public AddPatientViewModel():base()
         {
             patient = new Patient();
             copyPatient = (Patient)patient.Clone();
+
+
+            StartCameraCommand = new DelegateCommand(new Action(startCamera));
+            CaptureCommand = new DelegateCommand(new Action(capture));
+            GoBackCommand = new DelegateCommand(new Action(goBack));
         }
 
         public Patient Patient { get => patient; set { patient = value;
@@ -647,5 +652,49 @@ public AddPatientViewModel()
         private string lastNameError = "";
         private string cellNoError = "";
         private string homeAddressError = "";
+
+        private DelegateCommand startCameraCommand;
+        private DelegateCommand captureCommand;
+        private WebCam webCam;
+
+        public WebCam WebCam { get => webCam; set => webCam = value; }
+        public DelegateCommand StartCameraCommand { get => startCameraCommand; set => startCameraCommand = value; }
+        public DelegateCommand CaptureCommand { get => captureCommand; set => captureCommand = value; }
+        public DelegateCommand GoBackCommand { get => goBackCommand; set => goBackCommand = value; }
+
+        private bool isWebcamStarted = false;
+
+        public void startCamera()
+        {
+            if (WebCam == null)
+            {
+                WebCam = new WebCam();
+                WebCam.InitializeWebCam(ref imageCamera);
+            }
+            WebCam.Continue();
+            WebCam.Start();
+            isWebcamStarted = true;
+        }
+
+        public void capture()
+        {
+            if (isWebcamStarted)
+            {
+                WebCam.Stop();
+                isWebcamStarted = false;
+                Image = convertToString(imageCamera.Source);
+            }
+        }
+
+        private DelegateCommand goBackCommand;
+        public void goBack()
+        {
+            MenuViewModel.gotoUsers();
+            if (isWebcamStarted)
+            {
+                WebCam.Stop();
+                isWebcamStarted = false;
+            }
+        }
     }
 }

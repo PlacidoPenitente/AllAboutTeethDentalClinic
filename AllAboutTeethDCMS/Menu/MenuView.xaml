@@ -13,7 +13,7 @@
     <Border>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <RadioButton Visibility="Collapsed" IsChecked="True" root:AttachedProperties.Icon="{StaticResource icons8_Home_32px.png}" x:Name="dashboard" Click="dashboard_Click" Content="Dashboard" Style="{StaticResource menuitem}"/>
+                <RadioButton IsChecked="True" root:AttachedProperties.Icon="{StaticResource icons8_Home_32px.png}" x:Name="dashboard" Click="dashboard_Click" Content="Dashboard" Style="{StaticResource menuitem}"/>
                 <RadioButton IsChecked="True" root:AttachedProperties.Icon="{StaticResource icons8_Planner_32px.png}" x:Name="appointments" Click="appointments_Click" Content="Appointments" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource account_icon}" x:Name="patients" Click="patients_Click" Content="Patients" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" x:Name="services" Click="services_Click" Content="Services" Style="{StaticResource menuitem}"/>
@@ -24,8 +24,8 @@
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Bill_32px.png}" x:Name="transactions" Click="transactions_Click" Content="Treatment Record" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Combo_Chart_32px_3.png}" x:Name="reports" Click="reports_Click" Content="Reports" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Doctor_Male_32px.png}" x:Name="accounts" Click="accounts_Click" Content="Users" Style="{StaticResource menuitem}"/>
-                <RadioButton Visibility="Collapsed" root:AttachedProperties.Icon="{StaticResource icons8_Generic_Book_File_Type_32px.png}" x:Name="activityLog" Click="activityLog_Click" Content="Activity Log" Style="{StaticResource menuitem}"/>
-                <RadioButton Visibility="Collapsed" root:AttachedProperties.Icon="{StaticResource icons8_Maintenance_32px_1.png}" x:Name="maintenance" Click="maintenance_Click" Content="Maintenance" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Generic_Book_File_Type_32px.png}" x:Name="activityLog" Click="activityLog_Click" Content="Activity Log" Style="{StaticResource menuitem}"/>
+                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Maintenance_32px_1.png}" x:Name="maintenance" Click="maintenance_Click" Content="Maintenance" Style="{StaticResource menuitem}"/>
             </StackPanel>
         </ScrollViewer>
     </Border>

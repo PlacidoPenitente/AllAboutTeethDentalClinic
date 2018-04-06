@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace AllAboutTeethDCMS.Users
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for LoginLoadingView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class LoginLoadingView : UserControl
     {
-        public LoginView()
+        public LoginLoadingView()
         {
             InitializeComponent();
         }

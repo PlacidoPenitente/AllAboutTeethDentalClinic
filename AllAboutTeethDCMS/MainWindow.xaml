@@ -74,7 +74,7 @@
                     </Grid>
                 </Grid>
                 <Border Grid.Column="1" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="5">
-
+                    <Image Stretch="UniformToFill" Source="{Binding ActiveUser.Image, Converter={StaticResource ImageToBase64Converter}, UpdateSourceTrigger=PropertyChanged}"/>
                 </Border>
             </Grid>
         </Grid>
@@ -90,7 +90,7 @@
             </Border>
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
-            
+            <Button/>
         </Grid>
         <login:LoginView x:Name="login" DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
     </Grid>

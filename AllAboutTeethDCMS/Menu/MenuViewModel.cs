@@ -24,13 +24,6 @@ namespace AllAboutTeethDCMS.Menu
         private MainWindowViewModel mainWindowViewModel;
         private User activeUser;
 
-        public MenuViewModel()
-        {
-            UserView = new UserView();
-            AddUserView = new AddUserView();
-            EditUserView = new EditUserView();
-        }
-
         private TreatmentRecordView operationView;
         private AddOperationView addOperationView;
 
@@ -64,6 +57,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AddUserView;
             ((AddUserViewModel)AddUserView.DataContext).ActiveUser = ActiveUser;
             ((AddUserViewModel)AddUserView.DataContext).MenuViewModel = this;
+            ((AddUserViewModel)AddUserView.DataContext).ImageCamera = AddUserView.camera.image;
         }
 
         public void GotoEditUserView(User selectedUser)
@@ -74,6 +68,7 @@ namespace AllAboutTeethDCMS.Menu
             ((EditUserViewModel)EditUserView.DataContext).User = selectedUser;
             ((EditUserViewModel)EditUserView.DataContext).CopyUser = (User)selectedUser.Clone();
             ((EditUserViewModel)EditUserView.DataContext).MenuViewModel = this;
+            ((EditUserViewModel)EditUserView.DataContext).ImageCamera = EditUserView.camera.image;
         }
         #endregion
 
@@ -106,6 +101,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = AddPatientView;
             ((AddPatientViewModel)AddPatientView.DataContext).ActiveUser = ActiveUser;
             ((AddPatientViewModel)AddPatientView.DataContext).MenuViewModel = this;
+            ((AddPatientViewModel)AddPatientView.DataContext).ImageCamera = AddPatientView.camera.image;
         }
 
         public void GotoEditPatientView(Patient selectedPatient)
@@ -119,6 +115,7 @@ namespace AllAboutTeethDCMS.Menu
             ((EditPatientViewModel)EditPatientView.DataContext).Patient = selectedPatient;
             ((EditPatientViewModel)EditPatientView.DataContext).CopyPatient = (Patient)selectedPatient.Clone();
             ((EditPatientViewModel)EditPatientView.DataContext).MenuViewModel = this;
+            ((EditPatientViewModel)EditPatientView.DataContext).ImageCamera = EditPatientView.camera.image;
         }
         #endregion
 

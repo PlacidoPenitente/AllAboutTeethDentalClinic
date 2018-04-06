@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             x:Name="edituser"
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="1024">
     <UserControl.DataContext>
@@ -46,10 +47,37 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Margin="0,10,0,0" Grid.Column="1">
-                    <StackPanel>
+                    <StackPanel Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Label Content="User Information" FontFamily="{StaticResource Roboto}" FontSize="19" Margin="0,10,0,10" Foreground="{StaticResource WetAsphalt}"/>
                     </StackPanel>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,10,20" HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Photo:" Padding="0,5,5,5" Foreground="{StaticResource Turquoise}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                        <Border Grid.Row="1"  BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Width="150" Height="150">
+                            <Image Stretch="UniformToFill" Source="{Binding Image, Converter={StaticResource ImageToBase64Converter}, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Border>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Style="{StaticResource PrimaryButton}" Content="Take Photo" Height="43">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="camera"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -59,7 +87,7 @@
                         <TextBox Text="{Binding MiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Middle Name:" Grid.Column="1" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding LastNameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Last Name:" Grid.Column="2" Margin="5"/>
                     </Grid>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.75*"/>
                             <ColumnDefinition Width="0.75*"/>
@@ -72,7 +100,7 @@
                         <TextBox root:AttachedProperties.Error="{Binding ContactNoError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding ContactNo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Contact No.:" Grid.Column="3" Margin="5"/>
                         <TextBox IsReadOnly="True" Text="{Binding Birthdate, Converter={StaticResource DateToAgeConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NotRequiredTextBox}" root:AttachedProperties.Label="Age:" Grid.Column="2" Margin="5"/>
                     </Grid>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="0.5*"/>
@@ -96,9 +124,9 @@
                         <TextBox root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Grid.Column="0" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PasswordTextBox}" root:AttachedProperties.Label="Password:" Grid.Column="1" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding PasswordCopyError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding PasswordCopy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PasswordTextBox}" root:AttachedProperties.Label="Confirm Password:" Grid.Column="2" Margin="5"/>
-                        <ComboBox root:AttachedProperties.Label="Account Type:" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Style="{StaticResource ComboBox}" Margin="5"/>
+                        <ComboBox Visibility="{Binding AccountTypeVisibility, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Label="Account Type:" ItemsSource="{Binding AccountTypes}" SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" Style="{StaticResource ComboBox}" Margin="5"/>
                     </Grid>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -107,7 +135,7 @@
                         <TextBox root:AttachedProperties.Error="{Binding Question1Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 1:" Grid.ColumnSpan="2" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding Answer1Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -116,7 +144,7 @@
                         <TextBox root:AttachedProperties.Error="{Binding Question2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Question2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Recovery Question 2:" Grid.ColumnSpan="2" Margin="5"/>
                         <TextBox root:AttachedProperties.Error="{Binding Answer2Error, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Answer2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Answer:" Grid.Column="3" Margin="5"/>
                     </Grid>
-                    <Grid>
+                    <Grid Visibility="{Binding SensitiveFieldVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <Grid.Style>
                             <Style TargetType="{x:Type Grid}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -166,6 +194,7 @@
                 </Button.Triggers>
             </Button>
         </Grid>
+        <root:WebcamCaptureView DataContext="{Binding ElementName=edituser, Path=DataContext, UpdateSourceTrigger=PropertyChanged}" x:Name="camera" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
         <root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

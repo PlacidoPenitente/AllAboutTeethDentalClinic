@@ -23,6 +23,9 @@ namespace AllAboutTeethDCMS.Users
 
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
+        private string deleteVisibility = "Collapsed";
+        private string editVisibility = "Collapsed";
+        private string addVisibility = "Collapsed";
         #endregion
 
         public UserViewModel()
@@ -152,6 +155,7 @@ namespace AllAboutTeethDCMS.Users
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Users = null;
         }
 
         protected override void afterLoad(List<User> list)
@@ -176,12 +180,15 @@ namespace AllAboutTeethDCMS.Users
         public User User { get => user;
             set
             {
+                user = null;
                 user = value;
-                OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
-                if (value != null)
+                DeleteVisibility = "Collapsed";
+                EditVisibility = "Collapsed";
+                AddVisibility = "Collapsed";
+                if (value != null&&(ActiveUser.Type.Equals("Administrator")))
                 {
                     if(!value.Status.Equals("Scheduled"))
                     {
@@ -193,14 +200,29 @@ namespace AllAboutTeethDCMS.Users
                         {
                             UnarchiveVisibility = "Visible";
                         }
+                        DeleteVisibility = "Visible";
+                        EditVisibility = "Visible";
+                        AddVisibility = "Visible";
                     }
                 }
+                else if(value != null && (ActiveUser.Username.Equals(value.Username)))
+                {
+                    EditVisibility = "Visible";
+                }
+
+                OnPropertyChanged();
             }
         }
         public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public string DeleteVisibility { get => deleteVisibility; set { deleteVisibility = value; OnPropertyChanged(); } }
+
+        public string EditVisibility { get => editVisibility; set { editVisibility = value; OnPropertyChanged(); } }
+
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands
@@ -208,6 +230,7 @@ namespace AllAboutTeethDCMS.Users
         {
             MenuViewModel.GotoAddUserView();
         }
+
 
         public void LoadUsers()
         {

@@ -27,7 +27,7 @@
                                 <Label Margin="5" HorizontalContentAlignment="Center" Content=" User Information " Background="{StaticResource WetAsphalt}" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="19"/>
                             </StackPanel>
                             <Border HorizontalAlignment="Center" Margin="10" Width="100" Height="100" BorderBrush="{StaticResource Turquoise}" BorderThickness="1">
-
+                                <Image Stretch="UniformToFill" Source="{Binding ElementName=viewer, Path=(root:AttachedProperties.User).Image, Converter={StaticResource ImageToBase64Converter}, UpdateSourceTrigger=PropertyChanged}"/>
                             </Border>
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>

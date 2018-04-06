@@ -1,9 +1,12 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Media;
 
 namespace AllAboutTeethDCMS
 {
@@ -12,8 +15,8 @@ namespace AllAboutTeethDCMS
         #region Create
         protected void SaveToDatabase(T model, string tableName)
         {
-            CreateConnection();
-            MySqlCommand command = Connection.CreateCommand();
+            MySqlConnection connection = CreateConnection();
+            MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "INSERT INTO " + tableName + " VALUES (";
             foreach (PropertyInfo info in model.GetType().GetProperties())
@@ -61,7 +64,8 @@ namespace AllAboutTeethDCMS
             }
 
             command.ExecuteNonQuery();
-            Connection.Close();
+            connection.Close();
+            connection = null;
         }
 
         #endregion
@@ -74,8 +78,8 @@ namespace AllAboutTeethDCMS
             List<T> list = new List<T>();
             List<int> primaryKeys = new List<int>();
 
-            CreateConnection();
-            MySqlCommand command = Connection.CreateCommand();
+            MySqlConnection connection = CreateConnection();
+            MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "SELECT * FROM " + tableName;
             if (!filter.Trim().Equals(""))
@@ -96,34 +100,23 @@ namespace AllAboutTeethDCMS
                 beforeLoad(command);
             }
             command.CommandText += " ORDER BY "+ prefix + "_datemodified DESC";
-            try
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                MySqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                if (primaryKeys.Count > 9)
                 {
-                    primaryKeys.Add(reader.GetInt32(prefix + "_No"));
+                    break;
                 }
-                reader.Close();
+                primaryKeys.Add(reader.GetInt32(prefix + "_No"));
             }
-            catch(Exception ex)
-            {
-
-            }
-            Connection.Close();
+            reader.Close();
+            connection.Close();
+            connection = null;
 
             foreach (int primaryKey in primaryKeys)
             {
                 list.Add((T)LoadItem(new T(), tableName, primaryKey));
                 Progress = ((double)list.Count / primaryKeys.Count) * 100;
-            }
-            try
-            {
-            }
-            catch(Exception ex)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine(ex.Message);
-                Console.BackgroundColor = ConsoleColor.Black;
             }
             return list;
         }
@@ -132,8 +125,8 @@ namespace AllAboutTeethDCMS
         {
             string prefix = model.GetType().Name;
 
-            CreateConnection();
-            MySqlCommand command = Connection.CreateCommand();
+            MySqlConnection connection = CreateConnection();
+            MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
 
@@ -174,7 +167,8 @@ namespace AllAboutTeethDCMS
                     }
                 }
                 reader.Close();
-                Connection.Close();
+                connection.Close();
+                connection = null;
 
                 foreach (object info in temp)
                 {
@@ -192,7 +186,8 @@ namespace AllAboutTeethDCMS
             }
 
             reader.Close();
-            Connection.Close();
+            connection.Close();
+            connection = null;
             return null;
         }
         #endregion
@@ -202,8 +197,8 @@ namespace AllAboutTeethDCMS
         {
             string prefix = model.GetType().Name;
 
-            CreateConnection();
-            MySqlCommand command = Connection.CreateCommand();
+            MySqlConnection connection = CreateConnection();
+            MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "UPDATE " + tableName + " SET ";
             int no = 0;
@@ -247,9 +242,9 @@ namespace AllAboutTeethDCMS
                     command.Parameters.AddWithValue("@" + info.Name, info.GetValue(model));
                 }
             }
-
             command.ExecuteNonQuery();
-            Connection.Close();
+            connection.Close();
+            connection = null;
         }
         #endregion
 
@@ -257,12 +252,13 @@ namespace AllAboutTeethDCMS
         protected void DeleteFromDatabase(T model, string tableName)
         {
             string prefix = model.GetType().Name;
-            CreateConnection();
-            MySqlCommand command = Connection.CreateCommand();
+            MySqlConnection connection = CreateConnection();
+            MySqlCommand command = connection.CreateCommand();
             command.CommandText = "DELETE FROM " + tableName + " WHERE " + prefix + "_No=@key";
             command.Parameters.AddWithValue("@key", model.GetType().GetProperty("No").GetValue(model));
             command.ExecuteNonQuery();
-            Connection.Close();
+            connection.Close();
+            connection = null;
         }
         #endregion
 
@@ -294,6 +290,7 @@ namespace AllAboutTeethDCMS
 
         #region Read Thread
         private Thread loadThread;
+        private bool isLoading = false;
 
         protected void startLoadFromDatabase(string tableName, string filter)
         {
@@ -302,8 +299,13 @@ namespace AllAboutTeethDCMS
 
         private void executeLoadFromDatabase()
         {
-            List<T> list = LoadFromDatabase(TableName, Filter);
-            afterLoad(list);
+            if(!IsLoading)
+            {
+                IsLoading = true;
+                List<T> list = LoadFromDatabase(TableName, Filter);
+                afterLoad(list);
+                IsLoading = false;
+            }
         }
         #endregion
 
@@ -405,6 +407,9 @@ namespace AllAboutTeethDCMS
         public string Filter { get => filter; set => filter = value; }
         public T Model { get => model; set => model = value; }
         public string FilterResult { get => filterResult; set { filterResult = value; OnPropertyChanged(); } }
+
+        public Image ImageCamera { get => imageCamera; set => imageCamera = value; }
+        public bool IsLoading { get => isLoading; set => isLoading = value; }
         #endregion
 
         protected bool Validate(string value)
@@ -489,32 +494,28 @@ namespace AllAboutTeethDCMS
         {
             try
             {
-                if (Connection == null)
-                {
-                    CreateConnection();
-                }
-                if (Connection.State != System.Data.ConnectionState.Open)
-                {
-                    Connection.Open();
-                }
-                MySqlCommand command = Connection.CreateCommand();
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM allaboutteeth_users WHERE user_username=@user";
                 command.Parameters.AddWithValue("@user", value);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
-                    if(reader.GetString("user_username").Equals(original))
+                    if (reader.GetString("user_username").Equals(original))
                     {
                         reader.Close();
-                        Connection.Close();
+                        connection.Close();
+                        connection = null;
                         return "";
                     }
                     reader.Close();
-                    Connection.Close();
+                    connection.Close();
+                    connection = null;
                     return "Username is already taken.";
                 }
                 reader.Close();
-                Connection.Close();
+                connection.Close();
+                connection = null;
             }
             catch(Exception ex)
             {
@@ -532,28 +533,25 @@ namespace AllAboutTeethDCMS
             }
             if (!value.Trim().Equals(original))
             {
-                if(Connection==null)
-                {
-                    CreateConnection();
-                }
-                if (Connection.State != System.Data.ConnectionState.Open)
-                {
-                    Connection.Open();
-                }
-                MySqlCommand command = Connection.CreateCommand();
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
                 command.Parameters.AddWithValue("@name", value);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     reader.Close();
-                    Connection.Close();
+                    connection.Close();
+                    connection = null;
                     return "Name is already taken.";
                 }
                 reader.Close();
-                Connection.Close();
+                connection.Close();
+                connection = null;
             }
             return "";
         }
+
+        protected Image imageCamera;
     }
 }

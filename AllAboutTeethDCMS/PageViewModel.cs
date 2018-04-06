@@ -3,9 +3,12 @@ using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Drawing;
 
 namespace AllAboutTeethDCMS
 {
@@ -26,25 +29,40 @@ namespace AllAboutTeethDCMS
         #endregion
 
         #region Methods
-        public void CreateConnection()
+        public MySqlConnection CreateConnection()
         {
-            try
-            {
-                if (Connection == null)
-                {
-                    Connection = new MySqlConnection();
-                    Connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
-                    Connection.Open();
-                }
-                if (Connection.State != System.Data.ConnectionState.Open)
-                {
-                    Connection.Open();
-                }
-            }
-            catch(Exception ex)
-            {
+            MySqlConnection connection = new MySqlConnection();
+            connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
+            connection.Open();
+            return connection;
+            //if (Connection == null)
+            //{
+                
+            //}
+            //else
+            //{
+            //    if(Connection.State!=System.Data.ConnectionState.Open)
+            //    {
+            //        Connection.Open();
+            //    }
+            //}
+        }
 
-            }
+        public string convertToString(ImageSource image)
+        {
+            MemoryStream ms = new MemoryStream();
+            var encoder = new System.Windows.Media.Imaging.BmpBitmapEncoder();
+            encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(image as System.Windows.Media.Imaging.BitmapSource));
+            encoder.Save(ms);
+            ms.Flush();
+            Image Image = Image.FromStream(ms);
+
+            string base64String = "";
+            MemoryStream m = new MemoryStream();
+            Image.Save(m, Image.RawFormat);
+            byte[] imageBytes = m.ToArray();
+            base64String = Convert.ToBase64String(imageBytes);
+            return base64String;
         }
         #endregion
     }

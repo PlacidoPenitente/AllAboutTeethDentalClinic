@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS.Users
+namespace AllAboutTeethDCMS
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for About.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class About : UserControl
     {
-        public LoginView()
+        public About()
         {
             InitializeComponent();
         }

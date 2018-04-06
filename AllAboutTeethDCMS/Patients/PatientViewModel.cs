@@ -165,6 +165,8 @@ namespace AllAboutTeethDCMS.Patients
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Patients = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<Patient> list)

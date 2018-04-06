@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             x:Name="adduser"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1024"
-             Loaded="UserControl_Loaded">
+             d:DesignHeight="1024" d:DesignWidth="1024">
     <UserControl.DataContext>
         <local:AddUserViewModel/>
     </UserControl.DataContext>
@@ -36,7 +36,7 @@
             </Grid.ColumnDefinitions>
             <Image Source="{StaticResource icons8_Doctor_Male_32px.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label FontSize="19" Content="Add New User" VerticalAlignment="Center" Foreground="White" Grid.Column="1"/>
-            <Button x:Name="back" Click="back_Click" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43"/>
+            <Button x:Name="back" Grid.Column="3" Content="Back" Style="{StaticResource WarningButton}" Width="100" Height="43" Command="{Binding GoBackCommand}"/>
         </Grid>
         <StackPanel Grid.Row="2" Background="White"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -54,11 +54,28 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Photo:" Padding="0,5,5,5" Foreground="{StaticResource Turquoise}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
                         <Border Grid.Row="1"  BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Width="150" Height="150">
-                            <Image x:Name="image"/>
+                            <Image Stretch="UniformToFill" Source="{Binding Image, Converter={StaticResource ImageToBase64Converter}, UpdateSourceTrigger=PropertyChanged}"/>
                         </Border>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Style="{StaticResource PrimaryButton}" Content="Take Photo" Height="43">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="camera"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </Grid>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -177,6 +194,7 @@
                 </Button.Triggers>
             </Button>
         </Grid>
+        <root:WebcamCaptureView DataContext="{Binding ElementName=adduser, Path=DataContext, UpdateSourceTrigger=PropertyChanged}" x:Name="camera" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3"/>
         <root:DialogBoxView x:Name="dialog" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3" DataContext="{Binding DialogBoxViewModel, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </UserControl>

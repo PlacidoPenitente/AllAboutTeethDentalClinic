@@ -31,4 +31,6 @@
     <ImageSource x:Key="icons8_Delete_32px_2.png">/Resources/icons8_Delete_32px_2.png</ImageSource>
     <ImageSource x:Key="icons8_Shutdown_16px_1.png">/Resources/icons8_Shutdown_16px_1.png</ImageSource>
     <ImageSource x:Key="icons8_False_Teeth_32px.png">/Resources/icons8_False_Teeth_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_Info_32px_2.png">/Resources/icons8_Info_32px_2.png</ImageSource>
+    <ImageSource x:Key="icons8_Forgot_Password_32px.png">/Resources/icons8_Forgot_Password_32px.png</ImageSource>
 </ResourceDictionary>

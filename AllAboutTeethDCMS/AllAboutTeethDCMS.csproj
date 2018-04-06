@@ -71,6 +71,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AgeToVisibilityConverter.cs" />
     <Compile Include="AgeToVisibilityInvertedConverter.cs" />
     <Compile Include="AllAboutTeeth.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="GenderToVisibilityConverter.cs" />
     <Compile Include="DoubleToBooleanConverter.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="ImageToBase64Converter.cs" />
     <Compile Include="Medicines\AddMedicineView.xaml.cs">
       <DependentUpon>AddMedicineView.xaml</DependentUpon>
     </Compile>
@@ -276,6 +280,9 @@
       <DependentUpon>EditUserView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Users\EditUserViewModel.cs" />
+    <Compile Include="Users\LoginLoadingView.xaml.cs">
+      <DependentUpon>LoginLoadingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Users\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
@@ -296,6 +303,14 @@
       <DependentUpon>DialogBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WebCam.cs" />
+    <Compile Include="WebcamCaptureView.xaml.cs">
+      <DependentUpon>WebcamCaptureView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WebcamCaptureViewModel.cs" />
+    <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Appointments\AddAppointmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -468,6 +483,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Users\LoginLoadingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Users\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -481,6 +500,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DialogBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WebcamCaptureView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -699,6 +722,21 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Info_32px_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Forgot_Password_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Forgot_Password_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_Info_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icons8_User_100px_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

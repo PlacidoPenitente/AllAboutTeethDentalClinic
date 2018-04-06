@@ -19,11 +19,27 @@ namespace AllAboutTeethDCMS.Users
         private string passwordCopy = "";
         private List<string> genders = new List<string>() { "Male", "Female" };
         private List<string> accountTypes = new List<string>() { "Administrator", "Dentist", "Staff" };
-        private WebCam webCam;
+        private string questionsVisibility = "Collapsed";
         #endregion
 
         #region Properties
-        public User User { get => user; set  { user = value; foreach (PropertyInfo info in GetType().GetProperties()) OnPropertyChanged(info.Name); } }
+        public User User { get => user;
+            set
+            {
+                user = value;
+                AccountTypeVisibility = "Collapsed";
+                SensitiveFieldVisibility = "Collapsed";
+                if(ActiveUser.Type.Equals("Administrator"))
+                {
+                    AccountTypeVisibility = "Visible";
+                }
+                if(value.No==ActiveUser.No)
+                {
+                    SensitiveFieldVisibility = "Visible";
+                }
+                foreach (PropertyInfo info in GetType().GetProperties()) OnPropertyChanged(info.Name);
+            }
+        }
         public User CopyUser { get => copyUser; set => copyUser = value; }
         public string PasswordCopy { get => passwordCopy;
             set
@@ -295,9 +311,8 @@ namespace AllAboutTeethDCMS.Users
                 
             }
         }
-        public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); } }
+        public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); Console.WriteLine(value); } }
 
-        public WebCam WebCam { get => webCam; set => webCam = value; }
         #endregion
 
         public AddUserViewModel() : base()
@@ -320,7 +335,10 @@ namespace AllAboutTeethDCMS.Users
             {
                 DateEnd = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 18));
             }
-            WebCam = new WebCam();
+
+            StartCameraCommand = new DelegateCommand(new Action(startCamera));
+            CaptureCommand = new DelegateCommand(new Action(capture));
+            GoBackCommand = new DelegateCommand(new Action(goBack));
         }
 
         protected override bool beforeCreate()
@@ -495,6 +513,55 @@ namespace AllAboutTeethDCMS.Users
             resetThread.Start();
         }
         #endregion
+
+        private DelegateCommand startCameraCommand;
+        private DelegateCommand captureCommand;
+        private WebCam webCam;
+
+        public WebCam WebCam { get => webCam; set => webCam = value; }
+        public DelegateCommand StartCameraCommand { get => startCameraCommand; set => startCameraCommand = value; }
+        public DelegateCommand CaptureCommand { get => captureCommand; set => captureCommand = value; }
+        public DelegateCommand GoBackCommand { get => goBackCommand; set => goBackCommand = value; }
+        public string AccountTypeVisibility { get => accountTypeVisibility; set { accountTypeVisibility = value; OnPropertyChanged(); } }
+
+        public string SensitiveFieldVisibility { get => questionsVisibility; set { questionsVisibility = value; OnPropertyChanged(); } }
+
+        private bool isWebcamStarted = false;
+
+        public void startCamera()
+        {
+            if(WebCam==null)
+            {
+                WebCam = new WebCam();
+                WebCam.InitializeWebCam(ref imageCamera);
+            }
+            WebCam.Continue();
+            WebCam.Start();
+            isWebcamStarted = true;
+        }
+
+        public void capture()
+        {
+            if(isWebcamStarted)
+            {
+                WebCam.Stop();
+                isWebcamStarted = false;
+                Image = convertToString(imageCamera.Source);
+            }
+        }
+
+        private string accountTypeVisibility = "Collapsed";
+
+        private DelegateCommand goBackCommand;
+        public void goBack()
+        {
+            MenuViewModel.gotoUsers();
+            if (isWebcamStarted)
+            {
+                WebCam.Stop();
+                isWebcamStarted = false;
+            }
+        }
 
         #region Unimplemented Methods
         protected override void beforeLoad(MySqlCommand command)

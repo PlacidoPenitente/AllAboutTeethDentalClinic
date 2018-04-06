@@ -12,6 +12,7 @@ namespace AllAboutTeethDCMS
         private WebCamCapture webcam;
         private System.Windows.Controls.Image _FrameImage;
         private int FrameNumber = 30;
+
         public void InitializeWebCam(ref System.Windows.Controls.Image ImageControl)
         {
             webcam = new WebCamCapture();

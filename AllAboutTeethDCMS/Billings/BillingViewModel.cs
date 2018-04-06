@@ -187,6 +187,7 @@ namespace AllAboutTeethDCMS.Billings
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Billings = null;
         }
 
         protected override void afterLoad(List<Billing> list)
@@ -194,8 +195,8 @@ namespace AllAboutTeethDCMS.Billings
             Billings = list;
             foreach(Billing billing in Billings)
             {
-                CreateConnection();
-                MySqlCommand command = Connection.CreateCommand();
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "select * from allaboutteeth_payments where payment_billing="+billing.No+" ORDER BY payment_dateadded DESC";
                 MySqlDataReader reader = command.ExecuteReader();
                 if(reader.Read())
@@ -203,7 +204,8 @@ namespace AllAboutTeethDCMS.Billings
                     billing.Balance = reader.GetDouble("payment_balance");
                 }
                 reader.Close();
-                Connection.Close();
+                connection.Close();
+                connection = null;
                 UpdateDatabase(billing, "allaboutteeth_billings");
             }
             FilterResult = "";
@@ -229,6 +231,7 @@ namespace AllAboutTeethDCMS.Billings
             get => billing;
             set
             {
+                billing = null;
                 billing = value;
                 AddPaymentViewModel.AmountPaid = "0";
                 PaymentVisibility = "Collapsed";

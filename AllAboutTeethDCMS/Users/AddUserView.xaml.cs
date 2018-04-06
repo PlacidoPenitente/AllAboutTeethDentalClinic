@@ -34,14 +34,5 @@ namespace AllAboutTeethDCMS.Users
         {
             ((AddUserViewModel)DataContext).resetForm();
         }
-
-        private void back_Click(object sender, RoutedEventArgs e)
-        {
-            ((AddUserViewModel)DataContext).MenuViewModel.gotoUsers();
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }
