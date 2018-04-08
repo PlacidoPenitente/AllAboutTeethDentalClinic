@@ -152,6 +152,8 @@ namespace AllAboutTeethDCMS.Medicines
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Medicines = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<Medicine> list)
@@ -173,17 +175,23 @@ namespace AllAboutTeethDCMS.Medicines
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
+        private string forAdminOnly = "Collapsed";
+        private string forStaffAndAdminOnly = "Collapsed";
+
         public Medicine Medicine
         {
             get => medicine;
             set
             {
+                medicine = null;
                 medicine = value;
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
-                if (value != null)
+                ForAdminOnly = "Collapsed";
+                ForStaffAndAdminOnly = "Collapsed";
+                if (value != null&&(ActiveUser.Type.Equals("Administrator")))
                 {
                     if (value.Status.Equals("Active"))
                     {
@@ -193,6 +201,7 @@ namespace AllAboutTeethDCMS.Medicines
                     {
                         UnarchiveVisibility = "Visible";
                     }
+                    ForAdminOnly = "Visible";
                 }
             }
         }
@@ -200,6 +209,9 @@ namespace AllAboutTeethDCMS.Medicines
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public string ForAdminOnly { get => forAdminOnly; set { forAdminOnly = value; OnPropertyChanged(); } }
+        public string ForStaffAndAdminOnly { get => forStaffAndAdminOnly; set { forStaffAndAdminOnly = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands

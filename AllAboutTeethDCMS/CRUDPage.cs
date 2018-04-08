@@ -103,10 +103,6 @@ namespace AllAboutTeethDCMS
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                if (primaryKeys.Count > 9)
-                {
-                    break;
-                }
                 primaryKeys.Add(reader.GetInt32(prefix + "_No"));
             }
             reader.Close();

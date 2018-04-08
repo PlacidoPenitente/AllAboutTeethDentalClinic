@@ -27,7 +27,7 @@ namespace AllAboutTeethDCMS.Users
 
         public void login()
         {
-            MainWindowViewModel.MenuViewModel.gotoAppointments();
+            MainWindowViewModel.MenuViewModel.gotoDashboard();
             loadUsers();
         }
 
@@ -55,7 +55,7 @@ namespace AllAboutTeethDCMS.Users
                     }
                     if (valid)
                     {
-                        if (value.Length < 11)
+                        if (value.Length < 21)
                         {
                             username = value;
                         }
@@ -90,7 +90,7 @@ namespace AllAboutTeethDCMS.Users
                     }
                     if (valid)
                     {
-                        if (value.Length < 11)
+                        if (value.Length < 21)
                         {
                             password = value;
                         }
@@ -153,6 +153,8 @@ namespace AllAboutTeethDCMS.Users
 
                         MainWindowViewModel.ActiveUser = user;
                         MainWindowViewModel.MenuViewModel.ActiveUser = user;
+                        Username = "";
+                        Password = "";
                         break;
                     }
                 }

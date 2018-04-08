@@ -36,6 +36,7 @@ namespace AllAboutTeethDCMS.Medicines
             {
                 Thread.Sleep(100);
             }
+            Suppliers = null;
             Suppliers = new List<Supplier>();
             foreach (Supplier supplier in SupplierViewModel.Suppliers)
             {

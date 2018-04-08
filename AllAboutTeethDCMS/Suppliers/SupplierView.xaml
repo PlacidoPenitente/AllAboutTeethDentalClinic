@@ -68,7 +68,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Column="1" Margin="0,10,0,0">
-					<Button Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
+					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
 					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
 						<!--<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
@@ -80,7 +80,7 @@
 							</EventTrigger>
 						</Button.Triggers>-->
 					</Button>
-					<Button Visibility="{Binding Supplier, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
+					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
 					<Button Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
@@ -103,7 +103,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding Supplier, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>

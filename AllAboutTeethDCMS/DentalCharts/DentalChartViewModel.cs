@@ -134,6 +134,9 @@ namespace AllAboutTeethDCMS.DentalChart
         public Patient Patient { get => patient;
             set
             {
+                patient = null;
+                TeethView = null;
+                GC.Collect();
                 patient = value;
                 TeethView = new List<ToothViewModel>();
                 foreach (PropertyInfo info in GetType().GetProperties())

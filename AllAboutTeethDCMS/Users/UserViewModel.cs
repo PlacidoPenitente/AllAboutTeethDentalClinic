@@ -156,6 +156,7 @@ namespace AllAboutTeethDCMS.Users
         protected override void beforeLoad(MySqlCommand command)
         {
             Users = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<User> list)
@@ -181,6 +182,7 @@ namespace AllAboutTeethDCMS.Users
             set
             {
                 user = null;
+                GC.Collect();
                 user = value;
 
                 ArchiveVisibility = "Collapsed";

@@ -55,6 +55,8 @@ namespace AllAboutTeethDCMS.DentalCharts
                 {
                     SaveToDatabase(Tooth, "allaboutteeth_tooths");
                 }
+                teeth = null;
+                GC.Collect();
             }
             Tooth = tooth;
         }

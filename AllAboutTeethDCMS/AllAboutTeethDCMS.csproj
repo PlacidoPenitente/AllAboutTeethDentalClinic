@@ -109,6 +109,10 @@
     <Compile Include="ContentToVisibility.cs" />
     <Compile Include="ConverterBase.cs" />
     <Compile Include="CRUDPage.cs" />
+    <Compile Include="Dashboard\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dashboard\DashboardViewModel.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DateToAgeConverter.cs" />
     <Compile Include="DateToLongConverter.cs" />
@@ -328,6 +332,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Billings\PaymentsViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dashboard\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -560,6 +568,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ActivityLogs\" />
     <Folder Include="System\Drawing\" />
   </ItemGroup>
   <ItemGroup>
@@ -737,6 +746,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icons8_User_100px_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\28340218_1825993877422532_149626040_o %281%29 copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dentist_at_work.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

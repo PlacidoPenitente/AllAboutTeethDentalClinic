@@ -16,6 +16,7 @@ using AllAboutTeethDCMS.Operations;
 using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Reports;
 using AllAboutTeethDCMS.Billings;
+using AllAboutTeethDCMS.Dashboard;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -365,6 +366,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddOperationViewModel)AddOperationView.DataContext).ActiveUser = activeUser;
             ((AddOperationViewModel)AddOperationView.DataContext).Appointment = appointment;
             ((AddOperationViewModel)AddOperationView.DataContext).MenuViewModel = this;
+            ((AddOperationViewModel)AddOperationView.DataContext).initialize();
         }
 
         private MaintenanceView maintenanceView;
@@ -378,6 +380,7 @@ namespace AllAboutTeethDCMS.Menu
         public BillingView BillingView { get => billingView; set => billingView = value; }
         public InvoiceView InvoiceView { get => invoiceView; set => invoiceView = value; }
         public TransactionReportView TransactionReportView { get => transactionReportView; set => transactionReportView = value; }
+        public DashboardView DashboardView { get => dashboardView; set => dashboardView = value; }
 
         public void gotoOperations(User activeUser)
         {
@@ -385,7 +388,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = TreatmentRecordView;
             ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).ActiveUser = activeUser;
             ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).MenuViewModel = this;
-            ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).LoadTreatmentRecords();
+            ((TreatmentRecordViewModel)TreatmentRecordView.DataContext).TreatmentRecords = null;
         }
 
         public void gotoMaintenance()
@@ -404,7 +407,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = BillingView;
             ((BillingViewModel)BillingView.DataContext).ActiveUser = ActiveUser;
             ((BillingViewModel)BillingView.DataContext).MenuViewModel = this;
-            ((BillingViewModel)BillingView.DataContext).LoadBillings();
+            ((BillingViewModel)BillingView.DataContext).Billings = null;
         }
 
         private InvoiceView invoiceView;
@@ -427,6 +430,17 @@ namespace AllAboutTeethDCMS.Menu
                 TransactionReportView = new TransactionReportView();
             }
             MainWindowViewModel.ActivePage = TransactionReportView;
+        }
+
+        private DashboardView dashboardView;
+
+        public void gotoDashboard()
+        {
+            if (DashboardView == null)
+            {
+                DashboardView = new DashboardView();
+            }
+            MainWindowViewModel.ActivePage = DashboardView;
         }
     }
 }

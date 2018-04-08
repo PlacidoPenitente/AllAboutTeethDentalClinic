@@ -132,11 +132,12 @@ namespace AllAboutTeethDCMS.Appointments
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
 
-                CreateConnection();
-                MySqlCommand command = Connection.CreateCommand();
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Appointment.Patient.No + "'";
                 command.ExecuteNonQuery();
-                Connection.Close();
+                connection.Close();
+                connection = null;
 
                 LoadAppointments();
             }
@@ -165,11 +166,23 @@ namespace AllAboutTeethDCMS.Appointments
         protected override void beforeLoad(MySqlCommand command)
         {
             command.Parameters.Clear();
-            command.CommandText = "select * from allaboutteeth_appointments where appointment_status='Pending'";
+            if(ActiveUser.Type.Equals("Administrator")||ActiveUser.Type.Equals("Staff"))
+            {
+                command.CommandText = "select * from allaboutteeth_appointments where appointment_status=@status";
+                command.Parameters.AddWithValue("@status", "Pending");
+            }
+            else
+            {
+                command.CommandText = "select * from allaboutteeth_appointments where appointment_status=@status && appointment_dentist=@dentist";
+                command.Parameters.AddWithValue("@status", "Pending");
+                command.Parameters.AddWithValue("@dentist", ActiveUser.No);
+            }
+            
         }
 
         protected override void afterLoad(List<Appointment> list)
         {
+            Appointment = null;
             Appointments = list;
             FilterResult = "";
             if (list.Count > 1)
@@ -188,25 +201,32 @@ namespace AllAboutTeethDCMS.Appointments
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
         public DelegateCommand TreatmentCommand { get => treatmentCommand; set => treatmentCommand = value; }
 
+        private string forAdminAndStaff = "Collapsed";
+        private string forAdminAndDenstist = "Collapsed";
+
         public Appointment Appointment
         {
             get => appointment;
             set
             {
+                appointment = null;
                 appointment = value;
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
-                if (value != null)
+                ForAdminAndStaff = "Collapsed";
+                ForAdminAndDenstist = "Collapsed";
+                if (ActiveUser.Type.Equals("Administrator")||ActiveUser.Type.Equals("Staff"))
                 {
-                    if (value.Status.Equals("Active"))
+                    ForAdminAndStaff = "Visible";
+                }
+
+                if(value != null && (ActiveUser.Type.Equals("Administrator") || ActiveUser.Type.Equals("Dentist")))
+                {
+                    if(value.Dentist.No==ActiveUser.No)
                     {
-                        ArchiveVisibility = "Visible";
-                    }
-                    else
-                    {
-                        UnarchiveVisibility = "Visible";
+                        ForAdminAndDenstist = "Visible";
                     }
                 }
             }
@@ -217,6 +237,10 @@ namespace AllAboutTeethDCMS.Appointments
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
 
         public string OperateVisibility { get => operateVisibility; set { operateVisibility = value; OnPropertyChanged(); } }
+
+        public string ForAdminAndStaff { get => forAdminAndStaff; set { forAdminAndStaff = value; OnPropertyChanged(); } }
+
+        public string ForAdminAndDenstist { get => forAdminAndDenstist; set { forAdminAndDenstist = value; OnPropertyChanged(); } }
 
         #endregion
 

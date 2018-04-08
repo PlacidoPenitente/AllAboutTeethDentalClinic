@@ -110,5 +110,10 @@ namespace AllAboutTeethDCMS.Patients
         public DateTime DateModified { get => dateModified; set => dateModified = value; }
         public User AddedBy { get => addedBy; set => addedBy = value; }
         public string Status { get => status; set => status = value; }
+
+        public override string ToString()
+        {
+            return No+". "+LastName+", "+FirstName+" "+MiddleName;
+        }
     }
 }

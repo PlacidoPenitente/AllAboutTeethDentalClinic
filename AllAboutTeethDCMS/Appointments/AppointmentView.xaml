@@ -53,7 +53,7 @@
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Appointments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Appointment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
+				<DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Appointments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Appointment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,0,10,0">
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}"/>
@@ -66,8 +66,8 @@
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>
 					</DataGrid.Columns>
 				</DataGrid>
-				<StackPanel Grid.Column="1" Margin="0,10,0,0">
-					<Button Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
+				<StackPanel Grid.Column="1" Margin="0,0,0,0">
+					<Button Visibility="{Binding ForAdminAndStaff}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
 					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
 						<!--<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
@@ -80,7 +80,7 @@
 						</Button.Triggers>-->
 					</Button>
 					<Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
-					<Button Visibility="{Binding Appointment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding TreatmentCommand}"/>
+					<Button Visibility="{Binding ForAdminAndDenstist, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding TreatmentCommand}"/>
 					<Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">

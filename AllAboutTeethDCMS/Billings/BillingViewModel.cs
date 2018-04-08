@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Payments;
+﻿using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.Payments;
 using AllAboutTeethDCMS.Reports;
 using MySql.Data.MySqlClient;
 using System;
@@ -68,6 +69,8 @@ namespace AllAboutTeethDCMS.Billings
             AddPaymentViewModel = new AddPaymentViewModel();
             AddPaymentCommand = new DelegateCommand(new Action(AddPayment));
             PaymentViewModel = new PaymentViewModel();
+            PatientViewModel = new PatientViewModel();
+            PatientViewModel.LoadPatients();
         }
 
         #region Methods
@@ -176,10 +179,12 @@ namespace AllAboutTeethDCMS.Billings
             DialogBoxViewModel.Answer = "";
         }
 
+        private PatientViewModel patientViewModel;
+
         protected override bool beforeCreate()
         {
             return true;
-        }
+        }    
 
         protected override void afterCreate(bool isSuccessful)
         {
@@ -187,7 +192,14 @@ namespace AllAboutTeethDCMS.Billings
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            if(PatientViewModel.Patient!=null)
+            {
+                command.Parameters.Clear();
+                command.CommandText = "SELECT `billing_no`,`billing_appointment`,`billing_amountcharged`,`billing_balance`,`billing_provider`,`billing_dateadded`,`billing_datemodified`,`billing_addedby` FROM allaboutteeth_billings, allaboutteeth_appointments, allaboutteeth_patients WHERE allaboutteeth_billings.billing_appointment = allaboutteeth_appointments.appointment_no AND allaboutteeth_appointments.appointment_patient = allaboutteeth_patients.patient_no AND allaboutteeth_patients.patient_no =" + PatientViewModel.Patient.No +"";
+            }
+
             Billings = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<Billing> list)
@@ -278,6 +290,8 @@ namespace AllAboutTeethDCMS.Billings
         public DelegateCommand AddPaymentCommand { get => addPaymentCommand; set => addPaymentCommand = value; }
         public PaymentViewModel PaymentViewModel { get => paymentViewModel; set => paymentViewModel = value; }
         public double TotalPaid { get => totalPaid; set { totalPaid = value; OnPropertyChanged(); } }
+
+        public PatientViewModel PatientViewModel { get => patientViewModel; set => patientViewModel = value; }
         #endregion
 
         #region Commands

@@ -44,18 +44,40 @@ namespace AllAboutTeethDCMS.Users
         public string PasswordCopy { get => passwordCopy;
             set
             {
-                if(!value.Contains(" ")&&value.Length<61)
+                if (!value.Contains(" "))
                 {
-                    PasswordCopyError = "";
-                    if (!Password.Equals(value))
+                    bool valid = true;
+                    if (!value.Equals(" "))
                     {
-                        PasswordCopyError = "Doesn't match with password.";
+                        PasswordCopyError = "";
+                        if (!value.Equals(Password))
+                        {
+                            PasswordCopyError = "Doesn't match with password.";
+                        }
+                        if (String.IsNullOrEmpty(value))
+                        {
+                            valid = false;
+                            passwordCopy = "";
+                            PasswordError = "Password is required.";
+                        }
+                        foreach (char c in value.ToArray())
+                        {
+                            if (!Char.IsLetterOrDigit(c))
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid)
+                        {
+                            if (value.Length < 21)
+                            {
+                                passwordCopy = value;
+                            }
+                        }
                     }
-                    if (!Validate(value))
-                    {
-                        PasswordCopyError = "Please re-type your password.";
-                    }
-                    passwordCopy = value;
+
+                    OnPropertyChanged("PasswordCopyError");
                     OnPropertyChanged();
                 }
             }
@@ -98,19 +120,35 @@ namespace AllAboutTeethDCMS.Users
         public string Username { get => User.Username;
             set
             {
-                if(!value.Contains(" ") && value.Length < 61)
+                if(!value.Contains(" "))
                 {
-                    UsernameError = "";
-                    UsernameError = ValidateUsername(value, CopyUser.Username);
-                    if (!Validate(value))
+                    bool valid = true;
+                    if (!value.Equals(" "))
                     {
-                        UsernameError = "Username is required.";
+                        UsernameError = "";
+                        UsernameError = ValidateUsername(value, CopyUser.Username);
+                        if (String.IsNullOrEmpty(value))
+                        {
+                            valid = false;
+                            User.Username = "";
+                            UsernameError = "Username is required.";
+                        }
+                        foreach (char c in value.ToArray())
+                        {
+                            if (!Char.IsLetterOrDigit(c))
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid)
+                        {
+                            if (value.Length < 21)
+                            {
+                                User.Username = value;
+                            }
+                        }
                     }
-                    if(value.Length<6)
-                    {
-                        UsernameError = "Username is too short.";
-                    }
-                    User.Username = value;
                     OnPropertyChanged();
                 }
             }
@@ -118,23 +156,39 @@ namespace AllAboutTeethDCMS.Users
         public string Password { get => User.Password; 
             set
             {
-                if (!value.Contains(" ") && value.Length < 11)
+                if (!value.Contains(" "))
                 {
-                    PasswordCopyError = "";
-                    PasswordError = "";
-                    if (!value.Equals(PasswordCopy))
+                    bool valid = true;
+                    if (!value.Equals(" "))
                     {
-                        PasswordCopyError = "Doesn't match with password.";
+                        PasswordError = "";
+                        if (!value.Equals(PasswordCopy))
+                        {
+                            PasswordCopyError = "Doesn't match with password.";
+                        }
+                        if (String.IsNullOrEmpty(value))
+                        {
+                            valid = false;
+                            User.Password = "";
+                            PasswordError = "Password is required.";
+                        }
+                        foreach (char c in value.ToArray())
+                        {
+                            if (!Char.IsLetterOrDigit(c))
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+                        if (valid)
+                        {
+                            if (value.Length < 21)
+                            {
+                                User.Password = value;
+                            }
+                        }
                     }
-                    if (!Validate(value))
-                    {
-                        PasswordError = "Password is required.";
-                    }
-                    if(value.Length<6)
-                    {
-                        PasswordError = "Password too short.";
-                    }
-                    User.Password = value;
+
                     OnPropertyChanged("PasswordCopyError");
                     OnPropertyChanged();
                 }

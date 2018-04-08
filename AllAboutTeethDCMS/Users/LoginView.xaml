@@ -25,6 +25,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UserNameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
             <TextBox x:Name="passwordBox" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBox2}"/>
             <Button x:Name="loginButton" Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}" Command="{Binding LoginCommand}"/>
@@ -50,6 +51,20 @@
                 </Button.Triggers>
             </Button>
             <Button Grid.Column="1" Content="About" Style="{StaticResource IconButton}" Background="{StaticResource MidnightBlue}" root:AttachedProperties.Icon="{StaticResource icons8_Forgot_Password_32px.png}"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Image Stretch="UniformToFill" Source="{StaticResource dentist_at_work.jpg}">
+                <Image.Effect>
+                    <BlurEffect Radius="15"/>
+                </Image.Effect>
+            </Image>
+        </Grid>
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
+            <TextBlock Text="Strong N' White Dental Clinic Co." FontFamily="{StaticResource RobotoMedium}" FontSize="36" Foreground="{StaticResource Clouds}">
+                <TextBlock.Effect>
+                    <DropShadowEffect/>
+                </TextBlock.Effect>
+            </TextBlock>
         </Grid>
         <root:About Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" x:Name="about"/>
     </Grid>

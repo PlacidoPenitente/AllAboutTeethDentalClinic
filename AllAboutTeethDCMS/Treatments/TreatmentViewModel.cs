@@ -152,6 +152,8 @@ namespace AllAboutTeethDCMS.Treatments
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Treatments = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<Treatment> list)
@@ -173,19 +175,23 @@ namespace AllAboutTeethDCMS.Treatments
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
+        private string forAdminOnly = "Collapsed";
+
         public Treatment Treatment
         {
             get => treatment;
             set
             {
+                treatment = null;
                 treatment = value;
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
-                if (value != null)
+                ForAdminOnly = "Collapsed";
+                if (value != null&&(ActiveUser.Type.Equals("Administrator")))
                 {
-                    if(!value.Status.Equals("Scheduled"))
+                    if (!value.Status.Equals("Scheduled"))
                     {
                         if (value.Status.Equals("Active"))
                         {
@@ -196,6 +202,7 @@ namespace AllAboutTeethDCMS.Treatments
                             UnarchiveVisibility = "Visible";
                         }
                     }
+                    ForAdminOnly = "Visible";
                 }
             }
         }
@@ -203,6 +210,8 @@ namespace AllAboutTeethDCMS.Treatments
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public string ForAdminOnly { get => forAdminOnly; set { forAdminOnly = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands

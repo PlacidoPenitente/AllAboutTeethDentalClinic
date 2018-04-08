@@ -30,7 +30,10 @@ namespace AllAboutTeethDCMS
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ((LoginViewModel)login.DataContext).User = null;
+            if(MessageBox.Show("Are you sure you want to logout?", "Logout", MessageBoxButton.YesNo, MessageBoxImage.Question)==MessageBoxResult.Yes)
+            {
+                ((LoginViewModel)login.DataContext).User = null;
+            }
         }
     }
 }

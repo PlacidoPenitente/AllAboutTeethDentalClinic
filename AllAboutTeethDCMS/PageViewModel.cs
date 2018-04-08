@@ -23,7 +23,7 @@ namespace AllAboutTeethDCMS
 
         #region Properties
         public MenuViewModel MenuViewModel { get => menuViewModel; set => menuViewModel = value; }
-        public MySqlConnection Connection { get => connection; set => connection = value; }
+        //public MySqlConnection Connection { get => connection; set => connection = value; }
         public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
         public User ActiveUser { get => activeUser; set => activeUser = value; }
         #endregion

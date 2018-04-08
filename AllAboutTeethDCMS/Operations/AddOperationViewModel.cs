@@ -88,17 +88,19 @@ namespace AllAboutTeethDCMS.Operations
 
 
                     MessageBox.Show("Treatment was successfully saved.", "Treatment Saved", MessageBoxButton.OK, MessageBoxImage.Information);
-                    CreateConnection();
-                    MySqlCommand command = Connection.CreateCommand();
+                    MySqlConnection connection = CreateConnection();
+                    MySqlCommand command = connection.CreateCommand();
                     command.CommandText = "update allaboutteeth_appointments set appointment_status='Completed' where appointment_no = '"+Appointment.No+"'";
                     command.ExecuteNonQuery();
-                    Connection.Close();
+                    connection.Close();
+                    connection = null;
 
-                    CreateConnection();
-                    MySqlCommand command2 = Connection.CreateCommand();
+                    MySqlConnection connection2 = CreateConnection();
+                    MySqlCommand command2 = connection2.CreateCommand();
                     command2.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Appointment.Patient.No + "'";
                     command2.ExecuteNonQuery();
-                    Connection.Close();
+                    connection2.Close();
+                    connection2 = null;
 
                     MenuViewModel.gotoBillings();
                 }
@@ -133,6 +135,11 @@ namespace AllAboutTeethDCMS.Operations
 
             Consumables = new List<ConsumableItem>();
             AddBillingViewModel = new AddBillingViewModel();
+        }
+
+        public void initialize()
+        {
+            MedicineViewModel.ActiveUser = ActiveUser;
         }
 
         public virtual void resetForm()
@@ -327,6 +334,7 @@ namespace AllAboutTeethDCMS.Operations
 
         public void clearTeeth()
         {
+            ToothList = null;
             ToothList = new List<ToothViewModel>();
         }
 
@@ -383,6 +391,7 @@ namespace AllAboutTeethDCMS.Operations
             if(SelectedItems!=null)
             {
                 SelectedItems.Clear();
+                Consumables = null;
                 Consumables = new List<ConsumableItem>();
             }
         }

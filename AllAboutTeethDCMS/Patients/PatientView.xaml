@@ -79,6 +79,17 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
+					<Button Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_False_Teeth_32px.png}" Background="{StaticResource WetAsphalt}" Command="{Binding LoadChartCommand}">
+						<Button.Triggers>
+							<EventTrigger RoutedEvent="Button.Click">
+								<BeginStoryboard>
+									<Storyboard>
+										<DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="dental"/>
+									</Storyboard>
+								</BeginStoryboard>
+							</EventTrigger>
+						</Button.Triggers>
+					</Button>
 					<Button Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
 					<Button Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
@@ -108,17 +119,6 @@
 								<BeginStoryboard>
 									<Storyboard>
 										<DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="dialog"/>
-									</Storyboard>
-								</BeginStoryboard>
-							</EventTrigger>
-						</Button.Triggers>
-					</Button>
-					<Button Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_False_Teeth_32px.png}" Background="{StaticResource BelizeHole}" Command="{Binding LoadChartCommand}">
-						<Button.Triggers>
-							<EventTrigger RoutedEvent="Button.Click">
-								<BeginStoryboard>
-									<Storyboard>
-										<DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="dental"/>
 									</Storyboard>
 								</BeginStoryboard>
 							</EventTrigger>

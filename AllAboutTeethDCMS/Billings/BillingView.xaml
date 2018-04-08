@@ -45,7 +45,8 @@
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Billing: "/>
+				<ComboBox Style="{StaticResource ComboBox}" Width="250" DataContext="{Binding PatientViewModel}" ItemsSource="{Binding Patients}" SelectedItem="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0"/>
+				<!--<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Billing: "/>-->
 				<Button Margin="0,9,0,0" Height="43" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100" Command="{Binding LoadCommand}"/>
 			</Grid>
 			<Grid Grid.Row="1">

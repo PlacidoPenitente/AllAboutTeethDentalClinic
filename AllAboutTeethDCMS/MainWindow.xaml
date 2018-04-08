@@ -25,6 +25,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"
+                   />
             <Grid Background="{StaticResource MidnightBlue}" Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -90,7 +92,6 @@
             </Border>
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
-            <Button/>
         </Grid>
         <login:LoginView x:Name="login" DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
     </Grid>

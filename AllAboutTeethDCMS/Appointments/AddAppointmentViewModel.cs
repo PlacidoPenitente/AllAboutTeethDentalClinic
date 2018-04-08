@@ -43,6 +43,7 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 Thread.Sleep(100);
             }
+            Treatments = null;
             Treatments = new List<Treatment>();
             foreach (Treatment treatment in TreatmentViewModel.Treatments)
             {
@@ -72,6 +73,7 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 Thread.Sleep(100);
             }
+            Patients = null;
             Patients = new List<Patient>();
             foreach (Patient patient in PatientViewModel.Patients)
             {
@@ -101,10 +103,11 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 Thread.Sleep(100);
             }
+            Dentists = null;
             Dentists = new List<User>();
             foreach (User user in UserViewModel.Users)
             {
-                if (user.Status.Equals("Active")&& user.Type.Equals("Dentist"))
+                if (user.Status.Equals("Active")&& (user.Type.Equals("Dentist")|| user.Type.Equals("Administrator")))
                 {
                     Dentists.Add(user);
                 }
@@ -239,11 +242,12 @@ namespace AllAboutTeethDCMS.Appointments
                 }
                 DialogBoxViewModel.Answer = "";
 
-                CreateConnection();
-                MySqlCommand command = Connection.CreateCommand();
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
                 command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='"+ActiveUser.No+"' where patient_no='" + Patient.No + "'";
                 command.ExecuteNonQuery();
-                Connection.Close();
+                connection.Close();
+                connection = null;
 
                 PatientViewModel.Patients = null;
                 startLoadPatientsThread();

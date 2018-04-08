@@ -193,6 +193,8 @@ namespace AllAboutTeethDCMS.Patients
             get => patient;
             set
             {
+                patient = null;
+                GC.Collect();
                 patient = value;
                 OnPropertyChanged();
 

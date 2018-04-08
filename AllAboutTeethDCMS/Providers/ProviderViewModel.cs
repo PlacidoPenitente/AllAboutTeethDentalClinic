@@ -152,6 +152,8 @@ namespace AllAboutTeethDCMS.Providers
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            Providers = null;
+            GC.Collect();
         }
 
         protected override void afterLoad(List<Provider> list)
@@ -173,17 +175,22 @@ namespace AllAboutTeethDCMS.Providers
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
+        private string forAdminOnly = "Collapsed";
+        
         public Provider Provider
         {
             get => provider;
             set
             {
+                provider = null;
                 provider = value;
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
-                if (value != null)
+                ForAdminOnly = "Collapsed";
+
+                if (value != null&&(ActiveUser.Type.Equals("Administrator")))
                 {
                     if (value.Status.Equals("Active"))
                     {
@@ -193,6 +200,7 @@ namespace AllAboutTeethDCMS.Providers
                     {
                         UnarchiveVisibility = "Visible";
                     }
+                    ForAdminOnly = "Visible";
                 }
             }
         }
@@ -200,6 +208,8 @@ namespace AllAboutTeethDCMS.Providers
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public string ForAdminOnly { get => forAdminOnly; set { forAdminOnly = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands
