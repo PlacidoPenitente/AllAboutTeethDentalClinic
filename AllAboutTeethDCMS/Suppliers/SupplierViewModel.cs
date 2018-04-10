@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Suppliers
@@ -79,6 +80,20 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                if (Supplier.Status.Equals("Archived"))
+                {
+                    addActivityLog.ActivityLog.Activity = "User archived a supplier named " + Supplier.Name + ".";
+                }
+                else
+                {
+
+                    addActivityLog.ActivityLog.Activity = "User unarchived a supplier named " + Supplier.Name + ".";
+                }
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -123,6 +138,12 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User deleted a supplier named " + Supplier.Name + ".";
+                addActivityLog.saveActivityLog();
+
                 LoadSuppliers();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
@@ -148,6 +169,7 @@ namespace AllAboutTeethDCMS.Suppliers
 
         protected override void afterCreate(bool isSuccessful)
         {
+
         }
 
         protected override void beforeLoad(MySqlCommand command)
@@ -176,6 +198,8 @@ namespace AllAboutTeethDCMS.Suppliers
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         private string forAdminOnly = "Collapsed";
+
+        private string addVisibility = "Collapsed";
 
         public Supplier Supplier
         {
@@ -209,6 +233,8 @@ namespace AllAboutTeethDCMS.Suppliers
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
 
         public string ForAdminOnly { get => forAdminOnly; set { forAdminOnly = value; OnPropertyChanged(); } }
+
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands

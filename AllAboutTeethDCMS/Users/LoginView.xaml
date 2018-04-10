@@ -5,33 +5,38 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Users"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
-             mc:Ignorable="d" 
-             Visibility="{Binding User, Converter={StaticResource ObjectToVisibilityConverterInverted}, UpdateSourceTrigger=PropertyChanged}"
+             mc:Ignorable="d"
+             Visibility="{Binding Visibility, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:LoginViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid Background="{StaticResource WetAsphalt}">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource MidnightBlue}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
-            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UserNameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
-            <TextBox x:Name="passwordBox" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBox2}"/>
-            <Button x:Name="loginButton" Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}" Command="{Binding LoginCommand}"/>
+            <Image Margin="5" Source="{DynamicResource logo}" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5"/>
+            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
+            <TextBox root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBoxDark}"/>
+            <Button Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}" Command="{Binding LoginCommand}"/>
         </Grid>
-        <Grid Grid.Row="1" Background="{StaticResource WetAsphalt}">
-
+        <Grid Grid.Row="1" Background="Transparent">
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
+                <StackPanel>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Forgot_Password_32px.png}" Content="Recovery"/>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource IconButton}" Background="{StaticResource PeterRiver}" root:AttachedProperties.Icon="{StaticResource icons8_Info_32px_2.png}" Content="About"/>
+                </StackPanel>
+            </Grid>
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
             <Grid.ColumnDefinitions>
@@ -39,33 +44,6 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Content="About" Style="{StaticResource IconButton}" Background="{StaticResource MidnightBlue}" root:AttachedProperties.Icon="{StaticResource icons8_Info_32px_2.png}">
-                <Button.Triggers>
-                    <EventTrigger RoutedEvent="Button.Click">
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation From="0" To="1" Duration="0:0:0.2" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="about"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </Button.Triggers>
-            </Button>
-            <Button Grid.Column="1" Content="About" Style="{StaticResource IconButton}" Background="{StaticResource MidnightBlue}" root:AttachedProperties.Icon="{StaticResource icons8_Forgot_Password_32px.png}"/>
         </Grid>
-        <Grid Grid.Row="1">
-            <Image Stretch="UniformToFill" Source="{StaticResource dentist_at_work.jpg}">
-                <Image.Effect>
-                    <BlurEffect Radius="15"/>
-                </Image.Effect>
-            </Image>
-        </Grid>
-        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1">
-            <TextBlock Text="Strong N' White Dental Clinic Co." FontFamily="{StaticResource RobotoMedium}" FontSize="36" Foreground="{StaticResource Clouds}">
-                <TextBlock.Effect>
-                    <DropShadowEffect/>
-                </TextBlock.Effect>
-            </TextBlock>
-        </Grid>
-        <root:About Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}}" Grid.Row="1" x:Name="about"/>
     </Grid>
 </UserControl>

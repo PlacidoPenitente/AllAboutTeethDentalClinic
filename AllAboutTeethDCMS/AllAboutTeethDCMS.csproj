@@ -74,6 +74,14 @@
     <Compile Include="About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ActivityLogs\ActivityLog.cs" />
+    <Compile Include="ActivityLogs\ActivityLogView.xaml.cs">
+      <DependentUpon>ActivityLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityLogs\ActivityLogViewModel.cs" />
+    <Compile Include="ActivityLogs\AddActivityLogViewModel.cs" />
+    <Compile Include="AdminAndStaffToVisibilityConverter.cs" />
+    <Compile Include="AdminToVisibilityConverter.cs" />
     <Compile Include="AgeToVisibilityConverter.cs" />
     <Compile Include="AgeToVisibilityInvertedConverter.cs" />
     <Compile Include="AllAboutTeeth.cs" />
@@ -232,6 +240,7 @@
     <Compile Include="Reports\TransactionReportViewModel.cs" />
     <Compile Include="StringToImageConverter.cs" />
     <Compile Include="StringToPasswordMaskConverter.cs" />
+    <Compile Include="StringToVisibilityConverter.cs" />
     <Compile Include="Suppliers\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
@@ -312,6 +321,10 @@
     </Compile>
     <Compile Include="WebcamCaptureViewModel.cs" />
     <Page Include="About.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ActivityLogs\ActivityLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -568,7 +581,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ActivityLogs\" />
     <Folder Include="System\Drawing\" />
   </ItemGroup>
   <ItemGroup>
@@ -752,6 +764,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\dentist_at_work.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

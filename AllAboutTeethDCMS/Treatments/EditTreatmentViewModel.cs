@@ -11,7 +11,6 @@ namespace AllAboutTeethDCMS.Treatments
 {
     public class EditTreatmentViewModel : AddTreatmentViewModel
     {
-
         public override void saveTreatment()
         {
             foreach (PropertyInfo info in GetType().GetProperties())

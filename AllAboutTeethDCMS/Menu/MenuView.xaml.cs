@@ -75,12 +75,14 @@ namespace AllAboutTeethDCMS.Menu
 
         private void dashboard_Click(object sender, RoutedEventArgs e)
         {
-
+            MenuViewModel menuViewModel = (MenuViewModel)DataContext;
+            menuViewModel.gotoDashboard();
         }
 
         private void activityLog_Click(object sender, RoutedEventArgs e)
         {
-
+            MenuViewModel menuViewModel = (MenuViewModel)DataContext;
+            menuViewModel.gotoActivityLogs();
         }
 
         private void dentist_Click(object sender, RoutedEventArgs e)

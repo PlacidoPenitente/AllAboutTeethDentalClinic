@@ -64,6 +64,7 @@ namespace AllAboutTeethDCMS.Users
                     }
                 }
                 PasswordCopy = "";
+                PasswordError = "";
             }
             DialogBoxViewModel.Answer = "";
         }

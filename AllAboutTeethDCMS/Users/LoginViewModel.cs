@@ -1,209 +1,82 @@
-﻿using AllAboutTeethDCMS.Menu;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
+using System.ComponentModel;
 
 namespace AllAboutTeethDCMS.Users
 {
-    public class LoginViewModel : CRUDPage<User>
+    public class LoginViewModel : PageViewModel
     {
         private User user;
-        private List<User> users;
-
-        private string username = "";
-        private string userNameError = "";
-        private string password = "";
+        private string username = "jaymark";
+        private string password = "jaymark";
+        private string usernameError = "";
         private string passwordError = "";
+        private string visibility = "Visible";
+        private DelegateCommand loginCommand;
+        private BackgroundWorker loginBackgroundWorker;
+        private bool isValidUser = false;
+        private double width = 0;
 
         public LoginViewModel()
         {
-            LoginCommand = new DelegateCommand(new Action(login));
+            User = new User();
+            LoginBackgroundWorker = new BackgroundWorker();
+            LoginBackgroundWorker.DoWork += Login;
+            LoginBackgroundWorker.RunWorkerCompleted += LoginCompleted;
+            LoginCommand = new DelegateCommand(new Action(StartLoginProcess));
         }
 
-        public void login()
-        {
-            MainWindowViewModel.MenuViewModel.gotoDashboard();
-            loadUsers();
-        }
-
-        public User User { get => user; set { user = value; OnPropertyChanged(); } }
-        public List<User> Users { get => users; set { users = value; OnPropertyChanged(); } }
-
-        public string Username { get => username; set {
-                bool valid = true;
-                if(!value.Equals(" "))
-                {
-                    UserNameError = "";
-                    if (String.IsNullOrEmpty(value))
-                    {
-                        valid = false;
-                        username = "";
-                        UserNameError = "Username is required.";
-                    }
-                    foreach (char c in value.ToArray())
-                    {
-                        if (!Char.IsLetterOrDigit(c))
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
-                    if (valid)
-                    {
-                        if (value.Length < 21)
-                        {
-                            username = value;
-                        }
-                    }
-                }
-                OnPropertyChanged();
-            }
-        }
-        public string UserNameError { get => userNameError; set { userNameError = value; OnPropertyChanged(); } }
-        public string Password
-        {
-            get => password;
-            set
-            {
-                bool valid = true;
-                if(!value.Equals(" "))
-                {
-                    PasswordError = "";
-                    if (String.IsNullOrEmpty(value))
-                    {
-                        valid = false;
-                        password = "";
-                        PasswordError = "Password is required.";
-                    }
-                    foreach (char c in value.ToArray())
-                    {
-                        if (!Char.IsLetterOrDigit(c))
-                        {
-                            valid = false;
-                            break;
-                        }
-                    }
-                    if (valid)
-                    {
-                        if (value.Length < 21)
-                        {
-                            password = value;
-                        }
-                    }
-                }
-                OnPropertyChanged();
-            }
-        }
-
-        private DelegateCommand loginCommand;
-
-        public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
-
+        public User User { get => user; set => user = value; }
         public DelegateCommand LoginCommand { get => loginCommand; set => loginCommand = value; }
+        public BackgroundWorker LoginBackgroundWorker { get => loginBackgroundWorker; set => loginBackgroundWorker = value; }
+        public bool IsValidUser { get => isValidUser; set => isValidUser = value; }
 
-        public void loadUsers()
+        public string Username { get => username; set { username = value; OnPropertyChanged(); } }
+        public string Password { get => password; set { password = value; OnPropertyChanged(); } }
+        public string UsernameError { get => usernameError; set { usernameError = value; OnPropertyChanged(); } }
+        public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
+        public string Visibility { get => visibility; set { visibility = value; OnPropertyChanged(); } }
+        public double Width { get => width; set { width = value; OnPropertyChanged(); } }
+
+        public void StartLoginProcess()
         {
-            UserNameError = "";
-            PasswordError = "";
-            if (String.IsNullOrEmpty(Username.Trim()))
+            if(!LoginBackgroundWorker.IsBusy)
             {
-                UserNameError = "Username is required.";
-                if (String.IsNullOrEmpty(Password.Trim()))
-                {
-                    PasswordError = "Password is required.";
-                }
-            }
-            else
-            {
-                if (String.IsNullOrEmpty(Password.Trim()))
-                {
-                    PasswordError = "Password is required.";
-                }
-                else
-                {
-                    startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
-                }
+                LoginBackgroundWorker.RunWorkerAsync();
             }
         }
 
-        public void deleteUser()
+        public void Login(object sender, DoWorkEventArgs e)
         {
-            startDeleteFromDatabase(User, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
-        }
-
-        protected override void afterLoad(List<User> list)
-        {
-            if(list.Count>0)
+            using (MySqlConnection connection = CreateConnection())
             {
-                bool valid = false;
-                foreach(User user in list)
+                using (MySqlCommand command = connection.CreateCommand())
                 {
-                    if(user.Password.Equals(Password))
+                    command.CommandText = "SELECT * FROM allaboutteeth_users where user_username=@username AND user_password=@password AND user_status='Active'";
+                    command.Parameters.AddWithValue("@username", Username);
+                    command.Parameters.AddWithValue("@password", Password);
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        valid = true;
-                        User = user;
-
-                        MainWindowViewModel.MenuViewModel = new MenuViewModel();
-                        MainWindowViewModel.MenuViewModel.MainWindowViewModel = MainWindowViewModel;
-
-                        MainWindowViewModel.ActiveUser = user;
-                        MainWindowViewModel.MenuViewModel.ActiveUser = user;
-                        Username = "";
-                        Password = "";
-                        break;
+                        if(reader.Read())
+                        {
+                            User = (User)LoadObject(User,reader.GetInt32("user_no"));
+                            IsValidUser = true;
+                        }
+                        reader.Close();
+                        connection.Close();
                     }
                 }
-                if(!valid)
-                {
-                    PasswordError = "Incorrect password. Please try again.";
-                }
             }
-            else
+        }
+
+        public void LoginCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(IsValidUser)
             {
-                UserNameError = "Account does not exist.";
+                MainWindowViewModel.ActiveUser = User;
+                MainWindowViewModel.MenuViewModel.gotoDashboard();
+                Visibility = "Collapsed";
             }
-        }
-
-        protected override bool beforeUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterUpdate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeCreate()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterCreate(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool beforeDelete()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void afterDelete(bool isSuccessful)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void beforeLoad(MySqlCommand command)
-        {
-            command.Parameters.Clear();
-            command.CommandText = "select * from allaboutteeth_users where user_username=@username";
-            command.Parameters.AddWithValue("@username", Username);
         }
     }
 }

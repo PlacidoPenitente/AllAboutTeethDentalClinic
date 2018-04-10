@@ -35,5 +35,5 @@
     <ImageSource x:Key="icons8_Forgot_Password_32px.png">/Resources/icons8_Forgot_Password_32px.png</ImageSource>
     <ImageSource x:Key="28340218_1825993877422532_149626040_o (1) copy.png">/Resources/28340218_1825993877422532_149626040_o (1) copy.png</ImageSource>
     <ImageSource x:Key="dentist_at_work.jpg">/Resources/dentist_at_work.jpg</ImageSource>
-    <ImageSource x:Key="logo">/Resources/dentist_at_work.jpg</ImageSource>
+    <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
 </ResourceDictionary>

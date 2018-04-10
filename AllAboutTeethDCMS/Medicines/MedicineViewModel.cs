@@ -25,6 +25,9 @@ namespace AllAboutTeethDCMS.Medicines
         private string unarchiveVisibility = "Collapsed";
         #endregion
 
+        private string addVisibility = "Collapsed";
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
+
         public MedicineViewModel()
         {
             LoadCommand = new DelegateCommand(new Action(LoadMedicines));

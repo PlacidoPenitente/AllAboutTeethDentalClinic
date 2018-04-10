@@ -1,6 +1,4 @@
-﻿using AllAboutTeethDCMS.Menu;
-using AllAboutTeethDCMS.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AllAboutTeethDCMS
+namespace AllAboutTeethDCMS.ActivityLogs
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ActivityLogView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ActivityLogView : UserControl
     {
-        public MainWindow()
+        public ActivityLogView()
         {
             InitializeComponent();
-            ((MenuViewModel)menuView.DataContext).MainWindowViewModel = (MainWindowViewModel)DataContext;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
         }
     }
 }

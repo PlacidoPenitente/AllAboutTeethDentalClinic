@@ -9,7 +9,7 @@
         Icon="{StaticResource icons8_Tooth_32px.png}"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Height="600" Width="800">
+        Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}" Height="600" Width="800" Style="{x:Null}">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -93,6 +93,6 @@
         </Grid>
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
         </Grid>
-        <login:LoginView x:Name="login" DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
+        <login:LoginView DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
     </Grid>
 </Window>

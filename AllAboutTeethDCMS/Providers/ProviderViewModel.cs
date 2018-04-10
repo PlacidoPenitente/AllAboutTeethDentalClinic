@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Providers
@@ -79,6 +80,19 @@ namespace AllAboutTeethDCMS.Providers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                if (Provider.Status.Equals("Archived"))
+                {
+                    addActivityLog.ActivityLog.Activity = "User archived a provider named " + Provider.Name + ".";
+                }
+                else
+                {
+                    addActivityLog.ActivityLog.Activity = "User unarchived a provider named " + Provider.Name + ".";
+                }
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -123,6 +137,12 @@ namespace AllAboutTeethDCMS.Providers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User deleted a provider named " + Provider.Name + ".";
+                addActivityLog.saveActivityLog();
+
                 LoadProviders();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
@@ -176,6 +196,7 @@ namespace AllAboutTeethDCMS.Providers
         public DelegateCommand EditCommand { get => editCommand; set => editCommand = value; }
 
         private string forAdminOnly = "Collapsed";
+        private string addVisibility = "Collapsed";
         
         public Provider Provider
         {
@@ -210,6 +231,8 @@ namespace AllAboutTeethDCMS.Providers
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
 
         public string ForAdminOnly { get => forAdminOnly; set { forAdminOnly = value; OnPropertyChanged(); } }
+
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
         #endregion
 
         #region Commands

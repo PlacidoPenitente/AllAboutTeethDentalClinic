@@ -93,7 +93,7 @@ namespace AllAboutTeethDCMS.Appointments
                 loadUsersThread = new Thread(setUsers);
                 loadUsersThread.IsBackground = true;
                 loadUsersThread.Start();
-                UserViewModel.LoadUsers();
+                //UserViewModel.LoadUsers();
             }
         }
 

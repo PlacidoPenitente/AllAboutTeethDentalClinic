@@ -82,6 +82,7 @@ namespace AllAboutTeethDCMS
             MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "SELECT * FROM " + tableName;
+            filter = "";
             if (!filter.Trim().Equals(""))
             {
                 command.CommandText += " WHERE";
@@ -125,7 +126,6 @@ namespace AllAboutTeethDCMS
             MySqlCommand command = connection.CreateCommand();
 
             command.CommandText = "SELECT * FROM " + tableName + " WHERE " + prefix + "_No=@no";
-
             command.Parameters.AddWithValue("@no", key);
             List<object> temp = new List<object>();
 
@@ -156,7 +156,7 @@ namespace AllAboutTeethDCMS
                     }
                     else
                     {
-                        var infoTemp = Activator.CreateInstance(info.PropertyType);
+                        object infoTemp = Activator.CreateInstance(info.PropertyType);
                         infoTemp.GetType().GetProperty("No").SetValue(infoTemp, reader.GetInt32(prefix + "_" + info.Name));
                         info.SetValue(model, infoTemp);
                         temp.Add(infoTemp);

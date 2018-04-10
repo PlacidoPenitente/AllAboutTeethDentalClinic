@@ -21,6 +21,9 @@ namespace AllAboutTeethDCMS.Treatments
         private DelegateCommand addCommand;
         private DelegateCommand editCommand;
 
+        private string addVisibility = "Collapsed";
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; } }
+
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
         #endregion

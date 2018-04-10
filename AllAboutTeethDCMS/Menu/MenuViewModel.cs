@@ -17,6 +17,7 @@ using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Reports;
 using AllAboutTeethDCMS.Billings;
 using AllAboutTeethDCMS.Dashboard;
+using AllAboutTeethDCMS.ActivityLogs;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -45,6 +46,10 @@ namespace AllAboutTeethDCMS.Menu
             }
             MainWindowViewModel.ActivePage = UserView;
             ((UserViewModel)UserView.DataContext).ActiveUser = ActiveUser;
+            if(ActiveUser.Type.Equals("Administrator"))
+            {
+                ((UserViewModel)UserView.DataContext).AddVisibility = "Visible";
+            }
             ((UserViewModel)UserView.DataContext).MenuViewModel = this;
             ((UserViewModel)UserView.DataContext).LoadUsers();
         }
@@ -184,6 +189,14 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = SupplierView;
             ((SupplierViewModel)SupplierView.DataContext).ActiveUser = ActiveUser;
             ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
+            if(ActiveUser.Type.Equals("Administrator"))
+            {
+                ((SupplierViewModel)SupplierView.DataContext).AddVisibility = "Visible";
+            }
+            else
+            {
+                ((SupplierViewModel)SupplierView.DataContext).AddVisibility = "Collapsed";
+            }
             ((SupplierViewModel)SupplierView.DataContext).LoadSuppliers();
         }
 
@@ -230,6 +243,14 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = ProviderView;
             ((ProviderViewModel)ProviderView.DataContext).ActiveUser = ActiveUser;
             ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
+            if(ActiveUser.Type.Equals("Administrator"))
+            {
+                ((ProviderViewModel)ProviderView.DataContext).AddVisibility = "Visible";
+            }
+            else
+            {
+                ((ProviderViewModel)ProviderView.DataContext).AddVisibility = "Collapsed";
+            }
             ((ProviderViewModel)ProviderView.DataContext).LoadProviders();
         }
 
@@ -276,6 +297,14 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = MedicineView;
             ((MedicineViewModel)MedicineView.DataContext).ActiveUser = ActiveUser;
             ((MedicineViewModel)MedicineView.DataContext).MenuViewModel = this;
+            if(!ActiveUser.Type.Equals("Dentist"))
+            {
+                ((MedicineViewModel)MedicineView.DataContext).AddVisibility = "Visible";
+            }
+            else
+            {
+                ((MedicineViewModel)MedicineView.DataContext).AddVisibility = "Collapsed";
+            }
             ((MedicineViewModel)MedicineView.DataContext).LoadMedicines();
         }
 
@@ -381,6 +410,7 @@ namespace AllAboutTeethDCMS.Menu
         public InvoiceView InvoiceView { get => invoiceView; set => invoiceView = value; }
         public TransactionReportView TransactionReportView { get => transactionReportView; set => transactionReportView = value; }
         public DashboardView DashboardView { get => dashboardView; set => dashboardView = value; }
+        public ActivityLogView ActivityLogView { get => activityLogView; set => activityLogView = value; }
 
         public void gotoOperations(User activeUser)
         {
@@ -441,6 +471,17 @@ namespace AllAboutTeethDCMS.Menu
                 DashboardView = new DashboardView();
             }
             MainWindowViewModel.ActivePage = DashboardView;
+        }
+
+        private ActivityLogView activityLogView;
+
+        public void gotoActivityLogs()
+        {
+            if (ActivityLogView == null)
+            {
+                ActivityLogView = new ActivityLogView();
+            }
+            MainWindowViewModel.ActivePage = ActivityLogView;
         }
     }
 }

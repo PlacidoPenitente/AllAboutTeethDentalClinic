@@ -74,15 +74,23 @@
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="100"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Border SnapsToDevicePixels="True" Background="{TemplateBinding Background}"/>
-                        <Border SnapsToDevicePixels="True" x:Name="back" Background="White" Opacity="0"/>
-                        <Border SnapsToDevicePixels="True" x:Name="back_pressed" Background="Black" Opacity="0"/>
-                        <Border SnapsToDevicePixels="True" Height="48" Width="48">
-                            <Image Stretch="None" Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.ColumnSpan="2" Background="{TemplateBinding Background}"/>
+                        <Border Grid.ColumnSpan="2" x:Name="back" Background="White" Opacity="0"/>
+                        <Border Grid.ColumnSpan="2" x:Name="back_pressed" Background="Black" Opacity="0"/>
+                        <Border x:Name="icon" Height="48" Width="100">
+                            <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                        </Border>
+                        <Border Grid.Column="1">
+                            <ContentPresenter x:Name="content" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -90,6 +98,9 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="100" To="0" Duration="0:0:0.2"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -97,6 +108,9 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="0" To="100" Duration="0:0:0.2"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -181,7 +195,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="PasswordTextBox2" TargetType="{x:Type TextBox}">
+    <Style x:Key="PasswordTextBoxDark" TargetType="{x:Type TextBox}">
         <Setter Property="FontFamily" Value="Consolas"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>

@@ -28,4 +28,7 @@
     <root:DoubleToBooleanConverter x:Key="DoubleToBooleanConverter"/>
     <root:StringToPasswordMaskConverter x:Key="StringToPasswordMaskConverter"/>
     <root:ImageToBase64Converter x:Key="ImageToBase64Converter"/>
+    <root:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <root:AdminAndStaffToVisibilityConverter x:Key="AdminAndStaffToVisibilityConverter"/>
+    <root:AdminToVisibilityConverter x:Key="AdminToVisibilityConverter"/>
 </ResourceDictionary>

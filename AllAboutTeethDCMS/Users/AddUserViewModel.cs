@@ -1,13 +1,10 @@
-﻿using MySql.Data.MySqlClient;
+﻿using AllAboutTeethDCMS.ActivityLogs;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
-using WebCam_Capture;
 
 namespace AllAboutTeethDCMS.Users
 {
@@ -335,7 +332,6 @@ namespace AllAboutTeethDCMS.Users
                     User.Answer1 = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
         public string Answer2 { get => User.Answer2;
@@ -428,11 +424,17 @@ namespace AllAboutTeethDCMS.Users
                 {
                     Thread.Sleep(100);
                 }
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User created a new user account named " + Username + ".";
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Answer = "";
                 User = new User();
                 CopyUser = (User)User.Clone();
                 PasswordCopy = "";
-                PasswordCopyError = "";
+                PasswordError = "";
             }
             else
             {
@@ -480,10 +482,17 @@ namespace AllAboutTeethDCMS.Users
                 {
                     Thread.Sleep(100);
                 }
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User updated account named " + Username + ".";
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Answer = "";
                 CopyUser = (User)User.Clone();
                 PasswordCopy = "";
-                PasswordCopyError = "";
+                PasswordError = "";
             }
             else
             {
@@ -556,6 +565,7 @@ namespace AllAboutTeethDCMS.Users
                     }
                 }
                 PasswordCopy = "";
+                PasswordError = "";
             }
             DialogBoxViewModel.Answer = "";
         }

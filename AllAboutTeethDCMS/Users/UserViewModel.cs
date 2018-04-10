@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Users
@@ -26,6 +27,7 @@ namespace AllAboutTeethDCMS.Users
         private string deleteVisibility = "Collapsed";
         private string editVisibility = "Collapsed";
         private string addVisibility = "Collapsed";
+
         #endregion
 
         public UserViewModel()
@@ -82,6 +84,19 @@ namespace AllAboutTeethDCMS.Users
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                if(User.Status.Equals("Archived"))
+                {
+                    addActivityLog.ActivityLog.Activity = "User archived a user account named " + User.Username + ".";
+                }
+                else
+                {
+                    addActivityLog.ActivityLog.Activity = "User unarchived a user account named " + User.Username + ".";
+                }
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -126,6 +141,12 @@ namespace AllAboutTeethDCMS.Users
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User deleted a user account named " + User.Username + ".";
+                addActivityLog.saveActivityLog();
+
                 LoadUsers();
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
@@ -151,10 +172,17 @@ namespace AllAboutTeethDCMS.Users
 
         protected override void afterCreate(bool isSuccessful)
         {
+
         }
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_users where " +
+                "concat(user_firstname, ' ', user_middlename, ' ', user_lastname) like @filter OR " +
+                "concat(user_lastname, ' ', user_firstname, ' ', user_middlename) like @filter OR " +
+                "user_username like @filter";
+            command.Parameters.AddWithValue("@filter", "%"+Filter.Replace(" ","%")+"%");
             Users = null;
             GC.Collect();
         }
@@ -189,7 +217,6 @@ namespace AllAboutTeethDCMS.Users
                 UnarchiveVisibility = "Collapsed";
                 DeleteVisibility = "Collapsed";
                 EditVisibility = "Collapsed";
-                AddVisibility = "Collapsed";
                 if (value != null&&(ActiveUser.Type.Equals("Administrator")))
                 {
                     if(!value.Status.Equals("Scheduled"))
@@ -204,7 +231,6 @@ namespace AllAboutTeethDCMS.Users
                         }
                         DeleteVisibility = "Visible";
                         EditVisibility = "Visible";
-                        AddVisibility = "Visible";
                     }
                 }
                 else if(value != null && (ActiveUser.Username.Equals(value.Username)))
@@ -232,7 +258,6 @@ namespace AllAboutTeethDCMS.Users
         {
             MenuViewModel.GotoAddUserView();
         }
-
 
         public void LoadUsers()
         {

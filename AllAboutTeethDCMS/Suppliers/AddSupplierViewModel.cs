@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Suppliers
@@ -47,6 +48,12 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User created a new supplier named " + Supplier.Name + ".";
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -97,6 +104,12 @@ namespace AllAboutTeethDCMS.Suppliers
         {
             if (isSuccessful)
             {
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User updated a supplier named " + Supplier.Name + ".";
+                addActivityLog.saveActivityLog();
+
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";

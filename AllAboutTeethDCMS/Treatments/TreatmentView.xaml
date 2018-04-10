@@ -65,8 +65,8 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Column="1" Margin="0,10,0,0">
-					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
-					<Button Visibility="{Binding Treatment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
+					<Button Content="Add" Visibility="{Binding AddVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}"/>
+					<Button Content="View" Visibility="{Binding Treatment, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_View_Details_32px.png}" Background="{StaticResource PeterRiver}">
 						<!--<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -77,8 +77,8 @@
 							</EventTrigger>
 						</Button.Triggers>-->
 					</Button>
-					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
-					<Button Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
+					<Button Content="Edit" Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}"/>
+					<Button Content="Archive" Visibility="{Binding ArchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -89,7 +89,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding UnarchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding UnarchiveCommand}">
+					<Button Content="Unarchive" Visibility="{Binding UnarchiveVisibility, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Open_Archive_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding UnarchiveCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
@@ -100,7 +100,7 @@
 							</EventTrigger>
 						</Button.Triggers>
 					</Button>
-					<Button Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+					<Button Content="Delete" Visibility="{Binding ForAdminOnly, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
 						<Button.Triggers>
 							<EventTrigger RoutedEvent="Button.Click">
 								<BeginStoryboard>
