@@ -7,15 +7,14 @@ namespace AllAboutTeethDCMS.Users
     public class LoginViewModel : PageViewModel
     {
         private User user;
-        private string username = "jaymark";
-        private string password = "jaymark";
+        private string username = "";
+        private string password = "";
         private string usernameError = "";
         private string passwordError = "";
         private string visibility = "Visible";
         private DelegateCommand loginCommand;
         private BackgroundWorker loginBackgroundWorker;
         private bool isValidUser = false;
-        private double width = 0;
 
         public LoginViewModel()
         {
@@ -36,7 +35,6 @@ namespace AllAboutTeethDCMS.Users
         public string UsernameError { get => usernameError; set { usernameError = value; OnPropertyChanged(); } }
         public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
         public string Visibility { get => visibility; set { visibility = value; OnPropertyChanged(); } }
-        public double Width { get => width; set { width = value; OnPropertyChanged(); } }
 
         public void StartLoginProcess()
         {
@@ -74,7 +72,7 @@ namespace AllAboutTeethDCMS.Users
             if(IsValidUser)
             {
                 MainWindowViewModel.ActiveUser = User;
-                MainWindowViewModel.MenuViewModel.gotoDashboard();
+                MainWindowViewModel.MenuViewModel.GotoDashboard();
                 Visibility = "Collapsed";
             }
         }

@@ -5,7 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Dashboard"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:DashboardViewModel/>
+    </UserControl.DataContext>
     <Grid>
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
@@ -18,23 +21,132 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Border Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource icons8_User_100px.png}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Active Patients:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding TotalActivePatient, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Total:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding TotalPatient}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                </Grid>
             </Border>
             <Border Grid.Column="1" Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource icons8_Doctor_Male_100px.png}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Active Dentists:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding TotalActiveDentist}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Total:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding TotalDentist}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                </Grid>
             </Border>
             <Border Grid.Column="2" Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource icons8_Invoice_100px_5.png}" Stretch="None"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Unpaid Bills:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding UnpaidBills, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </Grid>
             </Border>
 
             <Border Grid.Row="1" Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource icons8_Planner_100px_1.png}" Stretch="None"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Patient Queue:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding Scheduled, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
+                    </Grid>
+                </Grid>
             </Border>
             <Border Grid.Row="1" Grid.Column="1" Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
-
-            </Border>
-            <Border Grid.Row="1" Grid.Column="2" Width="150" Height="150" BorderBrush="{StaticResource Turquoise}" BorderThickness="2" Margin="10">
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{StaticResource Open Box_100px.png}"/>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Critical Items:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding Critical}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Out of Stock:" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource RobotoMedium}" FontSize="13"/>
+                        <Label Content="{Binding OutOfStock}" Grid.Column="1" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                    </Grid>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

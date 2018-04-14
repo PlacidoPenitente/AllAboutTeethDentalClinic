@@ -35,5 +35,11 @@
     <ImageSource x:Key="icons8_Forgot_Password_32px.png">/Resources/icons8_Forgot_Password_32px.png</ImageSource>
     <ImageSource x:Key="28340218_1825993877422532_149626040_o (1) copy.png">/Resources/28340218_1825993877422532_149626040_o (1) copy.png</ImageSource>
     <ImageSource x:Key="dentist_at_work.jpg">/Resources/dentist_at_work.jpg</ImageSource>
+    <ImageSource x:Key="icons8_User_48px_1.png">/Resources/icons8_User_48px_1.png</ImageSource>
+    <ImageSource x:Key="icons8_User_100px.png">/Resources/icons8_User_100px.png</ImageSource>
     <ImageSource x:Key="logo">/Resources/logo.png</ImageSource>
+    <ImageSource x:Key="icons8_Doctor_Male_100px.png">/Resources/icons8_Doctor_Male_100px_1.png</ImageSource>
+    <ImageSource x:Key="icons8_Planner_100px_1.png">/Resources/icons8_Planner_100px_1.png</ImageSource>
+    <ImageSource x:Key="Open Box_100px.png">/Resources/Open Box_100px.png</ImageSource>
+    <ImageSource x:Key="icons8_Invoice_100px_5.png">/Resources/icons8_Invoice_100px_5.png</ImageSource>
 </ResourceDictionary>

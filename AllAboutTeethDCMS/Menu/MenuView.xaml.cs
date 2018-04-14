@@ -76,7 +76,7 @@ namespace AllAboutTeethDCMS.Menu
         private void dashboard_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = (MenuViewModel)DataContext;
-            menuViewModel.gotoDashboard();
+            menuViewModel.GotoDashboard();
         }
 
         private void activityLog_Click(object sender, RoutedEventArgs e)

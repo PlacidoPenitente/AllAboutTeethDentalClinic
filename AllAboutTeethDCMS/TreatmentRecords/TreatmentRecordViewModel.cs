@@ -119,6 +119,12 @@ namespace AllAboutTeethDCMS.TreatmentRecords
 
         protected override void beforeLoad(MySqlCommand command)
         {
+            command.Parameters.Clear();
+            command.CommandText = "select * from allaboutteeth_treatmentrecords, allaboutteeth_appointments, allaboutteeth_patients where treatmentrecord_appointment=appointment_no and " +
+                "appointment_patient=patient_no and (" +
+                "concat(patient_firstname, ' ', patient_middlename, ' ', patient_lastname) like @filter OR " +
+                "concat(patient_lastname, ' ', patient_firstname, ' ', patient_middlename) like @filter)";
+            command.Parameters.AddWithValue("@filter", "%"+Filter.Replace(" ","%")+"%");
             TreatmentRecords = null;
             GC.Collect();
         }

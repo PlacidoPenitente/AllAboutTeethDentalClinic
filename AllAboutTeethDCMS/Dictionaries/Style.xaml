@@ -153,7 +153,14 @@
                             <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
-                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" SnapsToDevicePixels="True" Margin="5"/>
+                            </Grid>
                         </Border>
                         <Border>
                             <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>

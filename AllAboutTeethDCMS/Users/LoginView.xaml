@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Margin="5" Source="{DynamicResource logo}" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5"/>
+            <Image Margin="5"/>
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
             <TextBox root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBoxDark}"/>
             <Button Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}" Command="{Binding LoginCommand}"/>

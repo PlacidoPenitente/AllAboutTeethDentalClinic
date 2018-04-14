@@ -140,6 +140,7 @@ namespace AllAboutTeethDCMS.Operations
         public void initialize()
         {
             MedicineViewModel.ActiveUser = ActiveUser;
+            ProviderViewModel.ActiveUser = ActiveUser;
         }
 
         public virtual void resetForm()

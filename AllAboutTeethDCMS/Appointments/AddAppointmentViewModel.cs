@@ -50,6 +50,7 @@ namespace AllAboutTeethDCMS.Appointments
                 if (treatment.Status.Equals("Active"))
                 {
                     Treatments.Add(treatment);
+                    OnPropertyChanged("Treatments");
                 }
             }
         }
@@ -80,6 +81,7 @@ namespace AllAboutTeethDCMS.Appointments
                 if (patient.Status.Equals("Active"))
                 {
                     Patients.Add(patient);
+                    OnPropertyChanged("Patients");
                 }
             }
         }
@@ -93,7 +95,7 @@ namespace AllAboutTeethDCMS.Appointments
                 loadUsersThread = new Thread(setUsers);
                 loadUsersThread.IsBackground = true;
                 loadUsersThread.Start();
-                //UserViewModel.LoadUsers();
+                UserViewModel.LoadUsers();
             }
         }
 
@@ -110,6 +112,7 @@ namespace AllAboutTeethDCMS.Appointments
                 if (user.Status.Equals("Active")&& (user.Type.Equals("Dentist")|| user.Type.Equals("Administrator")))
                 {
                     Dentists.Add(user);
+                    OnPropertyChanged("Dentists");
                 }
             }
         }

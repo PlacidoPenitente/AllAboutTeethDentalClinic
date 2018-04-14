@@ -38,6 +38,11 @@ namespace AllAboutTeethDCMS.Menu
         public AddUserView AddUserView { get => addUserView; set => addUserView = value; }
         public EditUserView EditUserView { get => editUserView; set => editUserView = value; }
 
+        public MenuViewModel()
+        {
+            DashboardCommand = new DelegateCommand(new Action(GotoDashboard));
+        }
+
         public void gotoUsers()
         {
             if(UserView==null)
@@ -269,7 +274,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddProviderView()
         {
-            if(AddAppointmentView==null)
+            if(AddProviderView==null)
             {
                 AddProviderView = new AddProviderView();
             }
@@ -464,13 +469,14 @@ namespace AllAboutTeethDCMS.Menu
 
         private DashboardView dashboardView;
 
-        public void gotoDashboard()
+        public void GotoDashboard()
         {
             if (DashboardView == null)
             {
                 DashboardView = new DashboardView();
             }
             MainWindowViewModel.ActivePage = DashboardView;
+            ((DashboardViewModel)DashboardView.DataContext).load();
         }
 
         private ActivityLogView activityLogView;
@@ -483,5 +489,8 @@ namespace AllAboutTeethDCMS.Menu
             }
             MainWindowViewModel.ActivePage = ActivityLogView;
         }
+
+        private DelegateCommand dashboardCommand;
+        public DelegateCommand DashboardCommand { get => dashboardCommand; set => dashboardCommand = value; }
     }
 }
