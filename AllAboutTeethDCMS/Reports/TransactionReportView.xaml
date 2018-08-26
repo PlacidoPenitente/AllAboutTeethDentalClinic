@@ -30,14 +30,16 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image VerticalAlignment="Top" Source="{StaticResource icons8_Credit_Card_32px_1.png}" Stretch="None"  Margin="10,0,10,0" Grid.Column="0"/>
             <Label VerticalAlignment="Top" FontSize="19" Content="Transactions" Foreground="White" Grid.Column="1"/>
 
-            <DatePicker Foreground="White" DisplayDateEnd="{Binding ElementName=to, Path=SelectedDate, UpdateSourceTrigger=PropertyChanged}" x:Name="from" Grid.Column="3" root:AttachedProperties.Label="From:" Style="{StaticResource DatePickerStyle}" Width="175"/>
-            <DatePicker Foreground="White" DisplayDateStart="{Binding ElementName=from, Path=SelectedDate, UpdateSourceTrigger=PropertyChanged}" x:Name="to" Grid.Column="4" root:AttachedProperties.Label="To:" Style="{StaticResource DatePickerStyle}" Width="175"/>
-            <Button Click="Button_Click" Content="Load" Style="{StaticResource PrimaryButton}" Grid.Column="5" Height="43" Margin="0,8,0,0"/>
+            <TextBox Width="200" Style="{StaticResource TextBox}" Foreground="White" Grid.Column="3" root:AttachedProperties.Label="Dentist" x:Name="dentist"/>
+            <DatePicker Foreground="White" DisplayDateEnd="{Binding ElementName=to, Path=SelectedDate, UpdateSourceTrigger=PropertyChanged}" x:Name="from" Grid.Column="4" root:AttachedProperties.Label="From:" Style="{StaticResource DatePickerStyle}" Width="175"/>
+            <DatePicker Foreground="White" DisplayDateStart="{Binding ElementName=from, Path=SelectedDate, UpdateSourceTrigger=PropertyChanged}" x:Name="to" Grid.Column="5" root:AttachedProperties.Label="To:" Style="{StaticResource DatePickerStyle}" Width="175"/>
+            <Button Click="Button_Click" Content="Load" Style="{StaticResource PrimaryButton}" Grid.Column="6" Height="43" Margin="0,8,0,0"/>
         </Grid>
         <StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
         <Viewer:CrystalReportsViewer x:Name="viewer" Grid.Row="1" Grid.Column="1"/>

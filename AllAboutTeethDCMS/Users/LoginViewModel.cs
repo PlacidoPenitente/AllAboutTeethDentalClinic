@@ -30,8 +30,42 @@ namespace AllAboutTeethDCMS.Users
         public BackgroundWorker LoginBackgroundWorker { get => loginBackgroundWorker; set => loginBackgroundWorker = value; }
         public bool IsValidUser { get => isValidUser; set => isValidUser = value; }
 
-        public string Username { get => username; set { username = value; OnPropertyChanged(); } }
-        public string Password { get => password; set { password = value; OnPropertyChanged(); } }
+        public string Username { get => username;
+            set
+            {
+                if(!value.Contains(" "))
+                {
+                    UsernameError = "";
+                    if (value.Length<16)
+                    {
+                        username = value;
+                        OnPropertyChanged();
+                    }
+                }
+                if(String.IsNullOrEmpty(value))
+                {
+                    UsernameError = "Username is required";
+                }
+            }
+        }
+        public string Password { get => password;
+            set
+            {
+                if (!value.Contains(" "))
+                {
+                    PasswordError = "";
+                    if (value.Length < 16)
+                    {
+                        password = value;
+                        OnPropertyChanged();
+                    }
+                }
+                if (String.IsNullOrEmpty(value))
+                {
+                    PasswordError = "Password is required";
+                }
+            }
+        }
         public string UsernameError { get => usernameError; set { usernameError = value; OnPropertyChanged(); } }
         public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
         public string Visibility { get => visibility; set { visibility = value; OnPropertyChanged(); } }
@@ -40,7 +74,13 @@ namespace AllAboutTeethDCMS.Users
         {
             if(!LoginBackgroundWorker.IsBusy)
             {
-                LoginBackgroundWorker.RunWorkerAsync();
+                Username = Username;
+                Password = Password;
+
+                if (String.IsNullOrEmpty(UsernameError) && String.IsNullOrEmpty(PasswordError))
+                {
+                    LoginBackgroundWorker.RunWorkerAsync();
+                }
             }
         }
 
@@ -55,9 +95,9 @@ namespace AllAboutTeethDCMS.Users
                     command.Parameters.AddWithValue("@password", Password);
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
-                        if(reader.Read())
+                        if (reader.Read())
                         {
-                            User = (User)LoadObject(User,reader.GetInt32("user_no"));
+                            User = (User)LoadObject(User, reader.GetInt32("user_no"));
                             IsValidUser = true;
                         }
                         reader.Close();
@@ -74,6 +114,10 @@ namespace AllAboutTeethDCMS.Users
                 MainWindowViewModel.ActiveUser = User;
                 MainWindowViewModel.MenuViewModel.GotoDashboard();
                 Visibility = "Collapsed";
+            }
+            else
+            {
+                UsernameError = "Account does not exist! Please try again.";
             }
         }
     }

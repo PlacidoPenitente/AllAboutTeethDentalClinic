@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:AllAboutTeethDCMS.Dictionaries">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <SolidColorBrush x:Key="Turquoise">#1ABC9C</SolidColorBrush>
     <SolidColorBrush x:Key="GreenSea">#16A085</SolidColorBrush>
     <SolidColorBrush x:Key="Emerald">#2ECC71</SolidColorBrush>
@@ -21,4 +20,25 @@
     <SolidColorBrush x:Key="Silver">#BDC3C7</SolidColorBrush>
     <SolidColorBrush x:Key="Concrete">#95A5A6</SolidColorBrush>
     <SolidColorBrush x:Key="Asbestos">#7F8C8D</SolidColorBrush>
+
+    <Color x:Key="TurquoiseColor">#1ABC9C</Color>
+    <Color x:Key="GreenSeaColor">#16A085</Color>
+    <Color x:Key="EmeraldColor">#2ECC71</Color>
+    <Color x:Key="NephritisColor">#27AE60</Color>
+    <Color x:Key="PeterRiverColor">#3498DB</Color>
+    <Color x:Key="BelizeHoleColor">#2980B9</Color>
+    <Color x:Key="AmethystColor">#9B59B6</Color>
+    <Color x:Key="WisteriaColor">#8E44AD</Color>
+    <Color x:Key="WetAsphaltColor">#34495E</Color>
+    <Color x:Key="MidnightBlueColor">#2C3E50</Color>
+    <Color x:Key="SunflowerColor">#F1C40F</Color>
+    <Color x:Key="OrangeColor">#F39C12</Color>
+    <Color x:Key="CarrotColor">#E67E22</Color>
+    <Color x:Key="PumpkinColor">#D35400</Color>
+    <Color x:Key="AlizarinColor">#E74C3C</Color>
+    <Color x:Key="PomegranateColor">#C0392B</Color>
+    <Color x:Key="CloudsColor">#ECF0F1</Color>
+    <Color x:Key="SilverColor">#BDC3C7</Color>
+    <Color x:Key="ConcreteColor">#95A5A6</Color>
+    <Color x:Key="AsbestosColor">#7F8C8D</Color>
 </ResourceDictionary>

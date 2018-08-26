@@ -42,4 +42,6 @@
     <ImageSource x:Key="icons8_Planner_100px_1.png">/Resources/icons8_Planner_100px_1.png</ImageSource>
     <ImageSource x:Key="Open Box_100px.png">/Resources/Open Box_100px.png</ImageSource>
     <ImageSource x:Key="icons8_Invoice_100px_5.png">/Resources/icons8_Invoice_100px_5.png</ImageSource>
+    <ImageSource x:Key="icons8_Password_32px.png">/Resources/icons8_Password_32px.png</ImageSource>
+    <ImageSource x:Key="icons8_User_32px.png">/Resources/icons8_User_32px.png</ImageSource>
 </ResourceDictionary>

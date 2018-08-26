@@ -17,33 +17,43 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
-        <Grid Background="{StaticResource MidnightBlue}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="2" Background="{StaticResource MidnightBlue}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Margin="5"/>
-            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Foreground="White" root:AttachedProperties.Label="Username:" VerticalAlignment="Center" Width="200" Style="{StaticResource TextBox}"/>
-            <TextBox root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" VerticalAlignment="Center" Width="200" root:AttachedProperties.Label="Password:" Style="{StaticResource PasswordTextBoxDark}"/>
-            <Button Content="Login" VerticalAlignment="Center" Margin="0,6,0,0" Height="43" Width="120" Grid.Column="4" Style="{StaticResource PrimaryButton}" Command="{Binding LoginCommand}"/>
+            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
         </Grid>
-        <Grid Grid.Row="1" Background="Transparent">
-            <Grid HorizontalAlignment="Right" VerticalAlignment="Center">
-                <StackPanel>
-                    <Button HorizontalAlignment="Right" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Forgot_Password_32px.png}" Content="Recovery"/>
-                    <Button HorizontalAlignment="Right" Style="{StaticResource IconButton}" Background="{StaticResource PeterRiver}" root:AttachedProperties.Icon="{StaticResource icons8_Info_32px_2.png}" Content="About"/>
-                </StackPanel>
+        <StackPanel VerticalAlignment="Center" MaxWidth="325" Grid.Row="1">
+            <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Foreground="White" root:AttachedProperties.Icon="{StaticResource icons8_User_32px.png}"/>
+            <TextBox Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding PasswordError, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource PasswordTextBoxDark}" root:AttachedProperties.Label="Password:" root:AttachedProperties.Icon="{StaticResource icons8_Password_32px.png}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource PrimaryButton}" Content="Login" Height="43" Command="{Binding LoginCommand}"/>
+                <Button Style="{StaticResource InfoButton}" Content="Forgot Password" Height="43" Grid.Column="1">
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="recover" From="0" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
             </Grid>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+            <root:About x:Name="about" Opacity="1" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+            <local:RecoverPasswordView x:Name="recover" Opacity="0" IsHitTestVisible="{Binding RelativeSource={RelativeSource Self}, Path=Opacity, Converter={StaticResource DoubleToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <Grid Grid.ColumnSpan="2" Grid.Row="2" Background="{StaticResource MidnightBlue}"/>
     </Grid>
 </UserControl>

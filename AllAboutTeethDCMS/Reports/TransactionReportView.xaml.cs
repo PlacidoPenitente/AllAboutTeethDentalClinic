@@ -36,7 +36,7 @@ namespace AllAboutTeethDCMS.Reports
                 transaction = new TransactionReport();
             }
             viewer.ViewerCore.ReportSource = transaction;
-            viewer.ViewerCore.SelectionFormula = "{allaboutteeth_billings1.billing_dateadded} in Date("+((DateTime)from.SelectedDate).Year +","+ ((DateTime)from.SelectedDate).Month + ","+ ((DateTime)from.SelectedDate).Day + ") TO Date("+ ((DateTime)to.SelectedDate).Year + ","+ ((DateTime)to.SelectedDate).Month + ","+ ((DateTime)to.SelectedDate).Day + ")";
+            viewer.ViewerCore.SelectionFormula = "{allaboutteeth_billings1.billing_dateadded} in Date("+((DateTime)from.SelectedDate).Year +","+ ((DateTime)from.SelectedDate).Month + ","+ ((DateTime)from.SelectedDate).Day + ") TO Date("+ ((DateTime)to.SelectedDate).Year + ","+ ((DateTime)to.SelectedDate).Month + ","+ ((DateTime)to.SelectedDate).Day + ") and {allaboutteeth_users1.user_username} = \"" + dentist.Text + "\"";
         }
     }
 }

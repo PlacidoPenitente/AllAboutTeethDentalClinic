@@ -7,15 +7,14 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Border CornerRadius="3" Margin="5" SnapsToDevicePixels="True" Background="{TemplateBinding Background}"/>
-                        <Border CornerRadius="3" Margin="5" SnapsToDevicePixels="True" x:Name="back" Background="White" Opacity="0"/>
-                        <Border CornerRadius="3" Margin="5" SnapsToDevicePixels="True" x:Name="back_pressed" Background="Black" Opacity="0"/>
-                        <Border CornerRadius="3" Margin="5" SnapsToDevicePixels="True">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border CornerRadius="3" Margin="5" Background="{TemplateBinding Background}"/>
+                        <Border CornerRadius="3" Margin="5" x:Name="back" Background="White" Opacity="0"/>
+                        <Border CornerRadius="3" Margin="5" x:Name="back_pressed" Background="Black" Opacity="0"/>
+                        <Border CornerRadius="3" Margin="5">
                             <ContentPresenter Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                     </Grid>
@@ -155,11 +154,11 @@
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="1" SnapsToDevicePixels="True" Margin="5"/>
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <Border>
@@ -189,8 +188,13 @@
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
                                 <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="{StaticResource WetAsphalt}"/>
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <Border>
@@ -220,8 +224,13 @@
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
                                 <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="White"/>
                                 <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Grid.Column="1" Height="24" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <Border>

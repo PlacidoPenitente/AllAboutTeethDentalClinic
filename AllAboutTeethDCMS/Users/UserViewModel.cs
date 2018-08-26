@@ -250,7 +250,17 @@ namespace AllAboutTeethDCMS.Users
 
         public string EditVisibility { get => editVisibility; set { editVisibility = value; OnPropertyChanged(); } }
 
-        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
+        public string AddVisibility
+        {
+            get => addVisibility;
+            set
+            {
+                if(MainWindowViewModel.ActiveUser.Type.Equals("administrator", StringComparison.CurrentCultureIgnoreCase))
+                addVisibility = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
