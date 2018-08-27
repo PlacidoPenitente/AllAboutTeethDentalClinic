@@ -29,6 +29,11 @@ namespace AllAboutTeethDCMS.Menu
         private TreatmentRecordView operationView;
         private AddOperationView addOperationView;
 
+        public MenuViewModel()
+        {
+            DashboardCommand = new DelegateCommand(new Action(GotoDashboard));
+        }
+
         #region Users
         private UserView userView;
         private AddUserView addUserView;
@@ -37,11 +42,6 @@ namespace AllAboutTeethDCMS.Menu
         public UserView UserView { get => userView; set => userView = value; }
         public AddUserView AddUserView { get => addUserView; set => addUserView = value; }
         public EditUserView EditUserView { get => editUserView; set => editUserView = value; }
-
-        public MenuViewModel()
-        {
-            DashboardCommand = new DelegateCommand(new Action(GotoDashboard));
-        }
 
         public void gotoUsers()
         {
@@ -492,5 +492,42 @@ namespace AllAboutTeethDCMS.Menu
 
         private DelegateCommand dashboardCommand;
         public DelegateCommand DashboardCommand { get => dashboardCommand; set => dashboardCommand = value; }
+
+        public void Reset()
+        {
+            DashboardView = null;
+            BillingView = null;
+            InvoiceView = null;
+            TransactionReportView = null;
+            ActivityLogView = null;
+
+            UserView = null;
+            AddUserView = null;
+            EditUserView = null;
+
+            PatientView = null;
+            AddPatientView = null;
+            EditPatientView = null;
+
+            SupplierView = null;
+            AddSupplierView = null;
+            EditSupplierView = null;
+
+            TreatmentView = null;
+            AddTreatmentView = null;
+            EditTreatmentView = null;
+
+            ProviderView = null;
+            AddProviderView = null;
+            EditProviderView = null;
+
+            AppointmentView = null;
+            AddAppointmentView = null;
+            EditAppointmentView = null;
+
+            MedicineView = null;
+            AddMedicineView = null;
+            EditMedicineView = null;
+        }
     }
 }

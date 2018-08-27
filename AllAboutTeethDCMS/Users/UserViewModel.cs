@@ -255,7 +255,6 @@ namespace AllAboutTeethDCMS.Users
             get => addVisibility;
             set
             {
-                if(MainWindowViewModel.ActiveUser.Type.Equals("administrator", StringComparison.CurrentCultureIgnoreCase))
                 addVisibility = value;
                 OnPropertyChanged();
             }
