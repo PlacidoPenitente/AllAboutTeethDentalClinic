@@ -21,11 +21,14 @@
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource MidnightBlue}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
+            <StackPanel Orientation="Horizontal">
+                <Image Width="80" Margin="10" Stretch="Fill" Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <TextBlock Text="All About Teeth Dental Clinic" FontSize="24" Foreground="{StaticResource Clouds}" VerticalAlignment="Center"/>
+            </StackPanel>
             <Grid Background="{StaticResource MidnightBlue}" Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -93,5 +96,6 @@
         <Grid Grid.Row="2" Background="{StaticResource MidnightBlue}">
         </Grid>
         <login:LoginView DataContext="{Binding LoginViewModel, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="3"/>
+
     </Grid>
 </Window>

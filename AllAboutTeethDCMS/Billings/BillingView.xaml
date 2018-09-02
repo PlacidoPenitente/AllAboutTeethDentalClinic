@@ -61,7 +61,7 @@
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource appointment_patient}"/>
 						<DataGridTextColumn Header="Amount Charged" Binding="{Binding AmountCharged}"/>
 						<DataGridTextColumn Header="Balance" Binding="{Binding Balance}"/>
-						<DataGridTextColumn Header="HMO" Binding="{Binding Provider.Name}"/>
+						<!--<DataGridTextColumn Header="HMO" Binding="{Binding Provider.Name}"/>-->
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>

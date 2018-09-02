@@ -26,7 +26,10 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" RenderOptions.BitmapScalingMode="HighQuality"/>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{StaticResource 28340218_1825993877422532_149626040_o (1) copy.png}" Margin="10" Stretch="Fill" Width="80" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <TextBlock Text="All About Teeth Dental Clinic" VerticalAlignment="Center" Foreground="{StaticResource Clouds}" FontSize="24"/>
+            </StackPanel>
         </Grid>
         <StackPanel VerticalAlignment="Center" MaxWidth="325" Grid.Row="1">
             <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" root:AttachedProperties.Error="{Binding UsernameError, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Username:" Foreground="White" root:AttachedProperties.Icon="{StaticResource icons8_User_32px.png}"/>

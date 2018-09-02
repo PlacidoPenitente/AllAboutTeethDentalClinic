@@ -137,7 +137,7 @@
                             </Grid.ColumnDefinitions>
                             <TextBox Style="{StaticResource TextBox}" root:AttachedProperties.Label="Prescription:"/>
                             <TextBox Style="{StaticResource TextBox}" Text="{Binding AmountCharge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" root:AttachedProperties.Label="Amount Charged:"/>
-                            <ComboBox DataContext="{Binding ProviderViewModel}" SelectionChanged="ComboBox_SelectionChanged" ItemsSource="{Binding Providers, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Provider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBox}" Grid.Column="2" root:AttachedProperties.Label="HMO:"/>
+                            <!--<ComboBox DataContext="{Binding ProviderViewModel}" SelectionChanged="ComboBox_SelectionChanged" ItemsSource="{Binding Providers, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Provider, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ComboBox}" Grid.Column="2" root:AttachedProperties.Label="HMO:"/>-->
                         </Grid>
                     </Border>
                     <Border Background="{StaticResource BelizeHole}" Margin="0,20,0,18">

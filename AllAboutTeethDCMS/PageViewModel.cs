@@ -29,7 +29,7 @@ namespace AllAboutTeethDCMS
         public MySqlConnection CreateConnection()
         {
             MySqlConnection connection = new MySqlConnection();
-            connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='docnanz'; password='docnanz';";
+            connection.ConnectionString = "server=localhost; database='allaboutteeth_database'; user='root';";
             connection.Open();
             return connection;
         }
