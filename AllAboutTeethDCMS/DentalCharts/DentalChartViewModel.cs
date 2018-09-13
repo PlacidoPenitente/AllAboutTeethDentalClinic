@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.DentalCharts;
 using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using System;
@@ -212,18 +213,33 @@ namespace AllAboutTeethDCMS.DentalChart
 
         public Treatment Treatment { get => treatment; set => treatment = value; }
 
+
+        private TreatmentRecordViewModel _treatmentRecordViewModel;
+
+        public TreatmentRecordViewModel TreatmentRecordViewModel
+        {
+            get { return _treatmentRecordViewModel; }
+            set
+            {
+                foreach (PropertyInfo info in GetType().GetProperties())
+                {
+                    if (info.Name.StartsWith("ToothView"))
+                    {
+                        info.SetValue(this, new ToothViewModel()
+                        {
+                            Condition = "Present Teeth",
+                            ToothNo = info.Name.Replace("ToothView", ""),
+                            TreatmentRecordViewModel = value
+                        });
+                    }
+                }
+                _treatmentRecordViewModel = value;
+            }
+        }
+
+
         public DentalChartViewModel()
         {
-            foreach(PropertyInfo info in GetType().GetProperties())
-            {
-                if(info.Name.StartsWith("ToothView"))
-                {
-                    info.SetValue(this, new ToothViewModel() {
-                        Condition = "Present Teeth",
-                        ToothNo = info.Name.Replace("ToothView","")
-                    });
-                }
-            }
             teethView = new List<ToothViewModel>();
         }
     }

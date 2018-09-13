@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Operations"
              xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             xmlns:record="clr-namespace:AllAboutTeethDCMS.TreatmentRecords"
              mc:Ignorable="d" 
              d:DesignHeight="1280" d:DesignWidth="800">
     <UserControl.DataContext>
@@ -72,6 +73,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="300"/>
                         </Grid.ColumnDefinitions>
+
                         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="384">
                             <chart:DentalChartView DataContext="{Binding DentalChartViewModel}"/>
                         </ScrollViewer>
@@ -124,6 +126,9 @@
                                 <Button Height="43" Content="Clear" Style="{StaticResource DangerButton}" Grid.Column="2" Command="{Binding ClearCommand}"/>
                             </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid>
+                        <record:TreatmentRecordView x:Name="records"/>
                     </Grid>
                     <Border Background="{StaticResource BelizeHole}" Margin="0,20,0,0">
                         <Label Content="Payment" Foreground="{StaticResource Clouds}" FontFamily="{StaticResource Roboto}" FontSize="15"/>

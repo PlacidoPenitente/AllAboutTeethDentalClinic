@@ -30,10 +30,12 @@ namespace AllAboutTeethDCMS.DentalCharts
             if(!((ToothViewModel)DataContext).Teeth.Contains(((ToothViewModel)DataContext)))
             {
                 ((ToothViewModel)DataContext).Teeth.Add((ToothViewModel)DataContext);
+                ((ToothViewModel)DataContext).Load();
             }
             else
             {
                 ((ToothViewModel)DataContext).Teeth.Remove((ToothViewModel)DataContext);
+                ((ToothViewModel)DataContext).Reset();
             }
         }
     }

@@ -124,14 +124,25 @@ namespace AllAboutTeethDCMS.TreatmentRecords
                 "appointment_patient=patient_no and (" +
                 "concat(patient_firstname, ' ', patient_middlename, ' ', patient_lastname) like @filter OR " +
                 "concat(patient_lastname, ' ', patient_firstname, ' ', patient_middlename) like @filter)";
-            command.Parameters.AddWithValue("@filter", "%"+Filter.Replace(" ","%")+"%");
+            command.Parameters.AddWithValue("@filter", "%" + Filter.Replace(" ", "%") + "%");
             TreatmentRecords = null;
             GC.Collect();
         }
 
         protected override void afterLoad(List<TreatmentRecord> list)
         {
-            TreatmentRecords = list;
+            var teeth = new List<TreatmentRecord>();
+
+            foreach (var item in list)
+            {
+                if (item.Patient.No == PatientNo && item.Tooth.ToothNo.Equals(ToothNo))
+                {
+                    teeth.Add(item);
+                }
+            }
+
+            TreatmentRecords = teeth;
+
             FilterResult = "";
             if (list.Count > 1)
             {
@@ -161,6 +172,9 @@ namespace AllAboutTeethDCMS.TreatmentRecords
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
         public string UnarchiveVisibility { get => unarchiveVisibility; set { unarchiveVisibility = value; OnPropertyChanged(); } }
+
+        public int PatientNo { get; set; }
+        public string ToothNo { get; set; }
         #endregion
 
         #region Commands

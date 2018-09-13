@@ -120,6 +120,7 @@ namespace AllAboutTeethDCMS.Appointments
         public AddAppointmentViewModel()
         {
             dentalChartViewModel = new DentalChartViewModel();
+            dentalChartViewModel.TreatmentRecordViewModel = null;
 
             PatientViewModel = new PatientViewModel();
             TreatmentViewModel = new TreatmentViewModel();
@@ -135,7 +136,7 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadUsersThread();
         }
 
-        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel(); DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
+        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
         public string Notes {

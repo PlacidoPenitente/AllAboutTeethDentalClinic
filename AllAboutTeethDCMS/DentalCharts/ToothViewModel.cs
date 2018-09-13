@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.Patients;
+using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
@@ -28,6 +29,22 @@ namespace AllAboutTeethDCMS.DentalCharts
         public string Condition { get => Tooth.Condition; set { Tooth.Condition = value; OnPropertyChanged(); } }
         public string ToothNo { get => Tooth.ToothNo; set { Tooth.ToothNo = value; OnPropertyChanged(); } }
         public string Remarks { get => Tooth.Remarks; set { Tooth.Remarks = value; OnPropertyChanged(); } }
+
+        public TreatmentRecordViewModel TreatmentRecordViewModel { get; set; }
+
+        internal void Reset()
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void Load()
+        {
+            if (TreatmentRecordViewModel == null) return;
+            TreatmentRecordViewModel.PatientNo = Owner.No;
+            TreatmentRecordViewModel.ToothNo = ToothNo;
+            TreatmentRecordViewModel.LoadTreatmentRecords();
+        }
+
         public Tooth Tooth { get => tooth; set { tooth = value; OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {

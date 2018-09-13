@@ -116,7 +116,10 @@ namespace AllAboutTeethDCMS.Operations
         public AddOperationViewModel()
         {
             operation = new Operation();
-            dentalChartViewModel = new DentalChartViewModel();
+            dentalChartViewModel = new DentalChartViewModel()
+            {
+                TreatmentRecordViewModel = null
+            };
             copyOperation = (Operation)operation.Clone();
 
             AddCommand = new DelegateCommand(new Action(addTooth));
@@ -240,7 +243,9 @@ namespace AllAboutTeethDCMS.Operations
                     OnPropertyChanged(info.Name);
                 }
                 DentalChartViewModel.TeethView.Clear();
+                var temp = DentalChartViewModel.TreatmentRecordViewModel;
                 DentalChartViewModel = new DentalChartViewModel();
+                DentalChartViewModel.TreatmentRecordViewModel = temp;
                 DentalChartViewModel.User = ActiveUser;
                 DentalChartViewModel.Treatment = Appointment.Treatment;
                 DentalChartViewModel.Patient = value.Patient;

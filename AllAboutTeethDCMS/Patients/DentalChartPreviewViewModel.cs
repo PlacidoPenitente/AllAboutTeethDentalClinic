@@ -18,7 +18,11 @@ namespace AllAboutTeethDCMS.Patients
 
         public DentalChartPreviewViewModel()
         {
-            DentalChartViewModel = new DentalChartViewModel();
+            DentalChartViewModel = new DentalChartViewModel()
+            {
+                TreatmentRecordViewModel = null
+            };
+
             Outputs = new List<string>()
             {
                 "Decayed (Caries Indicated For Filling)",

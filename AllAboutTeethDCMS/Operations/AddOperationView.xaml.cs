@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AllAboutTeethDCMS.TreatmentRecords;
 
 namespace AllAboutTeethDCMS.Operations
 {
@@ -23,8 +24,12 @@ namespace AllAboutTeethDCMS.Operations
         public AddOperationView()
         {
             InitializeComponent();
+            var context = (AddOperationViewModel)DataContext;
+            context.DentalChartViewModel.TreatmentRecordViewModel = (TreatmentRecordViewModel)records.DataContext;
         }
-
+        
+ 
+  
         private void addTreatment_Click(object sender, RoutedEventArgs e)
         {
             ((AddOperationViewModel)DataContext).updateList();
