@@ -149,6 +149,9 @@ namespace AllAboutTeethDCMS.Menu
             ((TreatmentViewModel)TreatmentView.DataContext).ActiveUser = ActiveUser;
             ((TreatmentViewModel)TreatmentView.DataContext).MenuViewModel = this;
             ((TreatmentViewModel)TreatmentView.DataContext).LoadTreatments();
+            ((TreatmentViewModel)TreatmentView.DataContext).AddVisibility = "Collapsed";
+            if (ActiveUser.Type.Equals("Administrator", StringComparison.InvariantCultureIgnoreCase))
+                ((TreatmentViewModel)TreatmentView.DataContext).AddVisibility = "Visible";
         }
 
         public void GotoEditTreatmentView(Treatment treatment)
@@ -467,6 +470,18 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = TransactionReportView;
         }
 
+        private bool _isChecked;
+
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                _isChecked = value;
+                OnPropertyChanged();
+            }
+        }
+
         private DashboardView dashboardView;
 
         public void GotoDashboard()
@@ -477,6 +492,7 @@ namespace AllAboutTeethDCMS.Menu
             }
             MainWindowViewModel.ActivePage = DashboardView;
             ((DashboardViewModel)DashboardView.DataContext).load();
+            IsChecked = true;
         }
 
         private ActivityLogView activityLogView;

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:AllAboutTeethDCMS">
-    <ImageSource x:Key="account_icon">/Resources/icons8_User_32px.png</ImageSource>
+    <ImageSource x:Key="account_icon">/Resources/icons8_User_48px_1.png</ImageSource>
     <ImageSource x:Key="add_account_icon">/Resources/icons8_Add_User_Male_32px.png</ImageSource>
     <ImageSource x:Key="icons8_Registration_32px.png">/Resources/icons8_Registration_32px.png</ImageSource>
     <ImageSource x:Key="icons8_Property_Script_32px_2.png">/Resources/icons8_Property_Script_32px_2.png</ImageSource>

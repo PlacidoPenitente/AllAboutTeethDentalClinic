@@ -22,7 +22,7 @@ namespace AllAboutTeethDCMS.Treatments
         private DelegateCommand editCommand;
 
         private string addVisibility = "Collapsed";
-        public string AddVisibility { get => addVisibility; set { addVisibility = value; } }
+        public string AddVisibility { get => addVisibility; set { addVisibility = value; OnPropertyChanged(); } }
 
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";

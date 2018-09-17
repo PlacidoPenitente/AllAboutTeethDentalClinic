@@ -57,6 +57,8 @@ namespace AllAboutTeethDCMS
                 LoginViewModel.Visibility = "Visible";
                 LoginViewModel.Username = "";
                 LoginViewModel.Password = "";
+                LoginViewModel.UsernameError = "";
+                LoginViewModel.PasswordError = "";
                 //LoginViewModel = new LoginViewModel();
                 MenuViewModel.Reset();
             }
