@@ -32,7 +32,7 @@
 		</Grid.ColumnDefinitions>
 		<StackPanel Grid.ColumnSpan="3" Background="{StaticResource WetAsphalt}" Orientation="Horizontal">
 			<Image Source="{StaticResource icons8_Bill_32px.png}" Stretch="None"  Margin="10,0,10,0"/>
-			<Label FontSize="19" Content="Treatment Records" VerticalAlignment="Center" Foreground="White"/>
+			<Label FontSize="19" Content="Treatment History" VerticalAlignment="Center" Foreground="White"/>
 		</StackPanel>
 		<StackPanel Grid.ColumnSpan="3" Grid.Row="1" Background="White" Grid.RowSpan="2"/>
 		<Grid Grid.Column="1" Grid.Row="1" Margin="10">
@@ -40,14 +40,14 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
-			<Grid>
+			<!--<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 				<TextBox root:AttachedProperties.Error="{Binding FilterResult, UpdateSourceTrigger=PropertyChanged}" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}" Width="200" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Treatment Record: "/>
 				<Button Margin="0,9,0,0" Height="43" Content="Search" Grid.Column="1" Style="{StaticResource PrimaryButton}" Width="100" Command="{Binding LoadCommand}"/>
-			</Grid>
+			</Grid>-->
 			<Grid Grid.Row="1">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*"/>
@@ -55,14 +55,14 @@
 				</Grid.ColumnDefinitions>
 				<DataGrid RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding TreatmentRecords, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding TreatmentRecord, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,10,10,0">
 					<DataGrid.Columns>
-						<DataGridTextColumn Header="No." Binding="{Binding Appointment.No}" FontFamily="{StaticResource Roboto}"/>
+						<!--<DataGridTextColumn Header="No." Binding="{Binding Appointment.No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}"/>
-						<DataGridTextColumn Header="Tooth" Binding="{Binding Tooth.ToothNo}"/>
+						<DataGridTextColumn Header="Tooth" Binding="{Binding Tooth.ToothNo}"/>-->
 						<DataGridTextColumn Header="Treatment" Binding="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
 						<DataGridTextColumn Header="Remarks" Binding="{Binding Notes}"/>
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
-						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>
+						<DataGridTemplateColumn Header="Performed By" CellTemplate="{StaticResource user}"/>
 					</DataGrid.Columns>
 				</DataGrid>
 				<StackPanel Grid.Column="1" Margin="0,10,0,0">
