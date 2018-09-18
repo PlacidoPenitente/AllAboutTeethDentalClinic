@@ -101,7 +101,7 @@ namespace AllAboutTeethDCMS.Dashboard
             {
                 using (MySqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT count(*) as total FROM allaboutteeth_database.allaboutteeth_billings where billing_balance<billing_amountcharged";
+                    command.CommandText = "SELECT count(*) as total FROM allaboutteeth_database.allaboutteeth_billings where billing_balance>0";
                     using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())

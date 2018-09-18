@@ -14,7 +14,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <RadioButton IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" root:AttachedProperties.Icon="{StaticResource icons8_Home_32px.png}" x:Name="dashboard" Click="dashboard_Click" Content="Dashboard" Style="{StaticResource menuitem}"/>
-                <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Planner_32px.png}" x:Name="appointments" Click="appointments_Click" Content="Appointments" Style="{StaticResource menuitem}"/>
+                <RadioButton IsChecked="{Binding IsInAppointments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" root:AttachedProperties.Icon="{StaticResource icons8_Planner_32px.png}" x:Name="appointments" Click="appointments_Click" Content="Appointments" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource account_icon}" x:Name="patients" Click="patients_Click" Content="Patients" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" x:Name="services" Click="services_Click" Content="Services" Style="{StaticResource menuitem}"/>
                 <RadioButton root:AttachedProperties.Icon="{StaticResource icons8_Open_Box_32px.png}" x:Name="supplies" Click="supplies_Click" Content="Inventory" Style="{StaticResource menuitem}"/>

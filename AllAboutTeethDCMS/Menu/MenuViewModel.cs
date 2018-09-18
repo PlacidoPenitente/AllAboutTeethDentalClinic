@@ -45,13 +45,13 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoUsers()
         {
-            if(UserView==null)
+            if (UserView == null)
             {
                 UserView = new UserView();
             }
             MainWindowViewModel.ActivePage = UserView;
             ((UserViewModel)UserView.DataContext).ActiveUser = ActiveUser;
-            if(ActiveUser.Type.Equals("Administrator"))
+            if (ActiveUser.Type.Equals("Administrator"))
             {
                 ((UserViewModel)UserView.DataContext).AddVisibility = "Visible";
             }
@@ -61,7 +61,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddUserView()
         {
-            if(AddUserView==null)
+            if (AddUserView == null)
             {
                 AddUserView = new AddUserView();
             }
@@ -94,7 +94,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoPatients()
         {
-            if(PatientView==null)
+            if (PatientView == null)
             {
                 PatientView = new PatientView();
             }
@@ -105,7 +105,7 @@ namespace AllAboutTeethDCMS.Menu
         }
         public void GotoAddPatientView()
         {
-            if(AddPatientView==null)
+            if (AddPatientView == null)
             {
                 AddPatientView = new AddPatientView();
             }
@@ -117,7 +117,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoEditPatientView(Patient selectedPatient)
         {
-            if(EditPatientView==null)
+            if (EditPatientView == null)
             {
                 EditPatientView = new EditPatientView();
             }
@@ -141,7 +141,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoTreatments()
         {
-            if(TreatmentView==null)
+            if (TreatmentView == null)
             {
                 TreatmentView = new TreatmentView();
             }
@@ -156,7 +156,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoEditTreatmentView(Treatment treatment)
         {
-            if(EditTreatmentView==null)
+            if (EditTreatmentView == null)
             {
                 EditTreatmentView = new EditTreatmentView();
             }
@@ -169,7 +169,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddTreatmentView()
         {
-            if(AddTreatmentView == null)
+            if (AddTreatmentView == null)
             {
                 AddTreatmentView = new AddTreatmentView();
             }
@@ -190,14 +190,14 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoSuppliers()
         {
-            if(SupplierView==null)
+            if (SupplierView == null)
             {
                 SupplierView = new SupplierView();
             }
             MainWindowViewModel.ActivePage = SupplierView;
             ((SupplierViewModel)SupplierView.DataContext).ActiveUser = ActiveUser;
             ((SupplierViewModel)SupplierView.DataContext).MenuViewModel = this;
-            if(ActiveUser.Type.Equals("Administrator"))
+            if (ActiveUser.Type.Equals("Administrator"))
             {
                 ((SupplierViewModel)SupplierView.DataContext).AddVisibility = "Visible";
             }
@@ -210,7 +210,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddSupplierView()
         {
-            if(AddSupplierView==null)
+            if (AddSupplierView == null)
             {
                 AddSupplierView = new AddSupplierView();
             }
@@ -221,7 +221,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoEditSupplierView(Supplier selectedSupplier)
         {
-            if(EditSupplierView==null)
+            if (EditSupplierView == null)
             {
                 EditSupplierView = new EditSupplierView();
             }
@@ -244,14 +244,14 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoProviders()
         {
-            if(ProviderView==null)
+            if (ProviderView == null)
             {
                 ProviderView = new ProviderView();
             }
             MainWindowViewModel.ActivePage = ProviderView;
             ((ProviderViewModel)ProviderView.DataContext).ActiveUser = ActiveUser;
             ((ProviderViewModel)ProviderView.DataContext).MenuViewModel = this;
-            if(ActiveUser.Type.Equals("Administrator"))
+            if (ActiveUser.Type.Equals("Administrator"))
             {
                 ((ProviderViewModel)ProviderView.DataContext).AddVisibility = "Visible";
             }
@@ -264,7 +264,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoEditProviderView(Provider provider)
         {
-            if(EditProviderView==null)
+            if (EditProviderView == null)
             {
                 EditProviderView = new EditProviderView();
             }
@@ -277,7 +277,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddProviderView()
         {
-            if(AddProviderView==null)
+            if (AddProviderView == null)
             {
                 AddProviderView = new AddProviderView();
             }
@@ -305,7 +305,7 @@ namespace AllAboutTeethDCMS.Menu
             MainWindowViewModel.ActivePage = MedicineView;
             ((MedicineViewModel)MedicineView.DataContext).ActiveUser = ActiveUser;
             ((MedicineViewModel)MedicineView.DataContext).MenuViewModel = this;
-            if(!ActiveUser.Type.Equals("Dentist"))
+            if (!ActiveUser.Type.Equals("Dentist"))
             {
                 ((MedicineViewModel)MedicineView.DataContext).AddVisibility = "Visible";
             }
@@ -355,7 +355,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void gotoAppointments()
         {
-            if(AppointmentView==null)
+            if (AppointmentView == null)
             {
                 AppointmentView = new AppointmentView();
             }
@@ -367,7 +367,7 @@ namespace AllAboutTeethDCMS.Menu
 
         public void GotoAddAppointmentView()
         {
-            if(AddAppointmentView==null)
+            if (AddAppointmentView == null)
             {
                 AddAppointmentView = new AddAppointmentView();
             }
@@ -409,7 +409,7 @@ namespace AllAboutTeethDCMS.Menu
         private MaintenanceView maintenanceView;
         public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
 
-        
+
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
         public User ActiveUser { get => activeUser; set => activeUser = value; }
         public TreatmentRecordView TreatmentRecordView { get => operationView; set => operationView = value; }
@@ -455,6 +455,7 @@ namespace AllAboutTeethDCMS.Menu
             if (InvoiceView == null)
             {
                 InvoiceView = new InvoiceView();
+                ((InvoiceViewModel)InvoiceView.DataContext).MenuViewModel = this;
             }
             MainWindowViewModel.ActivePage = InvoiceView;
         }
@@ -469,6 +470,18 @@ namespace AllAboutTeethDCMS.Menu
             }
             MainWindowViewModel.ActivePage = TransactionReportView;
         }
+
+        private bool _isInAppointments;
+
+        public bool IsInAppointments
+        {
+            get { return _isInAppointments; }
+            set { 
+                _isInAppointments = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private bool _isChecked;
 

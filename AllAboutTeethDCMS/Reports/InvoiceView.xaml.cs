@@ -28,6 +28,7 @@ namespace AllAboutTeethDCMS.Reports
         private void back_Click(object sender, RoutedEventArgs e)
         {
             ((InvoiceViewModel)DataContext).MenuViewModel.gotoAppointments();
+            ((InvoiceViewModel)DataContext).MenuViewModel.IsInAppointments = true;
         }
     }
 }
