@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Suppliers;
+﻿using AllAboutTeethDCMS.ActivityLogs;
+using AllAboutTeethDCMS.Suppliers;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,12 @@ namespace AllAboutTeethDCMS.Medicines
                 DialogBoxViewModel.Answer = "";
                 Medicine = new Medicine();
                 CopyMedicine = (Medicine)Medicine.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User added new item named " + Medicine.Name + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
@@ -140,6 +147,12 @@ namespace AllAboutTeethDCMS.Medicines
                 }
                 DialogBoxViewModel.Answer = "";
                 CopyMedicine = (Medicine)Medicine.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User updated stocks of " + Medicine.Name + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
@@ -245,7 +258,9 @@ namespace AllAboutTeethDCMS.Medicines
         }
         #endregion
 
-        public string Name { get => Medicine.Name;
+        public string Name
+        {
+            get => Medicine.Name;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -256,7 +271,9 @@ namespace AllAboutTeethDCMS.Medicines
                 }
             }
         }
-        public string Description { get => Medicine.Description;
+        public string Description
+        {
+            get => Medicine.Description;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -267,7 +284,10 @@ namespace AllAboutTeethDCMS.Medicines
             }
         }
         public Supplier Supplier { get => Medicine.Supplier; set { Medicine.Supplier = value; OnPropertyChanged(); } }
-        public string Quantity { get => Medicine.Quantity.ToString(); set {
+        public string Quantity
+        {
+            get => Medicine.Quantity.ToString(); set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -283,14 +303,19 @@ namespace AllAboutTeethDCMS.Medicines
                     {
                         Medicine.Quantity = Int32.Parse(value);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ex.ToString();
                         Medicine.Quantity = 0;
                     }
                 }
-                OnPropertyChanged(); } }
-        public string CriticalAmount { get => Medicine.CriticalAmount.ToString(); set {
+                OnPropertyChanged();
+            }
+        }
+        public string CriticalAmount
+        {
+            get => Medicine.CriticalAmount.ToString(); set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -312,7 +337,9 @@ namespace AllAboutTeethDCMS.Medicines
                         Medicine.CriticalAmount = 0;
                     }
                 }
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
 
         public Medicine Medicine
         {

@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.Appointments;
+﻿using AllAboutTeethDCMS.ActivityLogs;
+using AllAboutTeethDCMS.Appointments;
 using AllAboutTeethDCMS.Billings;
 using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.DentalCharts;
@@ -101,6 +102,12 @@ namespace AllAboutTeethDCMS.Operations
                     command2.ExecuteNonQuery();
                     connection2.Close();
                     connection2 = null;
+
+                    AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                    addActivityLog.ActivityLog = new ActivityLog();
+                    addActivityLog.ActiveUser = ActiveUser;
+                    addActivityLog.ActivityLog.Activity = "User performed treatment for " + Operation.Appointment.Patient.FirstName + " " + Operation.Appointment.Patient.LastName + ".";
+                    addActivityLog.saveActivityLog();
 
                     MenuViewModel.gotoBillings();
                 }

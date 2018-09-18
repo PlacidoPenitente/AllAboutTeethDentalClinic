@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Treatments
@@ -78,6 +79,12 @@ namespace AllAboutTeethDCMS.Treatments
                 DialogBoxViewModel.Answer = "";
                 Treatment = new Treatment();
                 CopyTreatment = (Treatment)Treatment.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User created a new service named " + Treatment.Name + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
@@ -127,6 +134,12 @@ namespace AllAboutTeethDCMS.Treatments
                 }
                 DialogBoxViewModel.Answer = "";
                 CopyTreatment = (Treatment)Treatment.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User updated service named " + Treatment.Name + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
@@ -241,15 +254,21 @@ namespace AllAboutTeethDCMS.Treatments
         private List<string> outputs;
         public List<string> Outputs { get => outputs; set { outputs = value; OnPropertyChanged(); } }
 
-        public string Name { get => Treatment.Name; set {
-                if(!value.Contains("  "))
+        public string Name
+        {
+            get => Treatment.Name; set
+            {
+                if (!value.Contains("  "))
                 {
                     Treatment.Name = value;
                     NameError = "";
                     NameError = validateUniqueName(value, CopyTreatment.Name, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", "")); OnPropertyChanged();
                 }
-            } }
-        public string Description { get => Treatment.Description;
+            }
+        }
+        public string Description
+        {
+            get => Treatment.Description;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))

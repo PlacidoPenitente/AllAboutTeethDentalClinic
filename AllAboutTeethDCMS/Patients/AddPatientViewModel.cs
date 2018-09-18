@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AllAboutTeethDCMS.ActivityLogs;
 using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Patients
@@ -52,6 +53,13 @@ namespace AllAboutTeethDCMS.Patients
                 DialogBoxViewModel.Answer = "";
                 Patient = new Patient();
                 CopyPatient = (Patient)Patient.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User added new patient named " + Patient.FirstName + " " + Patient.LastName + ".";
+                addActivityLog.saveActivityLog();
+
             }
             else
             {
@@ -101,6 +109,12 @@ namespace AllAboutTeethDCMS.Patients
                 }
                 DialogBoxViewModel.Answer = "";
                 CopyPatient = (Patient)Patient.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User updated patient named " + Patient.FirstName + " " + Patient.LastName + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
@@ -205,8 +219,8 @@ namespace AllAboutTeethDCMS.Patients
             throw new NotImplementedException();
         }
         #endregion
-        
-        public AddPatientViewModel():base()
+
+        public AddPatientViewModel() : base()
         {
             patient = new Patient();
             copyPatient = (Patient)patient.Clone();
@@ -217,14 +231,21 @@ namespace AllAboutTeethDCMS.Patients
             GoBackCommand = new DelegateCommand(new Action(goBack));
         }
 
-        public Patient Patient { get => patient; set { patient = value;
+        public Patient Patient
+        {
+            get => patient; set
+            {
+                patient = value;
                 OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
                     OnPropertyChanged(info.Name);
                 }
-            } }
-        public string LastName { get => Patient.LastName;
+            }
+        }
+        public string LastName
+        {
+            get => Patient.LastName;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -237,7 +258,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string FirstName { get => Patient.FirstName;
+        public string FirstName
+        {
+            get => Patient.FirstName;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -250,7 +273,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string MiddleName { get => Patient.MiddleName;
+        public string MiddleName
+        {
+            get => Patient.MiddleName;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -261,13 +286,21 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public DateTime Birthdate { get => Patient.Birthdate; set { Patient.Birthdate = value;
+        public DateTime Birthdate
+        {
+            get => Patient.Birthdate; set
+            {
+                Patient.Birthdate = value;
                 Occupation = "";
                 DentalInsurance = "";
                 ParentGuardianName = "";
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
         public string Sex { get => Patient.Sex; set { Patient.Sex = value; OnPropertyChanged(); } }
-        public string Religion { get => Patient.Religion;
+        public string Religion
+        {
+            get => Patient.Religion;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -277,7 +310,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string Nationality { get => Patient.Nationality;
+        public string Nationality
+        {
+            get => Patient.Nationality;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -288,7 +323,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string Nickname { get => Patient.Nickname;
+        public string Nickname
+        {
+            get => Patient.Nickname;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -299,7 +336,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string HomeAddress { get => Patient.HomeAddress;
+        public string HomeAddress
+        {
+            get => Patient.HomeAddress;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -312,7 +351,10 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string HomeNo { get => Patient.HomeNo; set {
+        public string HomeNo
+        {
+            get => Patient.HomeNo; set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -326,14 +368,19 @@ namespace AllAboutTeethDCMS.Patients
                 {
                     Patient.HomeNo = value;
                 }
-                OnPropertyChanged(); } }
-        public string Occupation { get => Patient.Occupation;
+                OnPropertyChanged();
+            }
+        }
+        public string Occupation
+        {
+            get => Patient.Occupation;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     Patient.Occupation = value;
-                    if (value.Trim().Equals("")) {
+                    if (value.Trim().Equals(""))
+                    {
                         OfficeNo = "";
                         FaxNo = "";
                     }
@@ -342,7 +389,10 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string OfficeNo { get => Patient.OfficeNo; set {
+        public string OfficeNo
+        {
+            get => Patient.OfficeNo; set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -356,8 +406,12 @@ namespace AllAboutTeethDCMS.Patients
                 {
                     Patient.OfficeNo = value;
                 }
-                OnPropertyChanged(); } }
-        public string DentalInsurance { get => Patient.DentalInsurance;
+                OnPropertyChanged();
+            }
+        }
+        public string DentalInsurance
+        {
+            get => Patient.DentalInsurance;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -368,7 +422,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string EffectiveDate { get => Patient.EffectiveDate;
+        public string EffectiveDate
+        {
+            get => Patient.EffectiveDate;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -378,7 +434,10 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string FaxNo { get => Patient.FaxNo; set {
+        public string FaxNo
+        {
+            get => Patient.FaxNo; set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -392,8 +451,12 @@ namespace AllAboutTeethDCMS.Patients
                 {
                     Patient.FaxNo = value;
                 }
-                OnPropertyChanged(); } }
-        public string ParentGuardianName { get => Patient.ParentGuardianName;
+                OnPropertyChanged();
+            }
+        }
+        public string ParentGuardianName
+        {
+            get => Patient.ParentGuardianName;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -404,7 +467,10 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string CellNo { get => Patient.CellNo; set {
+        public string CellNo
+        {
+            get => Patient.CellNo; set
+            {
                 bool valid = true;
                 CellNoError = "";
                 if (String.IsNullOrEmpty(value))
@@ -432,8 +498,12 @@ namespace AllAboutTeethDCMS.Patients
                         CellNoError = "Must be an 11-digit number.";
                     }
                 }
-                OnPropertyChanged(); } }
-        public string EmailAddress { get => Patient.EmailAddress;
+                OnPropertyChanged();
+            }
+        }
+        public string EmailAddress
+        {
+            get => Patient.EmailAddress;
             set
             {
                 if (!value.Contains(" "))
@@ -444,7 +514,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string Referral { get => Patient.Referral;
+        public string Referral
+        {
+            get => Patient.Referral;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -455,7 +527,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string Reason { get => Patient.Reason;
+        public string Reason
+        {
+            get => Patient.Reason;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -466,7 +540,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string PreviousDentist { get => Patient.PreviousDentist;
+        public string PreviousDentist
+        {
+            get => Patient.PreviousDentist;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -477,7 +553,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string LastDentalVisit { get => Patient.LastDentalVisit;
+        public string LastDentalVisit
+        {
+            get => Patient.LastDentalVisit;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -488,7 +566,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string PhysicianName { get => Patient.PhysicianName;
+        public string PhysicianName
+        {
+            get => Patient.PhysicianName;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -505,7 +585,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string PhysycianSpecialty { get => Patient.PhysicianSpecialty;
+        public string PhysycianSpecialty
+        {
+            get => Patient.PhysicianSpecialty;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -515,7 +597,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string PhysicianOfficeAddress { get => Patient.PhysicianOfficeAddress;
+        public string PhysicianOfficeAddress
+        {
+            get => Patient.PhysicianOfficeAddress;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -526,7 +610,10 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string PhysicianOfficeNumber { get => Patient.PhysicianOfficeNumber; set {
+        public string PhysicianOfficeNumber
+        {
+            get => Patient.PhysicianOfficeNumber; set
+            {
                 bool valid = true;
                 foreach (char c in value.ToArray())
                 {
@@ -540,9 +627,13 @@ namespace AllAboutTeethDCMS.Patients
                 {
                     Patient.PhysicianOfficeNumber = value;
                 }
-                OnPropertyChanged(); } }
+                OnPropertyChanged();
+            }
+        }
         public bool IsInGoodHealth { get => Patient.IsInGoodHealth; set { Patient.IsInGoodHealth = value; OnPropertyChanged(); } }
-        public string ConditionBeingTreated { get => Patient.ConditionBeingTreated;
+        public string ConditionBeingTreated
+        {
+            get => Patient.ConditionBeingTreated;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -553,7 +644,9 @@ namespace AllAboutTeethDCMS.Patients
 
             }
         }
-        public string IllnessOrOperation { get => Patient.IllnessOrOperation;
+        public string IllnessOrOperation
+        {
+            get => Patient.IllnessOrOperation;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -563,7 +656,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string Hospitalization { get => Patient.Hospitalization;
+        public string Hospitalization
+        {
+            get => Patient.Hospitalization;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -573,7 +668,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string MedicationTaken { get => Patient.MedicationTaken;
+        public string MedicationTaken
+        {
+            get => Patient.MedicationTaken;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -585,7 +682,9 @@ namespace AllAboutTeethDCMS.Patients
         }
         public bool IsTobaccoUser { get => Patient.IsTobaccoUser; set { Patient.IsTobaccoUser = value; OnPropertyChanged(); } }
         public bool IsAlcoholCocaineDangerousDrugUser { get => Patient.IsAlcoholCocaineDangerousDrugUser; set { Patient.IsAlcoholCocaineDangerousDrugUser = value; OnPropertyChanged(); } }
-        public string Allergies { get => Patient.Allergies;
+        public string Allergies
+        {
+            get => Patient.Allergies;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -595,7 +694,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string BleedingTime { get => Patient.BleedingTime;
+        public string BleedingTime
+        {
+            get => Patient.BleedingTime;
             set
             {
                 bool valid = true;
@@ -618,7 +719,9 @@ namespace AllAboutTeethDCMS.Patients
         public bool IsNursing { get => Patient.IsNursing; set { Patient.IsNursing = value; OnPropertyChanged(); } }
         public bool IsTakingBirthControlPills { get => Patient.IsTakingBirthControlPills; set { Patient.IsTakingBirthControlPills = value; OnPropertyChanged(); } }
         public string BloodType { get => Patient.BloodType; set { Patient.BloodType = value; OnPropertyChanged(); } }
-        public string BloodPressure { get => Patient.BloodPressure;
+        public string BloodPressure
+        {
+            get => Patient.BloodPressure;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))
@@ -628,7 +731,9 @@ namespace AllAboutTeethDCMS.Patients
                 }
             }
         }
-        public string Diseases { get => Patient.Diseases;
+        public string Diseases
+        {
+            get => Patient.Diseases;
             set
             {
                 if (!value.Contains("  ") && !value.StartsWith(" "))

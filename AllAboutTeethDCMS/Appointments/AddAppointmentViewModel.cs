@@ -1,4 +1,5 @@
-﻿using AllAboutTeethDCMS.DentalChart;
+﻿using AllAboutTeethDCMS.ActivityLogs;
+using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
@@ -30,14 +31,14 @@ namespace AllAboutTeethDCMS.Appointments
 
         private void SearchPatient()
         {
-            PatientViewModel.Filter = Filter; 
-            PatientViewModel.Patients = null; 
+            PatientViewModel.Filter = Filter;
+            PatientViewModel.Patients = null;
             startLoadPatientsThread();
         }
 
         public void startLoadTreatmentsThread()
         {
-            if (loadTreatmentsThread == null||!loadTreatmentsThread.IsAlive)
+            if (loadTreatmentsThread == null || !loadTreatmentsThread.IsAlive)
             {
                 loadTreatmentsThread = new Thread(setTreatments);
                 loadTreatmentsThread.IsBackground = true;
@@ -118,7 +119,7 @@ namespace AllAboutTeethDCMS.Appointments
             Dentists = new List<User>();
             foreach (User user in UserViewModel.Users)
             {
-                if (user.Status.Equals("Active")&& (user.Type.Equals("Dentist")|| user.Type.Equals("Administrator")))
+                if (user.Status.Equals("Active") && (user.Type.Equals("Dentist") || user.Type.Equals("Administrator")))
                 {
                     Dentists.Add(user);
                     OnPropertyChanged("Dentists");
@@ -139,7 +140,7 @@ namespace AllAboutTeethDCMS.Appointments
             CopyAppointment = (Appointment)appointment.Clone();
 
             DialogBoxViewModel = new DialogBoxViewModel();
-            
+
             SearchPatientCommand = new DelegateCommand(SearchPatient);
 
             startLoadTreatmentsThread();
@@ -147,13 +148,14 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadUsersThread();
         }
 
-        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value;  OnPropertyChanged(); } }
+        public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value; OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
-        public string Notes {
+        public string Notes
+        {
             get
             {
-                if(Patient!=null)
+                if (Patient != null)
                 {
                     return Patient.Reason;
                 }
@@ -165,31 +167,42 @@ namespace AllAboutTeethDCMS.Appointments
                 OnPropertyChanged();
             }
         }
-        public Appointment Appointment { get => appointment; set { appointment = value; OnPropertyChanged();
+        public Appointment Appointment
+        {
+            get => appointment; set
+            {
+                appointment = value; OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
                     OnPropertyChanged(info.Name);
                 }
-            } }
+            }
+        }
 
-        public List<Patient> Patients {
+        public List<Patient> Patients
+        {
             get
             {
                 return patients;
             }
-            set { patients = value; OnPropertyChanged(); } }
-        public List<Treatment> Treatments {
+            set { patients = value; OnPropertyChanged(); }
+        }
+        public List<Treatment> Treatments
+        {
             get
             {
                 return treatments;
             }
-            set { treatments = value; OnPropertyChanged(); } }
-        public List<User> Dentists {
+            set { treatments = value; OnPropertyChanged(); }
+        }
+        public List<User> Dentists
+        {
             get
             {
                 return dentists;
             }
-            set { dentists = value; OnPropertyChanged(); } }
+            set { dentists = value; OnPropertyChanged(); }
+        }
 
         public string Filter { get => filter; set { filter = value; OnPropertyChanged(); } }
 
@@ -221,7 +234,7 @@ namespace AllAboutTeethDCMS.Appointments
             }
             DialogBoxViewModel.Answer = "";
         }
-        
+
         protected override bool beforeCreate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -259,7 +272,7 @@ namespace AllAboutTeethDCMS.Appointments
 
                 MySqlConnection connection = CreateConnection();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='"+ActiveUser.No+"' where patient_no='" + Patient.No + "'";
+                command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Patient.No + "'";
                 command.ExecuteNonQuery();
                 connection.Close();
                 connection = null;
@@ -318,6 +331,12 @@ namespace AllAboutTeethDCMS.Appointments
                 }
                 DialogBoxViewModel.Answer = "";
                 CopyAppointment = (Appointment)Appointment.Clone();
+
+                AddActivityLogViewModel addActivityLog = new AddActivityLogViewModel();
+                addActivityLog.ActivityLog = new ActivityLog();
+                addActivityLog.ActiveUser = ActiveUser;
+                addActivityLog.ActivityLog.Activity = "User created a new appointment for " + Dentist.FirstName + " " + Dentist.LastName + ".";
+                addActivityLog.saveActivityLog();
             }
             else
             {
