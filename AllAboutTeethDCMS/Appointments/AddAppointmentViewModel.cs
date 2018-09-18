@@ -26,6 +26,15 @@ namespace AllAboutTeethDCMS.Appointments
 
         private Thread loadTreatmentsThread;
 
+        public DelegateCommand SearchPatientCommand { get; set; }
+
+        private void SearchPatient()
+        {
+            PatientViewModel.Filter = Filter; 
+            PatientViewModel.Patients = null; 
+            startLoadPatientsThread();
+        }
+
         public void startLoadTreatmentsThread()
         {
             if (loadTreatmentsThread == null||!loadTreatmentsThread.IsAlive)
@@ -130,6 +139,8 @@ namespace AllAboutTeethDCMS.Appointments
             CopyAppointment = (Appointment)appointment.Clone();
 
             DialogBoxViewModel = new DialogBoxViewModel();
+            
+            SearchPatientCommand = new DelegateCommand(SearchPatient);
 
             startLoadTreatmentsThread();
             startLoadPatientsThread();
@@ -180,7 +191,7 @@ namespace AllAboutTeethDCMS.Appointments
             }
             set { dentists = value; OnPropertyChanged(); } }
 
-        public string Filter { get => filter; set { filter = value; PatientViewModel.Filter = value; PatientViewModel.Patients = null; startLoadPatientsThread(); OnPropertyChanged(); } }
+        public string Filter { get => filter; set { filter = value; OnPropertyChanged(); } }
 
         public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
 

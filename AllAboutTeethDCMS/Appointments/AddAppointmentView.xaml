@@ -60,11 +60,13 @@
                             <Grid Grid.Column="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Width="200" HorizontalAlignment="Left" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TextBox}" root:AttachedProperties.Label="Search Patient:" Margin="5"/>
-                                <Button Grid.Column="2" Visibility="Collapsed" x:Name="reload" Click="reload_Click" Height="45" Margin="0,21,0,0" Content="Reload Chart" Style="{StaticResource PrimaryButton}"/>
+                                <Button Grid.Column="1" Content="Search" Command="{Binding SearchPatientCommand}" Height="45" Style="{StaticResource PrimaryButton}" Margin="0,21,0,0"/>
+                                <Button Grid.Column="3" x:Name="reload" Click="reload_Click" Height="45" Margin="0,21,0,0" Content="Reload Chart" Style="{StaticResource PrimaryButton}"/>
                             </Grid>
                             <ListView Grid.Row="1" SnapsToDevicePixels="True" Style="{StaticResource ListBox}" BorderBrush="{StaticResource WetAsphalt}" ItemsSource="{Binding Patients, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Patient}" Margin="10,10,10,0">
                                 <ListBox.ItemTemplate>

@@ -172,8 +172,15 @@ namespace AllAboutTeethDCMS.Patients
         protected override void afterLoad(List<Patient> list)
         {
             Patients = list;
+            if (!string.IsNullOrEmpty(Filter))
+            {
+                var result = list.Where(x => x.FirstName.ToLower().Contains(Filter.ToLower()) ||
+                                             x.MiddleName.ToLower().Contains(Filter.ToLower()) ||
+                                             x.LastName.ToLower().Contains(Filter.ToLower()));
+                Patients = new List<Patient>(result);
+            }
             FilterResult = "";
-            if (list.Count > 1)
+            if (Patients.Count > 1)
             {
                 FilterResult = "Found " + list.Count + " result/s.";
             }
