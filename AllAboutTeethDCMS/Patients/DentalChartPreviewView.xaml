@@ -6,12 +6,13 @@
              xmlns:local="clr-namespace:AllAboutTeethDCMS.Patients"
              xmlns:chart="clr-namespace:AllAboutTeethDCMS.DentalChart"
              xmlns:root="clr-namespace:AllAboutTeethDCMS"
+             xmlns:records="clr-namespace:AllAboutTeethDCMS.TreatmentRecords"
              mc:Ignorable="d" 
              x:Name="viewer"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.Background>
-            <SolidColorBrush Color="Black" Opacity="0.5"/>
+            <SolidColorBrush Color="Black" Opacity="0.9"/>
         </Grid.Background>
         <Grid Margin="10" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
@@ -19,22 +20,31 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <ComboBox Width="250" Style="{StaticResource ComboBox}" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Grid.Column="1" Content="Update" Style="{StaticResource PrimaryButton}" Height="43" Margin="0,7,0,0" Command="{Binding UpdateCommand}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="500"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Width="250" Style="{StaticResource ComboBox}" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Grid.Column="1" Content="Update" Style="{StaticResource PrimaryButton}" Height="43" Margin="0,7,0,0" Command="{Binding UpdateCommand}"/>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
+                        <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+                    </ScrollViewer>
                 </Grid>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
-                    <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
-                </ScrollViewer>
+                <Grid Grid.Column="1" Margin="10,0,10,0">
+                    <records:TreatmentRecordView DataContext="{Binding TreatmentRecordViewModel, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
             </Grid>
             <StackPanel Grid.Column="1">
                 <Button Content="Close" Style="{StaticResource IconButton}" Background="{StaticResource Alizarin}" root:AttachedProperties.Icon="{StaticResource icons8_Delete_32px_2.png}">

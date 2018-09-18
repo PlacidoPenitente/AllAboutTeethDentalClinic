@@ -1,4 +1,5 @@
 ﻿using AllAboutTeethDCMS.DentalChart;
+using AllAboutTeethDCMS.TreatmentRecords;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,19 @@ namespace AllAboutTeethDCMS.Patients
         private string unarchiveVisibility = "Collapsed";
         #endregion
 
+        private TreatmentRecordViewModel _treatmentRecordViewModel;
+
+        public TreatmentRecordViewModel TreatmentRecordViewModel
+        {
+            get => _treatmentRecordViewModel;
+            set
+            {
+                _treatmentRecordViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public PatientViewModel()
         {
             LoadCommand = new DelegateCommand(new Action(LoadPatients));
@@ -38,6 +52,9 @@ namespace AllAboutTeethDCMS.Patients
             EditCommand = new DelegateCommand(new Action(GotoEditPatient));
             loadChartCommand = new DelegateCommand(new Action(loadChart));
             DentalChartPreviewViewModel = new DentalChartPreviewViewModel();
+            TreatmentRecordViewModel = new TreatmentRecordViewModel();
+            DentalChartPreviewViewModel.TreatmentRecordViewModel = TreatmentRecordViewModel;
+            DentalChartPreviewViewModel.DentalChartViewModel.TreatmentRecordViewModel = TreatmentRecordViewModel;
         }
 
         private DentalChartPreviewViewModel dentalChartPreviewViewModel;
@@ -209,7 +226,7 @@ namespace AllAboutTeethDCMS.Patients
                 UnarchiveVisibility = "Collapsed";
                 if (value != null)
                 {
-                    if(!value.Status.Equals("Scheduled"))
+                    if (!value.Status.Equals("Scheduled"))
                     {
                         if (value.Status.Equals("Active"))
                         {

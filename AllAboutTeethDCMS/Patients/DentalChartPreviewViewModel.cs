@@ -1,5 +1,6 @@
 ﻿using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.DentalCharts;
+using AllAboutTeethDCMS.TreatmentRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,16 @@ namespace AllAboutTeethDCMS.Patients
 
             UpdateCommand = new DelegateCommand(new Action(update));
         }
+
+        private TreatmentRecordViewModel _treatmentRecordViewModel;
+
+        public TreatmentRecordViewModel TreatmentRecordViewModel
+        {
+            get { return _treatmentRecordViewModel; }
+            set { _treatmentRecordViewModel = value; OnPropertyChanged(); }
+        }
+
+
         private DentalChartViewModel dentalChartViewModel;
 
         public Patient Patient { get => patient; set {
