@@ -161,7 +161,7 @@ namespace AllAboutTeethDCMS.Treatments
 
         protected override void afterLoad(List<Treatment> list)
         {
-            Treatments = list;
+            Treatments = list;  
             FilterResult = "";
             if (list.Count > 1)
             {
