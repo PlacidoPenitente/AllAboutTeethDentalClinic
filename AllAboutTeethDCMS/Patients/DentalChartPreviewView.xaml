@@ -35,8 +35,15 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox Width="250" Style="{StaticResource ComboBox}" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Grid.Column="1" Content="Update" Style="{StaticResource PrimaryButton}" Height="43" Margin="0,7,0,0" Command="{Binding UpdateCommand}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5" Text="Patient: " Foreground="{StaticResource Turquoise}" FontFamily="{StaticResource RobotoMedium}" FontSize="17"/>
+                            <TextBlock Margin="5" Text="{Binding Patient.LastName, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="17"/>
+                            <TextBlock Margin="0,5,5,5" Text="," Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="17"/>
+                            <TextBlock Margin="5" Text="{Binding Patient.FirstName, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="17"/>
+                            <TextBlock Margin="5" Text="{Binding Patient.MiddleName, UpdateSourceTrigger=PropertyChanged}" Foreground="White" FontFamily="{StaticResource Roboto}" FontSize="17"/>
+                        </StackPanel>
+                        <!--<ComboBox Width="250" Style="{StaticResource ComboBox}" ItemsSource="{Binding Outputs}" SelectedItem="{Binding Output, UpdateSourceTrigger=PropertyChanged}"/>-->
+                        <!--<Button Grid.Column="1" Content="Update" Style="{StaticResource PrimaryButton}" Height="43" Margin="0,7,0,0" Command="{Binding UpdateCommand}"/>-->
                     </Grid>
                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Margin="0,0,10,0">
                         <chart:DentalChartView DataContext="{Binding DentalChartViewModel, UpdateSourceTrigger=PropertyChanged}"/>
