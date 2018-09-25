@@ -30,6 +30,166 @@ namespace AllAboutTeethDCMS.Operations
         private MedicineViewModel medicineViewModel;
         private AddBillingViewModel addBillingViewModel;
 
+        public DelegateCommand AllPermanentCommand { get; set; }
+        public DelegateCommand UpperPermanentCommand { get; set; }
+        public DelegateCommand LowerPermanentCommand { get; set; }
+        public DelegateCommand AllTemporaryCommand { get; set; }
+        public DelegateCommand UpperTemporaryCommand { get; set; }
+        public DelegateCommand LowerTemporaryCommand { get; set; }
+        public DelegateCommand DeselectCommand { get; set; }
+
+        public void AllPermanent()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectUpperPermanent(toothViewModel);
+                    SelectLowerPermanent(toothViewModel);
+                }
+            }
+        }
+
+        public void UpperPermanent()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectUpperPermanent(toothViewModel);
+                }
+            }
+        }
+
+        public void LowerPermanent()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectLowerPermanent(toothViewModel);
+                }
+            }
+        }
+
+        public void AllTemporary()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectUpperTemporary(toothViewModel);
+                    SelectLowerTemporary(toothViewModel);
+                }
+            }
+        }
+
+        public void UpperTemporary()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectUpperTemporary(toothViewModel);
+                }
+            }
+        }
+
+        public void LowerTemporary()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+                if (toothViewModel.IsAllowed)
+                {
+                    SelectLowerTemporary(toothViewModel);
+                }
+            }
+        }
+
+        private void SelectUpperTemporary(ToothViewModel toothViewModel)
+        {
+            var no = int.Parse(toothViewModel.ToothNo);
+            if (no < 56 && no > 50)
+            {
+                toothViewModel.IsSelected = true;
+                toothViewModel.Teeth.Add(toothViewModel);
+            }
+            else if (no < 66 && no > 60)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+        }
+
+        public void SelectLowerTemporary(ToothViewModel toothViewModel)
+        {
+            var no = int.Parse(toothViewModel.ToothNo);
+            if (no < 76 && no > 70)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+            else if (no < 86 && no > 80)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+        }
+
+        private void SelectLowerPermanent(ToothViewModel toothViewModel)
+        {
+            var no = int.Parse(toothViewModel.ToothNo);
+            if (no < 49 && no > 40)
+            {
+                toothViewModel.IsSelected = true;
+                toothViewModel.Teeth.Add(toothViewModel);
+            }
+            else if (no < 39 && no > 30)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+        }
+
+        public void SelectUpperPermanent(ToothViewModel toothViewModel)
+        {
+            var no = int.Parse(toothViewModel.ToothNo);
+            if (no < 19 && no > 10)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+            else if (no < 29 && no > 20)
+            {
+                toothViewModel.Teeth.Add(toothViewModel);
+                toothViewModel.IsSelected = true;
+            }
+        }
+
         private string amountCharge = "0";
 
         public void updateList()
@@ -43,7 +203,7 @@ namespace AllAboutTeethDCMS.Operations
 
         public void finishTreatment()
         {
-            if(ToothList!=null && ToothList.Count>0)
+            if (ToothList != null && ToothList.Count > 0)
             {
                 if (MessageBox.Show("Are you sure you want to save this treatment?", "Save Treatment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
@@ -64,7 +224,7 @@ namespace AllAboutTeethDCMS.Operations
                         toothViewModel.saveTooth();
                         toothViewModel.loadTooth();
                     }
-                    foreach(ConsumableItem consumable in Consumables)
+                    foreach (ConsumableItem consumable in Consumables)
                     {
                         AddUsedItemViewModel addUsedItemViewModel = new AddUsedItemViewModel();
                         addUsedItemViewModel.Appointment = Appointment;
@@ -76,7 +236,7 @@ namespace AllAboutTeethDCMS.Operations
                         addUsedItemViewModel.SaveUsedItem();
                     }
                     AddBillingViewModel.Billing.Provider = ProviderViewModel.Provider;
-                    if(AddBillingViewModel.Billing.Provider==null)
+                    if (AddBillingViewModel.Billing.Provider == null)
                     {
                         AddBillingViewModel.Billing.Provider = new Provider();
                     }
@@ -91,7 +251,7 @@ namespace AllAboutTeethDCMS.Operations
                     MessageBox.Show("Treatment was successfully saved.", "Treatment Saved", MessageBoxButton.OK, MessageBoxImage.Information);
                     MySqlConnection connection = CreateConnection();
                     MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = "update allaboutteeth_appointments set appointment_status='Completed' where appointment_no = '"+Appointment.No+"'";
+                    command.CommandText = "update allaboutteeth_appointments set appointment_status='Completed' where appointment_no = '" + Appointment.No + "'";
                     command.ExecuteNonQuery();
                     connection.Close();
                     connection = null;
@@ -139,12 +299,31 @@ namespace AllAboutTeethDCMS.Operations
             ProviderViewModel = new ProviderViewModel();
             ProviderViewModel.LoadProviders();
 
-            AddItemCommand = new DelegateCommand(new Action(AddItem));
-            RemoveItemCommand = new DelegateCommand(new Action(RemoveItem));
-            ClearItemsCommad = new DelegateCommand(new Action(ClearItems));
+            AddItemCommand = new DelegateCommand(AddItem);
+            RemoveItemCommand = new DelegateCommand(RemoveItem);
+            ClearItemsCommad = new DelegateCommand(ClearItems);
 
             Consumables = new List<ConsumableItem>();
             AddBillingViewModel = new AddBillingViewModel();
+
+            AllPermanentCommand = new DelegateCommand(AllPermanent);
+            UpperPermanentCommand = new DelegateCommand(UpperPermanent);
+            LowerPermanentCommand = new DelegateCommand(LowerPermanent); 
+            AllTemporaryCommand = new DelegateCommand(AllTemporary);
+            UpperTemporaryCommand = new DelegateCommand(UpperTemporary);
+            LowerTemporaryCommand = new DelegateCommand(LowerTemporary);
+            DeselectCommand = new DelegateCommand(Deselect);
+        }
+
+        private void Deselect()
+        {
+            DentalChartViewModel.TeethView.Clear();
+            ToothList = null;
+            ToothList = new List<ToothViewModel>();
+            foreach (var toothViewModel in DentalChartViewModel.AllTooth)
+            {
+                toothViewModel.IsSelected = false;
+            }
         }
 
         public void initialize()
@@ -244,7 +423,11 @@ namespace AllAboutTeethDCMS.Operations
         //public double AmountCharged { get => Operation.AmountCharged; set { Operation.AmountCharged = value; OnPropertyChanged(); } }
         //public double AmountPaid { get => Operation.AmountPaid; set { Operation.AmountPaid = value; OnPropertyChanged(); } }
         //public double Balance { get => Operation.Balance; set { Operation.Balance = value; OnPropertyChanged(); } }
-        public Appointment Appointment { get => Operation.Appointment; set { Operation.Appointment = value; OnPropertyChanged();
+        public Appointment Appointment
+        {
+            get => Operation.Appointment; set
+            {
+                Operation.Appointment = value; OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
                     OnPropertyChanged(info.Name);
@@ -257,12 +440,13 @@ namespace AllAboutTeethDCMS.Operations
                 DentalChartViewModel.Treatment = Appointment.Treatment;
                 DentalChartViewModel.Patient = value.Patient;
                 Teeth = DentalChartViewModel.TeethView;
-            } }
+            }
+        }
 
         public DentalChartViewModel DentalChartViewModel { get => dentalChartViewModel; set { dentalChartViewModel = value; OnPropertyChanged(); } }
 
         public List<ToothViewModel> Teeth { get => teeth; set { teeth = value; OnPropertyChanged(); } }
- 
+
         public List<ToothViewModel> ToothList { get => toothList; set { toothList = value; OnPropertyChanged(); } }
 
         public DelegateCommand AddCommand { get => addCommand; set => addCommand = value; }
@@ -279,10 +463,12 @@ namespace AllAboutTeethDCMS.Operations
         public ConsumableItem SelectedConsumable { get => selectedConsumable; set { selectedConsumable = value; OnPropertyChanged(); } }
 
         public AddBillingViewModel AddBillingViewModel { get => addBillingViewModel; set => addBillingViewModel = value; }
-        public string AmountCharge { get => amountCharge;
+        public string AmountCharge
+        {
+            get => amountCharge;
             set
             {
-                if(!value.Contains(" "))
+                if (!value.Contains(" "))
                 {
                     try
                     {
@@ -301,7 +487,7 @@ namespace AllAboutTeethDCMS.Operations
                         Console.WriteLine(ex.Message);
                     }
                 }
-                
+
                 OnPropertyChanged();
             }
         }
@@ -317,13 +503,13 @@ namespace AllAboutTeethDCMS.Operations
         public void addTooth()
         {
             List<ToothViewModel> temp = new List<ToothViewModel>();
-            if(ToothList!=null)
+            if (ToothList != null)
             {
                 temp.AddRange(ToothList);
             }
-            foreach(ToothViewModel tvm in DentalChartViewModel.TeethView)
+            foreach (ToothViewModel tvm in DentalChartViewModel.TeethView)
             {
-                if(!temp.Contains(tvm))
+                if (!temp.Contains(tvm))
                 {
                     temp.Add(tvm);
                 }
@@ -337,7 +523,7 @@ namespace AllAboutTeethDCMS.Operations
         {
             List<ToothViewModel> temp = new List<ToothViewModel>();
             temp.AddRange(ToothList);
-            if(SelectedTVM!=null)
+            if (SelectedTVM != null)
             {
                 temp.Remove(SelectedTVM);
                 SelectedTVM = null;
@@ -361,15 +547,15 @@ namespace AllAboutTeethDCMS.Operations
 
         public void AddItem()
         {
-            if(MedicineViewModel.Medicine!=null)
+            if (MedicineViewModel.Medicine != null)
             {
-                if(SelectedItems==null)
+                if (SelectedItems == null)
                 {
                     SelectedItems = new List<Medicine>();
                 }
-                if(!SelectedItems.Contains(MedicineViewModel.Medicine))
+                if (!SelectedItems.Contains(MedicineViewModel.Medicine))
                 {
-                    if(MedicineViewModel.Medicine.Quantity>0)
+                    if (MedicineViewModel.Medicine.Quantity > 0)
                     {
                         SelectedItems.Add(MedicineViewModel.Medicine);
                         List<ConsumableItem> temp = new List<ConsumableItem>();
@@ -388,7 +574,7 @@ namespace AllAboutTeethDCMS.Operations
 
         public void RemoveItem()
         {
-            if(SelectedConsumable!=null)
+            if (SelectedConsumable != null)
             {
                 List<ConsumableItem> temp = new List<ConsumableItem>();
                 temp.AddRange(Consumables);
@@ -401,7 +587,7 @@ namespace AllAboutTeethDCMS.Operations
 
         public void ClearItems()
         {
-            if(SelectedItems!=null)
+            if (SelectedItems != null)
             {
                 SelectedItems.Clear();
                 Consumables = null;

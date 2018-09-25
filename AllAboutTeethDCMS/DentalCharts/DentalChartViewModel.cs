@@ -4,6 +4,7 @@ using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -166,8 +167,11 @@ namespace AllAboutTeethDCMS.DentalChart
             }
         }
 
+        public List<ToothViewModel> AllTooth { get; set; }
+
         public void loadTeeth()
         {
+            AllTooth = new List<ToothViewModel>();
             foreach (PropertyInfo info in GetType().GetProperties())
             {
                 if (info.Name.StartsWith("ToothView"))
@@ -183,6 +187,7 @@ namespace AllAboutTeethDCMS.DentalChart
                     {
                         toothView.IsAllowed = true;
                     }
+                    AllTooth.Add(toothView);
                 }
                 OnPropertyChanged(info.Name);
             }

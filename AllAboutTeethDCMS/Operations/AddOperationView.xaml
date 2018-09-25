@@ -74,9 +74,24 @@
                             <ColumnDefinition Width="300"/>
                         </Grid.ColumnDefinitions>
 
-                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="384">
-                            <chart:DentalChartView DataContext="{Binding DentalChartViewModel}"/>
-                        </ScrollViewer>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource PrimaryButton}" Content="All Permanent" Command="{Binding AllPermanentCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Upper Permanent" Command="{Binding UpperPermanentCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Lower Permanent" Command="{Binding LowerPermanentCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="All Temporary" Command="{Binding AllTemporaryCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Upper Temporary" Command="{Binding UpperTemporaryCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Lower Temporary" Command="{Binding LowerTemporaryCommand}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Unselect" Command="{Binding DeselectCommand}"/>
+                            </StackPanel>
+                            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="384">
+                                <chart:DentalChartView DataContext="{Binding DentalChartViewModel}"/>
+                            </ScrollViewer>
+                        </Grid>
                         <Grid Grid.Column="1" Margin="10,0,0,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
