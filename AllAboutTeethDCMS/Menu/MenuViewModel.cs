@@ -18,6 +18,7 @@ using AllAboutTeethDCMS.Reports;
 using AllAboutTeethDCMS.Billings;
 using AllAboutTeethDCMS.Dashboard;
 using AllAboutTeethDCMS.ActivityLogs;
+using System.Collections.ObjectModel;
 
 namespace AllAboutTeethDCMS.Menu
 {
@@ -360,6 +361,7 @@ namespace AllAboutTeethDCMS.Menu
                 AppointmentView = new AppointmentView();
             }
             MainWindowViewModel.ActivePage = AppointmentView;
+            ((AppointmentViewModel)AppointmentView.DataContext).UniqueAppointment = new ObservableCollection<Appointment>();
             ((AppointmentViewModel)AppointmentView.DataContext).ActiveUser = ActiveUser;
             ((AppointmentViewModel)AppointmentView.DataContext).MenuViewModel = this;
             ((AppointmentViewModel)AppointmentView.DataContext).LoadAppointments();

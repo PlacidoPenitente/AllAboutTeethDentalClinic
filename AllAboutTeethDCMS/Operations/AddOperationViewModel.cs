@@ -269,6 +269,8 @@ namespace AllAboutTeethDCMS.Operations
                             x.Patient.No == Appointment.Patient.No && x.No != Appointment.No);
                         Appointment = appointment;
                         Appointments.Remove(appointment);
+                        Teeth = new List<ToothViewModel>();
+                        ToothList = new List<ToothViewModel>();
                         ClearItems();
                     }
                     catch (Exception)

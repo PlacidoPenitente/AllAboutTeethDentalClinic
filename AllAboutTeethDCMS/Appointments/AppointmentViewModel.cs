@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -39,6 +40,30 @@ namespace AllAboutTeethDCMS.Appointments
             EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
             TreatmentCommand = new DelegateCommand(new Action(GotoAddOperation));
         }
+
+        private Appointment _appointmentDelete;
+
+        public Appointment AppointmentDelete
+        {
+            get { return _appointmentDelete; }
+            set
+            {
+                _appointmentDelete = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public ObservableCollection<Appointment> UniqueAppointment
+        {
+            get => _uniqueAppointment;
+            set
+            {
+                _uniqueAppointment = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Appointment> IndividualAppointments { get; set; }
 
         #region Methods
         protected override bool beforeUpdate()
@@ -128,6 +153,8 @@ namespace AllAboutTeethDCMS.Appointments
         {
             if (isSuccessful)
             {
+                UniqueAppointment = null;
+                Appointments = null;
                 DialogBoxViewModel.Mode = "Success";
                 DialogBoxViewModel.Message = "Operation completed.";
                 DialogBoxViewModel.Answer = "None";
@@ -166,7 +193,7 @@ namespace AllAboutTeethDCMS.Appointments
         protected override void beforeLoad(MySqlCommand command)
         {
             command.Parameters.Clear();
-            if(ActiveUser.Type.Equals("Administrator")||ActiveUser.Type.Equals("Staff"))
+            if (ActiveUser.Type.Equals("Administrator") || ActiveUser.Type.Equals("Staff"))
             {
                 command.CommandText = "select * from allaboutteeth_appointments where appointment_status=@status";
                 command.Parameters.AddWithValue("@status", "Pending");
@@ -177,13 +204,21 @@ namespace AllAboutTeethDCMS.Appointments
                 command.Parameters.AddWithValue("@status", "Pending");
                 command.Parameters.AddWithValue("@dentist", ActiveUser.No);
             }
-            
+
         }
 
         protected override void afterLoad(List<Appointment> list)
         {
             Appointment = null;
-            Appointments = list;
+            var keys = list.Select(x => x.Patient.No).ToList();
+            keys = keys.Distinct().ToList();
+            var temp = new List<Appointment>();
+            foreach (var key in keys)
+            {
+                temp.Add(list.FirstOrDefault(x => x.Patient.No == key));
+            }
+            Appointments = temp;
+            IndividualAppointments = new ObservableCollection<Appointment>(list);
             FilterResult = "";
             if (list.Count > 1)
             {
@@ -203,6 +238,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         private string forAdminAndStaff = "Collapsed";
         private string forAdminAndDenstist = "Collapsed";
+        private ObservableCollection<Appointment> _uniqueAppointment;
 
         public Appointment Appointment
         {
@@ -211,20 +247,22 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 appointment = null;
                 appointment = value;
+                if (appointment != null)
+                    UniqueAppointment = new ObservableCollection<Appointment>(IndividualAppointments.Where(x => x.Patient.No == value.Patient.No));
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
                 UnarchiveVisibility = "Collapsed";
                 ForAdminAndStaff = "Collapsed";
                 ForAdminAndDenstist = "Collapsed";
-                if (ActiveUser.Type.Equals("Administrator")||ActiveUser.Type.Equals("Staff"))
+                if (ActiveUser.Type.Equals("Administrator") || ActiveUser.Type.Equals("Staff"))
                 {
                     ForAdminAndStaff = "Visible";
                 }
 
-                if(value != null && (ActiveUser.Type.Equals("Administrator") || ActiveUser.Type.Equals("Dentist")))
+                if (value != null && (ActiveUser.Type.Equals("Administrator") || ActiveUser.Type.Equals("Dentist")))
                 {
-                    if(value.Dentist.No==ActiveUser.No)
+                    if (value.Dentist.No == ActiveUser.No)
                     {
                         ForAdminAndDenstist = "Visible";
                     }
@@ -247,9 +285,9 @@ namespace AllAboutTeethDCMS.Appointments
         #region Commands
         public void GotoAddOperation()
         {
-            if(ActiveUser.Type.Equals("Dentist")|| ActiveUser.Type.Equals("Administrator"))
+            if (ActiveUser.Type.Equals("Dentist") || ActiveUser.Type.Equals("Administrator"))
             {
-                MenuViewModel.gotoAddOperationView(Appointment, Appointments);
+                MenuViewModel.gotoAddOperationView(Appointment, IndividualAppointments.ToList());
             }
             else
             {
