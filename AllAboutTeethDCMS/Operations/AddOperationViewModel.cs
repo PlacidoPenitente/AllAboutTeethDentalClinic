@@ -4,20 +4,14 @@ using AllAboutTeethDCMS.Billings;
 using AllAboutTeethDCMS.DentalChart;
 using AllAboutTeethDCMS.DentalCharts;
 using AllAboutTeethDCMS.Medicines;
-using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Providers;
 using AllAboutTeethDCMS.TreatmentRecords;
-using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.UsedItems;
-using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AllAboutTeethDCMS.Operations
@@ -269,7 +263,19 @@ namespace AllAboutTeethDCMS.Operations
                     addActivityLog.ActivityLog.Activity = "User performed treatment for " + Operation.Appointment.Patient.FirstName + " " + Operation.Appointment.Patient.LastName + ".";
                     addActivityLog.saveActivityLog();
 
-                    MenuViewModel.gotoBillings();
+                    try
+                    {
+                        var appointment = Appointments.OrderBy(x=>x.No).First(x =>
+                            x.Patient.No == Appointment.Patient.No && x.No != Appointment.No);
+                        Appointment = appointment;
+                        Appointments.Remove(appointment);
+                        ClearItems();
+                    }
+                    catch (Exception)
+                    {
+                        MenuViewModel.gotoBillings();
+                    }
+                    //MenuViewModel.gotoBillings();
                 }
             }
             else
@@ -308,7 +314,7 @@ namespace AllAboutTeethDCMS.Operations
 
             AllPermanentCommand = new DelegateCommand(AllPermanent);
             UpperPermanentCommand = new DelegateCommand(UpperPermanent);
-            LowerPermanentCommand = new DelegateCommand(LowerPermanent); 
+            LowerPermanentCommand = new DelegateCommand(LowerPermanent);
             AllTemporaryCommand = new DelegateCommand(AllTemporary);
             UpperTemporaryCommand = new DelegateCommand(UpperTemporary);
             LowerTemporaryCommand = new DelegateCommand(LowerTemporary);
@@ -425,9 +431,15 @@ namespace AllAboutTeethDCMS.Operations
         //public double Balance { get => Operation.Balance; set { Operation.Balance = value; OnPropertyChanged(); } }
         public Appointment Appointment
         {
-            get => Operation.Appointment; set
+            get => Operation.Appointment; 
+            set
             {
-                Operation.Appointment = value; OnPropertyChanged();
+                var appointment = Appointments.OrderBy(x=>x.No).First(x =>
+                    x.Patient.No == value.Patient.No);
+                Appointments.Remove(appointment);
+
+                Operation.Appointment = appointment; 
+                OnPropertyChanged();
                 foreach (PropertyInfo info in GetType().GetProperties())
                 {
                     OnPropertyChanged(info.Name);
@@ -438,7 +450,7 @@ namespace AllAboutTeethDCMS.Operations
                 DentalChartViewModel.TreatmentRecordViewModel = temp;
                 DentalChartViewModel.User = ActiveUser;
                 DentalChartViewModel.Treatment = Appointment.Treatment;
-                DentalChartViewModel.Patient = value.Patient;
+                DentalChartViewModel.Patient = appointment.Patient;
                 Teeth = DentalChartViewModel.TeethView;
             }
         }
@@ -493,6 +505,7 @@ namespace AllAboutTeethDCMS.Operations
         }
 
         public ProviderViewModel ProviderViewModel { get => providerViewModel; set => providerViewModel = value; }
+        public List<Appointment> Appointments { get; set; }
 
         private List<ToothViewModel> toothList;
 

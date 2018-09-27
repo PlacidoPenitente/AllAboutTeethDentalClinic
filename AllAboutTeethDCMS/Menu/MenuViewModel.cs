@@ -396,11 +396,12 @@ namespace AllAboutTeethDCMS.Menu
         }
         #endregion
 
-        public void gotoAddOperationView(Appointment appointment)
+        public void gotoAddOperationView(Appointment appointment, List<Appointment> appointments)
         {
             AddOperationView = new AddOperationView();
             MainWindowViewModel.ActivePage = AddOperationView;
             ((AddOperationViewModel)AddOperationView.DataContext).ActiveUser = activeUser;
+            ((AddOperationViewModel)AddOperationView.DataContext).Appointments = appointments;
             ((AddOperationViewModel)AddOperationView.DataContext).Appointment = appointment;
             ((AddOperationViewModel)AddOperationView.DataContext).MenuViewModel = this;
             ((AddOperationViewModel)AddOperationView.DataContext).initialize();

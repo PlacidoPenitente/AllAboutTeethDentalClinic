@@ -249,7 +249,7 @@ namespace AllAboutTeethDCMS.Appointments
         {
             if(ActiveUser.Type.Equals("Dentist")|| ActiveUser.Type.Equals("Administrator"))
             {
-                MenuViewModel.gotoAddOperationView(Appointment);
+                MenuViewModel.gotoAddOperationView(Appointment, Appointments);
             }
             else
             {

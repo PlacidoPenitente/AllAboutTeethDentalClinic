@@ -6,6 +6,8 @@ using AllAboutTeethDCMS.Users;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 
@@ -20,6 +22,24 @@ namespace AllAboutTeethDCMS.Appointments
         private List<User> dentists;
         private string filter = "";
         private DentalChartViewModel dentalChartViewModel;
+
+        public ObservableCollection<Treatment> SelectedTreatments { get; set; }
+        public DelegateCommand AddTreatmentCommand { get; set; }
+        public DelegateCommand RemoveTreatmentCommand { get; set; }
+        public Treatment SelectedTreament { get; set; }
+
+        public void AddTreatment()
+        {
+            if (SelectedTreatments.All(x => x.No != Appointment.Treatment.No))
+                SelectedTreatments.Add(Appointment.Treatment);
+        }
+
+        public void RemoveTreatment()
+        {
+            if (SelectedTreament != null)
+                if (SelectedTreatments.Any(x => x.No == SelectedTreament.No))
+                    SelectedTreatments.Remove(SelectedTreament);
+        }
 
         private PatientViewModel patientViewModel;
         private TreatmentViewModel treatmentViewModel;
@@ -38,6 +58,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         public void startLoadTreatmentsThread()
         {
+            if (SelectedTreatments != null) SelectedTreatments.Clear();
             if (loadTreatmentsThread == null || !loadTreatmentsThread.IsAlive)
             {
                 loadTreatmentsThread = new Thread(setTreatments);
@@ -146,6 +167,11 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadTreatmentsThread();
             startLoadPatientsThread();
             startLoadUsersThread();
+
+            SelectedTreatments = new ObservableCollection<Treatment>();
+
+            AddTreatmentCommand = new DelegateCommand(AddTreatment);
+            RemoveTreatmentCommand = new DelegateCommand(RemoveTreatment);
         }
 
         public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value; OnPropertyChanged(); } }
@@ -272,7 +298,7 @@ namespace AllAboutTeethDCMS.Appointments
 
                 MySqlConnection connection = CreateConnection();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Patient.No + "'";
+                command.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Patient.No + "'";
                 command.ExecuteNonQuery();
                 connection.Close();
                 connection = null;
@@ -369,7 +395,7 @@ namespace AllAboutTeethDCMS.Appointments
                 startLoadDialogThread();
                 return;
             }
-            if (Treatment == null)
+            if (SelectedTreatments.Count < 1)
             {
                 DialogBoxViewModel.Mode = "Error";
                 DialogBoxViewModel.Title = "Treatment Error";
@@ -391,7 +417,14 @@ namespace AllAboutTeethDCMS.Appointments
             }
             if (!hasError)
             {
-                startSaveToDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+                var appointments = new ObservableCollection<Appointment>();
+                foreach (var item in SelectedTreatments)
+                {
+                    var a = (Appointment)Appointment.Clone();
+                    a.Treatment = item;
+                    appointments.Add(a);
+                }
+                StartSavingAppointments(appointments, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
             }
             else
             {

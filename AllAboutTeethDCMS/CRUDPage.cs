@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace AllAboutTeethDCMS
 {
@@ -261,9 +262,37 @@ namespace AllAboutTeethDCMS
         #region Create Thread
         private Thread addThread;
 
+        private ObservableCollection<T> Appointments { get; set; }
+
+        protected void StartSavingAppointments(ObservableCollection<T> model, string tableName)
+        {
+            SpawnThread(addThread, model, tableName, executeSaveAppointmentsToDatabase);
+        }
+
+
         protected void startSaveToDatabase(T model, string tableName)
         {
             SpawnThread(addThread, model, tableName, executeSaveToDatabase);
+        }
+
+        private void executeSaveAppointmentsToDatabase()
+        {
+            if (beforeCreate())
+            {
+                try
+                {
+                    foreach (var item in Appointments)
+                    {
+                        SaveToDatabase(item, TableName);
+                    }
+                    afterCreate(true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    afterCreate(false);
+                }
+            }
         }
 
         private void executeSaveToDatabase()
@@ -364,6 +393,19 @@ namespace AllAboutTeethDCMS
             {
                 TableName = tableName;
                 Model = model;
+                Filter = filter;
+                thread = new Thread(parameterizedThreadStart);
+                thread.IsBackground = true;
+                thread.Start();
+            }
+        }
+
+        private void SpawnThread(Thread thread, ObservableCollection<T> model, string tableName, ThreadStart parameterizedThreadStart, string filter = "")
+        {
+            if (thread == null || !thread.IsAlive)
+            {
+                TableName = tableName;
+                Appointments = model;
                 Filter = filter;
                 thread = new Thread(parameterizedThreadStart);
                 thread.IsBackground = true;

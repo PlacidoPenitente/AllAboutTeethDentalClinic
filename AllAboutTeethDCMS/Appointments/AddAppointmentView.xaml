@@ -49,10 +49,22 @@
                     </Grid>
                     <Grid Height="408" Margin="0,20,0,20">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
                             <ColumnDefinition Width="0.6*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource PrimaryButton}" Content="Add" Command="{Binding AddTreatmentCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Style="{StaticResource PrimaryButton}" Content="Remove" Command="{Binding RemoveTreatmentCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            <ListView Grid.Row="1" SelectedItem="{Binding SelectedTreament, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding SelectedTreatments, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="85"/>
                                 <RowDefinition Height="*"/>
@@ -113,7 +125,7 @@
                                 </ListBox.ItemTemplate>
                             </ListView>
                         </Grid>
-                        <TabControl Grid.Column="1" Margin="10,0,10,0" BorderBrush="{StaticResource WetAsphalt}" SnapsToDevicePixels="True" Padding="0">
+                        <TabControl Grid.Column="2" Margin="10,0,10,0" BorderBrush="{StaticResource WetAsphalt}" SnapsToDevicePixels="True" Padding="0">
                             <TabItem FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="13" Header="Patient Information" BorderBrush="{StaticResource WetAsphalt}">
                                 <Grid Visibility="{Binding Patient, Converter={StaticResource ObjectToVisibilityConverter}}">
                                     <Border SnapsToDevicePixels="True">
