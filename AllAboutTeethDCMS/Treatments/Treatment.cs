@@ -65,6 +65,7 @@ namespace AllAboutTeethDCMS.Treatments
         public bool Supernumerary { get => supernumerary; set => supernumerary = value; }
 
         public string Output { get => output; set => output = value; }
+        public int Duration { get; set; }
 
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }

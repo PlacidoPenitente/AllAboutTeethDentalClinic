@@ -298,7 +298,7 @@ namespace AllAboutTeethDCMS.Appointments
 
                 MySqlConnection connection = CreateConnection();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "update allaboutteeth_patients set patient_status='Active', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Patient.No + "'";
+                command.CommandText = "update allaboutteeth_patients set patient_status='Scheduled', patient_addedby='" + ActiveUser.No + "' where patient_no='" + Patient.No + "'";
                 command.ExecuteNonQuery();
                 connection.Close();
                 connection = null;

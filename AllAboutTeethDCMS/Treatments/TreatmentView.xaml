@@ -58,7 +58,8 @@
 						<DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTextColumn Header="Name" Binding="{Binding Name}" FontFamily="{StaticResource Roboto}"/>
 						<DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-						<DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                        <DataGridTextColumn Header="Duration (in minutes)" Binding="{Binding Duration}"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
 						<DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}"/>
 						<DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}"/>
 						<DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}"/>

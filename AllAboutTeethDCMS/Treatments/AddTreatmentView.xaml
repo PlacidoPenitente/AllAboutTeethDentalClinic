@@ -229,6 +229,14 @@
                         <Label FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" FontSize="15"  Content="Supernumerary"/>
                         <CheckBox Grid.Column="1" Style="{StaticResource CheckBox}" IsChecked="{Binding Supernumerary, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox root:AttachedProperties.Label="Duration (in minutes): " Style="{StaticResource TextBox}" Text="{Binding Duration, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
 

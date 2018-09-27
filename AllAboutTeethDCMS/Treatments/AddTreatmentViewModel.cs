@@ -298,5 +298,6 @@ namespace AllAboutTeethDCMS.Treatments
         public bool CongenitallyMissing { get => Treatment.CongenitallyMissing; set { Treatment.CongenitallyMissing = value; OnPropertyChanged(); } }
         public bool Supernumerary { get => Treatment.Supernumerary; set { Treatment.Supernumerary = value; OnPropertyChanged(); } }
         public string Output { get => Treatment.Output; set { Treatment.Output = value; OnPropertyChanged(); } }
+        public int Duration { get => Treatment.Duration; set { Treatment.Duration = value; OnPropertyChanged(); } }
     }
 }
