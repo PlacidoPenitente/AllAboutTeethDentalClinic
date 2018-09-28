@@ -248,7 +248,10 @@ namespace AllAboutTeethDCMS.Appointments
                 appointment = null;
                 appointment = value;
                 if (appointment != null)
+                {
                     UniqueAppointment = new ObservableCollection<Appointment>(IndividualAppointments.Where(x => x.Patient.No == value.Patient.No));
+                    EndDate = value.Schedule.AddMinutes(UniqueAppointment.Sum(x => x.Treatment.Duration));
+                }
                 OnPropertyChanged();
 
                 ArchiveVisibility = "Collapsed";
@@ -294,6 +297,19 @@ namespace AllAboutTeethDCMS.Appointments
                 MessageBox.Show("You're not allowed to perform this operation.", "Not Allowed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private DateTime _endDate;
+
+        public DateTime EndDate
+        {
+            get { return _endDate; }
+            set
+            {
+                _endDate = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public void GotoAddAppointment()
         {

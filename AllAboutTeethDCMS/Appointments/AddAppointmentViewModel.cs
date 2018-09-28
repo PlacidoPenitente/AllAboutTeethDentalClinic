@@ -117,6 +117,11 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
+        public void Load()
+        {
+            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
+        }
+
         private Thread loadUsersThread;
 
         public void startLoadUsersThread()
@@ -167,12 +172,24 @@ namespace AllAboutTeethDCMS.Appointments
             startLoadTreatmentsThread();
             startLoadPatientsThread();
             startLoadUsersThread();
+            startLoadFromDatabase("allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), Filter);
 
             SelectedTreatments = new ObservableCollection<Treatment>();
 
             AddTreatmentCommand = new DelegateCommand(AddTreatment);
             RemoveTreatmentCommand = new DelegateCommand(RemoveTreatment);
         }
+
+        public DateTime Schedule
+        {
+            get { return Appointment.Schedule; }
+            set
+            {
+                Appointment.Schedule = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value; OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
@@ -403,6 +420,27 @@ namespace AllAboutTeethDCMS.Appointments
                 startLoadDialogThread();
                 return;
             }
+            if (Schedule < DateTime.Now)
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Schedule Error";
+                DialogBoxViewModel.Message = "Past dates cannot be selected.";
+                startLoadDialogThread();
+                return;
+            }
+
+            var total = Appointments.Sum(x => x.Treatment.Duration);
+            var b = Appointments.Where(x => x.Schedule <= Schedule && x.Schedule.AddMinutes(total) >= Schedule && x.Status.Equals("Pending") && x.Dentist.No == Dentist.No).ToList();
+
+            if(b.Count>0)
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Schedule Error";
+                DialogBoxViewModel.Message = "Schedule is already taken.";
+                startLoadDialogThread();
+                return;
+            }
+
             bool hasError = false;
             foreach (PropertyInfo info in GetType().GetProperties())
             {
@@ -476,12 +514,14 @@ namespace AllAboutTeethDCMS.Appointments
         #region Unimplemented Methods
         protected override void beforeLoad(MySqlCommand command)
         {
-            throw new NotImplementedException();
+
         }
+
+        public List<Appointment> Appointments { get; set; }
 
         protected override void afterLoad(List<Appointment> list)
         {
-            throw new NotImplementedException();
+            Appointments = list;
         }
 
         protected override bool beforeDelete()

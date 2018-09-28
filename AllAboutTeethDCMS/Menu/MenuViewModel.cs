@@ -382,6 +382,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadPatientsThread();
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadTreatmentsThread();
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadUsersThread();
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).Load();
         }
 
         public void GotoEditAppointmentView(Appointment selectedAppointment)
