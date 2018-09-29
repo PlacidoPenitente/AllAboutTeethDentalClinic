@@ -24,7 +24,7 @@ namespace AllAboutTeethDCMS.Appointments
         public Patient Patient { get => patient; set => patient = value; }
         public Treatment Treatment { get => treatment; set => treatment = value; }
         public User Dentist { get => dentist; set => dentist = value; }
-        public DateTime Schedule { get; set; }
+        public DateTime Schedule { get; set; } = DateTime.Now;
         public string Status { get => status; set => status = value; }
         public DateTime DateAdded { get => dateAdded; set => dateAdded = value; }
         public DateTime DateModified { get => dateModified; set => dateModified = value; }

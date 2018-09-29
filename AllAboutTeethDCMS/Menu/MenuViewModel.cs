@@ -36,6 +36,7 @@ namespace AllAboutTeethDCMS.Menu
         }
 
         #region Users
+
         private UserView userView;
         private AddUserView addUserView;
         private EditUserView editUserView;
@@ -82,9 +83,11 @@ namespace AllAboutTeethDCMS.Menu
             ((EditUserViewModel)EditUserView.DataContext).MenuViewModel = this;
             ((EditUserViewModel)EditUserView.DataContext).ImageCamera = EditUserView.camera.image;
         }
-        #endregion
+
+        #endregion Users
 
         #region Patients
+
         private PatientView patientView;
         private AddPatientView addPatientView;
         private EditPatientView editPatientView;
@@ -104,6 +107,7 @@ namespace AllAboutTeethDCMS.Menu
             ((PatientViewModel)PatientView.DataContext).MenuViewModel = this;
             ((PatientViewModel)PatientView.DataContext).LoadPatients();
         }
+
         public void GotoAddPatientView()
         {
             if (AddPatientView == null)
@@ -129,9 +133,11 @@ namespace AllAboutTeethDCMS.Menu
             ((EditPatientViewModel)EditPatientView.DataContext).MenuViewModel = this;
             ((EditPatientViewModel)EditPatientView.DataContext).ImageCamera = EditPatientView.camera.image;
         }
-        #endregion
+
+        #endregion Patients
 
         #region Treatments
+
         private TreatmentView treatmentView;
         private AddTreatmentView addTreatmentView;
         private EditTreatmentView editTreatmentView;
@@ -178,9 +184,11 @@ namespace AllAboutTeethDCMS.Menu
             ((AddTreatmentViewModel)AddTreatmentView.DataContext).ActiveUser = ActiveUser;
             ((AddTreatmentViewModel)AddTreatmentView.DataContext).MenuViewModel = this;
         }
-        #endregion
+
+        #endregion Treatments
 
         #region Suppliers
+
         private SupplierView supplierView;
         private AddSupplierView addSupplierView;
         private EditSupplierView editSupplierView;
@@ -232,9 +240,11 @@ namespace AllAboutTeethDCMS.Menu
             ((EditSupplierViewModel)EditSupplierView.DataContext).CopySupplier = (Supplier)selectedSupplier.Clone();
             ((EditSupplierViewModel)EditSupplierView.DataContext).MenuViewModel = this;
         }
-        #endregion
+
+        #endregion Suppliers
 
         #region Providers
+
         private ProviderView providerView;
         private AddProviderView addProviderView;
         private EditProviderView editProviderView;
@@ -286,9 +296,11 @@ namespace AllAboutTeethDCMS.Menu
             ((AddProviderViewModel)AddProviderView.DataContext).ActiveUser = ActiveUser;
             ((AddProviderViewModel)AddProviderView.DataContext).MenuViewModel = this;
         }
-        #endregion
+
+        #endregion Providers
 
         #region Items
+
         private MedicineView itemView;
         private AddMedicineView addMedicineView;
         private EditMedicineView editMedicineView;
@@ -343,9 +355,11 @@ namespace AllAboutTeethDCMS.Menu
             ((EditMedicineViewModel)EditMedicineView.DataContext).CopyMedicine = (Medicine)selectedMedicine.Clone();
             ((EditMedicineViewModel)EditMedicineView.DataContext).MenuViewModel = this;
         }
-        #endregion
+
+        #endregion Items
 
         #region Appointments
+
         private AppointmentView appointmentView;
         private AddAppointmentView addAppointmentView;
         private EditAppointmentView editAppointmentView;
@@ -374,6 +388,7 @@ namespace AllAboutTeethDCMS.Menu
                 AddAppointmentView = new AddAppointmentView();
             }
             MainWindowViewModel.ActivePage = AddAppointmentView;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).Schedule = DateTime.Now;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).ActiveUser = ActiveUser;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).PatientViewModel.Patients = null;
@@ -397,7 +412,8 @@ namespace AllAboutTeethDCMS.Menu
             ((EditAppointmentViewModel)EditAppointmentView.DataContext).CopyAppointment = (Appointment)selectedAppointment.Clone();
             ((EditAppointmentViewModel)EditAppointmentView.DataContext).MenuViewModel = this;
         }
-        #endregion
+
+        #endregion Appointments
 
         public void gotoAddOperationView(Appointment appointment, List<Appointment> appointments)
         {
@@ -412,7 +428,6 @@ namespace AllAboutTeethDCMS.Menu
 
         private MaintenanceView maintenanceView;
         public MainWindowViewModel MainWindowViewModel { get => mainWindowViewModel; set => mainWindowViewModel = value; }
-
 
         public MaintenanceView MaintenanceView { get => maintenanceView; set => maintenanceView = value; }
         public User ActiveUser { get => activeUser; set => activeUser = value; }
@@ -480,12 +495,12 @@ namespace AllAboutTeethDCMS.Menu
         public bool IsInAppointments
         {
             get { return _isInAppointments; }
-            set { 
+            set
+            {
                 _isInAppointments = value;
                 OnPropertyChanged();
             }
         }
-
 
         private bool _isChecked;
 

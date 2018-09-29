@@ -11,34 +11,43 @@ namespace AllAboutTeethDCMS.Users
     public class AddUserViewModel : CRUDPage<User>
     {
         #region Fields
+
         private User user;
         private User copyUser;
         private string passwordCopy = "";
         private List<string> genders = new List<string>() { "Male", "Female" };
         private List<string> accountTypes = new List<string>() { "Administrator", "Dentist", "Staff" };
         private string questionsVisibility = "Collapsed";
-        #endregion
+
+        #endregion Fields
 
         #region Properties
-        public User User { get => user;
+
+        public User User
+        {
+            get => user;
             set
             {
                 user = value;
                 AccountTypeVisibility = "Collapsed";
                 SensitiveFieldVisibility = "Collapsed";
-                if(ActiveUser.Type.Equals("Administrator"))
+                if (ActiveUser.Type.Equals("Administrator"))
                 {
                     AccountTypeVisibility = "Visible";
                 }
-                if(value.No==ActiveUser.No)
+                if (value.No == ActiveUser.No)
                 {
                     SensitiveFieldVisibility = "Visible";
                 }
                 foreach (PropertyInfo info in GetType().GetProperties()) OnPropertyChanged(info.Name);
             }
         }
+
         public User CopyUser { get => copyUser; set => copyUser = value; }
-        public string PasswordCopy { get => passwordCopy;
+
+        public string PasswordCopy
+        {
+            get => passwordCopy;
             set
             {
                 if (!value.Contains(" "))
@@ -79,11 +88,14 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
+
         public List<string> Genders { get => genders; set => genders = value; }
         public List<string> AccountTypes { get => accountTypes; set => accountTypes = value; }
-        #endregion
+
+        #endregion Properties
 
         #region Validation Members
+
         private string usernameError = "";
         private string passwordError = "";
         private string passwordCopyError = "";
@@ -111,13 +123,17 @@ namespace AllAboutTeethDCMS.Users
         public string Answer2Error { get => answer2Error; set { answer2Error = value; OnPropertyChanged(); } }
         public DateTime DateEnd { get => dateEnd; set => dateEnd = value; }
         public DateTime DateStart { get => dateStart; set => dateStart = value; }
-        #endregion
+
+        #endregion Validation Members
 
         #region User Properties
-        public string Username { get => User.Username;
+
+        public string Username
+        {
+            get => User.Username;
             set
             {
-                if(!value.Contains(" "))
+                if (!value.Contains(" "))
                 {
                     bool valid = true;
                     if (!value.Equals(" "))
@@ -150,7 +166,10 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string Password { get => User.Password; 
+
+        public string Password
+        {
+            get => User.Password;
             set
             {
                 if (!value.Contains(" "))
@@ -191,11 +210,15 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
+
         public string Type { get => User.Type; set { User.Type = value; OnPropertyChanged(); } }
-        public string FirstName { get => User.FirstName;
+
+        public string FirstName
+        {
+            get => User.FirstName;
             set
             {
-                if(!value.Contains("  ")&&!value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     FirstNameError = "";
                     if (!Validate(value))
@@ -205,23 +228,28 @@ namespace AllAboutTeethDCMS.Users
                     User.FirstName = value;
                     OnPropertyChanged();
                 }
-
             }
         }
-        public string MiddleName { get => User.MiddleName;
+
+        public string MiddleName
+        {
+            get => User.MiddleName;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     User.MiddleName = value;
                     OnPropertyChanged();
                 }
             }
         }
-        public string LastName { get => User.LastName;
+
+        public string LastName
+        {
+            get => User.LastName;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     LastNameError = "";
                     if (!Validate(value))
@@ -231,15 +259,18 @@ namespace AllAboutTeethDCMS.Users
                     User.LastName = value;
                     OnPropertyChanged();
                 }
-                    
             }
         }
+
         public string Gender { get => User.Gender; set { User.Gender = value; OnPropertyChanged(); } }
         public DateTime Birthdate { get => User.Birthdate; set { User.Birthdate = value; OnPropertyChanged(); } }
-        public string Address { get => User.Address;
+
+        public string Address
+        {
+            get => User.Address;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     AddressError = "";
                     if (!Validate(value))
@@ -249,13 +280,15 @@ namespace AllAboutTeethDCMS.Users
                     User.Address = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
-        public string ContactNo { get => User.ContactNo;
+
+        public string ContactNo
+        {
+            get => User.ContactNo;
             set
             {
-                if(ValidateNumberOnly(value))
+                if (ValidateNumberOnly(value))
                 {
                     ContactNoError = "";
                     if (!Validate(value))
@@ -264,9 +297,9 @@ namespace AllAboutTeethDCMS.Users
                         User.ContactNo = value;
                         OnPropertyChanged();
                     }
-                    else if(value.Length<12)
+                    else if (value.Length < 12)
                     {
-                        if(value.Length<11)
+                        if (value.Length < 11)
                         {
                             ContactNoError = "Enter your 11-digit Mobile No.";
                         }
@@ -276,7 +309,10 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string EmailAddress { get => User.EmailAddress;
+
+        public string EmailAddress
+        {
+            get => User.EmailAddress;
             set
             {
                 if (!value.Contains(" "))
@@ -284,13 +320,15 @@ namespace AllAboutTeethDCMS.Users
                     User.EmailAddress = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
-        public string Question1 { get => User.Question1;
+
+        public string Question1
+        {
+            get => User.Question1;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     Question1Error = "";
                     if (!Validate(value))
@@ -300,13 +338,15 @@ namespace AllAboutTeethDCMS.Users
                     User.Question1 = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
-        public string Question2 { get => User.Question2;
+
+        public string Question2
+        {
+            get => User.Question2;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     Question2Error = "";
                     if (!Validate(value))
@@ -316,13 +356,15 @@ namespace AllAboutTeethDCMS.Users
                     User.Question2 = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
-        public string Answer1 { get => User.Answer1;
+
+        public string Answer1
+        {
+            get => User.Answer1;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     Answer1Error = "";
                     if (!Validate(value))
@@ -334,10 +376,13 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
-        public string Answer2 { get => User.Answer2;
+
+        public string Answer2
+        {
+            get => User.Answer2;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     Answer2Error = "";
                     if (!Validate(value))
@@ -347,37 +392,39 @@ namespace AllAboutTeethDCMS.Users
                     User.Answer2 = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
-        public string Specialization { get => User.Specialization;
+
+        public string Specialization
+        {
+            get => User.Specialization;
             set
             {
-                if (!value.Contains("  ")  && !value.StartsWith(" "))
+                if (!value.Contains("  ") && !value.StartsWith(" "))
                 {
                     User.Specialization = value;
                     OnPropertyChanged();
                 }
-                
             }
         }
+
         public string Image { get => User.Image; set { User.Image = value; OnPropertyChanged(); Console.WriteLine(value); } }
 
-        #endregion
+        #endregion User Properties
 
         public AddUserViewModel() : base()
         {
             user = new User();
             CopyUser = (User)user.Clone();
-            if((DateTime.Now.Year - 75)%4!=0&&DateTime.Now.Month==2&&DateTime.Now.Day==29)
+            if ((DateTime.Now.Year - 75) % 4 != 0 && DateTime.Now.Month == 2 && DateTime.Now.Day == 29)
             {
-                DateStart = DateTime.Parse("3/1/"+(DateTime.Now.Year-75));
+                DateStart = DateTime.Parse("3/1/" + (DateTime.Now.Year - 75));
             }
             else
             {
                 DateStart = DateTime.Parse(DateTime.Now.Month + "/" + DateTime.Now.Day + "/" + (DateTime.Now.Year - 75));
             }
-            if ((DateTime.Now.Year - 18) % 4!=0 && DateTime.Now.Month == 2 && DateTime.Now.Day == 29)
+            if ((DateTime.Now.Year - 18) % 4 != 0 && DateTime.Now.Month == 2 && DateTime.Now.Day == 29)
             {
                 DateEnd = DateTime.Parse("2/28/" + (DateTime.Now.Year - 18));
             }
@@ -397,7 +444,7 @@ namespace AllAboutTeethDCMS.Users
             DialogBoxViewModel.Mode = "Question";
             DialogBoxViewModel.Title = "Add User";
             DialogBoxViewModel.Message = "Are you sure you want to add this user?";
-            
+
             while (DialogBoxViewModel.Answer.Equals("None"))
             {
                 Thread.Sleep(100);
@@ -576,7 +623,8 @@ namespace AllAboutTeethDCMS.Users
             resetThread.IsBackground = true;
             resetThread.Start();
         }
-        #endregion
+
+        #endregion Reset Thread
 
         private DelegateCommand startCameraCommand;
         private DelegateCommand captureCommand;
@@ -594,7 +642,7 @@ namespace AllAboutTeethDCMS.Users
 
         public void startCamera()
         {
-            if(WebCam==null)
+            if (WebCam == null)
             {
                 WebCam = new WebCam();
                 WebCam.InitializeWebCam(ref imageCamera);
@@ -606,7 +654,7 @@ namespace AllAboutTeethDCMS.Users
 
         public void capture()
         {
-            if(isWebcamStarted)
+            if (isWebcamStarted)
             {
                 WebCam.Stop();
                 isWebcamStarted = false;
@@ -617,6 +665,7 @@ namespace AllAboutTeethDCMS.Users
         private string accountTypeVisibility = "Collapsed";
 
         private DelegateCommand goBackCommand;
+
         public void goBack()
         {
             MenuViewModel.gotoUsers();
@@ -628,6 +677,7 @@ namespace AllAboutTeethDCMS.Users
         }
 
         #region Unimplemented Methods
+
         protected override void beforeLoad(MySqlCommand command)
         {
             throw new NotImplementedException();
@@ -647,6 +697,7 @@ namespace AllAboutTeethDCMS.Users
         {
             throw new NotImplementedException();
         }
-        #endregion
+
+        #endregion Unimplemented Methods
     }
 }

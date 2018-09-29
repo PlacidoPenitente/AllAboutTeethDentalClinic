@@ -7,8 +7,8 @@ namespace AllAboutTeethDCMS.Users
     public class LoginViewModel : PageViewModel
     {
         private User user;
-        private string username = "";
-        private string password = "";
+        private string username = "jaymark";
+        private string password = "jaymark";
         private string usernameError = "";
         private string passwordError = "";
         private string visibility = "Visible";
@@ -30,25 +30,30 @@ namespace AllAboutTeethDCMS.Users
         public BackgroundWorker LoginBackgroundWorker { get => loginBackgroundWorker; set => loginBackgroundWorker = value; }
         public bool IsValidUser { get => isValidUser; set => isValidUser = value; }
 
-        public string Username { get => username;
+        public string Username
+        {
+            get => username;
             set
             {
-                if(!value.Contains(" "))
+                if (!value.Contains(" "))
                 {
                     UsernameError = "";
-                    if (value.Length<16)
+                    if (value.Length < 16)
                     {
                         username = value;
                         OnPropertyChanged();
                     }
                 }
-                if(String.IsNullOrEmpty(value))
+                if (String.IsNullOrEmpty(value))
                 {
                     UsernameError = "Username is required";
                 }
             }
         }
-        public string Password { get => password;
+
+        public string Password
+        {
+            get => password;
             set
             {
                 if (!value.Contains(" "))
@@ -66,13 +71,14 @@ namespace AllAboutTeethDCMS.Users
                 }
             }
         }
+
         public string UsernameError { get => usernameError; set { usernameError = value; OnPropertyChanged(); } }
         public string PasswordError { get => passwordError; set { passwordError = value; OnPropertyChanged(); } }
         public string Visibility { get => visibility; set { visibility = value; OnPropertyChanged(); } }
 
         public void StartLoginProcess()
         {
-            if(!LoginBackgroundWorker.IsBusy)
+            if (!LoginBackgroundWorker.IsBusy)
             {
                 Username = Username;
                 Password = Password;
@@ -109,7 +115,7 @@ namespace AllAboutTeethDCMS.Users
 
         public void LoginCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if(IsValidUser)
+            if (IsValidUser)
             {
                 MainWindowViewModel.ActiveUser = User;
                 MainWindowViewModel.MenuViewModel.GotoDashboard();

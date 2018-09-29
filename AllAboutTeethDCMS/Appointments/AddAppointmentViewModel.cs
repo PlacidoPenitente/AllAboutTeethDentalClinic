@@ -178,6 +178,7 @@ namespace AllAboutTeethDCMS.Appointments
 
             AddTreatmentCommand = new DelegateCommand(AddTreatment);
             RemoveTreatmentCommand = new DelegateCommand(RemoveTreatment);
+            SetTimes();
         }
 
         public DateTime Schedule
@@ -185,15 +186,29 @@ namespace AllAboutTeethDCMS.Appointments
             get { return Appointment.Schedule; }
             set
             {
-                Appointment.Schedule = value;
+                var now = DateTime.Now;
+                if (now.ToShortDateString().Equals(value.ToShortDateString()))
+                {
+                    var temp = now.Hour > 12 ? now.Hour - 12 : now.Hour;
+                    var hour = temp < 10 ? "0" + temp : "" + temp;
+                    temp = now.Minute > 12 ? now.Minute - 12 : now.Minute;
+                    var minute = now.Minute < 10 ? "0" + temp : "" + temp;
+                    var meridiem = now.Hour < 12 ? "AM" : "PM";
+                    Appointment.Schedule = DateTime.Parse(value.ToShortDateString() + " " + hour + ":" + minute + ":00 " + meridiem);
+                }
+                else
+                {
+                    Appointment.Schedule = value;
+                }
+                SetTimes();
                 OnPropertyChanged();
             }
         }
 
-
         public Patient Patient { get => Appointment.Patient; set { Appointment.Patient = value; DentalChartViewModel.Treatment = Treatment; DentalChartViewModel.TeethView.Clear(); DentalChartViewModel = new DentalChartViewModel() { TreatmentRecordViewModel = null }; DentalChartViewModel.User = ActiveUser; DentalChartViewModel.Patient = value; OnPropertyChanged(); } }
         public Treatment Treatment { get => Appointment.Treatment; set { Appointment.Treatment = value; OnPropertyChanged(); } }
         public User Dentist { get => Appointment.Dentist; set { Appointment.Dentist = value; OnPropertyChanged(); } }
+
         public string Notes
         {
             get
@@ -210,6 +225,7 @@ namespace AllAboutTeethDCMS.Appointments
                 OnPropertyChanged();
             }
         }
+
         public Appointment Appointment
         {
             get => appointment; set
@@ -230,6 +246,7 @@ namespace AllAboutTeethDCMS.Appointments
             }
             set { patients = value; OnPropertyChanged(); }
         }
+
         public List<Treatment> Treatments
         {
             get
@@ -238,6 +255,7 @@ namespace AllAboutTeethDCMS.Appointments
             }
             set { treatments = value; OnPropertyChanged(); }
         }
+
         public List<User> Dentists
         {
             get
@@ -245,6 +263,49 @@ namespace AllAboutTeethDCMS.Appointments
                 return dentists;
             }
             set { dentists = value; OnPropertyChanged(); }
+        }
+
+        public ObservableCollection<string> Time { get; set; } = new ObservableCollection<string>();
+
+        public void SetTimes()
+        {
+            Start = DateTime.Now;
+            Time.Clear();
+
+            var hour = 8;
+            var minute = 0;
+            while (hour < 21)
+            {
+                var temp = hour > 12 ? hour - 12 : hour;
+                var time = DateTime.Parse(Schedule.ToShortDateString() + " " +
+                    (temp < 10 ? "0" + temp : "" + temp) + ":" +
+                    ((minute < 10) ? "0" + minute : "" + minute) + ":00 " +
+                    (hour < 12 ? "AM" : "PM"));
+                if (DateTime.Compare(time, Schedule) > 0)
+                {
+                    var a = DateTime.Compare(time, Schedule);
+                    if (time.Hour > 12)
+                        Time.Add((time.Hour - 12) < 10 ? "0" + time.ToShortTimeString() : "" + time.ToShortTimeString());
+                    else
+                        Time.Add(time.Hour < 10 ? "0" + time.ToShortTimeString() : "" + time.ToShortTimeString());
+                }
+                time = time.AddMinutes(15);
+                hour = time.Hour;
+                minute = time.Minute;
+            }
+            ScheduleTime = Time.FirstOrDefault();
+        }
+
+        private string _scheduleTime = "08:00 AM";
+
+        public string ScheduleTime
+        {
+            get { return _scheduleTime; }
+            set
+            {
+                _scheduleTime = value;
+                OnPropertyChanged();
+            }
         }
 
         public string Filter { get => filter; set { filter = value; OnPropertyChanged(); } }
@@ -394,6 +455,16 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
+        public DateTime Start
+        {
+            get => _start;
+            set
+            {
+                _start = value;
+                OnPropertyChanged();
+            }
+        }
+
         public virtual void saveAppointment()
         {
             if (Patient == null)
@@ -420,7 +491,19 @@ namespace AllAboutTeethDCMS.Appointments
                 startLoadDialogThread();
                 return;
             }
-            if (Schedule < DateTime.Now)
+
+            if (ScheduleTime == null)
+            {
+                DialogBoxViewModel.Mode = "Error";
+                DialogBoxViewModel.Title = "Schedule Error";
+                DialogBoxViewModel.Message = "Please select a time.";
+                startLoadDialogThread();
+                return;
+            }
+
+            Appointment.Schedule = DateTime.Parse(Appointment.Schedule.ToShortDateString() + " " + ScheduleTime);
+
+            if (DateTime.Compare(Appointment.Schedule, DateTime.Now) < 0)
             {
                 DialogBoxViewModel.Mode = "Error";
                 DialogBoxViewModel.Title = "Schedule Error";
@@ -428,15 +511,34 @@ namespace AllAboutTeethDCMS.Appointments
                 startLoadDialogThread();
                 return;
             }
+            var earlierAppointmentDuration = 0;
+            var earlierAppointment = Appointments.LastOrDefault(x => DateTime.Compare(x.Schedule, Appointment.Schedule) <= 0 && x.Status.Equals("Pending") && x.Dentist.No == Dentist.No);
+            if (earlierAppointment != null)
+            {
+                earlierAppointmentDuration = Appointments.Where(x => x.Patient.No == earlierAppointment.Patient.No).Sum(x => x.Treatment.Duration);
 
-            var total = Appointments.Sum(x => x.Treatment.Duration);
-            var b = Appointments.Where(x => x.Schedule <= Schedule && x.Schedule.AddMinutes(total) >= Schedule && x.Status.Equals("Pending") && x.Dentist.No == Dentist.No).ToList();
+                if (DateTime.Compare(earlierAppointment.Schedule.AddMinutes(earlierAppointmentDuration), Appointment.Schedule) > 0)
+                {
+                    DialogBoxViewModel.Mode = "Error";
+                    DialogBoxViewModel.Title = "Schedule Error";
+                    DialogBoxViewModel.Message = "Schedule is already taken.";
+                    startLoadDialogThread();
+                    return;
+                }
+            }
 
-            if(b.Count>0)
+            var currentAppointmentDuration = SelectedTreatments.Sum(x => x.Duration);
+            earlierAppointment = Appointments.LastOrDefault(x =>
+                DateTime.Compare(x.Schedule, Appointment.Schedule.AddMinutes(currentAppointmentDuration)) < 0 &&
+                DateTime.Compare(x.Schedule, Appointment.Schedule) >= 0 &&
+                x.Status.Equals("Pending") &&
+                x.Dentist.No == Dentist.No);
+
+            if (earlierAppointment != null)
             {
                 DialogBoxViewModel.Mode = "Error";
                 DialogBoxViewModel.Title = "Schedule Error";
-                DialogBoxViewModel.Message = "Schedule is already taken.";
+                DialogBoxViewModel.Message = "Schedule conflicts with next appointment.";
                 startLoadDialogThread();
                 return;
             }
@@ -476,6 +578,7 @@ namespace AllAboutTeethDCMS.Appointments
         #region Reset Thread
 
         private Thread resetThread;
+        private DateTime _start;
 
         public virtual void startResetThread()
         {
@@ -509,12 +612,13 @@ namespace AllAboutTeethDCMS.Appointments
             resetThread.IsBackground = true;
             resetThread.Start();
         }
-        #endregion
+
+        #endregion Reset Thread
 
         #region Unimplemented Methods
+
         protected override void beforeLoad(MySqlCommand command)
         {
-
         }
 
         public List<Appointment> Appointments { get; set; }
@@ -533,6 +637,7 @@ namespace AllAboutTeethDCMS.Appointments
         {
             throw new NotImplementedException();
         }
-        #endregion
+
+        #endregion Unimplemented Methods
     }
 }
