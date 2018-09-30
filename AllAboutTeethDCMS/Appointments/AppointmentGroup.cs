@@ -9,12 +9,22 @@ using AllAboutTeethDCMS.Patients;
 
 namespace AllAboutTeethDCMS.Appointments
 {
-    public class AppointmentGroup : ViewModelBase
+    public class AppointmentGroup : ViewModelBase, IComparer<Session>
     {
         private ObservableCollection<Session> _session;
         public ObservableCollection<Session> Sessions
         {
-            get => _session;
+            get
+            {
+                if (_session != null)
+                {
+                    var temp = _session.ToArray();
+                    Array.Sort(temp, this);
+                    _session = new ObservableCollection<Session>(temp);
+                }
+                return _session;
+            }
+
             set
             {
                 _session = value;
@@ -32,11 +42,15 @@ namespace AllAboutTeethDCMS.Appointments
             set
             {
                 _selectedSession = value;
-                AppointmentViewModel.Appointment = _selectedSession.Appointments.FirstOrDefault();
+                AppointmentViewModel.Session = _selectedSession;
                 OnPropertyChanged();
             }
         }
 
         public AppointmentViewModel AppointmentViewModel { get; set; }
+        public int Compare(Session x, Session y)
+        {
+            return DateTime.Compare(x.Appointments.FirstOrDefault().Schedule, y.Appointments.FirstOrDefault().Schedule);
+        }
     }
 }

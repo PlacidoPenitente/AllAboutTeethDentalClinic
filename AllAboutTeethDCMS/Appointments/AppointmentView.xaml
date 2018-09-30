@@ -54,13 +54,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0.5*" />
-                    </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="Patients: " Margin="5,10,5,10" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}" />
@@ -78,7 +73,7 @@
                             </DataGrid.Columns>
                         </DataGrid>-->
                         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-                            <ItemsControl SnapsToDevicePixels="True" ItemsSource="{Binding AllAppointments}">
+                            <ItemsControl SnapsToDevicePixels="True" ItemsSource="{Binding AllAppointments, UpdateSourceTrigger=PropertyChanged}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
@@ -87,7 +82,7 @@
                             </ItemsControl>
                         </ScrollViewer>
                     </Grid>
-                    <Grid Grid.Column="1">
+                    <!--<Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -106,7 +101,7 @@
                                 <DataGridTextColumn Header="Duration (in minutes)" Binding="{Binding Treatment.Duration, UpdateSourceTrigger=PropertyChanged}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
                 <StackPanel Grid.Column="1" Margin="0,0,0,0">
                     <Button Content="Add" Visibility="{Binding ForAdminAndStaff}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Add_32px.png}" Command="{Binding AddCommand}" />
@@ -145,7 +140,7 @@
                             </EventTrigger>
                         </Button.Triggers>
                     </Button>
-                    <Button Content="Delete" Visibility="{Binding AppointmentDelete, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
+                    <Button Content="Delete" Visibility="{Binding Session, Converter={StaticResource ObjectToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Trash_Can_32px.png}" Background="{StaticResource Alizarin}" Command="{Binding DeleteCommand}">
                         <Button.Triggers>
                             <EventTrigger RoutedEvent="Button.Click">
                                 <BeginStoryboard>

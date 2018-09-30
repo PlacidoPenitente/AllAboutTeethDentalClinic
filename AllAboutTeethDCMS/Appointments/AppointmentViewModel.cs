@@ -276,6 +276,8 @@ namespace AllAboutTeethDCMS.Appointments
                         Patient = list.FirstOrDefault(x => x.Patient.No == patient)?.Patient,
                         Appointments = new ObservableCollection<Appointment>(list.Where(x =>
                             x.Patient.No == patient && x.Dentist.No == dentist)),
+                        Date = list.FirstOrDefault(x => x.Patient.No == patient && x.Dentist.No == dentist)
+                            ?.Schedule.ToLongDateString(),
                         Time = list.FirstOrDefault(x => x.Patient.No == patient && x.Dentist.No == dentist)
                             ?.Schedule.ToShortTimeString() + " - " + list.FirstOrDefault(x => x.Patient.No == patient && x.Dentist.No == dentist)
                                    ?.Schedule.AddMinutes(list.Where(x =>
@@ -365,6 +367,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         private DateTime _endDate;
         private ObservableCollection<AppointmentGroup> _allAppointments;
+        private Session _session;
 
         public DateTime EndDate
         {
@@ -372,6 +375,17 @@ namespace AllAboutTeethDCMS.Appointments
             set
             {
                 _endDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Session Session
+        {
+            get => _session;
+            set
+            {
+                _session = value;
+                Appointment = _session.Appointments.FirstOrDefault();
                 OnPropertyChanged();
             }
         }

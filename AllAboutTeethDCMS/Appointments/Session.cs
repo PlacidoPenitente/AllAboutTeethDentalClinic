@@ -1,4 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Web.UI.WebControls;
 using AllAboutTeethDCMS.Patients;
 
 namespace AllAboutTeethDCMS.Appointments
@@ -6,7 +10,7 @@ namespace AllAboutTeethDCMS.Appointments
     public class Session : ViewModelBase
     {
         private ObservableCollection<Appointment> _appointments;
-        
+
         private Patient _patient;
         public Patient Patient
         {
@@ -18,7 +22,19 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
+        public string Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _time;
+        private string _date;
+
         public string Time
         {
             get => _time;
@@ -31,7 +47,11 @@ namespace AllAboutTeethDCMS.Appointments
 
         public ObservableCollection<Appointment> Appointments
         {
-            get => _appointments;
+            get
+            {
+                return _appointments;
+            }
+
             set
             {
                 _appointments = value;

@@ -1025,18 +1025,23 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
-                    <TextBlock Text="Schedule: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
-                    <TextBlock Text="{Binding Time}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                    <TextBlock Text="Date: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                    <TextBlock Text="{Binding Date}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="Time: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                    <TextBlock Text="{Binding Time}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
                     <TextBlock Text="Patient: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" Background="{StaticResource PeterRiver}" Padding="2" FontSize="13"/>
                     <TextBlock Text="{Binding Patient}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" Background="{StaticResource PeterRiver}" Padding="2" FontSize="13"/>
                 </StackPanel>
-                <TextBlock Grid.Row="2" Text="Services" Margin="0,5,0,5" FontFamily="{StaticResource Roboto}" FontSize="13"/>
-                <ItemsControl Grid.Row="3" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Grid.Row="3" Text="Services" Margin="0,5,0,5" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                <ItemsControl Grid.Row="4" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Border>
     </DataTemplate>
@@ -1044,7 +1049,10 @@
     <DataTemplate DataType="{x:Type appointments:Appointment}">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="    •    " FontFamily="{StaticResource Roboto}" FontSize="13"/>
-            <TextBlock FontFamily="{StaticResource RobotoLight}" FontSize="13" Text="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+            <TextBlock FontFamily="{StaticResource Roboto}" FontSize="13" Text="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+            <TextBlock Text="    Duration: " FontFamily="{StaticResource RobotoLight}" FontSize="13"/>
+            <TextBlock Text="{Binding Treatment.Duration}" FontFamily="{StaticResource RobotoLight}" FontSize="13"/>
+            <TextBlock Text=" min/s." FontFamily="{StaticResource RobotoLight}" FontSize="13"/>
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>
