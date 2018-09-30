@@ -13,6 +13,7 @@ namespace AllAboutTeethDCMS.Appointments
     public class AppointmentViewModel : CRUDPage<Appointment>
     {
         #region Fields
+
         private Appointment appointment;
         private List<Appointment> appointments;
 
@@ -28,7 +29,8 @@ namespace AllAboutTeethDCMS.Appointments
 
         private string archiveVisibility = "Collapsed";
         private string unarchiveVisibility = "Collapsed";
-        #endregion
+
+        #endregion Fields
 
         public AppointmentViewModel()
         {
@@ -39,6 +41,16 @@ namespace AllAboutTeethDCMS.Appointments
             AddCommand = new DelegateCommand(new Action(GotoAddAppointment));
             EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
             TreatmentCommand = new DelegateCommand(new Action(GotoAddOperation));
+        }
+
+        public ObservableCollection<AppointmentGroup> AllAppointments
+        {
+            get => _allAppointments;
+            set
+            {
+                _allAppointments = value;
+                OnPropertyChanged();
+            }
         }
 
         private Appointment _appointmentDelete;
@@ -53,7 +65,6 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
-
         public ObservableCollection<Appointment> UniqueAppointment
         {
             get => _uniqueAppointment;
@@ -63,9 +74,11 @@ namespace AllAboutTeethDCMS.Appointments
                 OnPropertyChanged();
             }
         }
+
         public ObservableCollection<Appointment> IndividualAppointments { get; set; }
 
         #region Methods
+
         protected override bool beforeUpdate()
         {
             DialogBoxViewModel.Answer = "None";
@@ -204,7 +217,6 @@ namespace AllAboutTeethDCMS.Appointments
                 command.Parameters.AddWithValue("@status", "Pending");
                 command.Parameters.AddWithValue("@dentist", ActiveUser.No);
             }
-
         }
 
         protected override void afterLoad(List<Appointment> list)
@@ -224,10 +236,61 @@ namespace AllAboutTeethDCMS.Appointments
             {
                 FilterResult = "Found " + list.Count + " result/s.";
             }
+
+            var allAppointments = new ObservableCollection<AppointmentGroup>();
+            var allDentists = list.Select(x => x.Dentist.No);
+            var uniqueDentist = allDentists.Distinct();
+            //foreach (var dentist in uniqueDentist)
+            //{
+            //    allAppointments.Add(new AppointmentGroup
+            //    {
+            //        Dentist = list.FirstOrDefault(x => x.Dentist.No == dentist)?.Dentist,
+
+            //        Session = new Session(this)
+            //        {
+            //            Time = list.FirstOrDefault(x => x.Dentist.No == dentist)?.Schedule.ToShortTimeString(),
+            //            Patient = list.FirstOrDefault(x => x.Dentist.No == dentist)?.Patient,
+            //            Appointments = new ObservableCollection<Appointment>(list.Where(x => x.Dentist.No == dentist))
+            //        }
+            //    });
+            //}
+
+            foreach (var dentist in uniqueDentist)
+            {
+                var patients = list.Where(x => x.Dentist.No == dentist).Select(x => x.Patient.No);
+                allAppointments.Add(new AppointmentGroup
+                {
+                    AppointmentViewModel = this,
+                    Dentist = list.FirstOrDefault(x => x.Dentist.No == dentist)?.Dentist
+                });
+
+                var uniquePatients = patients.Distinct();
+
+                foreach (var patient in uniquePatients)
+                {
+                    var appointmentGroup = allAppointments.FirstOrDefault(x => x.Dentist.No == dentist);
+                    if (appointmentGroup != null && appointmentGroup.Sessions == null)
+                        appointmentGroup.Sessions = new ObservableCollection<Session>();
+                    appointmentGroup?.Sessions.Add(new Session
+                    {
+                        Patient = list.FirstOrDefault(x => x.Patient.No == patient)?.Patient,
+                        Appointments = new ObservableCollection<Appointment>(list.Where(x =>
+                            x.Patient.No == patient && x.Dentist.No == dentist)),
+                        Time = list.FirstOrDefault(x => x.Patient.No == patient && x.Dentist.No == dentist)
+                            ?.Schedule.ToShortTimeString() + " - " + list.FirstOrDefault(x => x.Patient.No == patient && x.Dentist.No == dentist)
+                                   ?.Schedule.AddMinutes(list.Where(x =>
+                                       x.Patient.No == patient && x.Dentist.No == dentist).Sum(x => x.Treatment.Duration)).ToShortTimeString()
+                    });
+                }
+            }
+
+            AllAppointments = allAppointments;
         }
-        #endregion
+
+        #endregion Methods
 
         #region Properties
+
         public DelegateCommand LoadCommand { get => loadCommand; set => loadCommand = value; }
         public DelegateCommand ArchiveCommand { get => archiveCommand; set => archiveCommand = value; }
         public DelegateCommand UnarchiveCommand { get => unarchiveCommand; set => unarchiveCommand = value; }
@@ -272,6 +335,7 @@ namespace AllAboutTeethDCMS.Appointments
                 }
             }
         }
+
         public List<Appointment> Appointments { get => appointments; set { appointments = value; OnPropertyChanged(); } }
 
         public string ArchiveVisibility { get => archiveVisibility; set { archiveVisibility = value; OnPropertyChanged(); } }
@@ -283,9 +347,10 @@ namespace AllAboutTeethDCMS.Appointments
 
         public string ForAdminAndDenstist { get => forAdminAndDenstist; set { forAdminAndDenstist = value; OnPropertyChanged(); } }
 
-        #endregion
+        #endregion Properties
 
         #region Commands
+
         public void GotoAddOperation()
         {
             if (ActiveUser.Type.Equals("Dentist") || ActiveUser.Type.Equals("Administrator"))
@@ -299,6 +364,7 @@ namespace AllAboutTeethDCMS.Appointments
         }
 
         private DateTime _endDate;
+        private ObservableCollection<AppointmentGroup> _allAppointments;
 
         public DateTime EndDate
         {
@@ -309,7 +375,6 @@ namespace AllAboutTeethDCMS.Appointments
                 OnPropertyChanged();
             }
         }
-
 
         public void GotoAddAppointment()
         {
@@ -340,6 +405,7 @@ namespace AllAboutTeethDCMS.Appointments
         {
             startDeleteFromDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
-        #endregion
+
+        #endregion Commands
     }
 }

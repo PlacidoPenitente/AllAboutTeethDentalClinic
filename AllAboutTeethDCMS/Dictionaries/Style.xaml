@@ -1,51 +1,54 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:root="clr-namespace:AllAboutTeethDCMS"
-                    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
+                    xmlns:system="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:appointments="clr-namespace:AllAboutTeethDCMS.Appointments"
+                    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+                    xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System">
     <Style x:Key="PrimaryButton" TargetType="{x:Type Button}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid SnapsToDevicePixels="True">
-                        <Border CornerRadius="3" Margin="5" Background="{TemplateBinding Background}"/>
-                        <Border CornerRadius="3" Margin="5" x:Name="back" Background="White" Opacity="0"/>
-                        <Border CornerRadius="3" Margin="5" x:Name="back_pressed" Background="Black" Opacity="0"/>
+                        <Border CornerRadius="3" Margin="5" Background="{TemplateBinding Background}" />
+                        <Border CornerRadius="3" Margin="5" x:Name="back" Background="White" Opacity="0" />
+                        <Border CornerRadius="3" Margin="5" x:Name="back_pressed" Background="Black" Opacity="0" />
                         <Border CornerRadius="3" Margin="5">
-                            <ContentPresenter Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <ContentPresenter Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Button.MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.PreviewMouseLeftButtonUp">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0.15" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0.15" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.PreviewMouseLeftButtonDown">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0" To="0.15" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0" To="0.15" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -56,76 +59,76 @@
     </Style>
 
     <Style x:Key="DangerButton" TargetType="{x:Type Button}" BasedOn="{StaticResource PrimaryButton}">
-        <Setter Property="Background" Value="{StaticResource Alizarin}"/>
+        <Setter Property="Background" Value="{StaticResource Alizarin}" />
     </Style>
 
     <Style x:Key="InfoButton" TargetType="{x:Type Button}" BasedOn="{StaticResource PrimaryButton}">
-        <Setter Property="Background" Value="{StaticResource PeterRiver}"/>
+        <Setter Property="Background" Value="{StaticResource PeterRiver}" />
     </Style>
 
     <Style x:Key="WarningButton" TargetType="{x:Type Button}" BasedOn="{StaticResource PrimaryButton}">
-        <Setter Property="Background" Value="{StaticResource Sunflower}"/>
+        <Setter Property="Background" Value="{StaticResource Sunflower}" />
     </Style>
 
     <Style x:Key="IconButton" TargetType="{x:Type Button}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Width" Value="100"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="100" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Border Grid.ColumnSpan="2" Background="{TemplateBinding Background}"/>
-                        <Border Grid.ColumnSpan="2" x:Name="back" Background="White" Opacity="0"/>
-                        <Border Grid.ColumnSpan="2" x:Name="back_pressed" Background="Black" Opacity="0"/>
+                        <Border Grid.ColumnSpan="2" Background="{TemplateBinding Background}" />
+                        <Border Grid.ColumnSpan="2" x:Name="back" Background="White" Opacity="0" />
+                        <Border Grid.ColumnSpan="2" x:Name="back_pressed" Background="Black" Opacity="0" />
                         <Border x:Name="icon" Height="48" Width="100">
-                            <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                            <Image Stretch="None" RenderOptions.BitmapScalingMode="HighQuality" Source="{TemplateBinding root:AttachedProperties.Icon}" />
                         </Border>
                         <Border Grid.Column="1">
-                            <ContentPresenter x:Name="content" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <ContentPresenter x:Name="content" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Button.MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="100" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="100" To="0" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="0" To="100" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="content" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="icon" Storyboard.TargetProperty="Width" From="0" To="100" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.PreviewMouseLeftButtonUp">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0.15" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0.15" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0" To="0.2" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="Button.PreviewMouseLeftButtonDown">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2"/>
-                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0" To="0.15" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="back" Storyboard.TargetProperty="Opacity" From="0.2" To="0" Duration="0:0:0.2" />
+                                    <DoubleAnimation Storyboard.TargetName="back_pressed" Storyboard.TargetProperty="Opacity" From="0" To="0.15" Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -136,33 +139,33 @@
     </Style>
 
     <Style x:Key="TextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <StackPanel SnapsToDevicePixels="True">
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}" />
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5" />
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Border>
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -171,34 +174,34 @@
     </Style>
 
     <Style x:Key="PasswordTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="FontFamily" Value="Consolas"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Foreground" Value="Transparent"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled"/>
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="Transparent" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <StackPanel SnapsToDevicePixels="True">
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}" />
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="{StaticResource WetAsphalt}"/>
-                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="{StaticResource WetAsphalt}" />
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5" />
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Grid.Column="1" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Border>
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -207,34 +210,34 @@
     </Style>
 
     <Style x:Key="PasswordTextBoxDark" TargetType="{x:Type TextBox}">
-        <Setter Property="FontFamily" Value="Consolas"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Foreground" Value="Transparent"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled"/>
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="Transparent" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <StackPanel SnapsToDevicePixels="True">
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}" />
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="White"/>
-                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Grid.Column="1" Height="24" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label Margin="2,1,2,1" Content="{TemplateBinding Text, Converter={StaticResource StringToPasswordMaskConverter}}" Foreground="White" />
+                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5" />
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Grid.Column="1" Height="24" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             </Grid>
                         </Border>
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -243,33 +246,33 @@
     </Style>
 
     <Style x:Key="NotRequiredTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBox}">
-        <Setter Property="SelectionBrush" Value="{StaticResource Asbestos}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource Asbestos}"/>
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="Background" Value="{StaticResource Asbestos}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Asbestos}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource Asbestos}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Asbestos}" />
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="Background" Value="{StaticResource Asbestos}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Asbestos}" />
     </Style>
 
     <Style x:Key="PasswordBox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="CaretBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">
                     <StackPanel SnapsToDevicePixels="True">
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}" />
                         </Border>
                         <Border CornerRadius="3" BorderBrush="{TemplateBinding Background}" BorderThickness="2" Margin="5,5,5,0">
-                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5"/>
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" Margin="5" />
                         </Border>
                         <Border>
-                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label FontFamily="{StaticResource Roboto}" Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -278,18 +281,18 @@
     </Style>
 
     <Style x:Key="ItemContainerStyle" TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="Background" Value="{StaticResource Clouds}"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="Background" Value="{StaticResource Clouds}" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Border Background="{TemplateBinding Background}" Padding="5" SnapsToDevicePixels="True">
-                        <ContentPresenter/>
+                        <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter Property="Background" Value="{StaticResource Silver}"/>
+                            <Setter Property="Background" Value="{StaticResource Silver}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -298,18 +301,18 @@
     </Style>
 
     <Style x:Key="LisBoxItemContainerStyle" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="Background" Value="{StaticResource Clouds}"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="Background" Value="{StaticResource Clouds}" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Background="{TemplateBinding Background}" Padding="5" SnapsToDevicePixels="True">
-                        <ContentPresenter/>
+                        <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{StaticResource Silver}"/>
+                            <Setter Property="Background" Value="{StaticResource Silver}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -318,54 +321,54 @@
     </Style>
 
     <Style x:Key="ListBox" TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource LisBoxItemContainerStyle}"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource LisBoxItemContainerStyle}" />
     </Style>
 
     <Style x:Key="ComboBox" TargetType="{x:Type ComboBox}">
-        <Setter Property="Background" Value="{StaticResource Turquoise}"/>
-        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle}"/>
+        <Setter Property="Background" Value="{StaticResource Turquoise}" />
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainerStyle}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
                     <StackPanel>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{StaticResource Turquoise}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{StaticResource Turquoise}" />
                         </Border>
                         <Border Background="{TemplateBinding Background}" Margin="5,5,5,0" CornerRadius="4" SnapsToDevicePixels="True">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" PlacementTarget="{Binding ElementName=root}" Placement="Bottom">
                                     <Border x:Name="DropDownBorder" SnapsToDevicePixels="True" Background="Transparent">
                                         <ScrollViewer x:Name="DropDownScrollViewer">
                                             <Border Margin="0,5,0,0" RenderOptions.ClearTypeHint="Enabled">
-                                                <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                             </Border>
                                         </ScrollViewer>
                                     </Border>
                                 </Popup>
-                                <ContentPresenter x:Name="presenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="10,0,10,0" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                <ContentPresenter x:Name="presenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Margin="10,0,10,0" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="False" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" />
                                 <ToggleButton Margin="5,5,5,5" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
-                                            <Setter Property="OverridesDefaultStyle" Value="True"/>
-                                            <Setter Property="IsTabStop" Value="False"/>
-                                            <Setter Property="Focusable" Value="False"/>
-                                            <Setter Property="ClickMode" Value="Press"/>
+                                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                                            <Setter Property="IsTabStop" Value="False" />
+                                            <Setter Property="Focusable" Value="False" />
+                                            <Setter Property="ClickMode" Value="Press" />
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                                         <Grid Background="Transparent" IsHitTestVisible="True">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <Path Data="M0,0L3.5,4 7,0z" Grid.Column="1" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+                                                            <Path Data="M0,0L3.5,4 7,0z" Grid.Column="1" Fill="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" />
                                                         </Grid>
                                                     </ControlTemplate>
                                                 </Setter.Value>
@@ -376,35 +379,35 @@
                             </Grid>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="IsTodayHighlighted" Value="True"/>
-        <Setter Property="SelectedDateFormat" Value="Short"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="IsTodayHighlighted" Value="True" />
+        <Setter Property="SelectedDateFormat" Value="Short" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DatePicker}">
                     <StackPanel>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontSize="13" VerticalAlignment="Center" Foreground="{TemplateBinding BorderBrush}" />
                         </Border>
                         <Border BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="3" SnapsToDevicePixels="True" BorderThickness="2" Background="Transparent" Margin="5,5,5,0">
                             <Grid x:Name="PART_Root">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="PART_Button" Grid.Column="1" Foreground="{TemplateBinding Foreground}" Focusable="False" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Center" Width="20" Margin="0,0,5,0">
                                     <Button.Style>
@@ -413,7 +416,7 @@
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type Button}">
                                                         <Border>
-                                                            <Path Fill="{StaticResource Turquoise}" Data="M 4.800781 0 C 4.363281 0 4 0.363281 4 0.800781 L 4 1.601563 L 1.601563 1.601563 C 1.136719 1.601563 0.800781 1.9375 0.800781 2.398438 L 0.800781 5.199219 L 19.199219 5.199219 L 19.199219 2.398438 C 19.199219 1.9375 18.863281 1.601563 18.398438 1.601563 L 16 1.601563 L 16 0.800781 C 16 0.363281 15.636719 0 15.199219 0 L 14.398438 0 C 13.960938 0 13.601563 0.363281 13.601563 0.800781 L 13.601563 1.601563 L 6.398438 1.601563 L 6.398438 0.800781 C 6.398438 0.363281 6.039063 0 5.601563 0 Z M 4.800781 0.800781 L 5.601563 0.800781 L 5.601563 3.199219 L 4.800781 3.199219 Z M 14.398438 0.800781 L 15.199219 0.800781 L 15.199219 3.199219 L 14.398438 3.199219 Z M 0.800781 6 L 0.800781 18.398438 C 0.800781 18.863281 1.136719 19.199219 1.601563 19.199219 L 18.398438 19.199219 C 18.863281 19.199219 19.199219 18.863281 19.199219 18.398438 L 19.199219 6 Z M 4.800781 8.398438 L 6.800781 8.398438 L 6.800781 10.398438 L 4.800781 10.398438 Z M 7.601563 8.398438 L 9.601563 8.398438 L 9.601563 10.398438 L 7.601563 10.398438 Z M 10.398438 8.398438 L 12.398438 8.398438 L 12.398438 10.398438 L 10.398438 10.398438 Z M 13.199219 8.398438 L 15.199219 8.398438 L 15.199219 10.398438 L 13.199219 10.398438 Z M 4.800781 11.199219 L 6.800781 11.199219 L 6.800781 13.199219 L 4.800781 13.199219 Z M 7.601563 11.199219 L 9.601563 11.199219 L 9.601563 13.199219 L 7.601563 13.199219 Z M 10.398438 11.199219 L 12.398438 11.199219 L 12.398438 13.199219 L 10.398438 13.199219 Z M 13.199219 11.199219 L 15.199219 11.199219 L 15.199219 13.199219 L 13.199219 13.199219 Z M 4.800781 14 L 6.800781 14 L 6.800781 16 L 4.800781 16 Z M 7.601563 14 L 9.601563 14 L 9.601563 16 L 7.601563 16 Z M 10.398438 14 L 12.398438 14 L 12.398438 16 L 10.398438 16 Z M 13.199219 14 L 15.199219 14 L 15.199219 16 L 13.199219 16 Z "/>
+                                                            <Path Fill="{StaticResource Turquoise}" Data="M 4.800781 0 C 4.363281 0 4 0.363281 4 0.800781 L 4 1.601563 L 1.601563 1.601563 C 1.136719 1.601563 0.800781 1.9375 0.800781 2.398438 L 0.800781 5.199219 L 19.199219 5.199219 L 19.199219 2.398438 C 19.199219 1.9375 18.863281 1.601563 18.398438 1.601563 L 16 1.601563 L 16 0.800781 C 16 0.363281 15.636719 0 15.199219 0 L 14.398438 0 C 13.960938 0 13.601563 0.363281 13.601563 0.800781 L 13.601563 1.601563 L 6.398438 1.601563 L 6.398438 0.800781 C 6.398438 0.363281 6.039063 0 5.601563 0 Z M 4.800781 0.800781 L 5.601563 0.800781 L 5.601563 3.199219 L 4.800781 3.199219 Z M 14.398438 0.800781 L 15.199219 0.800781 L 15.199219 3.199219 L 14.398438 3.199219 Z M 0.800781 6 L 0.800781 18.398438 C 0.800781 18.863281 1.136719 19.199219 1.601563 19.199219 L 18.398438 19.199219 C 18.863281 19.199219 19.199219 18.863281 19.199219 18.398438 L 19.199219 6 Z M 4.800781 8.398438 L 6.800781 8.398438 L 6.800781 10.398438 L 4.800781 10.398438 Z M 7.601563 8.398438 L 9.601563 8.398438 L 9.601563 10.398438 L 7.601563 10.398438 Z M 10.398438 8.398438 L 12.398438 8.398438 L 12.398438 10.398438 L 10.398438 10.398438 Z M 13.199219 8.398438 L 15.199219 8.398438 L 15.199219 10.398438 L 13.199219 10.398438 Z M 4.800781 11.199219 L 6.800781 11.199219 L 6.800781 13.199219 L 4.800781 13.199219 Z M 7.601563 11.199219 L 9.601563 11.199219 L 9.601563 13.199219 L 7.601563 13.199219 Z M 10.398438 11.199219 L 12.398438 11.199219 L 12.398438 13.199219 L 10.398438 13.199219 Z M 13.199219 11.199219 L 15.199219 11.199219 L 15.199219 13.199219 L 13.199219 13.199219 Z M 4.800781 14 L 6.800781 14 L 6.800781 16 L 4.800781 16 Z M 7.601563 14 L 9.601563 14 L 9.601563 16 L 7.601563 16 Z M 10.398438 14 L 12.398438 14 L 12.398438 16 L 10.398438 16 Z M 13.199219 14 L 15.199219 14 L 15.199219 16 L 13.199219 16 Z " />
                                                         </Border>
                                                     </ControlTemplate>
                                                 </Setter.Value>
@@ -424,15 +427,15 @@
                                 <DatePickerTextBox x:Name="PART_TextBox" IsReadOnly="True" Margin="0,1,0,1" Grid.Column="0" Focusable="{TemplateBinding Focusable}" HorizontalContentAlignment="Stretch" Grid.Row="0">
                                     <DatePickerTextBox.Style>
                                         <Style TargetType="{x:Type DatePickerTextBox}">
-                                            <Setter Property="Padding" Value="5"/>
-                                            <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}"/>
-                                            <Setter Property="CaretBrush" Value="{StaticResource Turquoise}"/>
+                                            <Setter Property="Padding" Value="5" />
+                                            <Setter Property="SelectionBrush" Value="{StaticResource Turquoise}" />
+                                            <Setter Property="CaretBrush" Value="{StaticResource Turquoise}" />
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
                                                         <Grid>
                                                             <Border VerticalAlignment="Center" SnapsToDevicePixels="True">
-                                                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True"/>
+                                                                <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="True" />
                                                             </Border>
                                                         </Grid>
                                                     </ControlTemplate>
@@ -443,22 +446,22 @@
                                 </DatePickerTextBox>
                                 <Grid x:Name="PART_DisabledVisual" Grid.ColumnSpan="2" Grid.Column="0" IsHitTestVisible="False" Opacity="0" Grid.Row="0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1"/>
-                                    <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0,3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19"/>
-                                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False"/>
+                                    <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1" />
+                                    <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0,3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19" />
+                                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" PlacementTarget="{Binding ElementName=PART_TextBox}" StaysOpen="False" />
                                 </Grid>
                             </Grid>
                         </Border>
                         <Border>
-                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}"/>
+                            <Label Content="{TemplateBinding root:AttachedProperties.Error}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource Alizarin}" />
                         </Border>
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="false">
-                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Setter Property="Foreground" TargetName="PART_TextBox" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -473,14 +476,14 @@
                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Button Command="ApplicationCommands.SelectAll" Focusable="False" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}}">
                                 <Button.Visibility>
@@ -500,64 +503,64 @@
                                     </Binding>
                                 </DataGridColumnHeadersPresenter.Visibility>
                             </DataGridColumnHeadersPresenter>
-                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" Grid.ColumnSpan="2" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Grid.Row="1"/>
-                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" Grid.ColumnSpan="2" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Grid.Row="1" />
+                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" />
                             <Grid Grid.Column="1" Grid.Row="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}}"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type DataGrid}}}" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" />
                             </Grid>
                         </Grid>
                     </ControlTemplate>
                 </ScrollViewer.Template>
-                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
             </ScrollViewer>
         </Border>
     </ControlTemplate>
 
     <Style x:Key="Row" TargetType="{x:Type DataGridRow}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Background" Value="{StaticResource Clouds}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource MidnightBlue}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Background" Value="{StaticResource Clouds}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MidnightBlue}" />
+        <Setter Property="BorderThickness" Value="0,0,0,2" />
         <Style.Triggers>
             <Trigger Property="AlternationIndex" Value="1">
-                <Setter Property="Background" Value="White"/>
+                <Setter Property="Background" Value="White" />
             </Trigger>
             <DataTrigger Binding="{Binding Status}" Value="Archived">
-                <Setter Property="Background" Value="{StaticResource Concrete}"/>
+                <Setter Property="Background" Value="{StaticResource Concrete}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                <Setter Property="Background" Value="{StaticResource BelizeHole}"/>
+                <Setter Property="Background" Value="{StaticResource BelizeHole}" />
             </DataTrigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+                <Setter Property="Background" Value="{StaticResource Turquoise}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="cell" TargetType="{x:Type DataGridCell}">
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
                     <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Asbestos}">
-                        <ContentPresenter Margin="3,2,3,2"/>
+                        <ContentPresenter Margin="3,2,3,2" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Foreground" Value="White" />
                         </Trigger>
                         <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Foreground" Value="White" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Status}" Value="Archived">
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Foreground" Value="White" />
                         </DataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -579,12 +582,12 @@
     </Style>
 
     <Style x:Key="Header" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="SeparatorVisibility" Value="Visible"/>
-        <Setter Property="SeparatorBrush" Value="{StaticResource Turquoise}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource Roboto}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="Background" Value="{StaticResource WetAsphalt}"/>
+        <Setter Property="SeparatorVisibility" Value="Visible" />
+        <Setter Property="SeparatorBrush" Value="{StaticResource Turquoise}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="{StaticResource Roboto}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Background" Value="{StaticResource WetAsphalt}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -592,23 +595,23 @@
                         <Border BorderThickness="0,0,1,0" BorderBrush="{StaticResource Asbestos}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ContentPresenter HorizontalAlignment="Center"/>
-                                <Image x:Name="sortUp" Grid.Column="2" Margin="3,0,3,0" Visibility="Collapsed" Width="16" Stretch="Uniform" Source="{StaticResource icons8_Sort_Up_24px.png}"/>
-                                <Image x:Name="sortDown" Grid.Column="2" Margin="3,0,3,0" Visibility="Collapsed" Width="16" Stretch="Uniform" Source="{StaticResource icons8_Sort_Down_24px_1.png}"/>
+                                <ContentPresenter HorizontalAlignment="Center" />
+                                <Image x:Name="sortUp" Grid.Column="2" Margin="3,0,3,0" Visibility="Collapsed" Width="16" Stretch="Uniform" Source="{StaticResource icons8_Sort_Up_24px.png}" />
+                                <Image x:Name="sortDown" Grid.Column="2" Margin="3,0,3,0" Visibility="Collapsed" Width="16" Stretch="Uniform" Source="{StaticResource icons8_Sort_Down_24px_1.png}" />
                             </Grid>
                         </Border>
-                        <Thumb x:Name="PART_LeftHeaderGripper" Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderGripperStyle}"/>
-                        <Thumb x:Name="PART_RightHeaderGripper" Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderGripperStyle}"/>
+                        <Thumb x:Name="PART_LeftHeaderGripper" Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderGripperStyle}" />
+                        <Thumb x:Name="PART_RightHeaderGripper" Grid.Column="3" HorizontalAlignment="Right" Style="{StaticResource ColumnHeaderGripperStyle}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="Ascending">
-                            <Setter Property="Visibility" Value="Visible" TargetName="sortDown"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="sortDown" />
                         </Trigger>
                         <Trigger Property="SortDirection" Value="Descending">
-                            <Setter Property="Visibility" Value="Visible" TargetName="sortUp"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="sortUp" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -617,51 +620,51 @@
     </Style>
 
     <Style x:Key="DataGrid" TargetType="{x:Type DataGrid}">
-        <Setter Property="ColumnHeaderStyle" Value="{StaticResource Header}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="CellStyle" Value="{StaticResource cell}"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="RowStyle" Value="{StaticResource Row}"/>
-        <Setter Property="SelectionUnit" Value="FullRow"/>
-        <Setter Property="GridLinesVisibility" Value="None"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WetAsphalt}"/>
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource Header}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="CellStyle" Value="{StaticResource cell}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="RowStyle" Value="{StaticResource Row}" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource WetAsphalt}" />
     </Style>
 
     <Style x:Key="CheckBox" TargetType="{x:Type CheckBox}">
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="Foreground" Value="{StaticResource WetAsphalt}" />
+        <Setter Property="FontSize" Value="15" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Grid Margin="5" SnapsToDevicePixels="True">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Border x:Name="box" Grid.Column="1" Background="{StaticResource Concrete}" CornerRadius="12">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Border x:Name="left" Margin="3" Width="21" Height="21" CornerRadius="12" Background="{StaticResource Asbestos}"/>
-                                <Border x:Name="right" Visibility="Collapsed" Margin="3" Grid.Column="2" Width="21" Height="21" CornerRadius="12" Background="{StaticResource Turquoise}"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" x:Name="no" Content="NO" FontFamily="{TemplateBinding FontFamily}" Foreground="{StaticResource Clouds}" FontSize="{TemplateBinding FontSize}"/>
-                                <Label HorizontalAlignment="Center" Grid.ColumnSpan="2" x:Name="yes" Visibility="Collapsed" Content="YES" FontFamily="{TemplateBinding FontFamily}" Foreground="{StaticResource Clouds}" FontSize="{TemplateBinding FontSize}"/>
+                                <Border x:Name="left" Margin="3" Width="21" Height="21" CornerRadius="12" Background="{StaticResource Asbestos}" />
+                                <Border x:Name="right" Visibility="Collapsed" Margin="3" Grid.Column="2" Width="21" Height="21" CornerRadius="12" Background="{StaticResource Turquoise}" />
+                                <Label HorizontalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" x:Name="no" Content="NO" FontFamily="{TemplateBinding FontFamily}" Foreground="{StaticResource Clouds}" FontSize="{TemplateBinding FontSize}" />
+                                <Label HorizontalAlignment="Center" Grid.ColumnSpan="2" x:Name="yes" Visibility="Collapsed" Content="YES" FontFamily="{TemplateBinding FontFamily}" Foreground="{StaticResource Clouds}" FontSize="{TemplateBinding FontSize}" />
                             </Grid>
                         </Border>
-                        <ContentPresenter VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <ContentPresenter VerticalAlignment="Center" Margin="5,0,5,0" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Background" Value="{StaticResource WetAsphalt}" TargetName="box"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="yes"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="no"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="right"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="left"/>
+                            <Setter Property="Background" Value="{StaticResource WetAsphalt}" TargetName="box" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="yes" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="no" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="right" />
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="left" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -669,93 +672,93 @@
         </Setter>
     </Style>
     <Style x:Key="menuitem" TargetType="{x:Type RadioButton}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}"/>
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontFamily" Value="{StaticResource RobotoLight}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
                     <Border Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Padding="5">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Stretch="Uniform" Margin="10,0,10,0"/>
-                            <ContentPresenter Margin="0,0,10,0" Grid.Column="1" VerticalAlignment="Center"/>
+                            <Image Source="{TemplateBinding root:AttachedProperties.Icon}" Height="24" Stretch="Uniform" Margin="10,0,10,0" />
+                            <ContentPresenter Margin="0,0,10,0" Grid.Column="1" VerticalAlignment="Center" />
                             <Border x:Name="count" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0">
-                                <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontFamily="Arial" FontSize="11" Foreground="{StaticResource Clouds}"/>
+                                <Label Content="{TemplateBinding root:AttachedProperties.Label}" FontFamily="Arial" FontSize="11" Foreground="{StaticResource Clouds}" />
                             </Border>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="count"/>
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="count" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-            </Setter.Value> 
+            </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{StaticResource Turquoise}"/>
+                <Setter Property="Background" Value="{StaticResource Turquoise}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="toothbox" TargetType="{x:Type CheckBox}">
-        <Setter Property="FontFamily" Value="Consolas"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Border x:Name="tooth" BorderBrush="{StaticResource GreenSea}" Background="{StaticResource WetAsphalt}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="100"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="100" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
                             <Border Grid.Row="0" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
-                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
+                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}" />
                             </Border>
                             <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="3" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" />
                             </Border>
                             <Border Grid.Row="2" Margin="0,0,0,0">
-                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}" />
                             </Border>
-                            <Border x:Name="cover" Visibility="Collapsed" Background="{StaticResource WetAsphalt}" Opacity="0.75" Grid.RowSpan="3"/>
+                            <Border x:Name="cover" Visibility="Collapsed" Background="{StaticResource WetAsphalt}" Opacity="0.75" Grid.RowSpan="3" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected}" Value="false"/>
-                                <Condition Binding="{Binding Condition}" Value="Extraction Due To Caries"/>
+                                <Condition Binding="{Binding IsSelected}" Value="false" />
+                                <Condition Binding="{Binding Condition}" Value="Extraction Due To Caries" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource Asbestos}"/>
+                                <Setter Property="Background" Value="{StaticResource Asbestos}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected}" Value="false"/>
-                                <Condition Binding="{Binding Condition}" Value="Removable Denture"/>
+                                <Condition Binding="{Binding IsSelected}" Value="false" />
+                                <Condition Binding="{Binding Condition}" Value="Removable Denture" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource Wisteria}"/>
+                                <Setter Property="Background" Value="{StaticResource Wisteria}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <DataTrigger Binding="{Binding IsAllowed}" Value="false">
-                            <Setter Property="Visibility" Value="Visible" TargetName="cover"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="cover" />
                         </DataTrigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}"/>
+                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -763,61 +766,61 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <Style x:Key="toothbox_rotated" TargetType="{x:Type CheckBox}">
-        <Setter Property="FontFamily" Value="Consolas"/>
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Border x:Name="tooth" Background="{StaticResource WetAsphalt}" BorderBrush="{StaticResource GreenSea}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid Width="50">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="100"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="100" />
+                                <RowDefinition Height="30" />
                             </Grid.RowDefinitions>
                             <Border Grid.Row="2" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,0">
-                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}"/>
+                                <Label HorizontalAlignment="Center" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="White" Content="{TemplateBinding root:AttachedProperties.Condition}" />
                             </Border>
                             <Border Grid.Row="1" Background="{TemplateBinding Background}" Padding="3" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
-                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}"/>
+                                <Image Source="{TemplateBinding root:AttachedProperties.Icon}" />
                             </Border>
                             <Border Grid.Row="0" BorderBrush="{StaticResource GreenSea}" BorderThickness="0,0,0,1">
-                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}"/>
+                                <Label FontFamily="{TemplateBinding FontFamily}" Foreground="White" HorizontalAlignment="Center" FontSize="15" Content="{TemplateBinding root:AttachedProperties.ToothNo}" />
                             </Border>
-                            <Border x:Name="cover" Visibility="Collapsed" Background="{StaticResource WetAsphalt}" Opacity="0.75" Grid.RowSpan="3"/>
+                            <Border x:Name="cover" Visibility="Collapsed" Background="{StaticResource WetAsphalt}" Opacity="0.75" Grid.RowSpan="3" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected}" Value="false"/>
-                                <Condition Binding="{Binding Condition}" Value="Extraction Due To Caries"/>
+                                <Condition Binding="{Binding IsSelected}" Value="false" />
+                                <Condition Binding="{Binding Condition}" Value="Extraction Due To Caries" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource Asbestos}"/>
+                                <Setter Property="Background" Value="{StaticResource Asbestos}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected}" Value="false"/>
-                                <Condition Binding="{Binding Condition}" Value="Removable Denture"/>
+                                <Condition Binding="{Binding IsSelected}" Value="false" />
+                                <Condition Binding="{Binding Condition}" Value="Removable Denture" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
-                                <Setter Property="Background" Value="{StaticResource Wisteria}"/>
+                                <Setter Property="Background" Value="{StaticResource Wisteria}" />
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
                         <DataTrigger Binding="{Binding IsAllowed}" Value="false">
-                            <Setter Property="Visibility" Value="Visible" TargetName="cover"/>
+                            <Setter Property="Visibility" Value="Visible" TargetName="cover" />
                         </DataTrigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}"/>
+                            <Setter TargetName="tooth" Property="Background" Value="{StaticResource Turquoise}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -829,45 +832,45 @@
         <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <Border x:Name="background" VerticalAlignment="Center" Margin="5,0,5,0" Padding="3" Background="{StaticResource PeterRiver}" CornerRadius="3">
-                        <Label Content="{Binding AddedBy.Username}" Padding="0" FontSize="11" Foreground="White"/>
+                        <Label Content="{Binding AddedBy.Username}" Padding="0" FontSize="11" Foreground="White" />
                     </Border>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Label x:Name="lastname" Content="{Binding AddedBy.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="firstname" Content="{Binding AddedBy.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label Content=" " Padding="0"/>
-                    <Label x:Name="middlename" Content="{Binding AddedBy.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="lastname" Content="{Binding AddedBy.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="firstname" Content="{Binding AddedBy.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label Content=" " Padding="0" />
+                    <Label x:Name="middlename" Content="{Binding AddedBy.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}" />
                 </StackPanel>
             </Grid>
         </Border>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding AddedBy.Type}" Value="Dentist">
-                <Setter TargetName="background" Property="Background" Value="{StaticResource Orange}"/>
+                <Setter TargetName="background" Property="Background" Value="{StaticResource Orange}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridCell}},Path=IsSelected}" Value="True">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
-                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
+                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Archived">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -876,43 +879,43 @@
         <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border x:Name="background" VerticalAlignment="Top" Margin="5,0,5,0" Padding="3" Background="{StaticResource PeterRiver}" CornerRadius="3">
-                    <Label Content="{Binding Dentist.Username}" Padding="0" FontSize="11" Foreground="White"/>
+                    <Label Content="{Binding Dentist.Username}" Padding="0" FontSize="11" Foreground="White" />
                 </Border>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Label x:Name="lastname" Content="{Binding Dentist.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="firstname" Content="{Binding Dentist.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label Content=" " Padding="0"/>
-                    <Label x:Name="middlename" Content="{Binding Dentist.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="lastname" Content="{Binding Dentist.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="firstname" Content="{Binding Dentist.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label Content=" " Padding="0" />
+                    <Label x:Name="middlename" Content="{Binding Dentist.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}" />
                 </StackPanel>
             </Grid>
         </Border>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Dentist.Type}" Value="Dentist">
-                <Setter TargetName="background" Property="Background" Value="{StaticResource Orange}"/>
+                <Setter TargetName="background" Property="Background" Value="{StaticResource Orange}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridCell}},Path=IsSelected}" Value="True">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
-                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
+                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Archived">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -921,40 +924,40 @@
         <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border x:Name="background" VerticalAlignment="Top" Margin="5,0,5,0" Padding="3" Background="{StaticResource PeterRiver}" CornerRadius="3">
-                    <Label Content="{Binding Patient.No}" Padding="0" FontSize="11" Foreground="White"/>
+                    <Label Content="{Binding Patient.No}" Padding="0" FontSize="11" Foreground="White" />
                 </Border>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Label x:Name="lastname" Content="{Binding Patient.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="firstname" Content="{Binding Patient.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label Content=" " Padding="0"/>
-                    <Label x:Name="middlename" Content="{Binding Patient.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="lastname" Content="{Binding Patient.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="firstname" Content="{Binding Patient.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label Content=" " Padding="0" />
+                    <Label x:Name="middlename" Content="{Binding Patient.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}" />
                 </StackPanel>
             </Grid>
         </Border>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridCell}},Path=IsSelected}" Value="True">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
-                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
+                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Archived">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
@@ -963,41 +966,85 @@
         <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border x:Name="background" VerticalAlignment="Top" Margin="5,0,5,0" Padding="3" Background="{StaticResource PeterRiver}" CornerRadius="3">
-                    <Label Content="{Binding Appointment.Patient.No}" Padding="0" FontSize="11" Foreground="White"/>
+                    <Label Content="{Binding Appointment.Patient.No}" Padding="0" FontSize="11" Foreground="White" />
                 </Border>
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <Label x:Name="lastname" Content="{Binding Appointment.Patient.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label x:Name="firstname" Content="{Binding Appointment.Patient.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
-                    <Label Content=" " Padding="0"/>
-                    <Label x:Name="middlename" Content="{Binding Appointment.Patient.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}"/>
+                    <Label x:Name="lastname" Content="{Binding Appointment.Patient.LastName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="comma" Content=", " Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label x:Name="firstname" Content="{Binding Appointment.Patient.FirstName}" Padding="0" Foreground="{StaticResource WetAsphalt}" />
+                    <Label Content=" " Padding="0" />
+                    <Label x:Name="middlename" Content="{Binding Appointment.Patient.MiddleName}" Margin="0,0,5,0" Padding="0" Foreground="{StaticResource WetAsphalt}" />
                 </StackPanel>
             </Grid>
         </Border>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridCell}},Path=IsSelected}" Value="True">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
-                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
+                <Setter TargetName="background" Property="Background" Value="{StaticResource WetAsphalt}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Archived">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Status}" Value="Scheduled">
-                <Setter TargetName="lastname" Property="Foreground" Value="White"/>
-                <Setter TargetName="comma" Property="Foreground" Value="White"/>
-                <Setter TargetName="firstname" Property="Foreground" Value="White"/>
-                <Setter TargetName="middlename" Property="Foreground" Value="White"/>
+                <Setter TargetName="lastname" Property="Foreground" Value="White" />
+                <Setter TargetName="comma" Property="Foreground" Value="White" />
+                <Setter TargetName="firstname" Property="Foreground" Value="White" />
+                <Setter TargetName="middlename" Property="Foreground" Value="White" />
             </DataTrigger>
         </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type appointments:AppointmentGroup}">
+        <Grid Margin="2" SnapsToDevicePixels="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border SnapsToDevicePixels="True" Background="{StaticResource WetAsphalt}" Padding="5">
+                <TextBlock Text="{Binding Dentist, Converter={StaticResource UserToStringConverter}}" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Clouds}"/>
+            </Border>
+            <ListView BorderThickness="2" BorderBrush="{StaticResource WetAsphalt}" Margin="0,5,0,0" Grid.Row="3" ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type appointments:Session}">
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="Schedule: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                    <TextBlock Text="{Binding Time}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource WetAsphalt}" Padding="2" FontSize="13"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="Patient: " FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" Background="{StaticResource PeterRiver}" Padding="2" FontSize="13"/>
+                    <TextBlock Text="{Binding Patient}" FontFamily="{StaticResource Roboto}" Foreground="{StaticResource Clouds}" Background="{StaticResource PeterRiver}" Padding="2" FontSize="13"/>
+                </StackPanel>
+                <TextBlock Grid.Row="2" Text="Services" Margin="0,5,0,5" FontFamily="{StaticResource Roboto}" FontSize="13"/>
+                <ItemsControl Grid.Row="3" ItemsSource="{Binding Appointments, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type appointments:Appointment}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="    •    " FontFamily="{StaticResource Roboto}" FontSize="13"/>
+            <TextBlock FontFamily="{StaticResource RobotoLight}" FontSize="13" Text="{Binding Treatment, Converter={StaticResource TreatmentToStringConverter}}"/>
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

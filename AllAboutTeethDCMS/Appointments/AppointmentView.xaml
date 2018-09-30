@@ -64,19 +64,28 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="Patients: " Margin="5,10,5,10" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Turquoise}" />
-                        <DataGrid Grid.Row="1" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Appointments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Appointment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,0,10,0">
+                        <!--<DataGrid Grid.Row="1" RenderOptions.EdgeMode="Aliased" AlternationCount="2" SnapsToDevicePixels="True" HeadersVisibility="Column" Style="{StaticResource DataGrid}" IsReadOnly="True" SelectionMode="Single" VerticalAlignment="Stretch" CanUserResizeColumns="True" CanUserReorderColumns="False" AutoGenerateColumns="False" ItemsSource="{Binding Appointments, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Appointment, UpdateSourceTrigger=PropertyChanged}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" FrozenColumnCount="2" Margin="0,0,10,0">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="No." Binding="{Binding No}" FontFamily="{StaticResource Roboto}" />
                                 <DataGridTemplateColumn Header="Patient" CellTemplate="{StaticResource patient}" />
                                 <DataGridTemplateColumn Header="Dentist" CellTemplate="{StaticResource dentist}" />
-                                <DataGridTextColumn Header="Date" Binding="{Binding Schedule, Converter={StaticResource DateToShortConverter}}" />
+                                <DataGridTextColumn Header="Date" Binding="{Binding Schedule}" />
                                 <DataGridTextColumn Header="Reason for Consulation" Binding="{Binding Patient.Reason}" />
                                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
                                 <DataGridTextColumn Header="Date Added" Binding="{Binding DateAdded}" />
                                 <DataGridTextColumn Header="Date Modified" Binding="{Binding DateModified}" />
                                 <DataGridTemplateColumn Header="Updated By" CellTemplate="{StaticResource user}" />
                             </DataGrid.Columns>
-                        </DataGrid>
+                        </DataGrid>-->
+                        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+                            <ItemsControl SnapsToDevicePixels="True" ItemsSource="{Binding AllAppointments}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
