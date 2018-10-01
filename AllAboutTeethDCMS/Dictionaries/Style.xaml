@@ -1014,7 +1014,7 @@
             <Border SnapsToDevicePixels="True" Background="{StaticResource WetAsphalt}" Padding="5">
                 <TextBlock Text="{Binding Dentist, Converter={StaticResource UserToStringConverter}}" FontFamily="{StaticResource Roboto}" FontSize="15" Foreground="{StaticResource Clouds}"/>
             </Border>
-            <ListView BorderThickness="2" BorderBrush="{StaticResource WetAsphalt}" Margin="0,5,0,0" Grid.Row="3" ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <ListView Focusable="False" BorderThickness="2" BorderBrush="{StaticResource WetAsphalt}" Margin="0,5,0,0" Grid.Row="3" ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedSession, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </DataTemplate>
 

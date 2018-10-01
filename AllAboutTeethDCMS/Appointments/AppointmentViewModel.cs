@@ -382,6 +382,10 @@ namespace AllAboutTeethDCMS.Appointments
             get => _session;
             set
             {
+                foreach (var appointmentGroup in AllAppointments)
+                {
+                    appointmentGroup.SelectedSessionAlternate = null;
+                }
                 _session = value;
                 Appointment = _session.Appointments.FirstOrDefault();
                 OnPropertyChanged();

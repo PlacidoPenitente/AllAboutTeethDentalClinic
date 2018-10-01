@@ -47,6 +47,16 @@ namespace AllAboutTeethDCMS.Appointments
             }
         }
 
+        public Session SelectedSessionAlternate
+        {
+            get => _selectedSession;
+            set
+            {
+                _selectedSession = value;
+                OnPropertyChanged("SelectedSession");
+            }
+        }
+
         public AppointmentViewModel AppointmentViewModel { get; set; }
         public int Compare(Session x, Session y)
         {
