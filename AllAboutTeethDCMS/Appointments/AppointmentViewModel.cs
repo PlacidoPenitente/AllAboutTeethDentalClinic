@@ -1,12 +1,10 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using MySql.Data.MySqlClient;
 
 namespace AllAboutTeethDCMS.Appointments
 {
@@ -417,7 +415,8 @@ namespace AllAboutTeethDCMS.Appointments
 
         public void DeleteAppointment()
         {
-            startDeleteFromDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            StartDeleteSession(Session, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
+            //startDeleteFromDatabase(Appointment, "allaboutteeth_" + GetType().Namespace.Replace("AllAboutTeethDCMS.", ""));
         }
 
         #endregion Commands

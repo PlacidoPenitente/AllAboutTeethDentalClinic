@@ -7,8 +7,8 @@ namespace AllAboutTeethDCMS.Users
     public class LoginViewModel : PageViewModel
     {
         private User user;
-        private string username = "";
-        private string password = "";
+        private string username = "jaymark";
+        private string password = "jaymark";
         private string usernameError = "";
         private string passwordError = "";
         private string visibility = "Visible";

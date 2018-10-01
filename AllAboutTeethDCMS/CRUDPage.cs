@@ -1,13 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿using AllAboutTeethDCMS.Appointments;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Windows.Media;
-using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace AllAboutTeethDCMS
 {
@@ -101,7 +100,7 @@ namespace AllAboutTeethDCMS
             {
                 beforeLoad(command);
             }
-            command.CommandText += " ORDER BY "+ prefix + "_datemodified DESC";
+            command.CommandText += " ORDER BY " + prefix + "_datemodified DESC";
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -169,7 +168,7 @@ namespace AllAboutTeethDCMS
 
                 foreach (object info in temp)
                 {
-                    if(!info.GetType().Name.Equals("Tooth"))
+                    if (!info.GetType().Name.Equals("Tooth"))
                     {
                         LoadItem(info, "allaboutteeth_" + info.GetType().Namespace.Replace("AllAboutTeethDCMS.", ""), (int)info.GetType().GetProperty("No").GetValue(info));
                     }
@@ -259,8 +258,23 @@ namespace AllAboutTeethDCMS
         }
         #endregion
 
+        protected void DeleteSession(Session session, string tableName)
+        {
+            foreach (var appointment in session.Appointments)
+            {
+                string prefix = appointment.GetType().Name;
+                MySqlConnection connection = CreateConnection();
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "DELETE FROM " + tableName + " WHERE " + prefix + "_No=@key";
+                command.Parameters.AddWithValue("@key", appointment.GetType().GetProperty("No").GetValue(appointment));
+                command.ExecuteNonQuery();
+                connection.Close();
+                connection = null;
+            }
+        }
+
         #region Create Thread
-        private Thread addThread;
+        private readonly Thread addThread;
 
         private ObservableCollection<T> Appointments { get; set; }
 
@@ -314,7 +328,7 @@ namespace AllAboutTeethDCMS
         #endregion
 
         #region Read Thread
-        private Thread loadThread;
+        private readonly Thread loadThread;
         private bool isLoading = false;
 
         protected void startLoadFromDatabase(string tableName, string filter)
@@ -324,7 +338,7 @@ namespace AllAboutTeethDCMS
 
         private void executeLoadFromDatabase()
         {
-            if(!IsLoading)
+            if (!IsLoading)
             {
                 IsLoading = true;
                 List<T> list = LoadFromDatabase(TableName, Filter);
@@ -335,7 +349,7 @@ namespace AllAboutTeethDCMS
         #endregion
 
         #region Update Thread
-        private Thread saveThread;
+        private readonly Thread saveThread;
 
         protected void startUpdateToDatabase(T model, string tableName)
         {
@@ -361,11 +375,35 @@ namespace AllAboutTeethDCMS
         #endregion
 
         #region Delete Thread
-        private Thread deleteThread;
+        private readonly Thread deleteThread;
 
         protected void startDeleteFromDatabase(T model, string tableName)
         {
             SpawnThread(deleteThread, model, tableName, executeDeleteFromDatabase);
+        }
+
+
+
+        protected void StartDeleteSession(Session session, string tableName)
+        {
+            SpawnThread(deleteThread, session, tableName, ExecuteDeleteSession);
+        }
+
+        private void ExecuteDeleteSession()
+        {
+            if (beforeDelete())
+            {
+                try
+                {
+                    DeleteSession(_session, TableName);
+                    afterDelete(true);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    afterDelete(false);
+                }
+            }
         }
 
         private void executeDeleteFromDatabase()
@@ -386,6 +424,21 @@ namespace AllAboutTeethDCMS
 
         }
         #endregion
+
+        private Session _session;
+
+        private void SpawnThread(Thread thread, Session model, string tableName, ThreadStart parameterizedThreadStart, string filter = "")
+        {
+            if (thread == null || !thread.IsAlive)
+            {
+                TableName = tableName;
+                _session = model;
+                Filter = filter;
+                thread = new Thread(parameterizedThreadStart);
+                thread.IsBackground = true;
+                thread.Start();
+            }
+        }
 
         private void SpawnThread(Thread thread, T model, string tableName, ThreadStart parameterizedThreadStart, string filter = "")
         {
@@ -452,7 +505,7 @@ namespace AllAboutTeethDCMS
 
         protected bool Validate(string value)
         {
-            if(String.IsNullOrEmpty(value.Trim()))
+            if (String.IsNullOrEmpty(value.Trim()))
             {
                 return false;
             }
@@ -485,7 +538,7 @@ namespace AllAboutTeethDCMS
 
         protected string validate(string value)
         {
-            if(String.IsNullOrEmpty(value.Trim()))
+            if (String.IsNullOrEmpty(value.Trim()))
             {
                 return "This field is required.";
             }
@@ -501,7 +554,7 @@ namespace AllAboutTeethDCMS
 
             foreach (char c in value.ToCharArray())
             {
-                if(!Char.IsDigit(c))
+                if (!Char.IsDigit(c))
                 {
                     return "Illegal characters found.";
                 }
@@ -521,7 +574,7 @@ namespace AllAboutTeethDCMS
                 return "Cannot be more than 60 characters.";
             }
 
-            if (value.Trim().Length<5)
+            if (value.Trim().Length < 5)
             {
                 return "Must be atleast 5 characters.";
             }
@@ -555,7 +608,7 @@ namespace AllAboutTeethDCMS
                 connection.Close();
                 connection = null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return "Unable to check username.";
@@ -573,7 +626,7 @@ namespace AllAboutTeethDCMS
             {
                 MySqlConnection connection = CreateConnection();
                 MySqlCommand command = connection.CreateCommand();
-                command.CommandText = "SELECT * FROM "+tableName+" WHERE "+ new T().GetType().Name +"_name=@name";
+                command.CommandText = "SELECT * FROM " + tableName + " WHERE " + new T().GetType().Name + "_name=@name";
                 command.Parameters.AddWithValue("@name", value);
                 MySqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
