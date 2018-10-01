@@ -517,10 +517,12 @@ namespace AllAboutTeethDCMS.Appointments
             var earlierAppointment = Appointments.LastOrDefault(x => DateTime.Compare(x.Schedule, Appointment.Schedule) <= 0 && x.Status.Equals("Pending") && x.Dentist.No == Dentist.No);
             if (earlierAppointment != null)
             {
-                earlierAppointmentDuration = Appointments.Where(x => x.Patient.No == earlierAppointment.Patient.No).Sum(x => x.Treatment.Duration);
+                earlierAppointmentDuration = Appointments.Where(x => x.Patient.No == earlierAppointment.Patient.No && x.Status.Equals("Pending")).Sum(x => x.Treatment.Duration);
 
                 if (DateTime.Compare(earlierAppointment.Schedule.AddMinutes(earlierAppointmentDuration), Appointment.Schedule) > 0)
                 {
+                    var d1 = earlierAppointment.Schedule.AddMinutes(earlierAppointmentDuration);
+                    var d2 = Appointment.Schedule;
                     DialogBoxViewModel.Mode = "Error";
                     DialogBoxViewModel.Title = "Schedule Error";
                     DialogBoxViewModel.Message = "Schedule is already taken.";
