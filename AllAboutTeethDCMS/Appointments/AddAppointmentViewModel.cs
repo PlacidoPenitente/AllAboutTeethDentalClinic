@@ -398,6 +398,8 @@ namespace AllAboutTeethDCMS.Appointments
                 }
                 DialogBoxViewModel.Answer = "";
             }
+            MenuViewModel.AppointmentViewModel = AppointmentViewModel;
+            MenuViewModel.GobackToAppointments();
         }
 
         protected override bool beforeUpdate()
@@ -622,6 +624,7 @@ namespace AllAboutTeethDCMS.Appointments
         }
 
         public List<Appointment> Appointments { get; set; }
+        public AppointmentViewModel AppointmentViewModel { get; internal set; }
 
         protected override void afterLoad(List<Appointment> list)
         {

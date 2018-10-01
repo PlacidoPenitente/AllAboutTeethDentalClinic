@@ -368,6 +368,14 @@ namespace AllAboutTeethDCMS.Menu
         public AddAppointmentView AddAppointmentView { get => addAppointmentView; set => addAppointmentView = value; }
         public EditAppointmentView EditAppointmentView { get => editAppointmentView; set => editAppointmentView = value; }
 
+        public AppointmentViewModel AppointmentViewModel { get; set; }
+
+        public void GobackToAppointments()
+        {
+            AppointmentViewModel.LoadAppointments();
+            MainWindowViewModel.ActivePage = AppointmentView;
+        }
+
         public void gotoAppointments()
         {
             if (AppointmentView == null)
@@ -381,13 +389,14 @@ namespace AllAboutTeethDCMS.Menu
             ((AppointmentViewModel)AppointmentView.DataContext).LoadAppointments();
         }
 
-        public void GotoAddAppointmentView()
+        public void GotoAddAppointmentView(AppointmentViewModel appointmentViewModel)
         {
             if (AddAppointmentView == null)
             {
                 AddAppointmentView = new AddAppointmentView();
             }
             MainWindowViewModel.ActivePage = AddAppointmentView;
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).AppointmentViewModel = appointmentViewModel;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).Schedule = DateTime.Now;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).ActiveUser = ActiveUser;
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).MenuViewModel = this;

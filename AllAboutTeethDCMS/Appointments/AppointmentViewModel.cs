@@ -390,7 +390,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         public void GotoAddAppointment()
         {
-            MenuViewModel.GotoAddAppointmentView();
+            MenuViewModel.GotoAddAppointmentView(this);
         }
 
         public void LoadAppointments()
