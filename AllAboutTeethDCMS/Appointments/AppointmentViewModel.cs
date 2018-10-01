@@ -39,6 +39,10 @@ namespace AllAboutTeethDCMS.Appointments
             AddCommand = new DelegateCommand(new Action(GotoAddAppointment));
             EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
             TreatmentCommand = new DelegateCommand(new Action(GotoAddOperation));
+
+            _reloadThread = new Thread(ReloadAppointments);
+            _reloadThread.IsBackground = true;
+            _reloadThread.Start();
         }
 
         public ObservableCollection<AppointmentGroup> AllAppointments
@@ -426,5 +430,16 @@ namespace AllAboutTeethDCMS.Appointments
         }
 
         #endregion Commands
+
+        private readonly Thread _reloadThread;
+
+        public void ReloadAppointments()
+        {
+            while(true)
+            {
+                LoadAppointments();
+                Thread.Sleep(1000);
+            }
+        }
     }
 }

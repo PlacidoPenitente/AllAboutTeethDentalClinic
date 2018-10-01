@@ -630,7 +630,7 @@ namespace AllAboutTeethDCMS.Appointments
 
         protected override void afterLoad(List<Appointment> list)
         {
-            Appointments = list;
+            Appointments = list.Where(x => DateTime.Compare(x.Schedule.AddMinutes(30), DateTime.Now) > -1 && x.Status.Equals("Pending")).ToList(); ;
         }
 
         protected override bool beforeDelete()
