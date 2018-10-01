@@ -235,6 +235,8 @@ namespace AllAboutTeethDCMS.Appointments
                 FilterResult = "Found " + list.Count + " result/s.";
             }
 
+            list = list.Where(x => DateTime.Compare(x.Schedule.AddMinutes(30), DateTime.Now) > -1).ToList();
+
             var allAppointments = new ObservableCollection<AppointmentGroup>();
             var allDentists = list.Select(x => x.Dentist.No);
             var uniqueDentist = allDentists.Distinct();
