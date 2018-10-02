@@ -1,23 +1,19 @@
-﻿using AllAboutTeethDCMS.Appointments;
-using AllAboutTeethDCMS.Medicines;
+﻿using AllAboutTeethDCMS.ActivityLogs;
+using AllAboutTeethDCMS.Appointments;
+using AllAboutTeethDCMS.Billings;
+using AllAboutTeethDCMS.Dashboard;
 using AllAboutTeethDCMS.Maintenance;
+using AllAboutTeethDCMS.Medicines;
+using AllAboutTeethDCMS.Operations;
 using AllAboutTeethDCMS.Patients;
 using AllAboutTeethDCMS.Providers;
+using AllAboutTeethDCMS.Reports;
 using AllAboutTeethDCMS.Suppliers;
-using AllAboutTeethDCMS.Transactions;
+using AllAboutTeethDCMS.TreatmentRecords;
 using AllAboutTeethDCMS.Treatments;
 using AllAboutTeethDCMS.Users;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AllAboutTeethDCMS.Operations;
-using AllAboutTeethDCMS.TreatmentRecords;
-using AllAboutTeethDCMS.Reports;
-using AllAboutTeethDCMS.Billings;
-using AllAboutTeethDCMS.Dashboard;
-using AllAboutTeethDCMS.ActivityLogs;
 using System.Collections.ObjectModel;
 
 namespace AllAboutTeethDCMS.Menu
@@ -389,7 +385,7 @@ namespace AllAboutTeethDCMS.Menu
             ((AppointmentViewModel)AppointmentView.DataContext).LoadAppointments();
         }
 
-        public void GotoAddAppointmentView(AppointmentViewModel appointmentViewModel)
+        public void GotoAddAppointmentView(AppointmentViewModel appointmentViewModel, Session session = null)
         {
             if (AddAppointmentView == null)
             {
@@ -407,6 +403,8 @@ namespace AllAboutTeethDCMS.Menu
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadTreatmentsThread();
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).startLoadUsersThread();
             ((AddAppointmentViewModel)AddAppointmentView.DataContext).Load();
+            ((AddAppointmentViewModel)AddAppointmentView.DataContext).Session = session;
+
         }
 
         public void GotoEditAppointmentView(Appointment selectedAppointment)

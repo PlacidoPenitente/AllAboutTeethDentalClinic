@@ -117,7 +117,7 @@
 						</Button.Triggers>-->
                     </Button>
                     <Button Visibility="Collapsed"  Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Orange}" Command="{Binding EditCommand}" />
-                    <Button Content="Edit" Visibility="{Binding ForAdminAndStaff, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Sunflower}" Command="{Binding TreatmentCommand}" />
+                    <Button Content="Edit" Visibility="{Binding ForAdminAndStaff, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Edit_32px.png}" Background="{StaticResource Sunflower}" Command="{Binding Reschedule}" />
                     <Button Content="Treatment" Visibility="{Binding ForAdminAndDenstist, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Syringe_32px.png}" Background="{StaticResource Wisteria}" Command="{Binding TreatmentCommand}" />
                     <Button Visibility="Collapsed" Style="{StaticResource IconButton}" root:AttachedProperties.Icon="{StaticResource icons8_Archive_32px.png}" Background="{StaticResource Asbestos}" Command="{Binding ArchiveCommand}">
                         <Button.Triggers>

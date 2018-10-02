@@ -39,10 +39,8 @@ namespace AllAboutTeethDCMS.Appointments
             AddCommand = new DelegateCommand(new Action(GotoAddAppointment));
             EditCommand = new DelegateCommand(new Action(GotoEditAppointment));
             TreatmentCommand = new DelegateCommand(new Action(GotoAddOperation));
+            Reschedule = new DelegateCommand(GotoRescheduleAppointment);
 
-            _reloadThread = new Thread(ReloadAppointments);
-            _reloadThread.IsBackground = true;
-            _reloadThread.Start();
         }
 
         public ObservableCollection<AppointmentGroup> AllAppointments
@@ -400,7 +398,14 @@ namespace AllAboutTeethDCMS.Appointments
 
         public void GotoAddAppointment()
         {
-            MenuViewModel.GotoAddAppointmentView(this);
+            MenuViewModel.GotoAddAppointmentView(this, null);
+        }
+
+        public DelegateCommand Reschedule { get; set; }
+
+        public void GotoRescheduleAppointment()
+        {
+            MenuViewModel.GotoAddAppointmentView(this, Session);
         }
 
         public void LoadAppointments()
