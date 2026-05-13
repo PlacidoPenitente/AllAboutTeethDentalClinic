@@ -6,7 +6,7 @@
 
 | Field            | Value              |
 | ---------------- | ------------------ |
-| Document Version | 1.1                |
+| Document Version | 1.3                |
 | Date             | May 13, 2026       |
 | Status           | Draft — For Review |
 | Reference BRD    | BRD v4.3           |
@@ -1069,6 +1069,8 @@ catch
 
 ## 8. Key Technical Decisions & Patterns
 
+> **Architecture approach:** This system uses **Clean Architecture** as the formal structural standard, with **Vertical Slice Architecture (VSA)** as the feature-folder organizational convention within the Application layer. The backend patterns below are implemented within that combined approach using MediatR, EF Core, and ASP.NET Core's built-in capabilities.
+
 ### 8.1 CQRS with MediatR Pipeline
 
 Every API request is handled by a dedicated Command or Query. The MediatR pipeline applies behaviors in order:
@@ -1312,6 +1314,447 @@ The `CLOUDFLARE_TUNNEL_TOKEN` is stored in the production `.env` file (gitignore
 If Cloudflare Tunnel is not deployed, `SlotReleaseJob` (Hangfire) is extended with a polling loop: call `IPaymentGatewayClient.GetPaymentStatus(paymentIntentId)` every 30 seconds. On gateway success, confirm the slot. On 15-minute timeout with no success, release the slot. Each gateway adapter must implement `GetPaymentStatus` in addition to `InitiatePayment`.
 
 **Webhook signature validation is always required** regardless of delivery mechanism — validate the gateway-specific HMAC or RSA signature on every inbound payload before processing any state change (NFR-S04).
+
+### 8.10 Architecture Approach: Clean Architecture + VSA
+
+**Formal Architecture: Clean Architecture**
+
+The solution is organized into four layers with strict unidirectional dependency rules:
+
+| Layer          | Contents                                                                                |
+| -------------- | --------------------------------------------------------------------------------------- |
+| Domain         | Entities, value objects, domain events, domain exceptions, enumerations                 |
+| Application    | CQRS commands/queries, validators, handlers, interfaces, DTOs, specifications           |
+| Infrastructure | EF Core DbContext, repository implementations, external service adapters, Hangfire jobs |
+| API            | Controllers, middleware, filter attributes, DI configuration, Program.cs                |
+
+Dependencies point inward only — Infrastructure depends on Application; Application depends on Domain; nothing depends on API except DI wiring.
+
+**Organizational Convention: Vertical Slice Architecture (VSA)**
+
+Within the Application layer, code is organized by feature rather than by technical role. Each feature slice owns its command/query, validator, handler, and response DTO in a single folder:
+
+```
+Application/
+  Features/
+    Appointments/
+      CreateAppointment/
+        CreateAppointmentCommand.cs
+        CreateAppointmentCommandValidator.cs
+        CreateAppointmentCommandHandler.cs
+        CreateAppointmentResponse.cs
+      GetAppointmentsByDentist/
+        GetAppointmentsByDentistQuery.cs
+        GetAppointmentsByDentistQueryHandler.cs
+        GetAppointmentsByDentistResponse.cs
+      CancelAppointment/
+        CancelAppointmentCommand.cs
+        CancelAppointmentCommandValidator.cs
+        CancelAppointmentCommandHandler.cs
+    Patients/
+      RegisterPatient/
+        ...
+      UpdatePatient/
+        ...
+    Billings/
+      CreateBilling/
+        ...
+      RecordPayment/
+        ...
+```
+
+There are no flat cross-cutting directories at the Application root (e.g., no `Commands/`, `Queries/`, `Validators/` root folders). Each slice is self-contained — understanding one feature requires reading only one folder.
+
+### 8.11 Unit of Work
+
+EF Core's `DbContext` implements the Unit of Work pattern natively. The convention in this system is **one `SaveChangesAsync()` per command handler** — all writes within a single command are committed atomically.
+
+The `TransactionBehavior` MediatR pipeline behavior wraps every command (not queries) in an explicit `IDbContextTransaction`, satisfying NFR-R02 (atomic writes):
+
+```csharp
+// TransactionBehavior<TRequest, TResponse>
+public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+                                    CancellationToken cancellationToken)
+{
+    if (request is ICommand)  // marker interface — Commands only, never Queries
+    {
+        await using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
+        var response = await next();
+        await transaction.CommitAsync(cancellationToken);
+        return response;
+    }
+
+    return await next();
+}
+```
+
+Handlers must never call `SaveChangesAsync()` more than once. If a command needs to write to multiple aggregate roots, both writes happen before the single `SaveChangesAsync()` call. Domain event handlers that produce secondary writes use a separate `SaveChangesAsync()` only when dispatched as an independent MediatR command — never inline within the same Unit of Work as the triggering command.
+
+### 8.12 Specification Pattern
+
+Reusable EF Core query filters are encapsulated as Specification classes. EF Core evaluates Specifications as translated SQL — there is no in-memory filtering.
+
+```csharp
+// Base class — no external library required
+public abstract class Specification<T>
+{
+    public abstract Expression<Func<T, bool>> ToExpression();
+}
+
+// Example specifications
+public class AppointmentsByDentistOnDateSpec : Specification<Appointment>
+{
+    private readonly int _dentistId;
+    private readonly DateOnly _date;
+
+    public AppointmentsByDentistOnDateSpec(int dentistId, DateOnly date)
+    {
+        _dentistId = dentistId;
+        _date = date;
+    }
+
+    public override Expression<Func<Appointment, bool>> ToExpression() =>
+        a => a.DentistId == _dentistId &&
+             DateOnly.FromDateTime(a.ScheduledAt) == _date &&
+             a.Status != AppointmentStatus.Cancelled;
+}
+
+public class OverdueInstallmentsSpec : Specification<InstallmentPlan>
+{
+    public override Expression<Func<InstallmentPlan, bool>> ToExpression() =>
+        ip => ip.Status == InstallmentStatus.Active &&
+              ip.DueDate < DateOnly.FromDateTime(DateTime.UtcNow) &&
+              ip.OutstandingBalance > 0;
+}
+
+public class LowStockItemsSpec : Specification<InventoryItem>
+{
+    public override Expression<Func<InventoryItem, bool>> ToExpression() =>
+        i => i.Status == ItemStatus.Active &&
+             i.CurrentQuantity <= i.ReorderThreshold;
+}
+```
+
+Usage in a query handler:
+
+```csharp
+var spec = new AppointmentsByDentistOnDateSpec(query.DentistId, query.Date);
+var appointments = await _context.Appointments
+    .Where(spec.ToExpression())
+    .OrderBy(a => a.ScheduledAt)
+    .ToListAsync(cancellationToken);
+```
+
+Specifications are placed in `Application/Specifications/` when shared across features, or co-located in `Features/{Domain}/` when specific to a single feature.
+
+### 8.13 Result Pattern
+
+Command and query handlers return `Result<T>` instead of throwing domain exceptions for expected business rule violations. This makes the success/failure contract explicit at the type level and aligns with FluentValidation's error model.
+
+**Package:** [`ErrorOr`](https://www.nuget.org/packages/ErrorOr) (preferred).
+
+```csharp
+// Handler returns ErrorOr<T>
+public async Task<ErrorOr<AppointmentResponse>> Handle(
+    CreateAppointmentCommand command,
+    CancellationToken cancellationToken)
+{
+    var patient = await _context.Patients.FindAsync(command.PatientId, cancellationToken);
+    if (patient is null)
+        return Error.NotFound("Patient.NotFound", $"Patient {command.PatientId} does not exist.");
+
+    var hasConflict = await CheckConflictAsync(command, cancellationToken);
+    if (hasConflict)
+        return Error.Conflict("Appointment.Conflict", "The dentist already has an appointment in this time slot.");
+
+    // ... create and save appointment ...
+
+    return _mapper.Map<AppointmentResponse>(appointment);
+}
+```
+
+Controller mapping via `Match`:
+
+```csharp
+var result = await _mediator.Send(command);
+
+return result.Match(
+    response => CreatedAtAction(nameof(GetAppointment), new { id = response.Id }, response),
+    errors   => Problem(errors)
+);
+```
+
+**Scope:** The Result Pattern applies to business rule violations (domain errors). Infrastructure exceptions (database connectivity, network failure) are still thrown and caught by global exception-handling middleware — they are not wrapped in `Result<T>`.
+
+### 8.14 Outbox Pattern
+
+Domain events that produce external side effects (SMS, email) are written to an `OutboxMessages` table within the same database transaction as the triggering command. A Hangfire background job processes the outbox asynchronously.
+
+This ensures that if the notification service throws after `SaveChangesAsync()`, the notification is not permanently lost — it is retried on the next Hangfire poll.
+
+```
+Command → SaveChanges() + OutboxMessage row → CommitTransaction → HTTP 201
+                                                      ↓
+                           Hangfire (every 10 s) → poll OutboxMessages
+                                                      ↓
+                           Call INotificationService.SendAsync()
+                                                      ↓
+                           Mark OutboxMessage as Processed (or increment RetryCount)
+```
+
+```csharp
+// OutboxMessage entity
+public class OutboxMessage
+{
+    public Guid Id { get; init; } = Guid.NewGuid();
+    public string EventType { get; init; }        // e.g. "AppointmentReminderEvent"
+    public string Payload { get; init; }           // JSON-serialized event data
+    public DateTime OccurredAt { get; init; } = DateTime.UtcNow;
+    public DateTime? ProcessedAt { get; set; }
+    public string? Error { get; set; }
+    public int RetryCount { get; set; }
+}
+```
+
+```csharp
+// Hangfire job — ProcessOutboxJob
+public async Task ExecuteAsync()
+{
+    var pending = await _context.OutboxMessages
+        .Where(m => m.ProcessedAt == null && m.RetryCount < 5)
+        .OrderBy(m => m.OccurredAt)
+        .Take(50)
+        .ToListAsync();
+
+    foreach (var message in pending)
+    {
+        try
+        {
+            var @event = DeserializeEvent(message.EventType, message.Payload);
+            await _notificationService.DispatchAsync(@event);
+            message.ProcessedAt = DateTime.UtcNow;
+        }
+        catch (Exception ex)
+        {
+            message.RetryCount++;
+            message.Error = ex.Message;
+        }
+    }
+
+    await _context.SaveChangesAsync();
+}
+```
+
+### 8.15 Options Pattern (ASP.NET Core IOptions)
+
+All clinic-configurable settings are bound to typed options classes via `IOptions<T>`. This avoids magic strings, enables startup validation, and makes settings injectable anywhere in the application.
+
+```csharp
+// Options classes (Application layer)
+public class SmsOptions
+{
+    public const string SectionName = "Sms";
+
+    [Required] public string Provider { get; init; }      // "Semaphore" | "GlobeLabs" | "ITEXMO"
+    [Required] public string ApiKey { get; init; }
+    public string SenderId { get; init; } = "AllAboutTeeth";
+}
+
+public class TaxOptions
+{
+    public const string SectionName = "Tax";
+
+    public bool VatEnabled { get; init; } = true;
+    public decimal VatRate { get; init; } = 0.12m;
+}
+
+public class RecallOptions
+{
+    public const string SectionName = "Recall";
+
+    public int ThresholdMonths { get; init; } = 6;
+}
+```
+
+```csharp
+// Program.cs — registration with startup validation
+builder.Services
+    .AddOptions<SmsOptions>()
+    .BindConfiguration(SmsOptions.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<TaxOptions>()
+    .BindConfiguration(TaxOptions.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<RecallOptions>()
+    .BindConfiguration(RecallOptions.SectionName)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+```
+
+```json
+// appsettings.json (non-secret keys only; ApiKey belongs in .env / Docker secrets)
+{
+  "Sms": {
+    "Provider": "Semaphore",
+    "SenderId": "AllAboutTeeth"
+  },
+  "Tax": {
+    "VatEnabled": true,
+    "VatRate": 0.12
+  },
+  "Recall": {
+    "ThresholdMonths": 6
+  }
+}
+```
+
+### 8.16 Frontend Patterns
+
+#### Composables (`use*` functions)
+
+Reusable stateful logic is extracted into composables rather than duplicated across components or bloating stores.
+
+```typescript
+// composables/useAppointmentCalendar.ts
+export function useAppointmentCalendar(dentistId: Ref<number | null>) {
+  const appointments = ref<AppointmentDto[]>([]);
+  const loading = ref(false);
+
+  async function fetchMonth(year: number, month: number) {
+    loading.value = true;
+    try {
+      appointments.value = await appointmentApi.getByMonth(
+        dentistId.value,
+        year,
+        month,
+      );
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  const calendarEvents = computed(() =>
+    appointments.value.map((a) => ({
+      id: a.id,
+      title: a.patientName,
+      start: a.scheduledAt,
+      end: addMinutes(parseISO(a.scheduledAt), a.durationMinutes),
+    })),
+  );
+
+  return { appointments, calendarEvents, loading, fetchMonth };
+}
+```
+
+Other canonical composables in this system:
+
+| Composable                          | Purpose                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `usePatientContext(patientId)`      | Fetches and caches patient demographics + active dental chart for the patient detail page        |
+| `useBillingCalculator(billingId)`   | Derives subtotal, discount, tax, HMO coverage, patient share, and outstanding balance reactively |
+| `useAppointmentCalendar(dentistId)` | Fetches appointments by month; maps to FullCalendar event objects                                |
+
+#### Container / Presentational Component Split
+
+Container components are responsible for data fetching and state ownership. Presentational components receive data via props and emit events — they contain no API calls or store references.
+
+| Type           | Responsibility                                                        | Example                       |
+| -------------- | --------------------------------------------------------------------- | ----------------------------- |
+| Container      | Fetches data, owns composable/store refs, handles async, passes props | `AppointmentCalendarView.vue` |
+| Presentational | Pure display, props-in / events-out, no API calls                     | `AppointmentCard.vue`         |
+
+```typescript
+// AppointmentCalendarView.vue (Container) — owns the composable
+const { calendarEvents, loading, fetchMonth } =
+  useAppointmentCalendar(selectedDentistId);
+
+// AppointmentCard.vue (Presentational) — pure display
+const props = defineProps<{ appointment: AppointmentDto }>();
+const emit = defineEmits<{ cancel: [id: number]; reschedule: [id: number] }>();
+```
+
+#### Store-per-Domain (Pinia)
+
+Each bounded context has its own Pinia store. There is no single global store.
+
+```
+src/stores/
+  patient.store.ts       ← patient list, active patient, search filters
+  appointment.store.ts   ← calendar state, selected slot, conflict flags
+  billing.store.ts       ← active billing, payment history
+  inventory.store.ts     ← item list, low-stock flags
+  user.store.ts          ← current user session, permissions
+```
+
+Stores delegate API calls to the API layer and own the reactive state returned:
+
+```typescript
+// stores/appointment.store.ts
+export const useAppointmentStore = defineStore("appointment", () => {
+  const appointments = ref<AppointmentDto[]>([]);
+
+  async function loadMonth(dentistId: number, year: number, month: number) {
+    appointments.value = await appointmentApi.getByMonth(
+      dentistId,
+      year,
+      month,
+    );
+  }
+
+  return { appointments, loadMonth };
+});
+```
+
+#### API Layer Abstraction
+
+All HTTP calls are made through a typed service module in `src/api/`. Components and stores never call `axios` directly.
+
+```
+src/api/
+  http.ts              ← axios instance with base URL, JWT interceptor, 401 handler
+  appointmentApi.ts
+  billingApi.ts
+  patientApi.ts
+  inventoryApi.ts
+  authApi.ts
+```
+
+```typescript
+// api/http.ts — single shared axios instance
+const http = axios.create({ baseURL: import.meta.env.VITE_API_BASE_URL });
+
+http.interceptors.request.use((config) => {
+  const token = useAuthStore().accessToken;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+// api/appointmentApi.ts — fully typed; no raw axios in components or stores
+export const appointmentApi = {
+  getByMonth: (dentistId: number | null, year: number, month: number) =>
+    http
+      .get<
+        AppointmentDto[]
+      >("/appointments", { params: { dentistId, year, month } })
+      .then((r) => r.data),
+
+  create: (command: CreateAppointmentCommand) =>
+    http
+      .post<AppointmentResponse>("/appointments", command)
+      .then((r) => r.data),
+
+  cancel: (id: number, reason: string) =>
+    http
+      .patch<void>(`/appointments/${id}/cancel`, { reason })
+      .then((r) => r.data),
+};
+```
 
 ---
 
