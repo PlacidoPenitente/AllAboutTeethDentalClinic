@@ -223,7 +223,7 @@ builder.Services
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters { ... };
-        
+
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
@@ -247,12 +247,13 @@ Omitting this handler is a common cause of WebSocket connection failures in Sign
 The clinic correctly specifies `client_max_body_size 25M` in Nginx (TECH_STACK_AND_ARCHITECTURE.md). However, **both** Kestrel (ASP.NET Core) and the request handler must allow ≥ 20 MB uploads:
 
 1. **Kestrel default limit:** ~30 MB (`RequestSizeLimit`). This is usually sufficient, but explicitly set it in `Program.cs` to ensure consistency:
+
    ```csharp
    builder.Services.Configure<FormOptions>(options =>
    {
        options.MultipartBodyLengthLimit = 26214400; // 25 MB
    });
-   
+
    builder.WebHost.ConfigureKestrel(options =>
    {
        options.Limits.MaxRequestBodySize = 26214400;
@@ -260,6 +261,7 @@ The clinic correctly specifies `client_max_body_size 25M` in Nginx (TECH_STACK_A
    ```
 
 2. **Per-endpoint override:** For `POST /api/patients/{id}/attachments`, annotate the controller or action:
+
    ```csharp
    [RequestSizeLimit(26214400)] // 25 MB
    [HttpPost]
@@ -285,7 +287,7 @@ builder.Services.AddOutputCache(options =>
         builder
             .Expire(TimeSpan.FromHours(1))
             .Tag("treatments-catalog"));
-    
+
     options.AddPolicy("InventoryCachePolicy", builder =>
         builder
             .Expire(TimeSpan.FromHours(1))
@@ -307,15 +309,16 @@ public async Task<IActionResult> GetTreatments(...)
 public async Task<IActionResult> UpdateTreatment(Guid id, ...)
 {
     var result = await _mediator.Send(new UpdateTreatmentCommand(...));
-    
+
     // Invalidate the cache by tag
     _outputCacheStore.InvalidateByTagAsync("treatments-catalog", HttpContext.RequestAborted);
-    
+
     return Ok(result);
 }
 ```
 
 **Benefits:**
+
 - Automatic ETag and `304 Not Modified` response handling.
 - No manual `If-None-Match` header management.
 - Tag-based invalidation (invalidate the entire category when any treatment is updated).
