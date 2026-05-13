@@ -1,0 +1,1572 @@
+# Business Requirements Document
+
+## All About Teeth Dental Clinic Management System (DCMS)
+
+---
+
+| Field            | Value                                      |
+| ---------------- | ------------------------------------------ |
+| Document Version | 4.3                                        |
+| Date             | May 13, 2026                               |
+| Status           | Active                                     |
+| Prepared By      | Development Team                           |
+| Repository       | PlacidoPenitente/AllAboutTeethDentalClinic |
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Business Context](#2-business-context)
+3. [Stakeholders](#3-stakeholders)
+4. [Regulatory & Standards Framework](#4-regulatory--standards-framework)
+5. [System Scope](#5-system-scope)
+   - 5.1 In Scope — Version 1
+   - 5.2 Out of Scope — Deferred to Version 2
+   - 5.3 Core Transaction Flow
+   - 5.4 Patient Portal Interaction Paths
+6. [Functional Requirements](#6-functional-requirements)
+   - FR-01: User & Access Management
+   - FR-02: Clinic Settings
+   - FR-03: Patient Management
+   - FR-04: Appointment Scheduling
+   - FR-05: Dental Charting
+   - FR-06: Treatment Records & Procedures
+   - FR-07: Billing & Payments
+   - FR-08: Inventory & Supply Management
+   - FR-09: Reports & Analytics
+   - FR-10: Notifications & Alerts
+   - FR-11: Audit Log
+   - FR-12: Patient Portal
+   - FR-13: Data Export & Portability
+   - FR-14: HMO Claim Recording
+   - FR-15: Electronic Prescription
+   - FR-16: Medical / Dental Certificate
+7. [Non-Functional Requirements](#7-non-functional-requirements)
+8. [Business Rules](#8-business-rules)
+9. [Data Classification & Retention](#9-data-classification--retention)
+10. [Glossary](#10-glossary)
+
+---
+
+## 1. Executive Summary
+
+The **All About Teeth Dental Clinic Management System (DCMS)** is a web-based clinical and administrative management platform for a private dental clinic operating in the Philippines. The system is designed for single-clinic deployment, serving a small team of dentists, administrative staff, and a clinic administrator.
+
+The system manages the complete patient care cycle — from registration and appointment scheduling through clinical procedure recording, FDI-compliant dental charting, billing, HMO claim tracking, consumable inventory management, and regulatory-compliant reporting. All clinical workflows conform to the standards of the **Philippine Dental Association (PDA)** and the **FDI World Dental Federation**. All financial and data handling workflows conform to **BIR** and **RA 10173 (Data Privacy Act)** requirements. PhilHealth member numbers are stored for patient records; PhilHealth billing deductions are not applicable to standard outpatient dental procedures in private clinics.
+
+---
+
+## 2. Business Context
+
+### 2.1 Business Background
+
+All About Teeth is a private dental clinic in the Philippines. It employs licensed dentists registered with the **Professional Regulation Commission (PRC)** under Republic Act No. 9484, supported by administrative staff and, optionally, dental hygienists. The clinic serves both walk-in and appointment patients and processes both private-pay and HMO-covered transactions.
+
+The clinic requires a centralized, multi-user digital platform to manage patient records, clinical workflows, scheduling, financial transactions, and inventory — all within a single system accessible from any authorized device on the clinic network.
+
+### 2.2 Business Objectives
+
+| ID    | Objective                                                                                              |
+| ----- | ------------------------------------------------------------------------------------------------------ |
+| BO-01 | Provide a web-accessible system usable from any device (PC, tablet, mobile) within the clinic          |
+| BO-02 | Comply fully with RA 10173 (Data Privacy Act of 2012) in all patient data handling                     |
+| BO-03 | Produce BIR-compliant official receipts and statements of account for every payment                    |
+| BO-04 | Support private HMO claim tracking via Letter of Authorization (LOA) numbers, with accurate patient/HMO cost breakdown per visit. PhilHealth member numbers are stored for patient records only. |
+| BO-05 | Implement FDI ISO 3950:2016 two-digit dental charting notation with full surface and condition history |
+| BO-06 | Prevent double-booking through enforced appointment conflict detection                                 |
+| BO-07 | Maintain a complete, immutable, structured audit trail of all clinical and financial actions           |
+| BO-08 | Track dental supply inventory with ledger-based stock, expiry-date awareness, and low-stock alerts     |
+| BO-09 | Generate standard clinical and financial reports sufficient for clinic operations and compliance       |
+| BO-10 | Enforce role-based access so that each staff type interacts only with their relevant functions         |
+| BO-11 | Provide a patient-facing portal for self-registration, online appointment booking, treatment history, billing summary, and service feedback |
+| BO-12 | Deliver timely SMS and email notifications to patients for appointment confirmations, reschedules, and cancellations |
+
+### 2.3 Success Criteria
+
+- A patient's complete dental chart (52 FDI teeth) is viewable and editable with full condition history per tooth.
+- No two confirmed appointments for the same dentist overlap in time.
+- Outstanding billing balance is always accurate and computed from actual payment records.
+- A BIR-compliant official receipt is printable for every recorded payment.
+- Inventory stock levels reflect all receipts and consumption; low-stock and near-expiry alerts are triggered automatically.
+- All patient data operations are logged with actor, timestamp, entity, and field-level change detail.
+- All users authenticate with securely hashed credentials; no credentials are stored in plaintext.
+
+---
+
+## 3. Stakeholders
+
+| Role                             | Description                                                                               | System Access                                                     |
+| -------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Clinic Owner / Administrator** | Licensed dentist who owns the clinic; manages accounts, settings, and financial oversight | Full access — all modules                                         |
+| **Dentist**                      | Licensed dentist (employed or associate); performs examinations and clinical procedures   | Clinical modules + read-only billing                              |
+| **Receptionist / Staff**         | Front-desk personnel; registers patients, manages appointments, processes payments        | Non-clinical administrative modules                               |
+| **HMO / Provider**               | External health insurance organizations (Maxicare, Intellicare, PhilCare, etc.)           | No system access; receive printed/exported claim summaries        |
+| **BIR**                          | Bureau of Internal Revenue                                                                | No system access; receive printed official receipts and registers |
+| **NPC / Data Privacy Officer**   | National Privacy Commission compliance oversight                                          | No system access; reviews data handling documentation             |
+| **Patient**                      | Dental care recipient; self-registers, books appointments, and views own history via the Patient Portal | Patient Portal only — own records, own appointments, own billing, feedback, and doctor ratings |
+
+---
+
+## 4. Regulatory & Standards Framework
+
+### 4.1 Dental Practice Regulation — RA 9484
+
+Republic Act No. 9484 (Philippine Dental Act of 2007), enforced by the **PRC Board of Dentistry**, governs all licensed dental practice in the Philippines.
+
+| Requirement                                     | System Implementation                                                                                     |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| All dentists must hold a valid PRC license      | PRC license number and expiry date are required fields on every Dentist user account                      |
+| Dentists must be identified on clinical records | Every appointment and treatment record requires a valid dentist (User with role Dentist or Administrator) |
+| Scope of practice limits non-dentist roles      | Staff users have no access to dental charting or treatment record creation                                |
+
+### 4.2 Dental Charting Standard — FDI ISO 3950:2016
+
+The system uses the **FDI World Dental Federation Two-Digit Notation (ISO 3950:2016)** as the sole tooth numbering system. This is the standard adopted by Philippine dental schools, the PDA, and all major dental institutions in the Philippines.
+
+#### Tooth Numbering
+
+| Quadrant | Dentition           | Tooth Numbers | Position                      |
+| -------- | ------------------- | ------------- | ----------------------------- |
+| 1        | Permanent           | 11 – 18       | Upper right (patient's right) |
+| 2        | Permanent           | 21 – 28       | Upper left (patient's left)   |
+| 3        | Permanent           | 31 – 38       | Lower left (patient's left)   |
+| 4        | Permanent           | 41 – 48       | Lower right (patient's right) |
+| 5        | Primary / Deciduous | 51 – 55       | Upper right                   |
+| 6        | Primary / Deciduous | 61 – 65       | Upper left                    |
+| 7        | Primary / Deciduous | 71 – 75       | Lower left                    |
+| 8        | Primary / Deciduous | 81 – 85       | Lower right                   |
+
+**Total: 52 teeth** — 32 permanent teeth (quadrants 1–4) and 20 primary/deciduous teeth (quadrants 5–8).
+
+#### Tooth Surfaces (BLMDO System)
+
+| Code | Surface            | Notes                                                |
+| ---- | ------------------ | ---------------------------------------------------- |
+| B    | Buccal             | All teeth; the surface facing the cheek              |
+| L    | Lingual / Palatal  | All teeth; the surface facing the tongue/palate      |
+| M    | Mesial             | All teeth; the surface facing the midline            |
+| D    | Distal             | All teeth; the surface facing away from the midline  |
+| O    | Occlusal / Incisal | Posterior teeth (Occlusal); Anterior teeth (Incisal) |
+
+#### Standard Tooth Conditions
+
+Aligned with PDA clinical charting guidelines and FDI WHO charting symbols used in Philippine dental practice:
+
+| Code | Condition                               | Clinical Meaning                                                |
+| ---- | --------------------------------------- | --------------------------------------------------------------- |
+| PNT  | Present / Sound                         | Tooth is present with no notable pathology                      |
+| DCF  | Decayed — Caries, Indicated for Filling | Active caries; treatment plan is restoration                    |
+| MCR  | Missing due to Caries                   | Tooth was extracted or lost because of caries                   |
+| FLD  | Filled                                  | Tooth has been restored (amalgam, composite, GIC, etc.)         |
+| CIE  | Caries, Indicated for Extraction        | Active caries; tooth is non-restorable                          |
+| RFR  | Root Fragment                           | Only the root remains after crown fracture or failed extraction |
+| MOC  | Missing due to Other Causes             | Absent for non-caries reasons (trauma, ortho extraction, etc.)  |
+| IMP  | Impacted Tooth                          | Tooth is fully or partially embedded and cannot erupt normally  |
+| JCR  | Jacket / Full Crown                     | Tooth is fully covered by a crown prosthesis                    |
+| AMF  | Amalgam Filling                         | Specifically restored with amalgam                              |
+| ABU  | Abutment                                | Tooth serving as anchor for a fixed bridge                      |
+| PON  | Pontic                                  | Artificial tooth unit within a fixed bridge                     |
+| INL  | Inlay                                   | Tooth restored with an inlay (gold, ceramic, or composite)      |
+| CCF  | Fixed Composite / Tooth-Colored Filling | Restored with tooth-colored resin composite                     |
+| RPD  | Removable Partial/Full Denture          | Patient wears a removable prosthesis over this area             |
+| ECR  | Extracted due to Caries                 | Formally extracted; caries was the cause                        |
+| EOC  | Extracted due to Other Causes           | Formally extracted; non-caries reason                           |
+| CGM  | Congenitally Missing                    | Tooth never developed (agenesis)                                |
+| SUP  | Supernumerary                           | Extra tooth beyond the normal complement                        |
+| RCT  | Root Canal Treated                      | Completed endodontic therapy; pulp space is obliterated; tooth may or may not have a permanent restoration |
+| SEL  | Sealed — Pit & Fissure Sealant          | Preventive sealant applied to the occlusal surface              |
+| UNE  | Unerupted / Not Yet Present             | Tooth has not yet erupted; developmentally normal for patient's age |
+| SHD  | Shed / Exfoliated                       | Primary tooth that has been normally shed; permanent successor expected or already erupted |
+
+### 4.3 Standard Dental Procedure Categories
+
+Procedures are organized according to the specialty categories recognized in Philippine dental education and PDA clinical guidelines:
+
+| Category                | Representative Procedures                                                                                                                                                                                                                                                                      |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Preventive**          | Oral Prophylaxis (Scaling & Polishing), Fluoride Application (gel / varnish), Pit & Fissure Sealant, Periapical X-Ray, Panoramic X-Ray, Bitewing X-Ray, Occlusal X-Ray                                                                                                                         |
+| **Restorative**         | Amalgam Filling (Class I–V), Composite Resin Filling (anterior / posterior), Glass Ionomer Cement (GIC) Restoration, Temporary Filling, Indirect Inlay / Onlay                                                                                                                                 |
+| **Endodontic**          | Indirect Pulp Capping, Direct Pulp Capping, Pulpotomy, Root Canal Treatment — Anterior (single canal), Root Canal Treatment — Premolar (1–2 canals), Root Canal Treatment — Molar (3+ canals), Apicectomy / Periapical Surgery                                                                 |
+| **Periodontic**         | Full-Mouth Scaling & Root Planing, Scaling & Root Planing (per quadrant), Curettage, Gingivectomy / Gingivoplasty, Periodontal Flap Surgery, Bone Graft                                                                                                                                        |
+| **Prosthodontic**       | Porcelain-Fused-to-Metal (PFM) Crown, All-Ceramic / Zirconia Crown, Temporary / Provisional Crown, Removable Partial Denture — Acrylic, Removable Partial Denture — Metal Framework (RPD), Complete Denture — Maxillary, Complete Denture — Mandibular, Fixed Bridge (per unit), Implant Crown |
+| **Oral Surgery**        | Simple Extraction, Surgical / Complex Extraction, Impaction Surgery — Soft Tissue, Impaction Surgery — Partial Bony, Impaction Surgery — Full Bony, Alveoloplasty, Frenectomy, Biopsy (incisional / excisional)                                                                                |
+| **Orthodontic**         | Fixed Appliance — Metal Brackets, Fixed Appliance — Ceramic Brackets, Clear Aligner Therapy, Removable Appliance, Space Maintainer, Orthodontic Retainer (Hawley / Essix)                                                                                                                      |
+| **Cosmetic / Esthetic** | In-Office Teeth Whitening / Bleaching, Home Bleaching Kit, Porcelain Veneer, Composite Veneer, Composite Bonding / Build-Up                                                                                                                                                                    |
+
+### 4.4 Data Privacy — RA 10173 (Data Privacy Act of 2012)
+
+Patient health records are classified as **sensitive personal information** under Section 3(l) of RA 10173. The system must:
+
+| Obligation                                                 | Implementation                                                                                              |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Obtain explicit consent before data collection             | Patient consent checkbox and date are required fields; the privacy notice text is displayed at registration |
+| Limit access to authorized personnel only                  | Role-based access control restricts patient data by role                                                    |
+| Ensure secure storage                                      | Sensitive fields are encrypted at rest; all transport over HTTPS                                            |
+| Respect the right of data subjects to access their records | Print and PDF export of individual patient records is supported                                             |
+| Report breaches to the NPC within 72 hours                 | Activity log and audit trail support breach investigation                                                   |
+| Define and enforce a data retention and deletion policy    | Minimum 10-year retention; purge requires Administrator action and is logged                                |
+
+### 4.5 Financial Compliance — BIR
+
+| Requirement                                     | System Implementation                                                                                                                                              |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Official Receipt (OR) issuance for all payments | Every Payment generates a printable OR with clinic name, TIN, sequential OR number, date, patient name, amount (in words and figures), and description of services |
+| Sequential, non-reusable OR numbering           | OR numbers are system-generated, sequential, and non-reusable. Voided ORs retain their number with a voided marker                                                 |
+| VAT applicability                               | Clinic settings toggle: VAT-registered (12%) or non-VAT. Applied to billing and reflected on all printed documents                                                 |
+| Financial record retention                      | Billing and payment records are retained for a minimum of 10 years                                                                                                 |
+
+### 4.6 Private HMO Coverage
+
+| Type                                                                       | System Support                                                                                                                                                                                                                                                    |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **PhilHealth**                                                             | Patient PhilHealth member number is recorded on the patient profile for identification purposes only. Standard outpatient dental procedures in private clinics are not covered under PhilHealth's outpatient benefit packages for accredited private facilities. The system does **not** compute PhilHealth deductions for dental billing. The clinic's PhilHealth accreditation number is stored in Clinic Settings for document reference only. |
+| **Private HMO** (Maxicare, Intellicare, PhilCare, MediCard, Caritas, etc.) | Managed via the Provider entity. HMO coverage is recorded per billing based on the **Letter of Authorization (LOA)** issued by the HMO for that specific visit. The system does **not** attempt to compute a patient's remaining annual benefit from internal data alone, as a patient may have active claims at other facilities that this system has no visibility into. Staff must verify the authorized amount directly from the LOA document and enter it at billing time. The LOA number is recorded on the billing record. |
+
+### 4.7 DOH Health Facility License (RA 4226)
+
+The clinic holds a DOH-issued health facility license. The system stores the license number and expiry date in Clinic Settings for reference on printed documents. License renewal management is out of scope.
+
+---
+
+## 5. System Scope
+
+### 5.1 In Scope — Version 1
+
+- User account management with role-based access control (Administrator, Dentist, Staff)
+- Clinic settings (identity, operating hours, financial, compliance numbers)
+- Patient registration with comprehensive medical and dental history intake
+- Appointment scheduling with calendar view, conflict detection, and appointment lifecycle management
+- FDI ISO 3950:2016 dental charting — 52 teeth, per-surface conditions, full condition history
+- Treatment catalog management — procedure codes, pricing, applicable and resulting conditions
+- Clinical procedure recording per tooth per appointment
+- Billing generation per appointment with HMO/provider cost breakdown
+- Payment recording with official receipt generation
+- Printable Statement of Account and Official Receipt (BIR-compliant)
+- Dental supply inventory with ledger-based stock, lot numbers, expiry dates
+- Dashboard with daily appointment view and key operational metrics
+- Standard clinical and financial reports (see FR-09)
+- Structured activity audit log
+- **Patient Portal** — public-facing web interface for patients:
+  - Online self-registration with guided medical/dental history intake
+  - Online appointment booking with real-time slot availability calendar
+  - View personal treatment history and dentist records
+  - View billing summary and download Official Receipts and Statements of Account
+  - File complaints, suggestions, and recommendations
+  - Rate treating dentists (private — visible to rated dentist and Administrator only)
+  - Cancel and reschedule own appointments (Pending / Confirmed status)
+- Private doctor ratings per completed appointment
+- Submit feedback (complaints, suggestions, recommendations)
+- Automated SMS and email notifications to patients for: appointment confirmation, reschedule (with old and new times), cancellation, 24-hour reminder, and **automated recall reminders** for patients with no upcoming appointment past a configurable threshold (default 6 months)
+- Dentist / Staff initiated appointment rescheduling with mandatory patient notification
+- **Online booking deposit** via payment gateway (PayMongo) to reduce no-shows — amount and forfeiture policy configurable
+- **Procedure-based dentist routing** — treatments tagged with required specialization; booking calendar filters dentists accordingly
+- **Secretary approval gate** (configurable) — portal bookings may be set to require staff confirmation before a slot is reserved
+- **Installment payment plans** for multi-session treatments with configurable schedule and automated balance tracking
+- **HMO benefit utilization tracking** — annual benefit caps per patient per provider, deducted per claim
+- **Bulk data export** — Administrator-level export of all core entities (patients, appointments, billing, payments) as CSV/Excel for data portability and regulatory compliance
+- On-premises LAN deployment support — server runs locally so clinic operations continue during internet outages
+- **Procedure Kits** (Bill of Materials per treatment) for auto-populated per-appointment consumable deductions; Bulk-Managed tier for high-volume disposables managed via periodic physical count
+- **Orthodontic Progress Notes** — structured per-appointment note format (wire sizes, elastics, bracket changes, appliance status) for Orthodontic-category appointments
+- **Medical / Dental Certificate** generator with wet-signature-ready printed output and audit log
+- **Patient file attachments** — upload and store clinical documents and radiograph images (JPEG/PNG/PDF) per patient profile, displayed in a dedicated Attachments tab on the patient record
+
+### 5.2 Out of Scope — Deferred to Version 2
+
+- PhilHealth electronic claims (e-Claims) portal submission
+- DICOM viewer, CBCT analysis, and advanced radiograph interpretation tools _(basic JPEG/PNG/PDF file uploads per patient are in scope — see FR-03.7)_
+- Full periodontal charting (probing depth, bleeding on probing, furcation index)
+- Multi-branch / multi-clinic support
+- Payroll and HR management
+- Supplier ordering, purchase orders, and procurement workflow
+- Teledentistry / video consultation
+- Patient appointment reschedule requests with pending-staff-approval flow (v1 supports cancel-and-rebook)
+- Publicly visible doctor profiles or ratings
+- Patient access to raw FDI dental chart condition data
+
+---
+
+### 5.3 Core Transaction Flow
+
+This section describes the end-to-end patient visit cycle — from first contact through payment and receipt issuance. All functional requirements in Section 6 are derived from this flow.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 1 — PATIENT REGISTRATION (first-time patients only)                  │
+│                                                                             │
+│  Staff / Dentist / Admin                                                    │
+│    1. Search patient by name or contact number                              │
+│    2. Patient not found → Create new patient record                         │
+│       a. Enter personal & contact information                               │
+│       b. Capture/upload patient photo (optional)                            │
+│       c. Record dental history (previous dentist, last visit, complaints)   │
+│       d. Record medical history (conditions, medications, allergies)        │
+│       e. Display Privacy Notice → Patient acknowledges consent              │
+│       f. System creates 52 Tooth records (background) — all set to PNT     │
+│                                                                             │
+│  ◈ ONLINE ALTERNATIVE: Patient self-registers via Patient Portal (FR-12.1) │
+│    → Guided multi-step intake; flagged "Pending Staff Review" until visit   │
+│    → Email verification link sent; account activates on confirmation        │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 2 — APPOINTMENT BOOKING                                              │
+│                                                                             │
+│  Staff / Dentist / Admin                                                    │
+│    1. Select patient (must be Active)                                       │
+│    2. Select dentist, date, time, and duration                              │
+│    3. Add one or more planned treatments                                    │
+│       → If patient has HMO/Provider: system shows coverage per treatment   │
+│    4. Record chief complaint for this visit                                 │
+│    5. Record LOA number (if HMO-covered)                                   │
+│    6. System checks for dentist scheduling conflicts                        │
+│       → Conflict found: display conflicting appointment, block save         │
+│       → No conflict: appointment saved with status PENDING                 │
+│    7. Walk-in variant: appointment created directly as IN PROGRESS          │
+│                                                                             │
+│  ◈ ONLINE ALTERNATIVE: Patient books via Patient Portal (FR-12.4)          │
+│    → Patient selects dentist, date, time, treatment(s), and complaint       │
+│    → Appointment saved as PENDING, source tagged "Portal"                   │
+│    → Patient receives email confirmation; staff see in-app portal flag      │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 3 — APPOINTMENT DAY: CHECK-IN & STATUS PROGRESSION                  │
+│                                                                             │
+│  Staff / Admin                                                              │
+│    1. Patient arrives → Staff confirms appointment:  PENDING → CONFIRMED   │
+│    2. Patient called in → Dentist/Admin starts:   CONFIRMED → IN PROGRESS  │
+│                                                                             │
+│  If patient does not arrive:                                                │
+│    Staff marks:  CONFIRMED → NO SHOW                                        │
+│    → Optional: reschedule creates a new PENDING appointment linked to this  │
+│                                                                             │
+│  If cancelled before visit:                                                 │
+│    Any user marks:  PENDING / CONFIRMED → CANCELLED  (reason required)     │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 4 — CLINICAL PROCEDURE (Appointment status: IN PROGRESS)             │
+│                                                                             │
+│  Dentist / Admin                                                            │
+│    1. Open patient's dental chart                                           │
+│    2. For each tooth being treated:                                         │
+│       a. Select tooth on the SVG chart                                      │
+│       b. Record condition (surface + condition code) → appended to history  │
+│       c. System filters applicable treatments based on tooth condition      │
+│       d. Select treatment performed → record as AppointmentProcedure        │
+│       e. Record supply items consumed (auto-deducted from stock ledger)     │
+│    3. Add clinical remarks or notes as needed                               │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 5 — BILLING GENERATION                                               │
+│                                                                             │
+│  Staff / Admin                                                              │
+│    1. System auto-generates a DRAFT billing from completed procedures       │
+│       SubTotal  = SUM of (negotiated price or base price per procedure)     │
+│       Discount  = manually applied (if any)                                 │
+│       Tax       = 12% VAT if clinic is VAT-registered, else 0               │
+│       TotalAmount = SubTotal − Discount + Tax                               │
+│    2. If patient has HMO/Provider:                                          │
+│       HMO Coverage Amount = per-treatment coverage rules (% or fixed)       │
+│       Patient Share = TotalAmount − HMO Coverage Amount                    │
+│    3. Staff reviews and finalizes billing:  DRAFT → FINAL                  │
+│    4. Outstanding Balance = Patient Share − SUM(non-voided payments)        │
+│       Balance is always computed on read; never stored                      │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 6 — PAYMENT & RECEIPT                                                │
+│                                                                             │
+│  Staff / Admin                                                              │
+│    1. Patient pays (full or partial)                                        │
+│    2. Staff records payment:                                                │
+│       a. Amount paid                                                        │
+│       b. Payment method (Cash, GCash, Credit Card, Cheque, Bank Transfer,  │
+│          HMO Direct Billing, or Other)                                      │
+│    3. System assigns next sequential OR number (non-reusable)               │
+│    4. System recomputes billing status:                                     │
+│       Balance > 0  → PARTIALLY PAID                                         │
+│       Balance = 0  → FULLY PAID                                             │
+│    5. Official Receipt generated (BIR-compliant):                           │
+│       Clinic name, TIN, OR number, date, patient name,                      │
+│       amount in figures and words, services rendered                        │
+│    6. Staff prints or saves OR as PDF for patient                           │
+│    7. Appointment status updated:  IN PROGRESS → COMPLETED                 │
+└──────────────────────────────────┬──────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 7 — POST-VISIT                                                       │
+│                                                                             │
+│  System (automatic)                                                         │
+│    • Activity log entries written for all actions in this visit             │
+│    • Dashboard metrics updated in real time (SignalR push)                  │
+│    • Stock levels updated for all consumed supplies                         │
+│    • Low-stock / near-expiry alerts re-evaluated                            │
+│                                                                             │
+│  Staff / Admin (on demand)                                                  │
+│    • Print or export Statement of Account (SOA) for outstanding balance     │
+│    • Record subsequent partial payments until balance reaches zero          │
+│    • View updated dental chart with new condition history                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### Flow Summary Table
+
+| Phase            | Actor                   | Key System Actions                                       | FR Reference        |
+| ---------------- | ----------------------- | -------------------------------------------------------- | ------------------- |
+| 1 — Registration | Staff / Dentist / Admin | Create patient, consent gate, create 52 tooth records    | FR-03               |
+| 2 — Booking      | Staff / Dentist / Admin | Create appointment, conflict detection, LOA recording    | FR-04.1             |
+| 3 — Check-in     | Staff / Admin           | Status transitions, no-show, cancellation, rescheduling  | FR-04.2             |
+| 4 — Clinical     | Dentist / Admin         | Record tooth conditions, record procedures, deduct stock | FR-05, FR-06, FR-08 |
+| 5 — Billing      | Staff / Admin           | Auto-generate billing, apply HMO coverage, finalize      | FR-07               |
+| 6 — Payment      | Staff / Admin           | Record payment, assign OR number, print receipt          | FR-07, FR-09.3      |
+| 7 — Post-visit   | System / Staff          | Audit log, dashboard update, stock alert re-evaluation   | FR-09.1, FR-11      |
+
+#### Key Invariants Throughout the Flow
+
+| Rule                            | Description                                                                                                                        |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Conflict prevention             | No two non-cancelled appointments for the same dentist may overlap in time (enforced at save)                                      |
+| Consent gate                    | A patient record cannot be saved without explicit data privacy consent acknowledgment                                              |
+| Balance is computed, not stored | `OutstandingBalance = PatientShare − SUM(non-voided payments)` is always derived at query time                                     |
+| OR numbers are immutable        | Once assigned, an OR number cannot be changed. Voided ORs retain their number with a voided marker                                 |
+| Conditions are append-only      | Tooth condition history is never overwritten; each update appends a new entry and marks the previous as historical                 |
+| Stock is ledger-based           | Stock quantity is always `SUM(SupplyStockLedger.QuantityChange)`; never a mutable counter                                          |
+| All actions are audited         | Every create, update, status change, and financial action is written to the Activity Log with actor, timestamp, and changed values |
+
+---
+
+### 5.4 Patient Portal Interaction Paths
+
+This section supplements Section 5.3 by showing the two patient-initiated entry points and how they connect to the clinic-side workflow.
+
+#### Path A — Online Self-Registration + Online Booking
+
+```
+Patient (web browser)                      System                           Clinic Staff
+       │                                      │                                   │
+       ├─ 1. Opens Patient Portal ──────────► │                                   │
+       ├─ 2. Fills self-registration form      │                                   │
+       │    (name, DOB, contact, history,      │                                   │
+       │     medical intake, consent) ────────►│                                   │
+       │                                       ├─ Creates Patient record ──────────►
+       │                                       ├─ Sends verification email ────────►│
+       ├─ 3. Clicks email verification link ──►│                                   │
+       │    → Account activated                │                                   │
+       │                                       │                   ◄─── Staff sees new
+       │                                       │                        portal-registered
+       │                                       │                        patient (in-app)
+       │                                       │                                   │
+       ├─ 4. Views booking calendar ──────────►│                                   │
+       │    (available slots per dentist)       │                                   │
+       ├─ 5. Selects dentist, date, time,      │                                   │
+       │    treatments, chief complaint ───────►│                                   │
+       │                                       ├─ Conflict check                   │
+       │                                       ├─ Creates Appointment              │
+       │                                       │  (status=PENDING, source=Portal)──►
+       │                                       ├─ Sends email confirmation ────────►│
+       ├─ 6. Receives confirmation email       │                                   │
+       │                                       │           ◄─── Staff sees portal-sourced
+       │                                       │                appointment (in-app flag)
+```
+
+#### Path B — Staff-Invited Portal Enrollment (Existing Patient)
+
+```
+Clinic Staff                               System                           Patient
+       │                                      │                                   │
+       ├─ 1. Opens patient record ───────────►│                                   │
+       ├─ 2. Sends portal invitation ─────────►│                                   │
+       │    (patient email required)           ├─ Sends invitation link ──────────►│
+       │                                       │                    ◄─── Patient opens link
+       │                                       │                         Sets password
+       │                                       │                         Portal account
+       │                                       │                         linked to existing
+       │                                       │                         Patient record
+```
+
+#### Patient-Initiated Reschedule (Cancel + Rebook)
+
+```
+Patient (portal)                           System                           Clinic Staff
+       │                                      │                                   │
+       ├─ 1. Views upcoming appointment ─────►│                                   │
+       ├─ 2. Clicks "Reschedule" ────────────►│                                   │
+       │   → Guided flow:                     │                                   │
+       │     a. Cancel current appointment    ├─ Status → CANCELLED ──────────────►
+       │        (reason required)             ├─ Notification to staff (in-app) ──►
+       │                                      ├─ Notification to dentist (in-app)─►
+       │     b. Show booking calendar         │                                   │
+       │     c. Book new appointment ─────────►                                   │
+       │        (same rules as Path A,        ├─ New Appointment (PENDING/Portal) ►
+       │         step 4–6)                    ├─ Email confirmation ──────────────►│
+```
+
+#### Dentist / Staff Reschedule → Patient Notification
+
+```
+Dentist / Staff (clinic app)               System                           Patient
+       │                                      │                                   │
+       ├─ 1. Opens appointment ──────────────►│                                   │
+       ├─ 2. Selects new date/time ──────────►│                                   │
+       │   (conflict check runs)              ├─ Updates appointment ─────────────►
+       │                                      ├─ Sends SMS to patient mobile ─────►│
+       │                                      ├─ Sends email to patient ──────────►│
+       │                                      │   (original & new date/time,       │
+       │                                      │    dentist name, clinic contact)   │
+       │                                      │         ◄─── Patient acknowledges  │
+       │                                      │              (or cancels via portal)│
+```
+
+---
+
+## 6. Functional Requirements
+
+---
+
+### FR-01: User & Access Management
+
+#### FR-01.1 User Accounts
+
+| ID        | Requirement                                                                                                                                                                                                                         |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-01.1.1 | The system shall support three user roles: **Administrator**, **Dentist**, and **Staff**.                                                                                                                                           |
+| FR-01.1.2 | Only an Administrator may create, edit, archive, and restore user accounts.                                                                                                                                                         |
+| FR-01.1.3 | Each user account shall store: username (unique, no spaces), hashed password, role, first name, middle name, last name, birthdate, sex, contact number, email address, home address, profile photo, and status (Active / Archived). |
+| FR-01.1.4 | Dentist accounts additionally require: specialization, PRC license number, and PRC license expiry date.                                                                                                                             |
+| FR-01.1.5 | Passwords shall be stored as BCrypt hashes with a minimum cost factor of 12. Plaintext passwords shall never be stored, transmitted, or logged anywhere in the system.                                                              |
+| FR-01.1.6 | Archiving a user account does not delete it. All records created by or linked to an archived user remain intact and continue to display the user's name.                                                                            |
+| FR-01.1.7 | The system must always have at least one active Administrator account. Archiving the last remaining Administrator is not permitted.                                                                                                 |
+| FR-01.1.8 | An Administrator cannot archive their own account while logged in.                                                                                                                                                                  |
+
+#### FR-01.2 Authentication
+
+| ID        | Requirement                                                                                                                                               |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-01.2.1 | Login requires a username and password. The system verifies by comparing the submitted password against the stored BCrypt hash.                           |
+| FR-01.2.2 | After five consecutive failed login attempts, the account shall be locked. The lockout duration is configurable in Clinic Settings (default: 30 minutes). |
+| FR-01.2.3 | An Administrator may manually unlock any locked account at any time.                                                                                      |
+| FR-01.2.4 | On successful login, the system issues a JWT (JSON Web Token) signed with RS256. The token expiry is configurable (default: 8 hours).                     |
+| FR-01.2.5 | Logout shall invalidate the current session token server-side.                                                                                            |
+| FR-01.2.6 | The date and time of each successful login shall be recorded on the user account.                                                                         |
+
+#### FR-01.3 Password Recovery
+
+| ID        | Requirement                                                                                                                                                                      |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-01.3.1 | Each user account stores two security questions and their answers. Answers are stored as BCrypt hashes.                                                                          |
+| FR-01.3.2 | Recovery flow: user enters username → system presents Security Question 1 and Question 2 → user answers both → system verifies via BCrypt comparison → user sets a new password. |
+| FR-01.3.3 | Passwords must be at least 8 characters and contain at least one letter and one number.                                                                                          |
+| FR-01.3.4 | A successful password reset is recorded in the Activity Log.                                                                                                                     |
+| FR-01.3.5 | If an email address is configured on the account and the clinic has email configured, an email-based recovery link shall be offered as an alternative path.                      |
+
+#### FR-01.4 Role-Based Access Control
+
+| Module / Action                    | Administrator | Dentist          | Staff           | Patient (Portal)               |
+| ---------------------------------- | ------------- | ---------------- | --------------- | ------------------------------ |
+| Manage user accounts               | ✅            | ❌               | ❌              | ❌                             |
+| Clinic settings                    | ✅            | ❌               | ❌              | ❌                             |
+| Register / edit patients           | ✅            | ✅               | ✅              | ✅ (own profile — contact only) |
+| Archive / restore patients         | ✅            | ❌               | ✅              | ❌                             |
+| Create / modify appointments       | ✅            | ✅               | ✅              | ✅ (book own — portal only)     |
+| Cancel appointments                | ✅            | ✅               | ✅              | ✅ (own, Pending/Confirmed)     |
+| View dental chart                  | ✅            | ✅               | ❌              | ❌                             |
+| Update tooth conditions            | ✅            | ✅               | ❌              | ❌                             |
+| Record treatment procedures        | ✅            | ✅               | ❌              | ❌                             |
+| Manage treatment catalog           | ✅            | ✅               | ❌              | ❌                             |
+| View billing                       | ✅            | ✅               | ✅              | ✅ (own billing summary)        |
+| Create / finalize billing          | ✅            | ❌               | ✅              | ❌                             |
+| Record payments                    | ✅            | ❌               | ✅              | ❌                             |
+| Void payments                      | ✅            | ❌               | ❌              | ❌                             |
+| Manage inventory                   | ✅            | ❌               | ✅              | ❌                             |
+| View reports                       | ✅            | ✅ (own records) | ✅ (limited)    | ❌                             |
+| View activity logs                 | ✅            | ❌               | ❌              | ❌                             |
+| Export / print any document        | ✅            | ✅               | ✅              | ✅ (own OR/SOA only)            |
+| Submit feedback / complaints       | ❌            | ❌               | ❌              | ✅                             |
+| Rate treating dentist              | ❌            | ❌               | ❌              | ✅ (own completed appts only)   |
+| View doctor ratings (aggregate)    | ✅            | ✅ (own only)    | ❌              | ❌                             |
+
+---
+
+### FR-02: Clinic Settings
+
+| ID      | Requirement                                                                                                                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-02.1 | The system shall maintain a single Clinic Settings record. Only an Administrator may modify it.                                                                                                      |
+| FR-02.2 | Identity fields: clinic name, complete address, contact number(s), email address, website, clinic logo (uploaded image).                                                                             |
+| FR-02.3 | Compliance fields: BIR Tax Identification Number (TIN), BIR Certificate of Registration number, DOH health facility license number and expiry date, PhilHealth accreditation number and expiry date. |
+| FR-02.4 | Operating schedule: opening time, closing time, and working days per day of week (configurable individually per day).                                                                                |
+| FR-02.5 | Default appointment slot duration in minutes (default: 30). Used as the pre-filled duration when creating new appointments.                                                                          |
+| FR-02.6 | VAT configuration: VAT-registered (12%) or Non-VAT. Applied to all billing computations and printed documents.                                                                                       |
+| FR-02.7 | **OR number tracking**: The system does not auto-generate OR numbers. Staff manually enter the OR number from the physical BIR Authority-to-Print (ATP) receipt booklet when recording each payment. The system validates uniqueness: an OR number may not be re-used across non-voided payments. |
+| FR-02.8 | Security configuration: maximum failed login attempts before lockout (default: 5), lockout duration in minutes (default: 30).                                                                        |
+| FR-02.9 | Inventory expiry warning threshold in days (default: 30). Items expiring within this window are flagged as near-expiry.                                                                              |
+| FR-02.10 | **SMS gateway configuration**: provider name, API base URL, API key / token, sender name (or sender mobile number), and a test-send button. Used for all patient SMS notifications. Supports Philippine SMS providers (Semaphore, Globe Labs, ITEXMO, or equivalent) via a generic HTTP REST interface. |
+| FR-02.11 | **Email (SMTP) configuration**: SMTP host, port, encryption (None / STARTTLS / SSL), sender email address, sender display name, username, and password. Used for all patient email notifications and portal invitations. A test-send button is available. |
+| FR-02.12 | **Payment gateway configuration**: provider (PayMongo / Maya / Paynamics / Other), API public key, API secret key (stored encrypted at rest), environment (sandbox / production), and a connection-test button. Used for automated online booking deposit collection. |
+| FR-02.12a | **Manual deposit verification configuration**: toggle to enable **Manual Deposit** as an alternative (or sole) deposit collection method. When enabled, the clinic provides a configurable instruction text to display to patients (e.g., GCash number, account name, bank transfer details) and a file upload field for the payment receipt screenshot. Enabling Manual Deposit does not require a payment gateway to be configured. Both methods (gateway and manual) may be active simultaneously; the patient chooses at booking. |
+| FR-02.13 | **Online booking approval mode**: toggle between **Immediate** (portal bookings auto-save as Pending) and **Awaiting Approval** (portal bookings require explicit staff approval before a slot is reserved). Default: Immediate. |
+| FR-02.14 | **Booking deposit settings**: deposit amount in PHP (0 = disabled), deposit label (e.g., "Commitment Fee"), and forfeiture policy description text (displayed to patient before payment). A deposit amount of 0 disables the online deposit feature entirely. |
+| FR-02.15 | **Installment plan defaults**: configurable reminder lead-time in days (default: 3 days before due date) for automated upcoming-due installment notifications. |
+| FR-02.16 | **Online booking appointment types**: Administrator configures the list of generic appointment types offered to patients on the portal (e.g., "Consultation", "General Check-up & Cleaning", "Toothache / Pain", "Cosmetic Consultation", "Orthodontic Consultation", "Post-Op Follow-up"). Each type has: label, patient-facing description, estimated duration in minutes (used to block the calendar slot), and optional Required Specialization tag. At least one active appointment type must exist for the online booking feature to be available. |
+
+---
+
+### FR-03: Patient Management
+
+#### FR-03.1 Patient Registration
+
+| ID        | Requirement                                                                                                                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-03.1.1 | Any authenticated user (Administrator, Dentist, or Staff) may register a new patient.                                                                                                                                    |
+| FR-03.1.2 | Required fields at registration: last name, first name, birthdate, sex, at least one contact number, data privacy consent acknowledgment, and consent date.                                                              |
+| FR-03.1.3 | The clinic's Privacy Notice (compliant with RA 10173) shall be displayed and must be acknowledged before the record can be saved.                                                                                        |
+| FR-03.1.4 | A patient photograph may be captured via webcam or uploaded from file.                                                                                                                                                   |
+| FR-03.1.5 | The system assigns each patient a unique patient ID on creation.                                                                                                                                                         |
+| FR-03.1.6 | Upon successful registration, the system creates tooth records for the patient based on their computed age at the time of registration. Initialization follows three age brackets:
+
+**(a) Age < 6 years** — the 20 primary teeth (Q5–Q8) are initialized as **PNT**; the 32 permanent teeth (Q1–Q4) are initialized as **UNE**.
+
+**(b) Age 6–11 years (Mixed Dentition)** — the chart is initialized using the statistically typical mixed-dentition state rather than marking all 52 teeth as PNT: permanent first molars (16, 26, 36, 46) and permanent central incisors (11, 21, 31, 41) are initialized as **PNT** (erupted); primary canines and molars (53, 54, 55, 63, 64, 65, 73, 74, 75, 83, 84, 85) are initialized as **PNT** (still present); primary incisors (51, 52, 61, 62, 71, 72, 81, 82) are initialized as **SHD** (normally shed by age 6–8); remaining permanent teeth are initialized as **UNE**. Staff are expected to correct the chart at the first visit to match the child's actual dentition — this initialization provides a starting approximation, not a clinical truth.
+
+**(c) Age ≥ 12 years** — the 32 permanent teeth (Q1–Q4) are initialized as **PNT**; the 20 primary teeth (Q5–Q8) are initialized as **SHD**.
+
+In all age brackets, third molars (18, 28, 38, 48) are initialized as **UNE** if the patient is under 17 years old.
+
+**This age-based initialization occurs only once, at the time of registration.** Subsequent dental development — such as the shedding of primary teeth, eruption of permanent teeth, or extraction of any tooth as the patient ages over time — must be manually recorded by the dentist on the patient's chart. The system does not re-evaluate or auto-update tooth conditions based on a patient's age after initial registration.
+
+The dental chart view provides a **Quick Set tool**: the dentist or staff member can select one or more teeth and set them all to a chosen condition with a single action, to rapidly correct the initial state at the first visit. |
+
+#### FR-03.2 Personal & Contact Information
+
+| ID        | Requirement                                                                                                                                                                                      |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-03.2.1 | Personal: last name, first name, middle name, nickname, birthdate, sex (Male / Female / Other), nationality, religion, civil status. Patient age is computed from birthdate and is never stored. |
+| FR-03.2.2 | Contact: home address, home phone, mobile number, email address, fax number, occupation, office address, office phone number.                                                                    |
+| FR-03.2.3 | Emergency contact (for adult patients): name, relationship, mobile number.                                                                                                                       |
+| FR-03.2.4 | Parent or guardian (for minor patients, age < 18): name, relationship, contact number.                                                                                                           |
+| FR-03.2.5 | Referral source (walk-in, referred by dentist, referred by patient, social media, other — with free-text field).                                                                                 |
+
+#### FR-03.3 Dental History
+
+| ID        | Requirement                                                                              |
+| --------- | ---------------------------------------------------------------------------------------- |
+| FR-03.3.1 | Previous dentist: name and clinic name.                                                  |
+| FR-03.3.2 | Last dental visit: date field (date picker).                                             |
+| FR-03.3.3 | Chief complaint or reason for initial visit (free text).                                 |
+| FR-03.3.4 | HMO or dental insurance provider: linked to the Provider entity (not a free-text field). |
+| FR-03.3.5 | Insurance member ID or policy number.                                                    |
+| FR-03.3.6 | Insurance effective date (date picker).                                                  |
+| FR-03.3.7 | PhilHealth member number.                                                                |
+
+#### FR-03.4 Medical History
+
+The medical history intake shall conform to the standard patient health questionnaire used in Philippine dental clinics, aligned with PDA intake form guidelines.
+
+| ID         | Requirement                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-03.4.1  | Attending physician: name, specialty, office address, office contact number.                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| FR-03.4.2  | General health: "Are you in good health?" (Yes / No). If No, specify the condition being treated (free text).                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| FR-03.4.3  | Previous illnesses or surgical operations (free text).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| FR-03.4.4  | Previous hospitalizations (free text).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| FR-03.4.5  | Blood type: A+, A−, B+, B−, AB+, AB−, O+, O−, or Unknown.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| FR-03.4.6  | Blood pressure: two separate numeric fields — systolic (mmHg) and diastolic (mmHg).                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| FR-03.4.7  | Bleeding time (free text, e.g., "normal" or a duration).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| FR-03.4.8  | **Allergies** — structured, multi-entry list. Each entry: allergen name (with common allergen suggestions: penicillin, aspirin, latex, iodine, sulfa drugs, local anesthetics, NSAIDs), reaction description, severity (Mild / Moderate / Severe).                                                                                                                                                                                                                                                                                                     |
+| FR-03.4.9  | **Current medications** — structured, multi-entry list. Each entry: medication name, dosage, frequency, reason.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| FR-03.4.10 | **Medical conditions / diseases** — structured multi-select checklist plus free-entry. Standard checklist items: Hypertension, Diabetes Mellitus Type 1, Diabetes Mellitus Type 2, Heart Disease, Kidney Disease, Liver Disease / Hepatitis (A / B / C), Thyroid Disorder, Epilepsy / Seizure Disorder, Asthma / Respiratory Disease, Arthritis / Rheumatic Disease, Bleeding / Clotting Disorder, HIV/AIDS, Cancer / Tumor, Tuberculosis (TB), Osteoporosis, Stroke / CVA, Psychiatric Disorder. Each entry has an active / inactive / resolved flag. |
+| FR-03.4.11 | Lifestyle: tobacco use (Current / Former / Never), alcohol consumption (Yes / No), use of prohibited or dangerous drugs (Yes / No). Alcohol and drug use are captured as separate fields.                                                                                                                                                                                                                                                                                                                                                              |
+| FR-03.4.12 | Female-specific fields, displayed only when patient sex = Female: pregnancy status (Yes / No / Unknown), currently nursing (Yes / No), taking oral contraceptives (Yes / No).                                                                                                                                                                                                                                                                                                                                                                          |
+| FR-03.4.13 | Medical history last reviewed date and reviewed by (User reference). Staff may update this field after a medical history review consultation.                                                                                                                                                                                                                                                                                                                                                                                                          |
+
+#### FR-03.5 Patient Search and List
+
+| ID        | Requirement                                                                                         |
+| --------- | --------------------------------------------------------------------------------------------------- |
+| FR-03.5.1 | The patient list supports real-time search by last name, first name, contact number, or patient ID. |
+| FR-03.5.2 | The patient list is paginated and defaults to showing Active patients.                              |
+| FR-03.5.3 | The list is filterable by status: Active or Archived.                                               |
+
+#### FR-03.6 Patient Status
+
+| ID        | Requirement                                                                                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-03.6.1 | A patient has two possible statuses: **Active** or **Archived**.                                                                                                               |
+| FR-03.6.2 | Only Active patients may have new appointments created.                                                                                                                        |
+| FR-03.6.3 | Archiving a patient preserves all linked records (appointments, clinical records, billings, payments).                                                                         |
+| FR-03.6.4 | Whether a patient is scheduled for an upcoming appointment is determined by querying the Appointments table. No status flag on the Patient record represents scheduling state. |
+
+#### FR-03.7 Patient File Attachments
+
+| ID        | Requirement                                                                                                                                                                                                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-03.7.1 | Every patient profile shall include an **Attachments** tab accessible to Administrators, Dentists, and Staff.                                                                                                                                                                       |
+| FR-03.7.2 | Authenticated clinic users may upload files to the Attachments tab. Accepted formats: JPEG, PNG, PDF. Maximum file size per upload: **20 MB**. Maximum total storage per patient: **500 MB** (both limits configurable by the Administrator in Clinic Settings).                    |
+| FR-03.7.3 | Each uploaded file requires a **Label** (free text, e.g., "Panoramic X-Ray — March 2026", "Referral Letter — Dr. Santos"; required) and optionally a **Note** (free text). The upload date and uploading user are recorded automatically and are not editable.                    |
+| FR-03.7.4 | Files are displayed in reverse-chronological order by upload date. Any authenticated clinic user may download a file. A file may be deleted by the uploading user or by an Administrator; deletion requires a mandatory reason field and is recorded in the audit trail (FR-11).   |
+| FR-03.7.5 | Files are stored on the local server filesystem under a patient-scoped directory. File access requires a valid clinic-user session token; direct URL access without authentication is rejected. Portal patients do not have access to the Attachments tab in Version 1.             |
+
+---
+
+### FR-04: Appointment Scheduling
+
+#### FR-04.1 Creating an Appointment
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-04.1.1 | Appointments may be created by any authenticated user.                                                                                                                                                                                                                                                                                                                                            |
+| FR-04.1.2 | Required fields: patient, dentist, scheduled date and time, appointment duration in minutes, and at least one planned treatment.                                                                                                                                                                                                                                                                  |
+| FR-04.1.3 | Only patients with status **Active** may be booked.                                                                                                                                                                                                                                                                                                                                               |
+| FR-04.1.4 | The system shall check for scheduling conflicts before saving. A conflict exists when the selected dentist has an existing non-cancelled appointment whose time window overlaps the requested window. Overlap is defined as: `newStart < existingEnd AND newEnd > existingStart`, where `end = start + durationMinutes`. The system shall display the conflicting appointment and prevent saving. |
+| FR-04.1.5 | Multiple planned treatments may be added to a single appointment (e.g., oral prophylaxis + composite filling + fluoride application in one visit). Each planned treatment may carry an optional negotiated price; if absent, the treatment's base price applies.                                                                                                                                  |
+| FR-04.1.6 | A chief complaint or reason for this specific visit shall be recordable (separate from the patient's general dental complaints in their profile).                                                                                                                                                                                                                                                 |
+| FR-04.1.7 | If the patient has an HMO/Provider linked, the system shall display the provider's applicable coverage for each selected treatment as a reference at the time of scheduling.                                                                                                                                                                                                                      |
+| FR-04.1.8 | For HMO-covered appointments, a **Letter of Authorization (LOA) number** shall be recordable.                                                                                                                                                                                                                                                                                                     |
+| FR-04.1.9 | Walk-in appointments may be created with the status set directly to **In Progress**, bypassing the Pending and Confirmed steps.                                                                                                                                                                                                                                                                   |
+
+#### FR-04.2 Appointment Status Lifecycle
+
+```
+Pending ──→ Confirmed ──→ In Progress ──→ Completed
+   │              │
+   ↓              ↓
+Cancelled      No Show
+                  │
+                  ↓
+            (Reschedule → new Pending appointment, linked to original)
+
+Portal booking (Approval Mode = Awaiting Approval):
+   Awaiting Approval ──→ Pending ──→ Confirmed ...
+          │
+          ↓
+       Rejected (with reason, patient notified)
+```
+
+| Transition                        | Who May Trigger        | Preconditions                                                            |
+| --------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
+| Pending → Confirmed               | Any user               | Manual confirmation (phone / in-person)                                  |
+| Awaiting Approval → Pending       | Staff, Administrator   | Staff reviews and approves a portal-sourced booking request              |
+| Awaiting Approval → Rejected      | Staff, Administrator   | Staff declines the booking request; reason required; patient notified    |
+| Confirmed → In Progress           | Dentist, Administrator | Patient is present and seated                                            |
+| In Progress → Completed           | Dentist, Administrator | Procedure records and billing have been saved                            |
+| Pending → Cancelled               | Any user               | Cancellation reason required                                             |
+| Confirmed → Cancelled             | Any user               | Cancellation reason required                                             |
+| Confirmed → No Show               | Staff, Administrator   | Patient did not attend at scheduled time                                 |
+| No Show → Rescheduled             | Staff, Administrator   | Creates a new Pending appointment linked to this one                     |
+
+| ID        | Requirement                                                                                                                  |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| FR-04.2.1 | Every status transition shall be recorded with the timestamp and the user who triggered it.                                  |
+| FR-04.2.2 | Cancellation requires a stated reason of at least 10 characters.                                                             |
+| FR-04.2.3 | A Completed appointment cannot be moved back to any prior status.                                                            |
+| FR-04.2.4 | An appointment that has associated Treatment Records or a Billing record may not be deleted. It may be archived with reason. |
+
+#### FR-04.3 Calendar View
+
+| ID        | Requirement                                                                                                                       |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| FR-04.3.1 | A calendar view shall display appointments in day, week, and month formats.                                                       |
+| FR-04.3.2 | Each appointment block shows: patient name, dentist name, planned treatments, and status with color coding.                       |
+| FR-04.3.3 | Status color coding: Pending = gray, Awaiting Approval = teal, Confirmed = blue, In Progress = amber, Completed = green, Cancelled = red, Rejected = dark red, No Show = purple. |
+| FR-04.3.4 | The calendar is filterable by dentist.                                                                                            |
+| FR-04.3.5 | Clicking an appointment block opens its detail view.                                                                              |
+
+#### FR-04.4 Appointment List View
+
+| ID        | Requirement                                                                 |
+| --------- | --------------------------------------------------------------------------- |
+| FR-04.4.1 | A list view shall allow filtering by: date range, status, patient, dentist. |
+| FR-04.4.2 | The list is paginated.                                                      |
+
+#### FR-04.5 Pre-Operative Visit Vital Signs
+
+| ID        | Requirement                                                                                                                                                                                                                                                      |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-04.5.1 | For any appointment in **Confirmed** or **In Progress** status, a Dentist or Staff member may record vital signs for that specific visit. Vital signs are stored per appointment, not on the patient profile.                                                    |
+| FR-04.5.2 | Visit vital sign fields: blood pressure systolic (mmHg), blood pressure diastolic (mmHg), pulse rate (bpm), respiratory rate (breaths/min), temperature (°C, optional), oxygen saturation / SpO2 (%, optional), and clinical notes.                              |
+| FR-04.5.3 | For appointments where the planned treatment category includes Oral Surgery, Extractions, or Endodontics, the system shall display a prominent reminder to record pre-operative vital signs before marking the appointment as In Progress. Recording is strongly recommended but not a system-enforced block. |
+| FR-04.5.4 | Pre-operative vital signs are displayed on the appointment detail view and the patient's treatment history, linked to the specific appointment date.                                                                                                              |
+| FR-04.5.5 | Blood pressure values outside a clinically safe range (systolic ≥ 180 mmHg or diastolic ≥ 110 mmHg) trigger a high-visibility warning to the dentist: "Patient blood pressure is above safe treatment threshold. Consult with patient before proceeding." This is an advisory only; it does not block the dentist from continuing. |
+| FR-04.5.6 | If the appointment includes any procedure with **Requires X-Ray = Yes** (FR-06.1.1) and the patient's medical history indicates **Pregnancy Status = Yes** (FR-03.4.12), the system shall display a high-visibility clinical safety warning upon entering the appointment or recording that procedure: "Warning: This procedure involves ionizing radiation. Patient profile indicates a possible pregnancy. Confirm with patient and obtain informed consent before proceeding with any radiograph." This is an advisory only; it does not block the dentist from continuing. |
+
+#### FR-05.1 Chart Display
+
+| ID        | Requirement                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-05.1.1 | The dental chart shall display all 52 teeth using FDI ISO 3950:2016 two-digit notation, organized in four permanent quadrants (Q1–Q4) and four primary quadrants (Q5–Q8). |
+| FR-05.1.2 | Each tooth shall be rendered as an interactive SVG graphic displaying its five surfaces (Buccal, Lingual, Mesial, Distal, Occlusal/Incisal).                              |
+| FR-05.1.3 | Each surface shall be individually markable with a condition. **Different surfaces on the same tooth may hold different active conditions simultaneously** (e.g., the Mesial surface is Filled while the Occlusal surface has new Decay). The tooth rendering reflects the active condition of each surface independently. |
+| FR-05.1.4 | The active condition of each tooth surface shall be indicated using standard PDA/FDI dental chart symbols.                                                               |
+| FR-05.1.5 | A chart legend explaining each condition symbol shall always be visible.                                                                                                  |
+
+#### FR-05.2 Viewing Tooth Details
+
+| ID        | Requirement                                                                                                                                                                                                                              |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-05.2.1 | Clicking a tooth opens its detail panel, showing: **active condition per surface** (each of the five surfaces shows its own current condition), full condition history (timeline of all changes per surface with date, condition, surfaces affected, and recorded by), free-text remarks, and linked treatment records. |
+| FR-05.2.2 | Any authenticated user may view the dental chart in read mode at any time.                                                                                                                                                               |
+
+#### FR-05.3 Updating Tooth Conditions
+
+| ID        | Requirement                                                                                                                                                                           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-05.3.1 | Only Dentists and Administrators may update tooth conditions.                                                                                                                         |
+| FR-05.3.2 | To record a condition update: select the tooth → select the specific surface(s) to update → select the condition from the standard enumeration → optionally add remarks → save. A single save operation may update multiple surfaces of the same tooth to the same condition. To set different conditions on different surfaces, repeat the operation per surface or surface group. |
+| FR-05.3.3 | Saving a new condition creates a new **ToothConditionEntry** record for the specified surface(s). The previous ToothConditionEntry for **the same surface(s)** is marked as historical (inactive) and preserved. Surfaces not included in the update retain their own active condition entries unchanged. Conditions are never overwritten; the full per-surface history is retained. |
+| FR-05.3.4 | Condition updates made during an active appointment session (status = In Progress) are linked to that appointment in the condition history.                                           |
+
+#### FR-05.4 Treatment Filtering from Chart
+
+| ID        | Requirement                                                                                                                                                                       |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-05.4.1 | When selecting a treatment during a procedure session, the system shall suggest treatments by **prioritizing** those whose **Applicable Conditions** list includes the active condition of the selected tooth surface. All active treatments remain selectable regardless of the tooth's current condition. The filter is a productivity aid, not a clinical gate. This design avoids forcing staff to manually update a tooth’s condition before they can bill for a treatment — the treatment itself updates the condition (FR-05.4.2). |
+| FR-05.4.2 | After selecting a treatment for a tooth surface, the system shall pre-fill the **Resulting Condition** from the treatment definition. The dentist may accept or override this suggestion. |
+
+---
+
+### FR-06: Treatment Records & Procedures
+
+#### FR-06.1 Treatment Catalog
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                                     |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-06.1.1 | The system maintains a central catalog of dental treatments and procedures. Each treatment has: name, description, category (Preventive / Restorative / Endodontic / Periodontic / Prosthodontic / Oral Surgery / Orthodontic / Cosmetic), **procedure scope** (Tooth-Specific / Global), base price (decimal), estimated duration in minutes, requires X-ray flag (Yes / No), and status (Active / Archived). Each treatment may optionally define a **Procedure Kit** — a list of supply items with default quantities consumed when this procedure is performed (see FR-08.3.2). |
+| FR-06.1.2 | **Tooth-Specific** treatments apply to one or more identified teeth and surfaces. They may define Applicable Conditions (the surface states the treatment is relevant for) and a Resulting Condition (the state of the surface after treatment). **Global** treatments (e.g., Oral Prophylaxis, Panoramic X-Ray, Full-Mouth Whitening, Consultation) apply to the patient as a whole, require no tooth or surface selection, and do not update the dental chart. |
+| FR-06.1.3 | Each Tooth-Specific treatment may define an **Applicable Conditions** set used to prioritize suggestions during procedure recording (see FR-05.4.1). This set is informational; treatment selection is never blocked based on it. |
+| FR-06.1.4 | Each Tooth-Specific treatment may define a **Resulting Condition** (nullable) — the tooth surface condition automatically applied when the procedure is saved with Completion = Complete (see FR-06.2.4–5). |
+| FR-06.1.5 | Each Tooth-Specific treatment may define an **Interim Condition** (nullable) — the tooth surface condition applied when the procedure is saved with Completion = In Progress. For example, an RCT treatment might have Interim Condition = "Temporary Filling" to reflect that the canal is open or temporarily dressed. If no Interim Condition is defined, the surface condition is left unchanged. |
+| FR-06.1.6 | **Dentist-specific pricing**: An Administrator or Dentist may configure a price override for a specific dentist–treatment combination. This overrides the base price when that dentist performs the treatment. |
+| FR-06.1.7 | Archived treatments remain linked to all historical records but do not appear in treatment selection for new appointments. |
+| FR-06.1.8 | Administrators and Dentists may create, edit, and archive treatment catalog entries. Staff have read-only access to the catalog. |
+| FR-06.1.9 | Each Tooth-Specific treatment may optionally define a **Required Specialization** tag (e.g., "Orthodontics", "Oral Surgery", "Endodontics") that filters available dentists during online booking (see FR-12.4.3). |
+
+#### FR-06.2 Procedure Recording (per appointment)
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                             |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-06.2.1 | During an **In Progress** appointment, the dentist records procedures in two ways: **(a) Tooth-Specific Procedure** — an **AppointmentProcedure** record for each tooth treated, capturing: tooth (FDI number), surface(s) involved, treatment, amount charged, tooth surface condition before the procedure, tooth surface condition after the procedure (may accept the Resulting Condition default or override), and optional clinical notes. **(b) Global Procedure** — an **AppointmentGlobalProcedure** record for a patient-level treatment (e.g., Oral Prophylaxis, Panoramic X-Ray, Whitening), capturing: treatment, amount charged, and optional clinical notes. No tooth or surface selection is required for Global procedures. |
+| FR-06.2.2 | Multiple procedures of either type may be recorded in a single appointment (e.g., Oral Prophylaxis as a Global procedure plus two composite fillings as Tooth-Specific procedures in the same visit). |
+| FR-06.2.3 | The amount charged defaults to the applicable treatment price (dentist-specific override if defined, otherwise base price) but is editable at the time of recording. |
+| FR-06.2.4 | For Tooth-Specific procedures, each AppointmentProcedure includes a **Procedure Completion** flag: **Complete** (the procedure reached its final clinical endpoint this visit) or **In Progress** (the procedure is started or continued but not yet finished — e.g., an RCT visit where instrumentation is done but the canal is not yet obturated). |
+| FR-06.2.5 | The **Resulting Condition** is applied to the tooth surface **only if Procedure Completion = Complete**. When Completion = In Progress, the tooth surface condition is updated to an intermediate state: the system checks if the treatment defines an **Interim Condition** (a nullable additional field on the treatment catalog, see FR-06.1.5); if defined, the interim condition is applied instead; if not defined, the tooth surface condition remains unchanged and the dentist is shown an advisory: "Tooth condition not updated — mark as complete when the procedure is finished." |
+| FR-06.2.6 | After all procedures are recorded, the dentist marks the appointment as **Completed**. This action triggers automatic Billing creation. |
+| FR-06.2.7 | A tooth with an active Tooth-Specific procedure in **In Progress** status is visually flagged on the dental chart (e.g., a distinct border or indicator) so dentists at subsequent visits can see at a glance that this tooth has an incomplete multi-visit procedure in progress. |
+
+#### FR-06.3 Treatment Records (Clinical History)
+
+| ID        | Requirement                                                                                                                                                                                                                                    |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-06.3.1 | For each AppointmentProcedure (Tooth-Specific) saved, the system automatically creates a corresponding **TreatmentRecord** linking: appointment, tooth, surface(s), treatment, completion status (Complete / In Progress), performing dentist, performance date, and clinical notes. For each AppointmentGlobalProcedure (Global) saved, a TreatmentRecord is created linking: appointment, treatment, performing dentist, performance date, and clinical notes — with no tooth reference. |
+| FR-06.3.2 | Treatment records are immutable after the appointment is Completed.                                                                                                                                                                            |
+| FR-06.3.3 | A patient's full treatment history is viewable as a chronological list, filterable by date range, tooth, and treatment category.                                                                                                               |
+| FR-06.3.4 | Treatment history is also viewable per tooth — showing all procedures performed on a specific tooth across all appointments.                                                                                                                   |
+
+#### FR-06.4 Orthodontic Progress Notes
+
+Orthodontic treatment follows a long-term, monthly adjustment cycle that does not map cleanly to the tooth-by-tooth charting and Tooth-Specific/Global procedure model. Each monthly visit records wire sizes, bracket repairs, elastic chain configurations, and clinical impressions — not individual tooth conditions. FR-06.4 provides a structured note format for ortho appointments.
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-06.4.1 | When an appointment includes at least one procedure with category = **Orthodontic**, the appointment recording view presents an **Ortho Progress Note** panel in addition to (or instead of) the standard procedure entry form. |
+| FR-06.4.2 | An Ortho Progress Note is a structured record with the following fields: **(a)** Upper arch wire — gauge and material (free text, e.g., "0.014 NiTi", "0.016×0.022 SS"); **(b)** Lower arch wire — gauge and material (free text); **(c)** Upper arch elastics / elastic chain — description (free text, optional; e.g., "continuous power chain", "figure-8 ligation"); **(d)** Lower arch elastics / elastic chain — description (free text, optional); **(e)** Bracket / attachment changes — free text (e.g., "rebonded UR3, replaced LL4 bracket"); **(f)** Appliance status — select from: Active / Adjusted / Completed / Retention Phase / Interrupted; **(g)** Clinical notes — free text. |
+| FR-06.4.3 | An Ortho Progress Note is linked to the specific appointment and the patient's ortho treatment record. Multiple notes may exist for the same patient (one per orthodontic appointment visit). |
+| FR-06.4.4 | Ortho Progress Notes are viewable in chronological order on the patient record under a dedicated **Orthodontic History** tab, separate from the general treatment record list. |
+| FR-06.4.5 | The dentist may still record a billing procedure (e.g., "Orthodontic Adjustment") as a Global procedure in the same appointment for billing and treatment record purposes. The Ortho Progress Note stores the clinical detail; the Global procedure drives the billing and the treatment history entry. |
+| FR-06.4.6 | For orthodontic appointments, the 52-tooth dental chart is accessible but the system does not require any tooth-level condition update as part of the visit. The Ortho Progress Note is the primary clinical documentation vehicle for these visits. |
+
+---
+
+### FR-07: Billing & Payments
+
+#### FR-07.1 Billing Generation
+
+| ID        | Requirement                                                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-07.1.1 | A billing record is automatically created when an appointment is moved to **Completed**.                                                                                                                                  |
+| FR-07.1.2 | Billing subtotal equals the sum of all Tooth-Specific (AppointmentProcedure) and Global (AppointmentGlobalProcedure) procedure amounts for that appointment. |
+| FR-07.1.3 | The billing record includes: subtotal, discount amount and reason, tax amount (computed from the clinic's VAT setting), and total amount.                                                                                 |
+| FR-07.1.4 | If the patient's linked Provider has coverage rules, the system computes and displays the HMO coverage amount per procedure and the patient's share.                                                                      |
+| FR-07.1.5 | Billing outstanding balance is never stored. It is always computed as: `PatientShare − SUM(non-voided payments)`.                                                                                                         |
+| FR-07.1.6 | Billing statuses: **Draft** (auto-created after appointment completion, editable), **Final** (locked; triggers further payment processing), **Partially Paid**, **Fully Paid**, **Voided**.                               |
+| FR-07.1.7 | A billing record may not be deleted. It may be Voided by an Administrator only, with a mandatory reason. A voided billing is retained in the database with its voided status, void timestamp, voided-by user, and reason. |
+
+#### FR-07.2 Statement of Account / Invoice
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                      |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-07.2.1 | A printable Statement of Account (SOA) shall be generated for any billing record. The SOA includes: clinic header (name, address, TIN, DOH license), patient name, appointment date, itemized list of procedures with amounts, discount, tax, HMO coverage amount, patient share, list of payments received with dates, and outstanding balance. |
+| FR-07.2.2 | The SOA format shall satisfy BIR requirements for service invoices.                                                                                                                                                                                                                                                                              |
+| FR-07.2.3 | The SOA shall be exportable as a PDF.                                                                                                                                                                                                                                                                                                            |
+
+#### FR-07.3 Payment Recording
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                               |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-07.3.1 | Payments are recorded against a specific Billing record.                                                                                                                                                                                                                                                                                                  |
+| FR-07.3.2 | Each payment captures: amount paid, payment method (Cash / GCash / Maya / Credit Card / Debit Card / Check / HMO Direct Pay / Bank Transfer), official receipt (OR) number (system-generated, sequential), date and time received, notes, and received-by user.                                                                                           |
+| FR-07.3.3 | A payment amount may not exceed the current outstanding balance.                                                                                                                                                                                                                                                                                          |
+| FR-07.3.4 | When total non-voided payments equal the PatientShare, the Billing status automatically transitions to **Fully Paid**.                                                                                                                                                                                                                                    |
+| FR-07.3.5 | Partial payments are accepted; Billing status transitions to **Partially Paid**.                                                                                                                                                                                                                                                                          |
+| FR-07.3.6 | A printable **Official Receipt (OR)** is generated for each payment. The OR includes: clinic name, complete address, TIN, BIR Certificate of Registration number, **OR number (as entered by staff)**, date of payment, patient name, amount in words, amount in figures, description of services paid for, payment method, and name of cashier. The format shall be BIR-compliant as a summary receipt referencing the physical ATP receipt. |
+
+#### FR-07.4 Payment Voiding
+
+| ID        | Requirement                                                                                                             |
+| --------- | ----------------------------------------------------------------------------------------------------------------------- |
+| FR-07.4.1 | Only an Administrator may void a payment.                                                                               |
+| FR-07.4.2 | Voiding requires a reason of at least 10 characters.                                                                    |
+| FR-07.4.3 | Voided payments are retained in the database with their voided status, void timestamp, voided-by user, and void reason. |
+| FR-07.4.4 | Voided payments are excluded from all balance computations.                                                             |
+| FR-07.4.5 | The OR number of a voided payment is retained as voided and is never reused or reassigned.                              |
+
+#### FR-07.5 Installment Payment Plans
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                       |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-07.5.1 | For multi-session treatments (e.g., Orthodontics, Full-Mouth Rehabilitation, Implants), a Staff member or Administrator may create an **Installment Plan** linked to a Billing record. The plan specifies the total number of installments, amount per installment, due date per installment, and a free-text description. |
+| FR-07.5.2 | Each installment is a **PaymentScheduleEntry** with: installment number, due date, expected amount, status (Upcoming / Due / Paid / Overdue / Waived), and notes. |
+| FR-07.5.3 | When a payment is recorded against a billing with an active installment plan, the system matches the payment to the earliest unpaid installment entry and updates its status to **Paid**. Overpayment on a single installment carries forward to the next. |
+| FR-07.5.4 | The status of each installment entry transitions automatically: **Upcoming** (due date > today), **Due** (due date = today), **Overdue** (due date < today and not paid). These transitions run via a nightly scheduled job. |
+| FR-07.5.5 | The patient's portal view shows each installment’s due date, expected amount, status, and whether a payment has been linked to it. |
+| FR-07.5.6 | The system sends an SMS and email reminder to the patient N days before each installment’s due date, where N is configured in FR-02.15 (default: 3 days). |
+| FR-07.5.7 | An Administrator may waive an individual installment entry with a mandatory reason. Waived installments are excluded from balance computations. |
+| FR-07.5.8 | An installment plan may be deactivated by an Administrator. Deactivation preserves all existing entries as historical; outstanding balance on the billing reverts to the standard payment-against-billing model. |
+
+---
+
+### FR-08: Inventory & Supply Management
+
+#### FR-08.1 Supply Item Catalog
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-08.1.1 | The system maintains a catalog of dental supplies and consumables. Each supply item has: name, description, category (Anesthetic / Restorative Material / PPE / Disposable Instrument / Medication / Equipment Supply / Other), unit of measure (Piece / Box / Bottle / Ampule / Carpule / Milliliter / Milligram / Pair / Roll / Sheet), preferred supplier (linked to Supplier entity), unit cost (decimal), critical quantity threshold (integer), and status (Active / Archived). |
+| FR-08.1.2 | Current stock quantity is computed as `SUM(SupplyStockLedger.QuantityChange)` for the item. It is never stored as a mutable field.                                                                                                                                                                                                                                                                                                                                                    |
+| FR-08.1.3 | Items with computed stock at or below the critical quantity threshold are flagged with a low-stock alert on the dashboard and in the inventory list.                                                                                                                                                                                                                                                                                                                                  |
+
+#### FR-08.2 Stock Ledger
+
+| ID        | Requirement                                                                                                                                                                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-08.2.1 | Every stock change is recorded as a ledger entry containing: supply item, change type, quantity change (positive = stock in, negative = stock out), lot number, expiry date (for applicable items), unit cost at time of transaction, reference ID (appointment ID for consumed stock; a reference note for receipts), remarks, recorded by, and recorded at. |
+| FR-08.2.2 | Change types: **Receipt** (stock received from supplier), **Consumed** (used during a patient procedure), **Adjustment** (manual correction with mandatory reason), **Expired** (stock written off due to expiry), **Voided** (reversal of a previous entry with reason).                                                                                     |
+| FR-08.2.3 | Stock receipt entries require: lot number, quantity, unit cost, and supplier. Expiry date is required for items in the Anesthetic and Medication categories.                                                                                                                                                                                                  |
+| FR-08.2.4 | Items with an expiry date within the configured warning threshold (default: 30 days) are flagged in a near-expiry alert visible on the dashboard and inventory list.                                                                                                                                                                                          |
+
+#### FR-08.3 Consumption During Treatment
+
+| ID        | Requirement                                                                                                                                                                                                 |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-08.3.1 | During a treatment session (Appointment status = In Progress), the dentist or staff may record which supply items were consumed and in what quantities. Consumed items are linked to the appointment. Consumption recording is **optional** for any individual appointment; no appointment is blocked from completion due to missing consumption entries. |
+| FR-08.3.2 | **Procedure Kit auto-suggestion**: When a procedure is added to an appointment, the system checks if that treatment has a Procedure Kit defined (FR-06.1.1). If so, the system automatically pre-fills the consumption list with the kit's supply items and default quantities. The dentist or staff may adjust quantities, remove items, or add unlisted items before saving. The auto-populated quantities are suggestions, not system-enforced deductions. |
+| FR-08.3.3 | **Consumable tier policy**: Supply items in the catalog are tagged by tier — **Tracked** (tracked per appointment; e.g., anesthesia carpules, implant fixtures, composite syringes) or **Bulk-Managed** (not expected to be logged per appointment; e.g., cotton rolls, gauze, saliva ejectors). Bulk-Managed items are excluded from Procedure Kit auto-suggestions and from the per-appointment consumption UI. Their stock is managed via manual Adjustment entries (FR-08.2.2) or periodic physical count reconciliation. Administrators may reclassify any item between tiers. |
+| FR-08.3.4 | If the requested consumption quantity for a Tracked item exceeds the current stock level, the system displays a warning. Consumption may still be saved with a mandatory explanation (to support post-session reconciliation). |
+| FR-08.3.5 | **Weekly Adjustment workflow**: To reduce data entry burden, Administrators and Staff may record a periodic bulk **Physical Count** adjustment (change type = Adjustment, FR-08.2.2) at the end of each day or week. This is the primary mechanism for reconciling Bulk-Managed consumable stock rather than per-appointment recording. |
+
+#### FR-08.4 Suppliers
+
+| ID        | Requirement                                                                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-08.4.1 | The system maintains a supplier list with: name, address, contact number, email, delivery days (structured list of days of week), notes, and status (Active / Archived). |
+| FR-08.4.2 | The association between a supplier and supply items is maintained through the supply item's preferred supplier field.                                                    |
+
+---
+
+### FR-09: Reports & Analytics
+
+#### FR-09.1 Dashboard
+
+##### FR-09.1.A General Behavior
+
+| ID          | Requirement                                                                                                                                                                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.A.1 | The dashboard shall be the default landing page after login for all user roles.                                                                                                                                                          |
+| FR-09.1.A.2 | Dashboard data shall refresh automatically in real time via WebSocket (SignalR) push. Widgets that display live counts (appointment status, revenue, stock alerts) shall update without a full page reload when underlying data changes. |
+| FR-09.1.A.3 | A manual **Refresh** button shall be available for users who wish to force a full reload.                                                                                                                                                |
+| FR-09.1.A.4 | "This month" in all metrics and charts means the current calendar month (1st of month to today), not a rolling 30-day window. "This week" means Monday to today of the current ISO week.                                                 |
+| FR-09.1.A.5 | Each widget and alert panel shall include a direct link to its full detail view (e.g., clicking the appointment list row navigates to that appointment; clicking a low-stock item navigates to that inventory item).                     |
+| FR-09.1.A.6 | The dashboard layout is role-sensitive. Widgets a user's role cannot access are not rendered — they are not shown as locked or greyed out.                                                                                               |
+
+##### FR-09.1.B Widgets — All Users
+
+| ID          | Widget                             | Content                                                                                                                                                                                                        |
+| ----------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.B.1 | **Today's Appointments**           | List of all appointments for today: patient name, scheduled time, duration, dentist, planned treatments, and status badge with color coding (matching FR-04.3.3). Clicking a row opens the appointment detail. |
+| FR-09.1.B.2 | **Appointment Count — Today**      | Integer count of all non-cancelled appointments scheduled for today.                                                                                                                                           |
+| FR-09.1.B.3 | **Appointment Count — This Month** | Integer count of all non-cancelled appointments in the current calendar month.                                                                                                                                 |
+| FR-09.1.B.4 | **Total Active Patients**          | Integer count of all patients with status Active.                                                                                                                                                              |
+| FR-09.1.B.5 | **Pending Appointments**           | Integer count of all appointments currently in Pending status (any date).                                                                                                                                      |
+
+##### FR-09.1.C Widgets — Administrator Only
+
+| ID          | Widget                                     | Content                                                                                                                                                    |
+| ----------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.C.1 | **Revenue — Today**                        | Sum of all non-voided payments recorded today (currency formatted).                                                                                        |
+| FR-09.1.C.2 | **Revenue — This Week**                    | Sum of all non-voided payments recorded in the current ISO week.                                                                                           |
+| FR-09.1.C.3 | **Revenue — This Month**                   | Sum of all non-voided payments recorded in the current calendar month.                                                                                     |
+| FR-09.1.C.4 | **Outstanding Receivables**                | Total outstanding balance across all billings with status Final or Partially Paid.                                                                         |
+| FR-09.1.C.5 | **Revenue Trend Chart**                    | Bar chart — daily payment totals for the last 30 calendar days. X-axis: date. Y-axis: total collected (₱). Hovering a bar shows the exact date and amount. |
+| FR-09.1.C.6 | **New Patient Registrations — This Month** | Integer count of patients registered in the current calendar month.                                                                                        |
+
+##### FR-09.1.D Widgets — Administrator and Dentist
+
+| ID          | Widget                                   | Content                                                                                                                                                                                                                                                             |
+| ----------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.D.1 | **Monthly Appointment Status Breakdown** | Donut / pie chart showing the count of appointments in the current calendar month grouped by status (Pending, Confirmed, In Progress, Completed, Cancelled, No Show). Each segment uses the status color defined in FR-04.3.3. Hovering shows count and percentage. |
+| FR-09.1.D.2 | **Top 5 Treatments This Month**          | Horizontal bar chart — the five most-performed treatments by procedure count in the current calendar month. X-axis: procedure count. Each bar labeled with treatment name.                                                                                          |
+
+##### FR-09.1.E Widgets — Dentist Only
+
+| ID          | Widget                                   | Content                                                                                                                     |
+| ----------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.E.1 | **My Appointments — Today**              | Filtered list showing only appointments assigned to the logged-in dentist scheduled for today. Same columns as FR-09.1.B.1. |
+| FR-09.1.E.2 | **My Appointments — This Month**         | Integer count of non-cancelled appointments assigned to the logged-in dentist in the current calendar month.                |
+| FR-09.1.E.3 | **My Completed Procedures — This Month** | Integer count of treatment procedures recorded by the logged-in dentist in the current calendar month.                      |
+
+##### FR-09.1.F Widgets — Administrator and Staff
+
+| ID          | Widget                 | Content                                                                                                                                                                                                                                                                    |
+| ----------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.1.F.1 | **Low-Stock Alerts**   | List of all supply items at or below their critical quantity threshold. Each row shows: item name, current stock, critical threshold, unit of measure, and a link to the item's inventory page. The count of low-stock items is displayed as a badge on the widget header. |
+| FR-09.1.F.2 | **Near-Expiry Alerts** | List of all supply items with at least one lot expiring within the configured warning threshold. Each row shows: item name, lot number, expiry date, days remaining, and a link to the item. The count of near-expiry lots is displayed as a badge on the widget header.   |
+
+#### FR-09.2 Standard Reports
+
+All reports shall be viewable in-browser, printable, and exportable as PDF.
+
+| Report ID | Report Name                   | Access                 | Description                                                                                                  |
+| --------- | ----------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| RPT-01    | Daily Appointment List        | All                    | Appointments for a selected date, grouped by dentist, with status and treatments                             |
+| RPT-02    | Patient Masterlist            | Administrator, Staff   | All active patients with demographics and contact information                                                |
+| RPT-03    | Patient Treatment History     | Administrator, Dentist | Complete treatment records for a selected patient over a date range                                          |
+| RPT-04    | Revenue Report                | Administrator          | Total collections for a period, broken down by payment method, gross vs. net after HMO deductions            |
+| RPT-05    | Billing Register              | Administrator          | All billing records for a date range with status (Draft / Final / Partially Paid / Fully Paid / Voided)      |
+| RPT-06    | Accounts Receivable           | Administrator          | All billings with outstanding balance (Final and Partially Paid statuses) with patient and aging information |
+| RPT-07    | Dentist Production Report     | Administrator          | Procedures performed per dentist for a period with amounts and treatment categories                          |
+| RPT-08    | Treatment Frequency Report    | Administrator, Dentist | Most performed procedures ranked by count and total revenue for a period                                     |
+| RPT-09    | Inventory Status              | Administrator, Staff   | Current stock levels for all items, highlighting low-stock and near-expiry items                             |
+| RPT-10    | Inventory Consumption         | Administrator, Staff   | Supply items consumed per period, linked to appointments, with quantities and estimated costs                |
+| RPT-11    | No-Show & Cancellation Report | Administrator, Staff   | Appointments with No-Show or Cancelled status for a period, with reasons and patient details                 |
+| RPT-12    | New Patient Acquisition       | Administrator          | New patients registered per period, with referral source breakdown                                           |
+| RPT-13    | HMO / Provider Claims Summary | Administrator, Staff   | Billings with HMO coverage per provider for a period; amounts billed to HMO vs. patient; LOA numbers         |
+| RPT-14    | Daily Collection Report       | Administrator          | All payments received on a selected date: OR number, patient name, services rendered, amount, payment method, cashier. Presented as a single-page BIR-aligned daily totals summary with a grand total row. Exportable as PDF and CSV. |
+
+#### FR-09.3 Official Receipt Register
+
+| ID        | Requirement                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-09.3.1 | A sequential OR register is viewable by Administrators, listing all issued ORs: OR number, date, patient, amount, payment method, issued by, and status (Valid / Voided). |
+| FR-09.3.2 | The OR register is exportable (PDF, CSV) for BIR compliance purposes.                                                                                                     |
+
+---
+
+### FR-10: Notifications & Alerts
+
+| ID      | Requirement                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| FR-10.1 | The system shall display in-app notification badges for: low-stock alerts, near-expiry alerts, and today's appointment reminders. |
+| FR-10.2 | In-app alerts shall link directly to the relevant record (inventory item, appointment) with a single click.                       |
+| FR-10.3 | The system shall send an **SMS and email** notification to the patient when an appointment is **confirmed** by staff. The message contains: clinic name, patient first name, appointment date and time, and dentist name. |
+| FR-10.4 | The system shall send an **SMS and email** notification to the patient when a dentist or staff member **reschedules** an appointment. The message contains: original date/time, new date/time, dentist name, and clinic contact number. This notification is mandatory and cannot be bypassed. |
+| FR-10.5 | The system shall send an **SMS and email** notification to the patient when a dentist or staff member **cancels** an appointment. The message contains: appointment date, dentist name, cancellation reason (if permitted), and clinic contact number. |
+| FR-10.6 | The system shall send a **24-hour reminder** SMS and email to patients with a Confirmed or Pending appointment the following day. |
+| FR-10.7 | Notification delivery is handled asynchronously by a background job (Hangfire). Delivery status (Sent / Failed / Pending) and timestamp are recorded per notification attempt. |
+| FR-10.8 | Failed notifications are retried up to 3 times with exponential backoff before being marked as permanently failed and flagged for administrator review. |
+| FR-10.9 | Patients may configure notification preferences in their portal profile: opt in/out of SMS and/or email, per event type (confirmation, reschedule, cancellation, reminder). |
+| FR-10.10 | The system shall send automated **recall reminders** to patients who have no scheduled upcoming appointment and whose most recent completed appointment pre-dates a configurable threshold (default: **6 months**). Reminders are delivered via SMS and email. A Hangfire background job evaluates all Active patients once per day. Patients who have opted out of the relevant notification type (FR-10.9) are excluded. Each patient receives at most one recall reminder per configurable re-send interval (default: **30 days**) to prevent repeat sends within a short window. The recall threshold and re-send interval are configurable by the Administrator in Clinic Settings. |
+
+---
+
+### FR-11: Audit Log
+
+| ID      | Requirement                                                                                                                                                                                                                                                                                                                   |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-11.1 | The system shall record an audit log entry for every: Create, Update, Archive, Restore, Delete, Login, Logout, and Password Change event.                                                                                                                                                                                     |
+| FR-11.2 | Each entry contains: user (ID + name), action type (enum), affected entity type (Patient, Appointment, Billing, Payment, User, SupplyItem, Treatment, PatientFileAttachment, Prescription, MedicalCertificate, OrthoProgressNote, etc.), affected entity ID, human-readable description, JSON snapshot of changed field values (old values and new values for Update actions), IP address, and timestamp. |
+| FR-11.3 | For sensitive field changes (password hash, security answer hash), the log records "field changed" without capturing the old or new hash value.                                                                                                                                                                               |
+| FR-11.4 | Audit log entries are immutable. No user, including Administrators, may edit or delete them.                                                                                                                                                                                                                                  |
+| FR-11.5 | The audit log is viewable only by Administrators and supports filtering by: date range, user, action type, and entity type.                                                                                                                                                                                                   |
+
+---
+
+### FR-12: Patient Portal
+
+The Patient Portal is a separate public-facing web interface accessible to registered patients over the internet. It shares the same backend API but uses a distinct authentication flow (email-based, not username-based) and a patient-scoped permission set. Patients access only their own records at all times.
+
+#### FR-12.1 Patient Portal Accounts
+
+| ID         | Requirement                                                                                                                                                                                                                                                            |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.1.1  | Patients may self-register on the public-facing Patient Portal registration page without requiring any staff action.                                                                                                                                                   |
+| FR-12.1.2  | Self-registration requires: first name, last name, date of birth, sex, mobile number, email address (used as login credential), password, and data privacy consent acknowledgment.                                                                                     |
+| FR-12.1.3  | Passwords must meet the same complexity requirements as staff accounts (minimum 8 characters, at least one letter and one number). Passwords are stored as BCrypt hashes with cost factor ≥ 12.                                                                        |
+| FR-12.1.4  | On self-registration, the system sends a verification email to the provided address. The patient must click the verification link before the portal account is activated. Verification links expire after 24 hours.                                                    |
+| FR-12.1.5  | Successful self-registration creates a **primary Patient record** linked to the portal account, flagged **Portal-Registered** with status **Active**. Clinic staff receive an in-app notification of the new self-registered patient.                                  |
+| FR-12.1.6  | A clinic staff member or administrator may alternatively send a portal invitation to an existing patient's email address. The patient completes portal account setup via the link. The invitation link expires after 72 hours.                                         |
+| FR-12.1.7  | A **Primary Account Holder** may add one or more **Dependent** patient profiles to their portal account. A Dependent is a full Patient record with their own name, date of birth, and sex, but with no independent portal login. The Primary Account Holder books appointments, views treatment history, and receives all notifications on behalf of each Dependent. A Primary Account Holder may manage at most **10 active Dependent records** (configurable by Administrator in Clinic Settings). |
+| FR-12.1.8  | To add a Dependent, the Primary Account Holder completes a short form with: first name, last name, date of birth, sex (all required), and relationship to the Primary Account Holder (free-text, e.g., "Son", "Daughter", "Mother" — required). The system creates a new Patient record flagged **Portal-Registered (Dependent)**, linked to the Primary Account Holder's portal account. The Dependent patient record follows the same staff-review workflow as FR-12.1.5. The Dependent does not hold a separate portal credential; the Primary Account Holder's session governs all access. |
+
+#### FR-12.2 Patient Portal Authentication
+
+| ID        | Requirement                                                                                                                                                                                                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.2.1 | Portal login uses email address and password (not a username).                                                                                                                                                              |
+| FR-12.2.2 | On successful login, the system issues a JWT with a `portal` audience claim and a separate signing key. Portal tokens have a default expiry of 2 hours (configurable). The `portal` audience claim is validated on every portal API endpoint. |
+| FR-12.2.3 | After five consecutive failed login attempts, the portal account is locked for 30 minutes. This is enforced server-side. An **Administrator or Staff** member may manually unlock a locked portal account from the clinic dashboard (patient profile → Portal Account panel → Unlock) at any time before the lockout expires. An Administrator or Staff member may also trigger a **password reset email** to the patient's registered email address from the same panel without needing to know the patient's password. These two actions are recorded in the Audit Log (FR-11). |
+| FR-12.2.4 | All portal API endpoints validate that the authenticated patient can only access their own linked Patient record. Cross-patient data access is rejected at the API level regardless of how the request is constructed.      |
+
+#### FR-12.3 Patient Self-Registration — Medical / Dental History Intake
+
+| ID        | Requirement                                                                                                                                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-12.3.1 | A self-registering patient may optionally complete their full medical and dental history intake through the portal before their first visit, presented as a guided multi-step form.                                            |
+| FR-12.3.2 | The intake form covers the same fields as FR-03.2 (personal and contact), FR-03.3 (dental history), FR-03.4 (medical history including allergies, medications, and conditions).                                                |
+| FR-12.3.3 | All fields submitted by the patient are held as **Patient-Submitted** and are visible to clinic staff as a pre-filled intake draft. Clinic staff must review and confirm the information at the first visit.                  |
+| FR-12.3.4 | After staff review and confirmation, the fields are merged into the authoritative patient record. Unreviewed fields are flagged with a "Pending Staff Review" indicator on the patient record page in the clinic application.  |
+| FR-12.3.5 | Patients may update their own contact information (phone number, address, email) through the portal at any time. Medical and dental history fields are read-only in the portal after initial staff confirmation; subsequent updates require a clinic staff action. |
+
+#### FR-12.4 Online Appointment Booking
+
+| ID        | Requirement                                                                                                                                                                                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.4.1 | A logged-in patient may book a new appointment through the portal at any time.                                                                                                                                            |
+| FR-12.4.2 | The portal displays a booking calendar showing available time slots per dentist, derived from clinic operating hours (FR-02.4) and existing non-cancelled appointments. Booked slots appear as unavailable without disclosing any information about the other patient. |
+| FR-12.4.3 | The patient selects: **Appointment Type** (from a configured list of generic visit types — see FR-02.16), desired date, available time slot, preferred dentist (or "Any available dentist"), and chief complaint (required, minimum 5 characters). Patients **do not select specific treatments or procedures**; treatment is determined by the dentist at the visit. If an Appointment Type has a Required Specialization configured, the dentist list is filtered to show only dentists with that specialization. |
+| FR-12.4.4 | The system performs the same scheduling conflict check as FR-04.1.4 before saving. If a conflict is detected, the patient is shown only that the slot is no longer available (no details of the conflicting appointment). |
+| FR-12.4.5 | If the clinic's **booking approval mode** (FR-02.13) is set to **Immediate**: the appointment is saved with status **Pending**, tagged source = **Portal**. If set to **Awaiting Approval**: the appointment is saved with status **Awaiting Approval** and no slot is blocked until staff approves. Staff see a dedicated inbox of pending approval requests. |
+| FR-12.4.6 | If a **booking deposit** is configured (FR-02.14, amount > 0), the patient selects their deposit method after confirming booking details. Two methods may be available depending on clinic configuration (FR-02.12, FR-02.12a): **(a) Payment Gateway** — the portal redirects to the configured gateway (PayMongo / Maya / Paynamics). The slot is reserved in **Awaiting Payment** state for 15 minutes. If payment is completed, the appointment is saved with deposit recorded as a pre-payment. If payment times out or fails, the slot reservation is released. **(b) Manual Deposit** — the portal displays the clinic's bank transfer or e-wallet instructions (GCash number, account name, etc.). The patient uploads a screenshot or photo of their payment receipt. The appointment is saved in **Awaiting Deposit Verification** status; no slot is blocked until the deposit is verified by staff. |
+| FR-12.4.6a | **Awaiting Deposit Verification** appointments appear in a dedicated staff inbox alongside Awaiting Approval bookings. Staff review the uploaded receipt image and either: (a) click **Verify Deposit** — the appointment status advances to Pending (or Awaiting Approval per FR-12.4.5) and the deposit amount is recorded as a pre-payment; or (b) click **Reject** with a reason — the patient is notified and the slot is released. Staff may also mark the deposit as Forfeited later if the patient cancels. |
+| FR-12.4.6b | The uploaded deposit receipt image is stored linked to the appointment record and is accessible to Administrators and Staff. It is not visible to the patient after upload (the patient sees only the status). |
+| FR-12.4.7 | The deposit amount is recorded as a **Deposit** payment type against a placeholder billing for the appointment. When the appointment completes and the final billing is generated, the deposit is automatically applied as the first payment, reducing the outstanding balance. |
+| FR-12.4.8 | If the patient cancels a deposit-paid appointment before the visit, the forfeiture policy (configured in FR-02.14) governs whether the deposit is returned or retained. The policy decision is a business/operational decision; the system records the outcome (Refunded / Forfeited) with reason. Refund processing is manual; the system generates a Refund record but does not initiate a gateway reversal automatically. |
+| FR-12.4.9 | The patient receives an in-portal confirmation message and an email confirmation upon successful booking. An in-app notification is also sent to clinic staff. |
+| FR-12.4.10 | If the patient's intake has not yet been reviewed by staff, the portal displays a banner advising the patient to arrive 15 minutes early for intake review, and clinic staff are notified of the pending intake. |
+
+#### FR-12.5 My Appointments
+
+| ID        | Requirement                                                                                                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-12.5.1 | The patient can view a list of all their appointments (upcoming and past) showing: date and time, dentist name, planned treatments, and current status.                              |
+| FR-12.5.2 | A patient may cancel an appointment with status **Pending** or **Confirmed** through the portal. Cancellation requires a stated reason (minimum 10 characters).                    |
+| FR-12.5.3 | A patient may not cancel an appointment that is **In Progress** or **Completed** through the portal.                                                                                |
+| FR-12.5.4 | When a patient cancels through the portal, the cancellation is recorded with actor = patient account, timestamp, and reason. Clinic staff and the assigned dentist receive an in-app notification of the patient-initiated cancellation. |
+| FR-12.5.5 | Rescheduling by the patient is handled as: cancel the existing appointment (per FR-12.5.2) and book a new one (per FR-12.4). A "Reschedule" button on the appointment detail performs both steps in a single guided flow. The two operations are executed atomically. |
+| FR-12.5.6 | A patient may not modify the dentist assignment, treatments, or any clinical details of a scheduled appointment after booking. Changes to treatment or dentist require cancellation and rebooking. |
+
+#### FR-12.6 My Treatment History
+
+| ID        | Requirement                                                                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.6.1 | The patient can view a chronological list of all their completed appointments and the procedures performed during each visit.                                        |
+| FR-12.6.2 | Each history entry displays: appointment date, dentist name, treatments performed (by name only — not FDI condition codes), and any clinical notes marked as patient-visible by the dentist. |
+| FR-12.6.3 | Treatment history is read-only in the portal. Patients cannot modify or delete clinical records.                                                                    |
+| FR-12.6.4 | The list is filterable by date range and by dentist.                                                                                                                |
+| FR-12.6.5 | Raw FDI dental chart data (tooth condition codes, surfaces) is not exposed through the patient portal. Clinical data is presented in plain-language treatment names only. |
+
+#### FR-12.7 My Billing & Payment Summary
+
+| ID        | Requirement                                                                                                                                                                                                         |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.7.1 | The patient can view a list of their billing records showing: appointment date, procedures billed (by treatment name), total amount billed, total amount paid, and outstanding balance.                             |
+| FR-12.7.2 | Billing statuses are displayed in patient-friendly terms: **Unpaid** (balance = full amount), **Partially Paid**, and **Fully Paid**. Internal statuses (Draft, Voided) are not visible to the patient.            |
+| FR-12.7.3 | The patient may download their own Official Receipt (PDF) for any individual payment.                                                                                                                               |
+| FR-12.7.4 | The patient may download their own Statement of Account (PDF) for any billing record.                                                                                                                               |
+| FR-12.7.5 | The patient cannot view other patients' billing or payment data. This is enforced at the API level by verifying the requesting patient's identity against the billing record's patient ID.                          |
+
+#### FR-12.8 Dentist Ratings
+
+| ID        | Requirement                                                                                                                                                                                              |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.8.1 | After an appointment reaches **Completed** status, the patient is prompted via an in-portal notification to rate their dentist for that visit.                                                           |
+| FR-12.8.2 | A rating consists of a 1–5 star score and an optional written comment (max 500 characters).                                                                                                              |
+| FR-12.8.3 | Each patient may submit at most one rating per completed appointment. Ratings cannot be submitted for Cancelled or No-Show appointments.                                                                 |
+| FR-12.8.4 | Ratings are **strictly private**. They are visible only to: (a) the rated Dentist — who sees only the star score, comment, and appointment date; **the patient's name is never disclosed to the dentist**; and (b) the Administrator — who sees all details including patient name. |
+| FR-12.8.5 | Ratings are never displayed publicly, on shared reports, or on any printed or exported document.                                                                                                        |
+| FR-12.8.6 | The Dentist's dashboard includes: average star rating, total rating count, and a rating distribution chart (count per star level 1–5). These are visible only to the rated dentist and administrators.  |
+| FR-12.8.7 | A patient may edit their rating within 7 days of submission. After 7 days, the rating is locked. The original submission and all edits are recorded in the audit log.                                   |
+| FR-12.8.8 | An Administrator may delete a rating that is abusive, offensive, or submitted in error. Deletion requires a mandatory reason and is recorded in the audit log. Deleted ratings are removed from aggregate calculations immediately. |
+
+#### FR-12.9 Patient Feedback (Complaints, Suggestions, Recommendations)
+
+| ID        | Requirement                                                                                                                                                                |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-12.9.1 | A logged-in patient may submit a feedback item at any time through the portal.                                                                                             |
+| FR-12.9.2 | Each feedback submission includes: type (Complaint / Suggestion / Recommendation / General), subject (required, max 200 characters), message (required, max 2,000 characters), and an optional link to a specific past appointment. |
+| FR-12.9.3 | Submitted feedback is visible to Administrators and Staff in a dedicated Feedback inbox within the clinic application.                                                     |
+| FR-12.9.4 | Feedback lifecycle statuses: **New** → **Under Review** → **Resolved** → **Closed**. Administrators and Staff may update the status and add internal staff notes.         |
+| FR-12.9.5 | The patient sees the current status of each submitted feedback item but cannot see internal staff notes.                                                                   |
+| FR-12.9.6 | When a feedback item's status changes, the patient receives an in-portal notification.                                                                                     |
+| FR-12.9.7 | Complaints are highlighted with a priority indicator (red badge) in the staff feedback inbox.                                                                              |
+| FR-12.9.8 | All feedback submissions and status changes are recorded in the activity audit log.                                                                                        |
+
+---
+
+### FR-13: Data Export & Portability
+
+Data portability is a right under RA 10173 Section 18 and a practical business requirement for any clinic that may change systems. All exports are available only to Administrators.
+
+| ID        | Requirement                                                                                                                                                                                                                                                                   |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-13.1   | The system shall provide a **Bulk Data Export** feature accessible only to Administrators, available from the Clinic Settings module.                                                                                                                                         |
+| FR-13.2   | The export covers the following entities: Patients (demographics, contact, medical history, dental history), Appointments (all statuses, all dates), Treatment Records, Billings (including line items and HMO coverage), Payments (including OR numbers), and Installment Plans. |
+| FR-13.3   | Each entity is exported as a separate CSV file. All files are bundled into a single ZIP archive for download. Column headers in each CSV file use plain-English names (not internal database field names). |
+| FR-13.4   | An Excel-compatible format (`.xlsx`) shall be available as an alternative to CSV for each entity, allowing direct opening in Microsoft Excel or Google Sheets without import configuration. |
+| FR-13.5   | The export is generated asynchronously by a background job (Hangfire). The Administrator initiates the export, receives an in-app notification when it is ready, and downloads the file from a time-limited secure link (valid 24 hours). |
+| FR-13.6   | The export scope is configurable: all records (full export) or records within a specified date range. |
+| FR-13.7   | All bulk export actions are recorded in the Audit Log with: actor, timestamp, export scope (date range or full), and the list of entity types included. |
+| FR-13.8   | Individual patient record export (single patient's full record as PDF) remains available to all roles with patient access, as defined in FR-03 and existing report functions. FR-13 covers only the bulk multi-patient administrative export. |
+| FR-13.9   | Exported files do not include: audit log entries, system configuration secrets (API keys, SMTP passwords), or hashed credentials. Activity logs are exportable separately as a filtered CSV from within the Audit Log view (Administrator only). |
+
+---
+
+### FR-14: HMO Claim Recording
+
+> **Design note**: A clinic's internal database has no visibility into claims a patient makes at hospitals or other dental facilities. Any attempt to compute a patient's "remaining HMO benefit" from data held only in this system will produce unreliable figures. The correct practice is to rely on the **Letter of Authorization (LOA)** issued by the HMO for each visit, which specifies the authorized amount for that specific appointment. FR-14 therefore records what the LOA authorizes for claims processed at this clinic and does not attempt to track or enforce a global annual benefit cap.
+
+| ID        | Requirement                                                                                                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-14.1   | When creating a billing that includes HMO coverage, the staff member records the **Letter of Authorization (LOA)** details: LOA number (required), issuing HMO provider (linked to Provider entity), authorized amount (PHP, decimal), LOA validity date, and any clinical notes from the LOA. **Note on authorized amount**: Philippine HMOs often issue LOAs that specify the approved procedure by name (e.g., "Approved: 1 General Oral Prophylaxis") rather than printing an explicit peso cap. When no peso amount appears on the LOA, staff shall derive the authorized amount from the clinic's agreed HMO tariff schedule for the approved procedure and enter that figure as the authorized amount. The system stores the entered amount as a decimal and does not validate it against any external tariff source. |
+| FR-14.2   | The HMO coverage amount on the billing may not exceed the LOA authorized amount. Staff may enter a lower amount (e.g., when only part of the authorized amount applies to this visit). |
+| FR-14.3   | The system maintains a **per-patient LOA history** — a searchable list of all LOAs ever recorded for a patient, showing LOA number, provider, authorized amount, visit date, amount actually applied to billing, and the billing reference. This gives the clinic a complete record of its own HMO claim history for each patient. |
+| FR-14.4   | The system displays a **disclaimer** on any screen that shows HMO utilization data: *"This figure reflects HMO claims processed at this clinic only. Actual remaining benefit may differ. Always verify current coverage with the HMO provider's portal or by requesting an updated LOA."* |
+| FR-14.5   | A patient may be linked to one or more HMO providers via the Provider entity. Each provider link stores: provider name, member ID, membership effective date, and a note field. These are reference fields; the system does not enforce an annual cap. |
+| FR-14.6   | The HMO / Provider Claims Summary report (RPT-13) lists all HMO-covered billings per provider per date range, showing: patient name, LOA number, authorized amount, applied HMO coverage, patient share, and appointment date. This is a factual audit report of claims recorded at this clinic. |
+
+---
+
+### FR-15: Electronic Prescription
+
+Dentists in the Philippines prescribe antibiotics, analgesics, and anti-inflammatories daily. Prescriptions must include the prescribing dentist's PRC and PTR numbers. Certain controlled substances require an S2 license. FR-15 provides a module to draft, print, and log prescriptions from within the system.
+
+| ID        | Requirement                                                                                                                                                                                                                                                         |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FR-15.1   | Only users with role **Dentist** or **Administrator** may create prescriptions.                                                                                                                                                                                     |
+| FR-15.2   | A prescription is linked to a specific patient and optionally to an appointment. It records: prescribing dentist, date prescribed, patient name, age, and a prescription item list.                                                                                 |
+| FR-15.3   | Each prescription item captures: drug name (free text with common drug name suggestions: Amoxicillin, Mefenamic Acid, Ibuprofen, Clindamycin, Metronidazole, Paracetamol, etc.), strength/dosage form, quantity, and sig (directions for use, e.g., "1 capsule TID for 5 days"). |
+| FR-15.4   | Multiple items may be added to a single prescription.                                                                                                                                                                                                               |
+| FR-15.5   | The printed prescription format shall include: clinic name and address, prescribing dentist's name, PRC Registration Number, PTR Number, optional S2 License Number (if provided in the dentist's profile), patient name and age, prescription date, all items with sigs, a blank **WET SIGNATURE LINE** with the dentist's printed name below it, and BF No. / Rx No. (auto-assigned sequential reference for internal tracking). |
+| FR-15.6   | The system shall **not** support the upload, storage, or embedding of a digitized or scanned image of a dentist's signature for use on generated prescriptions. The prescription PDF is a draft template for physical ink signing. The signature line is intentionally blank. |
+| FR-15.7   | The dentist's PRC number, PTR number, and optional S2 license number are stored on their user profile (Dentist role) and auto-filled on each prescription they create. These fields are editable per-prescription to allow for annual PTR number renewal updates.   |
+| FR-15.8   | Prescriptions are read-only after saving. An Administrator may void a prescription with a mandatory reason (e.g., "Issued in error"). Voided prescriptions are retained in the database.                                                                             |
+| FR-15.9   | A printable PDF of the prescription is generated on demand using clinic letterhead settings. The format is a standard Philippine prescription paper (half-letter or A5). The generated PDF is **automatically saved** as a read-only entry in the patient's File Attachments tab (FR-03.7) with a system-assigned label (e.g., "Prescription — 2026-05-13 — Dr. Santos") and attachment type **System-Generated**. System-generated attachments may not be deleted by staff; they may only be voided at the prescription level (FR-15.8). |
+| FR-15.10  | All prescription create and void actions are recorded in the Audit Log.                                                                                                                                                                                             |
+| FR-15.11  | A patient's prescription history is viewable on their patient profile: list of all prescriptions with date, prescribing dentist, and item summary.                                                                                                                  |
+
+---
+
+### FR-16: Medical / Dental Certificate
+
+In the Philippine workforce and education system, patients who undergo dental procedures (surgical extractions, emergency treatments, or any visit requiring absence from work or school) routinely require a formal **Medical Certificate** or **Dental Certificate** from their dentist. The document must state the patient's name, the date of service, the diagnosis or procedure performed, and the recommended rest or recovery period. It carries the dentist's PRC license number and requires a wet ink signature before submission to HR departments or schools.
+
+| ID        | Requirement                                                                                                                                                                                                                                                        |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| FR-16.1   | Only users with role **Dentist** or **Administrator** may create Medical Certificates. |
+| FR-16.2   | A Medical Certificate is linked to a specific patient and optionally to an appointment. It records: issuing dentist, date of issue, and patient details (auto-filled from patient record). |
+| FR-16.3   | The Medical Certificate form includes the following fields: **(a)** Date of consultation / procedure (defaults to linked appointment date or today); **(b)** Diagnosis / finding (free text, required); **(c)** Procedure performed (free text, defaults to the procedures recorded in the linked appointment if one is selected, otherwise free text); **(d)** Recommended rest period in days (integer, optional); **(e)** Fitness for duty / return-to-school date (date picker, optional); **(f)** Additional remarks (free text, optional). |
+| FR-16.4   | The printed Medical Certificate format shall include: clinic name and address, certificate title ("MEDICAL CERTIFICATE" or "DENTAL CERTIFICATE" — selectable), patient full name, patient age and sex, date of issue, diagnosis/finding, procedure performed, recommended rest period, return date (if set), additional remarks, issuing dentist's name and credentials (PRC Registration Number, PTR Number), a blank **WET SIGNATURE LINE** with the dentist's printed name below it, and an auto-assigned internal certificate reference number. |
+| FR-16.5   | The system shall **not** embed, store, or render a digital image of a dentist's signature on any generated Medical Certificate. The printed certificate is a draft template requiring physical ink signing before submission. (Same policy as FR-15.6 / BR-10.2.) |
+| FR-16.6   | Medical Certificates are read-only after saving. An Administrator may void a certificate with a mandatory reason. Voided certificates are retained in the database. |
+| FR-16.7   | A printable PDF is generated on demand. The format is A5 or half-letter, matching Philippine HR/school document conventions. The generated PDF is **automatically saved** as a read-only entry in the patient's File Attachments tab (FR-03.7) with a system-assigned label (e.g., "Medical Certificate — 2026-05-13 — Dr. Santos") and attachment type **System-Generated**. System-generated attachments may not be deleted by staff; they may only be voided at the certificate level (FR-16.6). |
+| FR-16.8   | All Medical Certificate create and void actions are recorded in the Audit Log. |
+| FR-16.9   | A patient's Medical Certificate history is viewable on their patient profile: list of all certificates with date, issuing dentist, and diagnosis summary. |
+
+---
+
+## 7. Non-Functional Requirements
+
+### 7.1 Security
+
+| ID      | Requirement                                                                                                                                                                                                                                                                                                                                                            |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-S01 | All passwords and security answers shall be stored using BCrypt with a minimum cost factor of 12.                                                                                                                                                                                                                                                                      |
+| NFR-S02 | All HTTP traffic shall be served over HTTPS (TLS 1.2 minimum, TLS 1.3 preferred).                                                                                                                                                                                                                                                                                      |
+| NFR-S03 | API authentication uses JWT Bearer tokens signed with RS256.                                                                                                                                                                                                                                                                                                           |
+| NFR-S04 | The system shall be protected against OWASP Top 10 vulnerabilities: SQL Injection (ORM with parameterized queries only), XSS (Content Security Policy headers + output encoding), CSRF (SameSite cookie policy + anti-CSRF token on state-changing requests), and IDOR (server-side authorization check on every resource request, independent of route-level guards). |
+| NFR-S05 | Sensitive personal information fields in the database shall be encrypted at rest.                                                                                                                                                                                                                                                                                      |
+| NFR-S06 | No credentials, API keys, or database connection strings shall be committed to source control. Environment variables or a secrets management solution (e.g., .env files, Azure Key Vault) shall be used for all secrets.                                                                                                                                               |
+| NFR-S07 | After the configured maximum failed login attempts, the account is locked for the configured duration. This is enforced server-side, not only in the frontend.                                                                                                                                                                                                         |
+| NFR-S08 | The API shall not expose internal error messages or stack traces in HTTP responses. All errors return a generic message; details are recorded in server-side logs only.                                                                                                                                                                                                |
+
+### 7.2 Performance
+
+| ID      | Requirement                                                                                                                                    |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-P01 | Patient search results shall be returned within 500 ms for a database of up to 10,000 patients.                                                |
+| NFR-P02 | The appointment calendar (day view) shall load within 1 second.                                                                                |
+| NFR-P03 | A patient's dental chart (52 teeth with condition history) shall load within 1 second.                                                         |
+| NFR-P04 | Standard financial reports (RPT-04, RPT-05, RPT-06) for up to 12 months of data shall complete within 5 seconds.                               |
+| NFR-P05 | The system shall support at least 10 concurrent users without measurable performance degradation (appropriate for a single-clinic deployment). |
+
+### 7.3 Usability
+
+| ID      | Requirement                                                                                                                                                                                                                      |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-U01 | The system shall be responsive and fully functional on desktop browsers (Chrome, Edge, Firefox — latest two major versions). It shall be usable on tablet (landscape orientation) and readable on mobile (portrait orientation). |
+| NFR-U02 | The interface language shall be English. Date format: MM/DD/YYYY or DD MMMM YYYY. Currency: Philippine Peso (PHP ₱). Number format: comma thousands separator (e.g., ₱1,500.00).                                                 |
+| NFR-U03 | Required fields shall be visually indicated. Validation errors shall appear inline next to the field.                                                                                                                            |
+| NFR-U04 | A confirmation dialog shall be shown before any destructive or irreversible action (archiving a patient, voiding a payment, cancelling an appointment).                                                                          |
+| NFR-U05 | The dental chart shall use an SVG-based visual tooth diagram — not a text table or spreadsheet layout.                                                                                                                           |
+
+### 7.4 Reliability & Data Integrity
+
+| ID      | Requirement                                                                                                                                                                                       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-R01 | All monetary values (billing amounts, payment amounts, prices, costs) shall use `DECIMAL(10,2)` in the database. Floating-point types (`FLOAT`, `DOUBLE`) are prohibited for any financial field. |
+| NFR-R02 | All database mutations involving multiple related records shall be wrapped in a single atomic transaction. Partial saves that leave data in an inconsistent state are not acceptable.             |
+| NFR-R03 | Foreign key constraints shall be enforced at the database level.                                                                                                                                  |
+| NFR-R04 | Billing outstanding balance is always computed from payment records. No screen, report, or API response shall display a pre-computed stale balance field.                                         |
+| NFR-R05 | The system shall perform automated daily database backups. Backup retention period (minimum 30 days) and destination shall be configurable.                                                       |
+
+### 7.5 Maintainability & Deployment
+
+| ID      | Requirement                                                                                                                                                                               |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-M01 | The application shall be containerized using Docker. A Docker Compose file shall orchestrate the full stack (API, frontend, database) for local development and single-server deployment. |
+| NFR-M02 | Database schema changes shall be managed via EF Core migrations. Direct manual SQL schema modifications in production are not permitted.                                                  |
+| NFR-M03 | The API shall expose a health-check endpoint (`/health`) suitable for use by uptime monitors.                                                                                             |
+| NFR-M04 | Application logs shall use structured JSON logging (via Serilog or equivalent). Log entries shall include timestamp, log level, request ID, and relevant context.                         |
+| NFR-M05 | The production deployment shall run on a single virtual private server with a minimum specification of 2 vCPUs and 4 GB RAM.                                                              |
+| NFR-M06 | **On-premises LAN deployment**: The Docker Compose stack shall be deployable on a local server inside the clinic network. When deployed on-premises, all clinic-side application functionality (patient records, appointments, billing, dental charting, inventory) shall remain fully operational during an internet outage. Only features that require external connectivity (Patient Portal access from outside the LAN, SMS/email notifications, online payment gateway) will be unavailable during an outage. The daily appointment schedule shall be printable (RPT-01) at the start of each day as an offline contingency. |
+
+---
+
+## 8. Business Rules
+
+### BR-01: Appointment Scheduling
+
+| Rule    | Description                                                                                                                                                                                                                                                                        |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-01.1 | **Conflict detection:** No two active (non-cancelled) appointments for the same dentist may overlap in time. Overlap condition: `newStart < existingEnd AND newEnd > existingStart`, where `end = scheduledAt + durationMinutes`. This is enforced at the API level before saving. |
+| BR-01.2 | Only patients with status **Active** may have new appointments created.                                                                                                                                                                                                            |
+| BR-01.3 | An appointment must reference at least one planned treatment at the time of creation.                                                                                                                                                                                              |
+| BR-01.4 | The selected dentist must be a User with role **Dentist** or **Administrator**. Staff users cannot be assigned as the performing dentist.                                                                                                                                          |
+| BR-01.5 | Walk-in appointments may be created with status set directly to In Progress.                                                                                                                                                                                                       |
+| BR-01.6 | A patient may have multiple appointments on the same calendar day with different dentists or non-overlapping time slots.                                                                                                                                                           |
+| BR-01.7 | When the clinic's booking approval mode (FR-02.13) is **Awaiting Approval**: portal-sourced bookings are saved with status `Awaiting Approval` and do not block the time slot until staff approval. If a conflicting appointment is booked before staff approves the request, staff must reject the request with a reason and the patient is notified. |
+| BR-01.8 | A **Rejected** portal booking is terminal; it cannot be transitioned to any other status. The patient may initiate a new booking request. |
+
+### BR-02: Financial
+
+| Rule     | Description                                                                                                                |
+| -------- | -------------------------------------------------------------------------------------------------------------------------- |
+| BR-02.1  | `Billing.Balance` is never stored. It is always: `PatientShare − SUM(non-voided payments)`.                                |
+| BR-02.2  | `Billing.PatientShare = Billing.TotalAmount − Billing.HMOCoverageAmount`.                                                  |
+| BR-02.3  | `Billing.TotalAmount = Billing.SubTotal − Billing.Discount + Billing.TaxAmount`.                                           |
+| BR-02.4  | A payment amount may not exceed the current outstanding balance.                                                           |
+| BR-02.5  | All monetary values are stored in Philippine Peso (PHP) using `DECIMAL(10,2)`.                                             |
+| BR-02.6  | OR numbers are sequential, auto-generated, unique, and non-reusable. A voided OR number is never reassigned.               |
+| BR-02.7  | Only an Administrator may void a payment. A mandatory reason is required.                                                  |
+| BR-02.8  | Billing transitions to **Fully Paid** automatically when the sum of non-voided payments equals PatientShare.               |
+| BR-02.9  | A voided billing is excluded from all revenue reports. Voided billings appear only in a dedicated voided billing register. |
+| BR-02.10 | A discount may not result in a TotalAmount less than zero.                                                                 |
+| BR-02.11 | When an installment plan is active for a billing record, individual payment recordings are matched against the plan's schedule automatically (earliest unpaid installment first). The billing's outstanding balance computation remains unchanged: `PatientShare − SUM(non-voided payments)`. |
+| BR-02.12 | A booking deposit collected through the online payment gateway is recorded as a **Deposit** payment against a placeholder billing. When the visit is completed and the final billing is generated, the deposit is automatically transferred and applied as the first payment. The deposit cannot exceed the configured deposit amount (FR-02.14). **Receipting note**: Because online deposits may be submitted at any hour without a staff member present, an online deposit does not immediately generate a BIR Official Receipt. Instead, the system issues a system-generated **Acknowledgment Receipt (AR)** — a non-BIR document confirming the deposit amount, transaction reference, patient name, and timestamp — which is automatically emailed to the patient and saved to their File Attachments tab. The physical BIR OR from the clinic's registered OR booklet is written by staff and recorded in the system when the patient arrives, at the point the deposit is applied to the completed billing. The AR number and the eventual OR number are both stored on the deposit payment record. |
+| BR-02.13 | A waived installment entry is excluded from balance computations. Waiving an installment does not reduce the billing's TotalAmount; it reduces the effective PatientShare for installment-tracking purposes only. |
+
+### BR-03: Clinical
+
+| Rule    | Description                                                                                                                                                                                                      |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-03.1 | Treatment records are immutable once the appointment is Completed.                                                                                                                                               |
+| BR-03.2 | A tooth's condition history is append-only. Each update creates a new history entry; the previous entry is marked historical. Conditions are never overwritten or deleted.                                       |
+| BR-03.3 | Tooth records (52 total) are created at patient registration, not on first chart open.                                                                                                                           |
+| BR-03.4 | The system uses FDI ISO 3950:2016 tooth numbering exclusively across all modules.                                                                                                                                |
+| BR-03.5 | Tooth conditions are constrained to the 19-condition standard enumeration. Free-text condition values are not permitted.                                                                                         |
+| BR-03.6 | A treatment may only be performed on a tooth if the tooth's current active condition is in that treatment's **Applicable Conditions** set. This is enforced at both the UI (filter) and API (validation) levels. |
+| BR-03.7 | Outside of an In Progress appointment session, the dental chart is read-only.                                                                                                                                    |
+
+### BR-04: User Management
+
+| Rule    | Description                                                                                                                                   |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-04.1 | The system must always retain at least one active Administrator account. Archiving the last Administrator is prevented.                       |
+| BR-04.2 | An Administrator may not archive their own account while actively logged in.                                                                  |
+| BR-04.3 | A user may change only their own password (or via the security-question recovery flow). An Administrator may force-reset any user's password. |
+| BR-04.4 | Passwords must be at least 8 characters and contain at least one letter and at least one number.                                              |
+
+### BR-05: Inventory
+
+| Rule    | Description                                                                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-05.1 | Current stock = `SUM(SupplyStockLedger.QuantityChange)` for the item. This is never stored as a mutable field.                                                                    |
+| BR-05.2 | Stock receipt entries for Anesthetic and Medication category items must include an expiry date and lot number.                                                                    |
+| BR-05.3 | Consuming stock beyond the available quantity triggers a warning and requires a mandatory explanation note. It is not a hard block, to accommodate emergency clinical situations. |
+| BR-05.4 | Items at or below CriticalQuantity trigger a dashboard alert.                                                                                                                     |
+| BR-05.5 | Items with expiry date within the configured warning window trigger a near-expiry alert.                                                                                          |
+
+### BR-06: Data Privacy (RA 10173)
+
+| Rule    | Description                                                                                                                                                              |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| BR-06.1 | A patient record cannot be saved unless `DataPrivacyConsentGiven = true` and `DataPrivacyConsentDate` is recorded.                                                       |
+| BR-06.2 | Patient records are classified as sensitive personal information. All access to patient records is recorded in the Audit Log.                                            |
+| BR-06.3 | Bulk patient data export is restricted to Administrators. Individual patient record exports are available to all roles with patient access.                              |
+| BR-06.4 | Patient records are retained for a minimum of 10 years before any purge action is considered. A purge requires an Administrator action and generates an Audit Log entry. |
+
+---
+
+### BR-07: Patient Portal
+
+| Rule    | Description                                                                                                                                                                                                                                              |
+| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-07.1 | A portal account is linked to exactly one Patient record. A Patient record may have at most one active portal account.                                                                                                                                   |
+| BR-07.2 | Portal JWTs carry a `portal` audience claim. Clinic staff API endpoints must reject tokens with the `portal` audience claim, and patient portal API endpoints must reject tokens without it.                                                             |
+| BR-07.3 | A patient may only access, view, or modify their own Patient record, appointments, billings, ratings, and feedback through the portal. The API enforces this by comparing the authenticated patient's linked Patient ID against the requested resource's patient ID, regardless of how the request is constructed. |
+| BR-07.4 | A patient may cancel a Pending or Confirmed appointment through the portal. Cancellation of In Progress or Completed appointments through the portal is not permitted.                                                                                   |
+| BR-07.5 | A patient-initiated reschedule is an atomic operation: cancel the existing appointment and create the new one in a single database transaction. If the new booking fails (e.g., conflict), the cancellation is rolled back.                              |
+| BR-07.6 | A dentist- or staff-initiated appointment reschedule or cancellation must trigger SMS and email notification to the patient. This notification is mandatory; the system must enqueue it regardless of whether delivery succeeds.                         |
+| BR-07.7 | Doctor ratings are anonymous to the rated dentist. The dentist sees only the star score, comment, and appointment date — never the patient's name or any identifying information.                                                                        |
+| BR-07.8 | Each patient may submit at most one rating per completed appointment. A rating may be edited by the patient within 7 calendar days of submission. After 7 days, the rating is locked and can only be removed by an Administrator.                        |
+| BR-07.9 | Patient-submitted medical and dental history intake from the portal is held as **Patient-Submitted** and does not override the authoritative patient record until a clinic staff member explicitly reviews and confirms it.                              |
+| BR-07.10 | SMS and email notification delivery is asynchronous. A failure in notification delivery does not block, roll back, or prevent the completion of the appointment action (reschedule, cancellation, confirmation) that triggered the notification.         |
+| BR-07.11 | Patient feedback of type **Complaint** must be acknowledged (status moved to Under Review) by a staff member or administrator within the clinic's configured response window. This is a process requirement, not a system-enforced block.               |
+| BR-07.12 | An online booking deposit is non-refundable by default unless the clinic's forfeiture policy (FR-02.14) specifies otherwise, or the cancellation was initiated by the clinic (dentist reschedule or clinic-side cancellation). In all cases, the system records the outcome (Refunded / Forfeited) with mandatory reason; actual fund movement is handled outside the system. |
+| BR-07.13 | If a patient's portal appointment is cancelled (by any party) after a deposit was paid and the deposit is marked **Forfeited**, the forfeited amount is recorded as revenue in the billing register. If marked **Refunded**, it is reversed out of the deposit placeholder billing.
+
+---
+
+### BR-08: HMO Claim Recording
+
+| Rule    | Description                                                                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-08.1 | HMO coverage on a billing is entered manually by staff based on the LOA issued for that visit. The system does not compute or enforce an annual benefit cap.                      |
+| BR-08.2 | The HMO coverage amount on a billing may not exceed the authorized amount stated on the linked LOA.                                                                              |
+| BR-08.3 | A disclaimer is displayed on all screens that show a patient’s LOA history informing staff that the figures reflect only claims at this clinic.                                  |
+| BR-08.4 | Voiding a billing that has an associated LOA record voids the LOA application for that billing. The LOA number becomes available for correction and re-entry.                     |
+
+---
+
+### BR-09: Data Export
+
+| Rule    | Description                                                                                                                                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-09.1 | Bulk data export is restricted to Administrators. No other role may initiate a bulk export.                                                                         |
+| BR-09.2 | All bulk export actions are recorded in the audit log (actor, timestamp, scope, entity types) regardless of whether the export is downloaded.                       |
+| BR-09.3 | Exported files do not contain: hashed credentials, security answer hashes, API keys, SMTP passwords, or any other secrets. These fields are omitted from all export outputs. |
+| BR-09.4 | Export download links expire after 24 hours. After expiry, the file is deleted from temporary storage and a new export must be initiated. |
+
+---
+
+### BR-10: Electronic Prescriptions
+
+| Rule     | Description                                                                                                                                                                                                                                                       |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BR-10.1  | A prescription generated by the system is a **draft document intended for physical ink signing**. The printed or PDF prescription must be signed in wet ink by the prescribing dentist before being dispensed at any pharmacy. |
+| BR-10.2  | The system shall not embed, store, or render a digital image of a dentist's signature on any generated prescription. Philippine pharmacies (including Mercury Drug, Watsons, and Generika) require a handwritten ink signature to dispense antibiotics; S2 drugs strictly require a wet signature on S2-license paper under FDA/DOH rules. A digitally inserted signature image does not satisfy this requirement and will be rejected by pharmacists. |
+| BR-10.3  | The prescribed dentist is solely responsible for the accuracy of the prescription content before signing and releasing it to the patient. The system records the dentist as the prescribing user for audit purposes. |
+| BR-10.4  | S2 license number, if applicable, must be present in the dentist's profile before any prescription containing a controlled substance can be printed. The system shall display a warning if a dentist attempts to print a prescription without an S2 license number on file, but it shall not block the print. |
+| BR-10.5  | The same wet-signature-only and no-digital-signature-image rules in BR-10.1–10.2 apply equally to Medical / Dental Certificates generated by FR-16. |
+| BR-10.6  | System-generated PDFs (prescriptions and Medical / Dental Certificates) are stored in the patient's File Attachments tab (FR-03.7) automatically and are accessible to clinic staff. Patients do not have direct access to the Attachments tab via the Patient Portal in Version 1. If a patient requests a digital copy (e.g., to email to an HR department or school), a Staff member or Administrator shall download the PDF from the Attachments tab and email it to the patient's registered email address outside the system. No automated outbound email attachment of generated documents is required in Version 1. |
+
+---
+
+## 9. Data Classification & Retention
+
+| Data Category                         | Classification                            | Minimum Retention             | Basis                                          |
+| ------------------------------------- | ----------------------------------------- | ----------------------------- | ---------------------------------------------- |
+| Patient demographics                  | Sensitive Personal Information (RA 10173) | 10 years                      | PDA / DOH clinical record-keeping guideline    |
+| Patient medical and dental history    | Sensitive Personal Information            | 10 years                      | PDA / DOH                                      |
+| Treatment records                     | Sensitive Personal Information            | 10 years                      | PDA / DOH                                      |
+| Dental chart condition history        | Sensitive Personal Information            | 10 years                      | PDA / DOH; append-only, never deleted          |
+| Clinical photographs                  | Sensitive Personal Information            | 10 years                      | PDA / DOH                                      |
+| Billing records                       | Financial                                 | 10 years                      | BIR requirement                                |
+| Payment records and official receipts | Financial                                 | 10 years                      | BIR requirement                                |
+| Activity / audit logs                 | Audit                                     | 5 years                       | Regulatory compliance; RA 10173 accountability |
+| User accounts (archived)              | Internal                                  | Duration of clinic operations | Historical record attribution                  |
+| Inventory stock ledger                | Operational                               | 3 years                       | Internal policy                                |
+| Patient portal accounts               | Sensitive Personal Information (RA 10173) | Duration of clinic operations | Tied to patient record retention               |
+| Doctor ratings                        | Internal / Confidential                   | Duration of clinic operations | Internal performance data; never published     |
+| Patient feedback records              | Internal / Confidential                   | Duration of clinic operations | Service quality records                        |
+| Notification delivery logs            | Operational                               | 1 year                        | Internal policy                                |
+| Clinic settings                       | Configuration                             | Permanent                     |                                                |
+| Booking deposit records               | Financial                                 | 10 years                      | BIR requirement; payment evidence for forfeiture / refund decisions |
+| Installment payment schedules         | Financial                                 | 10 years                      | BIR requirement; payment obligation records |
+| HMO benefit utilization records       | Financial / Compliance                    | 10 years                      | HMO claim audit; RA 9484 clinical record retention |
+| Prescription records                  | Sensitive Personal Information / Clinical | 10 years                      | PDA / DOH clinical record; RA 9484 prescription logging requirement |
+| Medical / Dental Certificate records  | Sensitive Personal Information / Clinical | 10 years                      | PDA / DOH clinical record; employer/school compliance documentation |
+| Orthodontic progress notes            | Sensitive Personal Information            | 10 years                      | PDA / DOH clinical record-keeping guideline                        |
+
+---
+
+## 10. Glossary
+
+| Term                          | Definition                                                                                                                                                                                                                                                                          |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **FDI**                       | Fédération Dentaire Internationale — World Dental Federation. The international standards body for dentistry; publisher of ISO 3950:2016.                                                                                                                                           |
+| **ISO 3950:2016**             | The FDI standard defining the two-digit tooth numbering notation used for dental records.                                                                                                                                                                                           |
+| **PDA**                       | Philippine Dental Association. The national professional organization for licensed dentists in the Philippines, founded 1948.                                                                                                                                                       |
+| **PRC**                       | Professional Regulation Commission. Philippine government body that licenses and regulates dental professionals under RA 9484.                                                                                                                                                      |
+| **RA 9484**                   | Republic Act No. 9484 — Philippine Dental Act of 2007. Governs the practice of dentistry, dental hygiene, and dental technology in the Philippines.                                                                                                                                 |
+| **Awaiting Approval**         | An appointment status used when the clinic's booking approval mode (FR-02.13) is set to Awaiting Approval. A portal-sourced booking is saved with this status; it does not block the time slot. Staff must explicitly approve (transition to Pending) or reject (transition to Rejected) the request. |
+| **Commitment Fee / Booking Deposit** | An amount collected online at the time of portal appointment booking to secure the appointment slot and reduce no-shows. Configured in FR-02.14. Collected via the payment gateway (FR-02.12). Credited to the final billing on attendance. Subject to a configurable forfeiture policy on cancellation. |
+| **Daily Collection Report (RPT-14)** | A BIR-aligned named report listing all payments collected on a specific date, with OR numbers, patients, services rendered, amounts, and payment methods. Satisfies the clinic's daily cash register reconciliation requirement. |
+| **HMO Benefit Cap**           | The maximum annual amount an HMO provider will cover for a patient under their enrolled Benefit Plan (FR-14.1). |
+| **HMO Utilization Ledger**    | The per-patient per-provider per-benefit-year accumulation of all non-voided HMO coverage amounts from billings. Always computed from the utilization entries; never stored as a mutable sum field. |
+| **Installment Plan**          | A payment schedule linked to a Billing record, dividing the outstanding balance into periodic installments with individual due dates. Tracked via standard Payment records and PaymentScheduleEntry records. Does not alter the billing balance invariant. |
+| **Rejected**                  | A terminal appointment status for a portal booking that a staff member declined. The patient is notified with the rejection reason. A Rejected appointment is retained in the database and cannot be transitioned further. |
+| **Retrospective Entry**       | A Patient record or clinical/billing record entered into the system after the fact to represent a visit or patient that pre-dates the system go-live. Flagged with a `HistoricalEntry = true` marker on the patient record. No impact on business rules; used by staff to distinguish live records from historically migrated data. |
+| **Specialization Routing**    | The feature by which an Appointment Type’s Required Specialization tag (FR-02.16) or a treatment’s Required Specialization field (FR-06.1.9) narrows the available dentist list in the online booking calendar to only dentists whose registered specialization matches. |
+| **Appointment Type**          | A generic, patient-friendly label for a portal booking visit (e.g., "General Check-up & Cleaning", "Toothache / Pain"). Configured in FR-02.16. Replaces specific treatment selection in the portal to prevent patient self-diagnosis of procedure type and duration. |
+| **RCT (Root Canal Treated)**  | Tooth condition code for a tooth that has completed endodontic therapy. The pulp space is obliterated and the tooth may or may not have a final permanent restoration on top. |
+| **Sealant (SEL)**             | Tooth condition code for a tooth surface that has received a pit and fissure sealant as a preventive measure. |
+| **UNE (Unerupted)**           | Tooth condition code for a tooth that has not yet erupted. Normal for primary dentition in adults or for third molars in patients under 17. |
+| **SHD (Shed / Exfoliated)**   | Tooth condition code for a primary tooth that has been normally shed as part of natural dental development. |
+| **LOA (Letter of Authorization)** | A document issued by a private HMO authorizing a specific dental procedure at a specific clinic on a specific date, with an authorized coverage amount. Required before billing HMO coverage. |
+| **Global Procedure**          | A treatment with procedure scope = Global (FR-06.1.2) that applies to the patient as a whole (e.g., Oral Prophylaxis, Panoramic X-Ray) and does not require tooth or surface selection during procedure recording. |
+| **Tooth-Specific Procedure**  | A treatment with procedure scope = Tooth-Specific (FR-06.1.2) that is applied to one or more identified teeth and surfaces and updates the tooth’s surface conditions. |
+| **Primary Account Holder**    | The registered adult user of a portal account. The first Patient record created when the portal account was set up. May manage one or more Dependent Patient profiles under the same portal login (FR-12.1.7). |
+| **Dependent**                 | A Patient record linked to a portal account by the Primary Account Holder but not possessing their own portal login credentials. Typically children or other family members managed by the account holder (FR-12.1.7-12.1.8). |
+| **Procedure Completion**      | A per-visit flag on a Tooth-Specific procedure record: **Complete** (procedure fully finished this visit) or **In Progress** (procedure started or continued but not yet at its final clinical endpoint). Determines whether the Resulting Condition or Interim Condition is applied to the tooth surface (FR-06.2.4-5). |
+| **Interim Condition**         | A nullable field on the treatment catalog specifying the tooth surface condition to apply when a multi-visit procedure is recorded as In Progress (e.g., "Temporary Filling" for a mid-RCT visit). See FR-06.1.5. |
+| **Quick Set Tool**            | A dental chart UI control allowing a dentist or staff member to select one or more teeth and set them all to a chosen condition in a single action. Used to rapidly correct system-initialized tooth states at the first visit (FR-03.1.6). |
+| **Mixed Dentition**           | The developmental dental stage (approximately ages 6-11) where a child simultaneously has erupted primary teeth, shed primary tooth spaces, newly erupted permanent teeth, and unerupted permanent teeth. The 6-11 charting bracket approximates this state (FR-03.1.6). |
+| **Procedure Kit**             | A configurable Bill of Materials attached to a treatment catalog entry (FR-06.1.1). Specifies supply items and default quantities auto-populated into the per-appointment consumption list when the procedure is recorded, reducing manual data entry (FR-08.3.2). |
+| **Tracked (consumable tier)** | A supply item tier for high-value consumables (e.g., anesthesia carpules, implant fixtures) tracked per appointment via the consumption log (FR-08.3.3). |
+| **Bulk-Managed (consumable tier)** | A supply item tier for high-volume disposables (e.g., cotton rolls, gauze, saliva ejectors) managed via periodic physical count adjustment rather than per-appointment tracking (FR-08.3.3). |
+| **Ortho Progress Note**       | A structured per-visit record for Orthodontic appointments capturing arch wire sizes, elastic chain configuration, bracket changes, and appliance status. Supplements the standard procedure entry for monthly ortho adjustments (FR-06.4). |
+| **Manual Deposit Verification** | A portal deposit method where the patient transfers directly to the clinic GCash or bank account and uploads a screenshot. The appointment waits in Awaiting Deposit Verification until staff confirm the transfer (FR-12.4.6, FR-02.12a). |
+| **Awaiting Deposit Verification** | An appointment status for portal bookings where a manual deposit screenshot has been submitted by the patient but not yet confirmed by staff (FR-12.4.6a). |
+| **Medical / Dental Certificate** | A clinician-signed document certifying the diagnosis, procedure performed, and recommended rest period. Required by Philippine employers and schools. Generated by FR-16; requires physical wet-ink signature before submission. |
+| **RA 10173**                  | Republic Act No. 10173 — Data Privacy Act of 2012. Governs the collection, handling, and protection of personal data in the Philippines. Classifies patient health records as sensitive personal information.                                                                       |
+| **NPC**                       | National Privacy Commission. Philippine government body that enforces RA 10173.                                                                                                                                                                                                     |
+| **BIR**                       | Bureau of Internal Revenue. Philippine national tax authority. Requires official receipts for all professional services rendered for a fee.                                                                                                                                         |
+| **OR**                        | Official Receipt. BIR-registered document issued for each payment of professional services. Must include clinic TIN, sequential OR number, amount, and service description.                                                                                                         |
+| **SOA**                       | Statement of Account. Document summarizing all charges, payments made, and outstanding balance for a billing record.                                                                                                                                                                |
+| **PhilHealth**                | Philippine Health Insurance Corporation. Government health insurer providing limited dental benefit coverage for accredited clinics.                                                                                                                                                |
+| **HMO**                       | Health Maintenance Organization. Private prepaid health plan (Maxicare, Intellicare, PhilCare, MediCard, Caritas Health Shield, etc.) providing dental benefits.                                                                                                                    |
+| **LOA**                       | Letter of Authorization. Document issued by an HMO authorizing a patient to receive a specific procedure at the clinic's expense, covered by the HMO.                                                                                                                               |
+| **TIN**                       | Tax Identification Number. BIR-issued identifier required on all official receipts and invoices.                                                                                                                                                                                    |
+| **VAT**                       | Value Added Tax. 12% tax applicable to services rendered by clinics with annual gross receipts exceeding PHP 3,000,000.                                                                                                                                                             |
+| **DOH**                       | Department of Health. Philippine government body that issues health facility licenses to clinics under RA 4226 (Hospital Licensure Act).                                                                                                                                            |
+| **Prophylaxis**               | Professional oral prophylaxis (scaling and polishing). The most common preventive dental procedure.                                                                                                                                                                                 |
+| **RCT**                       | Root Canal Treatment. Endodontic procedure to remove infected pulp from inside a tooth to save it from extraction.                                                                                                                                                                  |
+| **PPE**                       | Personal Protective Equipment. Clinical consumables (gloves, surgical masks, face shields) tracked as inventory items.                                                                                                                                                              |
+| **BLMDO**                     | The five tooth surfaces: Buccal, Lingual, Mesial, Distal, Occlusal (or Incisal for anterior teeth).                                                                                                                                                                                 |
+| **Primary / Deciduous teeth** | Milk teeth or baby teeth. FDI quadrants 5–8; tooth numbers 51–85.                                                                                                                                                                                                                   |
+| **Permanent teeth**           | Adult teeth. FDI quadrants 1–4; tooth numbers 11–48.                                                                                                                                                                                                                                |
+| **Abutment**                  | A tooth that serves as the anchor support for a fixed dental bridge.                                                                                                                                                                                                                |
+| **Pontic**                    | The artificial replacement tooth suspended between two abutments in a fixed bridge.                                                                                                                                                                                                 |
+| **Inlay**                     | An indirect dental restoration fabricated outside the mouth (gold, ceramic, or composite) and cemented into a prepared cavity.                                                                                                                                                      |
+| **JWT**                       | JSON Web Token. Industry-standard token format used for stateless authentication.                                                                                                                                                                                                   |
+| **BCrypt**                    | Adaptive cryptographic hashing algorithm suitable for passwords. Cost factor determines computational effort; minimum 12 is required.                                                                                                                                               |
+| **RBAC**                      | Role-Based Access Control. System permissions are determined by the user's assigned role, not individual grants.                                                                                                                                                                    |
+| **Ledger-based stock**        | Inventory tracking approach where current quantity is always derived as the sum of all historical debit (receipt) and credit (consumption) entries, rather than maintained as a single mutable field. Ensures auditability and prevents data corruption from concurrent operations. |
+| **Soft delete / Archive**     | Records are marked as archived (inactive) rather than physically deleted. All historical relationships and records referencing the archived entity remain valid and accessible.                                                                                                     |
+| **AppointmentProcedure**      | The per-tooth clinical and financial line item recorded during a treatment session. Records which tooth was treated, with which treatment, at what charge, with what resulting condition. Rolls up to form the billing subtotal.                                                    |
+| **TreatmentRecord**           | The immutable clinical history entry created from each AppointmentProcedure. Serves as the permanent clinical record of care delivered.                                                                                                                                             |
+| **ToothConditionEntry**       | A single entry in a tooth's condition history. Created on each update; never deleted or overwritten. The active entry represents the current condition; inactive entries form the historical timeline.                                                                              |
+| **Patient Portal**            | The public-facing web interface available to registered patients. Provides self-registration, online booking, treatment history, billing summary, feedback, and private doctor ratings. Uses a distinct URL and email-based authentication separate from clinic staff accounts.     |
+| **Portal-Registered**         | A flag on a Patient record indicating the patient self-registered through the portal. Portal-submitted intake is held as Patient-Submitted until explicitly confirmed by clinic staff.                                                                                              |
+| **Patient-Submitted**         | The status of medical/dental history fields entered by a patient via the portal. Visible to staff as a pre-fill draft; does not become authoritative until reviewed and confirmed by a staff member.                                                                                |
+| **Doctor Rating**             | A private 1–5 star score and optional comment submitted by a patient after a completed appointment. Visible only to the rated dentist (anonymously — no patient name) and the Administrator. Never published or included in any printed document.                                  |
+| **Patient Feedback**          | A structured message submitted by a patient via the portal, typed as Complaint, Suggestion, Recommendation, or General. Managed in a staff inbox with New / Under Review / Resolved / Closed lifecycle.                                                                           |
+| **SMS Gateway**               | A third-party HTTP REST service used to deliver SMS messages to patients. The provider (e.g., Semaphore, Globe Labs, ITEXMO) and credentials are configurable in Clinic Settings (FR-02.10).                                                                                       |
+| **Portal Audience Claim**     | A `portal` value in the JWT `aud` (audience) field that identifies a token as a patient portal token. Clinic staff API endpoints reject portal tokens; portal endpoints reject staff tokens — enforced at the middleware level.                                                     |
