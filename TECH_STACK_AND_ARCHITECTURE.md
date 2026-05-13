@@ -288,7 +288,7 @@ EF Core configuration priorities for this domain:
 | `StackExchange.Redis`                             | Valkey/Redis-compatible .NET client (MIT) — `StackExchange.Redis` is fully compatible with Valkey |
 | `Microsoft.Extensions.Caching.StackExchangeRedis` | IDistributedCache implementation backed by Valkey                                                 |
 
-> **Phase note:** Valkey is a **Phase 1** infrastructure dependency — it is included in the Docker Compose stack from the first deployment for JWT token revocation (FR-01.2.5: logout must invalidate the session token server-side). Its role expands in **Phase 7** to add a gateway payment slot-lock (FR-12.4.6: 15-minute reservation hold while the patient completes an online gateway payment). No new infrastructure is required for Phase 7 — the existing Valkey instance is reused under a new key namespace.
+> **Phase note:** Valkey is a **Phase 1** infrastructure dependency — it is included in the Docker Compose stack from the first deployment for JWT token revocation (FR-01.2.5: logout must invalidate the session token server-side). Its role expands in **Phase 7** to add a gateway payment slot-lock for the **payment gateway path only** (FR-12.4.6: 15-minute TTL reservation while the patient completes an online gateway payment). The **manual deposit path** (FR-02.12a — GCash/bank transfer receipt upload) does **not** set a Valkey TTL; the appointment slot is held in `AwaitingDepositVerification` status indefinitely until a staff member clicks Verify or Reject — `SlotReleaseJob` is not triggered on the manual path. No new infrastructure is required for Phase 7 — the existing Valkey instance is reused under a new key namespace.
 
 Valkey is used for:
 
@@ -296,7 +296,7 @@ Valkey is used for:
 - **Login attempt counter** — tracks failed attempts per username for lockout logic (avoids a DB write per failed attempt)
 - **Report caching** — expensive aggregation queries (RPT-04 Revenue, RPT-06 AR) are cached with a 5-minute TTL and invalidated on payment writes
 - **Rate limiting state** — per-IP/per-user rate limit counters
-- **Gateway payment slot-lock** _(Phase 7)_ — holds a 15-minute reservation on an appointment slot while the patient completes an online gateway payment (FR-12.4.6); key expires automatically after 15 minutes
+- **Gateway payment slot-lock** _(Phase 7, gateway path only)_ — holds a 15-minute TTL reservation on an appointment slot while the patient completes an online gateway payment (FR-12.4.6); key expires automatically after 15 minutes. **Manual deposit path (FR-02.12a) does not use a Valkey TTL** — the slot is held in `AwaitingDepositVerification` status with no expiry until staff action; `SlotReleaseJob` is not involved on this path.
 
 ### Background Jobs
 
@@ -449,6 +449,11 @@ Pipeline steps:
 # Key directives
 server {
     listen 443 ssl http2;
+
+    # Patient file attachments (FR-03.7) allow up to 20 MB per file; 25 M gives a safe overhead
+    # above the BRD limit and prevents Nginx returning 413 before the API can validate the request.
+    # Without this directive Nginx defaults to 1 MB and rejects every X-ray upload silently.
+    client_max_body_size 25M;
 
     # SSL — Let's Encrypt via Certbot
     ssl_certificate     /etc/letsencrypt/live/.../fullchain.pem;
@@ -840,7 +845,7 @@ AllAboutTeeth.Api/
   "_id": ObjectId,
   "patientId": ObjectId,
   "dentistId": ObjectId,
-  "status": "Pending | Confirmed | InProgress | Completed | Cancelled | NoShow",
+  "status": "Pending | Confirmed | InProgress | Completed | Cancelled | NoShow | AwaitingApproval | AwaitingDepositVerification | Rejected",
   "scheduledAt": ISODate,
   "durationMinutes": 30,
   "chiefComplaint": "string",
@@ -1158,6 +1163,8 @@ public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TRe
 }
 ```
 
+> **Sensitive-field masking in `AuditBehavior`:** A generic MediatR interceptor that serializes the full request/response payload will capture raw `PasswordHash`, `SecurityAnswerHash`, and similar fields unless explicitly excluded. `Serilog.Destructuring` policies only mask _log file output_ — they do not affect the JSON payload written to the `AuditLog` PostgreSQL table. The `CaptureStateSnapshot` method must use a **dedicated `JsonSerializerOptions` instance** (or a custom `JsonConverter` / contract resolver) with `[JsonIgnore]` applied to all sensitive properties before writing `OldValues` / `NewValues` to the database. Fields that must never appear in `OldValues` or `NewValues`: `PasswordHash`, `SecurityAnswer1Hash`, `SecurityAnswer2Hash`, any `ApiKey` field, any `PrivateKey` field. These must serialize as `"[REDACTED]"` or be omitted from the snapshot entirely.
+
 ### 8.8 OR Number — Concurrent Duplicate Prevention
 
 OR numbers in this system are **manually entered** by staff from a physical BIR ATP booklet (FR-02.7). They are not auto-generated. Because multiple staff members may operate simultaneously, two users could attempt to save the same OR number at the same time — a scenario the application-layer validation cannot reliably catch on its own.
@@ -1169,9 +1176,12 @@ OR numbers in this system are **manually entered** by staff from a physical BIR 
 public void Configure(EntityTypeBuilder<Payment> builder)
 {
     // ...
+    // The unique index must cover ALL rows — including voided payments.
+    // FR-07.4.5: "The OR number of a voided payment is retained as voided and is never reused
+    // or reassigned." A partial index filtered to is_voided = false would allow a voided OR number
+    // to be re-entered, directly violating BIR sequential receipt compliance.
     builder.HasIndex(p => p.ORNumber)
-           .IsUnique()
-           .HasFilter("is_voided = false");  // only enforce uniqueness on active (non-voided) payments
+           .IsUnique();  // no filter — voided OR numbers are permanently reserved
 }
 ```
 
@@ -1190,6 +1200,36 @@ catch (DbUpdateException ex) when (ex.InnerException is PostgresException pg && 
 ```
 
 This pattern ensures that even if two staff members submit the same OR number within the same millisecond, exactly one will succeed and the other will receive a clear, actionable validation error. The `TransactionBehavior` in the MediatR pipeline wraps the entire command — the unique constraint violation is surfaced within the transaction boundary and rolled back cleanly.
+
+### 8.9 Payment Gateway Webhook — On-Premises Access
+
+The BRD mandates an **on-premises LAN deployment** (the clinic runs on a private IP, e.g., `192.168.1.x`) so the system remains usable during internet outages. Phase 7 introduces payment gateway integration (PayMongo / Maya / Paynamics) which depends on **incoming webhook callbacks** from the external gateway to confirm payment and release Valkey slot-locks. An external gateway cannot POST a webhook to a private LAN address.
+
+**Required solution: Cloudflare Tunnel**
+
+| Option                                | Recommendation               | Rationale                                                                                                                                                           |
+| ------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cloudflare Tunnel** (`cloudflared`) | **Preferred for production** | Zero-port-forward outbound tunnel; no static public IP required; end-to-end TLS; free tier; Cloudflare relays inbound webhook calls to the local API container      |
+| Ngrok                                 | Development / staging only   | Free tier changes URL on each restart — not stable for production webhook registration                                                                              |
+| Active API polling (fallback)         | If tunnel is not viable      | Backend polls the gateway's payment-status API on a Hangfire schedule (every 30 s, up to 15 min); no inbound path required; slightly higher gateway API call volume |
+
+**Docker Compose addition (production `docker-compose.prod.yml`):**
+
+```yaml
+cloudflared:
+  image: cloudflare/cloudflared:latest
+  command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+  restart: unless-stopped
+  depends_on: [nginx]
+```
+
+The `CLOUDFLARE_TUNNEL_TOKEN` is stored in the production `.env` file (gitignored) and injected as a Docker environment variable. The tunnel is configured in the Cloudflare dashboard to route only the webhook path (`/api/webhooks/payment-gateway`) to the internal Nginx → API container; all other clinic traffic continues on the LAN.
+
+**Polling fallback implementation note:**
+
+If Cloudflare Tunnel is not deployed, `SlotReleaseJob` (Hangfire) is extended with a polling loop: call `IPaymentGatewayClient.GetPaymentStatus(paymentIntentId)` every 30 seconds. On gateway success, confirm the slot. On 15-minute timeout with no success, release the slot. Each gateway adapter must implement `GetPaymentStatus` in addition to `InitiatePayment`.
+
+**Webhook signature validation is always required** regardless of delivery mechanism — validate the gateway-specific HMAC or RSA signature on every inbound payload before processing any state change (NFR-S04).
 
 ---
 
