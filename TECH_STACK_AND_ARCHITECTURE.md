@@ -164,6 +164,88 @@ PrimeVue is chosen because:
 | `@primevue/themes` | Design token-based theming system                                                   |
 | `tailwindcss`      | Custom styling, responsive layouts, color system                                    |
 
+#### PrimeVue UI Specification Standard
+
+All UI screens in both the **Clinic SPA** and the **Patient Portal SPA** must strictly follow PrimeVue 4 component standards and the **Aura preset** (default theme). Deviating from these specifications — e.g., hand-rolling a custom input or button — is not permitted unless no PrimeVue equivalent exists.
+
+##### Theme
+
+| Setting                 | Value                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| Preset                  | **Aura** (`@primevue/themes/aura`) — the PrimeVue 4 default                         |
+| Primary colour override | Clinic teal: `#0E9DBE` (`primary-500`), hover `#0B88A4` (`primary-600`)             |
+| Surface scale           | Aura default neutral greys (`surface-0` through `surface-900`)                      |
+| Configuration           | `app.use(PrimeVue, { theme: { preset: Aura, options: { primaryColor: 'teal' } } })` |
+
+The primary colour is the only override. All other Aura design tokens (border-radius, spacing, shadows, font sizes) are used as-is.
+
+##### Component Sizing & Spacing Tokens
+
+These Aura CSS custom properties govern component geometry. All components must respect them:
+
+| CSS Token                      | Value            | Applies To                                                         |
+| ------------------------------ | ---------------- | ------------------------------------------------------------------ |
+| `--p-form-field-height`        | `2.5rem` (40px)  | InputText, Password, Dropdown, InputNumber, Textarea (single-line) |
+| `--p-form-field-padding-x`     | `0.75rem` (12px) | Horizontal inner padding of all form fields                        |
+| `--p-form-field-padding-y`     | `0.5rem` (8px)   | Vertical inner padding of all form fields                          |
+| `--p-form-field-border-radius` | `6px`            | All form field borders                                             |
+| `--p-form-field-border-color`  | `surface-200`    | Default border colour                                              |
+| `--p-form-field-background`    | `surface-0`      | Field background                                                   |
+| `--p-button-border-radius`     | `6px`            | All button variants                                                |
+| `--p-button-padding-y`         | `0.5rem` (8px)   | Button vertical padding                                            |
+| `--p-button-padding-x`         | `1rem` (16px)    | Button horizontal padding                                          |
+| `--p-card-border-radius`       | `12px`           | Card container                                                     |
+| `--p-card-background`          | `surface-0`      | Card background                                                    |
+
+##### Core Component Standards
+
+| Component                   | Usage Rule                                                                                                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **InputText**               | All single-line text inputs. Height 40px, 6px radius, `surface-200` border, `surface-0` background. Always paired with a `<label>` (14px Inter Medium, `surface-700`).    |
+| **Password**                | All password fields. Use the built-in `toggleMask` prop for show/hide toggle — never implement a custom eye icon separately.                                              |
+| **Dropdown**                | All single-select lists (role, status, dentist, etc.). Never use a native `<select>`.                                                                                     |
+| **MultiSelect**             | All multi-select lists (e.g., applicable tooth conditions).                                                                                                               |
+| **DatePicker**              | All date and datetime fields. `showTime` prop for datetime; `dateFormat="mm/dd/yy"` for Philippines locale.                                                               |
+| **InputNumber**             | All numeric fields (amounts, quantities). Use `mode="currency" currency="PHP" locale="en-PH"` for monetary fields.                                                        |
+| **Textarea**                | Multi-line text. Always set `rows` explicitly; do not auto-resize unless UX requires it.                                                                                  |
+| **Button**                  | All clickable actions. Variants: `severity` prop (`undefined` = primary filled, `"secondary"`, `"danger"`, `"text"`, `"outlined"`). Never use a plain `<button>` element. |
+| **DataTable**               | All tabular data lists. Use `paginator`, `rows`, `sortField`, `filterDisplay="menu"` for standard tables.                                                                 |
+| **Dialog**                  | All modal interactions (confirmations, forms, detail views). Use `modal`, `closable`, `draggable=false` by default.                                                       |
+| **Card**                    | Top-level content containers. `p-card-header` for title + subtitle; `p-card-body` for content. Radius 12px.                                                               |
+| **Tabs / TabPanel**         | Multi-section views (patient profile tabs, settings tabs, billing tabs).                                                                                                  |
+| **Timeline**                | Appointment history, condition history, audit log — append-only chronological data.                                                                                       |
+| **Toast**                   | All transient success, error, warning, and info notifications. Positioned `top-right`. Never use browser `alert()`.                                                       |
+| **ConfirmDialog**           | All destructive action confirmations (delete, void, cancel). Driven by `useConfirm()` composable. Never use browser `confirm()`.                                          |
+| **Message / InlineMessage** | Inline validation errors and form-level feedback. Paired with FluentValidation error responses from the API.                                                              |
+| **ProgressSpinner**         | Loading states during API calls. Centred within the loading container.                                                                                                    |
+| **FileUpload**              | Patient file attachment uploads (FR-03.7). `mode="basic"`, `maxFileSize="20971520"` (20 MB), `accept` restricted to `image/*,application/pdf`.                            |
+| **Divider**                 | Section separators within cards and forms. `layout="horizontal"` default.                                                                                                 |
+
+##### Typography
+
+All text uses **Inter** (web-safe fallback: `system-ui, sans-serif`). PrimeVue Aura font tokens:
+
+| Role              | Size | Weight           | Token                      |
+| ----------------- | ---- | ---------------- | -------------------------- |
+| Page / card title | 22px | Semi Bold        | `--p-card-title-font-size` |
+| Section heading   | 18px | Semi Bold        | custom                     |
+| Body / label      | 14px | Regular / Medium | `--p-form-field-font-size` |
+| Caption / helper  | 12px | Regular          | custom                     |
+| Button label      | 14px | Semi Bold        | `--p-button-font-size`     |
+
+##### Page Background
+
+| Context                                     | Colour                   |
+| ------------------------------------------- | ------------------------ |
+| Page background (Clinic SPA and Portal SPA) | `surface-50` (`#F8FAFB`) |
+| Card / panel background                     | `surface-0` (`#FFFFFF`)  |
+| Input background                            | `surface-0` (`#FFFFFF`)  |
+| Input disabled background                   | `surface-100`            |
+
+##### Figma Wireframe Compliance
+
+All Figma wireframes produced for this project must reflect the PrimeVue Aura component specifications above. Component annotations in each wireframe frame must identify the PrimeVue component name, variant/props used, and any BRD requirement it satisfies. Wireframes serve as the developer handoff source of truth for component selection — not for pixel-perfect visual styling, which is governed by PrimeVue's Aura theme tokens at runtime.
+
 ### State Management
 
 **Pinia** — the official Vue 3 state management library. Lightweight, fully typed, devtools-integrated, and far less boilerplate than NgRx or Vuex.
